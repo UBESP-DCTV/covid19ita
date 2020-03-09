@@ -58,6 +58,7 @@ usethis::use_pipe()
 # If you want to change the favicon (default is golem's one)
 # golem::remove_favicon()
 # golem::use_favicon() # path = "path/to/ico". Can be an online file.
+usethis::use_logo("favicon-96x96.png")
 
 ## Add helper functions ----
 golem::use_utils_ui()
@@ -67,6 +68,10 @@ golem::use_utils_server()
 ## CI ----
 usethis::use_appveyor()
 usethis::use_tidy_ci()
+
+
+## Set up data-raw
+usethis::use_data_raw()
 
 # You're now set! ----
 

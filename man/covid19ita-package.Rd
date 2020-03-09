@@ -6,6 +6,8 @@
 \alias{covid19ita-package}
 \title{covid19ita: Covid-19 - Italy}
 \description{
+\if{html}{\figure{logo.png}{options: align='right' alt='logo' width='120'}}
+
 Monitoring platform for Covid-19 infection diffusion in Italy.
 }
 \seealso{
