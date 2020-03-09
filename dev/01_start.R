@@ -40,7 +40,7 @@ usethis::use_package_doc()
 usethis::use_git()
 usethis::git_vaccinate()
 ## commit before to continue...
-usethis::use_github("UBESP-DCTV")
+usethis::use_github( "UBESP-DCTV" )
 usethis::use_tidy_github()
 
 
@@ -58,7 +58,7 @@ usethis::use_pipe()
 # If you want to change the favicon (default is golem's one)
 # golem::remove_favicon()
 # golem::use_favicon() # path = "path/to/ico". Can be an online file.
-usethis::use_logo("favicon-96x96.png")
+usethis::use_logo( "favicon-96x96.png" )
 
 ## Add helper functions ----
 golem::use_utils_ui()
@@ -70,8 +70,9 @@ usethis::use_appveyor()
 usethis::use_tidy_ci()
 
 
-## Set up data-raw
-usethis::use_data_raw()
+## Add internal datasets ----
+## If you have data in your package
+usethis::use_data_raw( name = "covid_ita" )
 
 # You're now set! ----
 
