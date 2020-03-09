@@ -51,15 +51,22 @@ golem::use_recommended_tests()
 
 ## Use Recommended Packages ----
 golem::use_recommended_deps()
+usethis::use_roxygen_md()
+usethis::use_pipe()
 
-## Favicon ----
+## Favicon ---- (changed the inst/app/www/favicon.ico to the ubep's one)
 # If you want to change the favicon (default is golem's one)
-golem::remove_favicon()
-golem::use_favicon() # path = "path/to/ico". Can be an online file.
+# golem::remove_favicon()
+# golem::use_favicon() # path = "path/to/ico". Can be an online file.
 
 ## Add helper functions ----
 golem::use_utils_ui()
 golem::use_utils_server()
+
+
+## CI ----
+usethis::use_appveyor()
+usethis::use_tidy_ci()
 
 # You're now set! ----
 

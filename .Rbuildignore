@@ -7,3 +7,9 @@ $run_dev.*
 ^LICENSE\.md$
 ^README\.Rmd$
 ^CODE_OF_CONDUCT\.md$
+^\.github$
+^\.github/ISSUE_TEMPLATE$
+^\.travis\.yml$
+^codecov\.yml$
+^\.covrignore$
+^appveyor\.yml$

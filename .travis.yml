@@ -1,0 +1,21 @@
+# R for travis: see documentation at https://docs.travis-ci.com/user/languages/r
+
+language: R
+cache: packages
+
+r:
+ - devel
+ - release
+ - oldrel
+
+os:
+ - linux
+ - osx
+
+matrix:
+ exclude:
+  - r: devel
+    os: osx
+
+after_success:
+ - Rscript -e 'covr::codecov()'
