@@ -1,0 +1,17 @@
+Package: covid19ita
+Title: Covid-19 - Italy
+Version: 0.0.0.9000
+Authors@R: c(
+    person('Corrado', 'Lanera', email = 'corrado.lanera@unipd.it', role = c('cre', 'aut')),
+    person('Dario', 'Gregori', email = 'dario.gregori@unipd.it', role = 'aut'),
+    person('UBEP', role = 'cph')
+  )
+Description: Monitoring platform for Covid-19 infection diffusion in Italy.
+License: CCBY-4.0
+Imports: 
+    config,
+    golem,
+    shiny
+Encoding: UTF-8
+LazyData: true
+RoxygenNote: 6.1.1
