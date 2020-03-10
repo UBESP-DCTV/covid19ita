@@ -24,8 +24,12 @@ golem::add_module( name = "name_of_module2" ) # Name of the module
 
 ## Add helper functions ----
 ## Creates ftc_* and utils_*
-golem::add_fct( "helpers" )
+golem::add_fct( "download_dpc" )
 golem::add_utils( "helpers" )
+
+## Update package documentation and namespace
+devtools::document(roclets = c('rd', 'collate', 'namespace'))
+
 
 ## External resources
 ## Creates .js and .css files at inst/app/www
@@ -35,7 +39,7 @@ golem::add_utils( "helpers" )
 
 ## Tests ----
 ## Add one line by test you want to create
-usethis::use_test( "app" )
+usethis::use_test( "download_dpc" )
 
 # Documentation
 
