@@ -28,7 +28,7 @@ golem::add_module(name = "time_series") # Name of the module
 ## Add helper functions ----
 ## Creates ftc_* and utils_*
 golem::add_fct("download_dpc")
-golem::add_utils( "helpers" )
+# golem::add_utils( "helpers" )
 
 ## Update package documentation and namespace
 devtools::document(roclets = c('rd', 'collate', 'namespace'))
@@ -50,8 +50,8 @@ usethis::use_test("download_dpc")
 usethis::use_spell_check()
 
 ## Vignette ----
-usethis::use_vignette("covid19ita")
-devtools::build_vignettes()
+# usethis::use_vignette("covid19ita")
+# devtools::build_vignettes()
 
 # You're now set! ----
 # go to dev/03_deploy.R
