@@ -25,7 +25,7 @@ mod_ts_ita_server <- function(id, type = c("cum", "inc")) {
     setdiff(c("stato", "tamponi", "nuovi_attualmente_positivi"))
 
   ts_ita_to_plot <- dpc_covid19_ita_andamento_nazionale[var_of_interest] %>%
-    dplyr::mutate(data = as.Date(data)) %>%
+    dplyr::mutate(data = as.Date(.data$data)) %>%
     tidyr::pivot_longer(-.data$data,
       names_to = "Measure",
       values_to = "N"
@@ -39,23 +39,24 @@ mod_ts_ita_server <- function(id, type = c("cum", "inc")) {
       )
     )
 
-  y_lab <- "Data"
+  y_lab <- "N"
 
   if (type == "inc") {
     ts_ita_to_plot <- ts_ita_to_plot %>%
-      dplyr::group_by(Measure) %>%
-      dplyr::arrange(data) %>%
-      dplyr::mutate(N = N - dplyr::lag(N)) %>%
+      dplyr::group_by(.data$Measure) %>%
+      dplyr::arrange(.data$data) %>%
+      dplyr::mutate(N = .data$N - dplyr::lag(.data$N)) %>%
       dplyr::ungroup()
 
     y_lab <- paste(y_lab, "(differences)")
   }
 
   gg <- ts_ita_to_plot %>%
-    ggplot(aes(x = data, y = N, colour = Measure)) +
+    ggplot(aes(x = .data$data, y = .data$N, colour = .data$Measure)) +
     geom_line() + geom_point() +
     xlab("Data") + ylab(y_lab) +
     scale_x_date(date_breaks = "1 day", date_labels = "%b %d") +
+    scale_colour_discrete(name = "Measure") +
     theme(
       axis.text.x = element_text(angle = 90, hjust = 1, vjust = 0.5)
     )

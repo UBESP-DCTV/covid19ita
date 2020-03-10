@@ -36,7 +36,7 @@ download_dpc <- function(
   file_name <- file_name %||% basename(data_url)
 
   dest_url <- file.path(dir, file_name)
-  code <- download.file(data_url, dest_url)
+  code <- utils::download.file(data_url, dest_url)
 
   ok <- (code == 0) &&
     stringr::str_detect(readLines(dest_url, 1L), "^data,stato")
