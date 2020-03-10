@@ -35,6 +35,18 @@ You can install the development version of `{covid19ita}` from [GitHub](https://
 remotes::install_github("UBESP-DCTV/covid19ita")
 ```
 
+## Shiny App
+
+You can visit the `covid19ita` Shiny App running on the UBEP servers
+[here](https://r-ubesp.dctv.unipd.it/shiny/covid19ita/).
+
+You can also run a local version of the app from your computer with:
+
+``` r
+library(covid19ita)
+run_app()
+```
+
 ## Data
 
 The package provide R versions of the three official Italian COVID-19
@@ -74,7 +86,6 @@ Data provided by [Ministero della Salute](http://www.salute.gov.it/)
 
 Original data processing and management by the [Dipartimento della
 Protezione Civile](http://www.protezionecivile.it/)
-
 
 ## Code of Conduct
 Please note that the 'covid19ita' project is released with a
