@@ -1,3 +1,5 @@
+# covid19ita 0.1.0
+
 * provided and documented `covid_stato`, `covid_province`, and
   `covid_regioni` dataset
 * defined `download_dpc()` function to download dcp data from its
