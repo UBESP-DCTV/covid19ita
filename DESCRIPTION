@@ -7,7 +7,7 @@ Authors@R: c(
     person('UBEP', role = 'cph')
   )
 Description: Monitoring platform for Covid-19 infection diffusion in Italy.
-License: CCBY-4.0
+License: CC BY 4.0
 Imports: 
     config,
     golem,
@@ -21,7 +21,12 @@ Imports:
     tibble,
     stringr,
     plotly,
-    shinydashboard
+    shinydashboard,
+    ggplot2,
+    utils,
+    dplyr,
+    tidyr,
+    usethis
 Encoding: UTF-8
 LazyData: true
 RoxygenNote: 7.0.2
@@ -31,6 +36,9 @@ Suggests:
     testthat (>= 2.1.0),
     covr,
     purrr,
-    readr
+    readr,
+    fs,
+    spelling
 Depends: 
     R (>= 3.2)
+Language: en-US
