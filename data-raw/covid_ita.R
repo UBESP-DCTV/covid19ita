@@ -6,7 +6,9 @@ library(covid19ita)
 data_levels <- list("italia", "regioni", "province")
 dest_dir <- tempdir()
 
-are_ok <- purrr::map_lgl(data_levels, download_dpc, dir = dest_dir)
+are_ok <- purrr::map2_lgl(data_levels, data_levels,
+    ~ download_dpc(.x,  dir = dest_dir, file_name = paste0(.y, ".csv"))
+)
 
 if (all(are_ok)) {
 
@@ -24,6 +26,13 @@ if (all(are_ok)) {
     dpc_covid19_ita_andamento_nazionale,
     dpc_covid19_ita_regioni,
     dpc_covid19_ita_province,
+    overwrite = TRUE
+  )
+  usethis::use_data(
+    dpc_covid19_ita_andamento_nazionale,
+    dpc_covid19_ita_regioni,
+    dpc_covid19_ita_province,
+    internal = TRUE,
     overwrite = TRUE
   )
 
