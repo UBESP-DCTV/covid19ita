@@ -1,8 +1,12 @@
+* Added National time series module
+
 # covid19ita 0.1.2
 
 * Update data to dpc naming
 
 # covid19ita 0.1.1
+
+* Added "last data update" in the README
 
 # covid19ita 0.1.0
 
