@@ -35,13 +35,25 @@ remotes::install_github("UBESP-DCTV/covid19ita")
 The package provide R versions of the three official Italian COVID-19
 datasets at national, regional and provincial level of detail.
 
-Access teh data with:
+Last data update: 2020-03-10 11:10:28.
+
+Access the data with:
 
 ``` r
 library(covid19ita)
 data(covid_stato)    # national level data
 data(covid_regioni)  # regional level data
 data(covid_province) # provincial level data
+```
+
+You can access to the data documentation with any of:
+
+``` r
+?covid_stato
+?covid_regioni
+?covid_province
+
+?`covid-ita`
 ```
 
 ## Data attribution
