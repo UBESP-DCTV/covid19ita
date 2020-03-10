@@ -1,3 +1,5 @@
+* Update data to dpc naming
+
 # covid19ita 0.1.1
 
 # covid19ita 0.1.0
