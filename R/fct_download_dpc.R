@@ -29,8 +29,8 @@ download_dpc <- function(
   }
 
   data_url <- glue::glue(
-    "https://github.com/",
-    "pcm-dpc/COVID-19/blob/master/",
+    "https://raw.githubusercontent.com/",
+    "pcm-dpc/COVID-19/master/",
     "dati-{level}/dpc-covid19-ita-{level}.csv"
   )
 
