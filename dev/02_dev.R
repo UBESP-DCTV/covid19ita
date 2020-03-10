@@ -17,19 +17,18 @@
 ## Add one line by package you want to add as dependency
 usethis::use_package("stringr")
 usethis::use_package("purrr", type = "Suggests")
-usethis::use_package("readr", type = "Suggests" )
+usethis::use_package("readr", type = "Suggests")
 usethis::use_tibble()
+usethis::use_package("plotly")
 
 ## Add modules ----
 ## Create a module infrastructure in R/
-golem::add_module( name = "name_of_module1" ) # Name of the module
-golem::add_module( name = "name_of_module2" ) # Name of the module
+golem::add_module(name = "time_series") # Name of the module
 
 ## Add helper functions ----
 ## Creates ftc_* and utils_*
-golem::add_fct( "download_dpc" )
+golem::add_fct("download_dpc")
 golem::add_utils( "helpers" )
-
 ## Update package documentation and namespace
 devtools::document(roclets = c('rd', 'collate', 'namespace'))
 
@@ -42,7 +41,7 @@ devtools::document(roclets = c('rd', 'collate', 'namespace'))
 
 ## Tests ----
 ## Add one line by test you want to create
-usethis::use_test( "download_dpc" )
+usethis::use_test("download_dpc")
 
 # Documentation
 
