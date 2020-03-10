@@ -10,7 +10,7 @@ experimental](https://img.shields.io/badge/lifecycle-experimental-orange.svg)](h
 [![CRAN
 status](https://www.r-pkg.org/badges/version/covid19ita)](https://CRAN.R-project.org/package=covid19ita)
 [![AppVeyor build
-status](https://ci.appveyor.com/api/projects/status/github/UBESP-DCTV/covid19ita?branch=master&svg=true)](https://ci.appveyor.com/project/UBESP-DCTV/covid19ita)
+status](https://ci.appveyor.com/api/projects/status/github/UBESP-DCTV/covid19ita?branch=master&svg=true)](https://ci.appveyor.com/project/CorradoLanera/covid19ita)
 [![Travis Build
 Status](https://travis-ci.com/UBESP-DCTV/covid19ita.svg?branch=master)](https://travis-ci.com/UBESP-DCTV/covid19ita)
 [![Codecov test
@@ -35,7 +35,7 @@ remotes::install_github("UBESP-DCTV/covid19ita")
 The package provide R versions of the three official Italian COVID-19
 datasets at national, regional and provincial level of detail.
 
-Last data update: 2020-03-10 11:53:21.
+Last data update: 2020-03-10 18:38:05.
 
 Access the data with:
 

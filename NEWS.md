@@ -1,3 +1,4 @@
+* Include shinydashboard interface
 * Added National time series module
 
 # covid19ita 0.1.2
