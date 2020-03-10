@@ -1,3 +1,5 @@
+# covid19ita 0.2.0
+
 * Data update
 * Activated automatic spellcheck (`{spellcheck}` package + italian words
   used added to the custom dictionary)
