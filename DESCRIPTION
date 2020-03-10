@@ -24,7 +24,7 @@ RoxygenNote: 7.0.2
 URL: https://github.com/UBESP-DCTV/covid19ita
 BugReports: https://github.com/UBESP-DCTV/covid19ita/issues
 Suggests: 
-    testthat,
+    testthat (>= 2.1.0),
     covr
 Depends: 
     R (>= 3.2)

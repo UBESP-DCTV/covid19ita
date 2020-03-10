@@ -34,6 +34,19 @@ download_dpc <- function(
     "dati-{level}/dpc-covid19-ita-{level}.csv"
   )
 
-  code <- download.file(data_url, file.path(dir, file_name))
-  invisible(code == 0)
+  dest_url <- file.path(dir, file_name)
+  code <- download.file(data_url, dest_url)
+
+  ok <- (code == 0) &&
+    stringr::str_detect(readLines(dest_url, 1L), "^data,stato")
+
+  if (ok) {
+    usethis::ui_done("{usethis::ui_value(file_name)} downloaded.")
+  } else {
+    usethis::ui_oops(
+      "{usethis::ui_value(file_name)} not downloaded correctly."
+    )
+  }
+
+  invisible(ok)
 }
