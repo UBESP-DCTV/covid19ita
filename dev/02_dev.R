@@ -29,6 +29,7 @@ golem::add_module(name = "time_series") # Name of the module
 ## Creates ftc_* and utils_*
 golem::add_fct("download_dpc")
 golem::add_utils( "helpers" )
+
 ## Update package documentation and namespace
 devtools::document(roclets = c('rd', 'collate', 'namespace'))
 
@@ -44,6 +45,9 @@ devtools::document(roclets = c('rd', 'collate', 'namespace'))
 usethis::use_test("download_dpc")
 
 # Documentation
+
+## Spellcheck
+usethis::use_spell_check()
 
 ## Vignette ----
 usethis::use_vignette("covid19ita")
