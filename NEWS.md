@@ -1,3 +1,8 @@
+* Data update
+* Activated automatic spellcheck (`{spellcheck}` package + italian words
+  used added to the custom dictionary)
+* Fixed License and dependencies in `DESCRIPTION`
+* Update import for internal data usage too
 * Include shinydashboard interface
 * Added National time series module
 
