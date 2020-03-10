@@ -1,3 +1,5 @@
+* provided and documented `covid_stato`, `covid_province`, and
+  `covid_regioni` dataset
 * defined `download_dpc()` function to download dcp data from its
   official GitHub repo.
 

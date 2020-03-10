@@ -30,6 +30,35 @@ You can install the development version of `{covid19ita}` from
 remotes::install_github("UBESP-DCTV/covid19ita")
 ```
 
+## Data
+
+The package provide R versions of the three official Italian COVID-19
+datasets at national, regional and provincial level of detail.
+
+Access teh data with:
+
+``` r
+library(covid19ita)
+data(covid_stato)    # national level data
+data(covid_regioni)  # regional level data
+data(covid_province) # provincial level data
+```
+
+## Data attribution
+
+License:
+[CC-BY-4.0](https://creativecommons.org/licenses/by/4.0/deed.en) -
+[Visualizza
+licenza](https://github.com/pcm-dpc/COVID-19/blob/master/LICENSE)
+
+Dataset author/editor: [Dipartimento della Protezione
+Civile](http://www.protezionecivile.it/)
+
+Data provided by [Ministero della Salute](http://www.salute.gov.it/)
+
+Original data processing and management by the [Dipartimento della
+Protezione Civile](http://www.protezionecivile.it/)
+
 ## Code of Conduct
 
 Please note that the ‘covid19ita’ project is released with a
