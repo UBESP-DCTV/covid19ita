@@ -46,19 +46,19 @@ Access the data with:
 
 ``` r
 library(covid19ita)
-data(covid_stato)    # national level data
-data(covid_regioni)  # regional level data
-data(covid_province) # provincial level data
+data(dpc_covid19_ita_andamento_nazionale) # national level data
+data(dpc_covid19_ita_regioni)             # regional level data
+data(dpc_covid19_ita_andamento_province)  # provincial level data
 ```
 
 You can access to the data documentation with any of:
 
 ``` r
-?covid_stato
-?covid_regioni
-?covid_province
+?dpc_covid19_ita_andamento_nazionale
+?dpc_covid19_ita_regioni
+?dpc_covid19_ita_province
 
-?`covid-ita`
+?dpc_covid19_ita
 ```
 
 ## Data attribution

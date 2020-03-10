@@ -2,7 +2,7 @@
 #'
 #' Datasets containing the italian COVID-19 data.
 #'
-#' @format [tibble][tibble::tibble-package]s with one row per day each
+#' @format \code{\link[tibble]{tibble}}s with one row per day each
 #'   levels of detail (regional adn provincial) and as many variables
 #'   as provided by the original data (see the corresponding sections).
 #'
@@ -24,15 +24,15 @@
 #'   definizione/aggiornamento" con il codice provincia da 979 a 999,
 #'   utile ad indicare i dati ancora non assegnati alle Province.
 #'
-#' @name covid-ita
+#' @name dpc_covid19_ita
 #' @keywords datasets
 NULL
 
 
-#' @rdname covid-ita
+#' @rdname dpc_covid19_ita
 #'
 #' @section Data at national level:
-#' A [tibble][tibble::tibble-package] with one row per day and
+#' A \code{\link[tibble]{tibble}} with one row per day and
 #'   12 variables:
 #' \describe{
 #'   \item{data}{Date of notification - Italian time zone)}
@@ -49,14 +49,14 @@ NULL
 #'   \item{tamponi}{Tests performed}
 #' }
 #'
-"covid_stato"
+"dpc_covid19_ita_andamento_nazionale"
 
 
 
-#' @rdname covid-ita
+#' @rdname dpc_covid19_ita
 #'
 #' @section Data at regional level:
-#' A [tibble][tibble::tibble-package] with one row per day/region
+#' A \code{\link[tibble]{tibble}} with one row per day/region
 #'  and 16 variables:
 #' \describe{
 #'   \item{data}{Date of notification - Italian time zone)}
@@ -77,13 +77,13 @@ NULL
 #'   \item{tamponi}{Tests performed}
 #' }
 #'
-"covid_regioni"
+"dpc_covid19_ita_regioni"
 
 
-#' @rdname covid-ita
+#' @rdname dpc_covid19_ita
 #'
 #' @section Data at provincial level:
-#' A [tibble][tibble::tibble-package] with one row per day/province
+#' A \code{\link[tibble]{tibble}} with one row per day/province
 #'  and 10 variables:
 #' \describe{
 #'   \item{data}{Date of notification - Italian time zone)}
@@ -99,4 +99,4 @@ NULL
 #'   \item{tamponi}{Tests performed}
 #' }
 #'
-"covid_province"
+"dpc_covid19_ita_province"

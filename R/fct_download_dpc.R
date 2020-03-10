@@ -19,10 +19,9 @@
 download_dpc <- function(
     level = c("italia", "regioni", "province"),
     dir = ".",
-    file_name = paste0(level, ".csv")
+    file_name = NULL
 ) {
   level <- match.arg(level)
-  force(file_name)
 
   if (level == "italia") {
     level <- "andamento-nazionale"
@@ -33,6 +32,8 @@ download_dpc <- function(
     "pcm-dpc/COVID-19/master/",
     "dati-{level}/dpc-covid19-ita-{level}.csv"
   )
+
+  file_name <- file_name %||% basename(data_url)
 
   dest_url <- file.path(dir, file_name)
   code <- download.file(data_url, dest_url)

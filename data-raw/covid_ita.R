@@ -16,11 +16,14 @@ if (all(are_ok)) {
       purrr::set_names(data_levels) %>%
       purrr::map(readr::read_csv)
 
-  covid_stato    <- covid_ita[["italia"]]
-  covid_regioni  <- covid_ita[["regioni"]]
-  covid_province <- covid_ita[["province"]]
+  dpc_covid19_ita_andamento_nazionale <- covid_ita[["italia"]]
+  dpc_covid19_ita_regioni             <- covid_ita[["regioni"]]
+  dpc_covid19_ita_province            <- covid_ita[["province"]]
 
-  usethis::use_data(covid_stato, covid_regioni, covid_province,
+  usethis::use_data(
+    dpc_covid19_ita_andamento_nazionale,
+    dpc_covid19_ita_regioni,
+    dpc_covid19_ita_province,
     overwrite = TRUE
   )
 

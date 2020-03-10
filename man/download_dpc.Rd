@@ -7,7 +7,7 @@
 download_dpc(
   level = c("italia", "regioni", "province"),
   dir = ".",
-  file_name = paste0(level, ".csv")
+  file_name = NULL
 )
 }
 \arguments{
