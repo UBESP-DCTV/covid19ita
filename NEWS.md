@@ -1,3 +1,5 @@
+# covid19ita 0.5.0
+
 
 * Update the project to maturing lifecycle (and badge in the `README`)
 * Added lifecycle support from `{lifecycle}` package
