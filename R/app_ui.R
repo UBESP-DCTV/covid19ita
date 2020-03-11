@@ -130,7 +130,8 @@ dashboard_body <- function() {dashboardBody(tabItems(
 
 
   tabItem(tabName = "provincial",
-    h2("Provincial events")
+    h2("Provincial events"),
+    h3("Coming soon...")
   )
 
 ))}
