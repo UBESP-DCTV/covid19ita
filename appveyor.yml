@@ -10,8 +10,8 @@ init:
 install:
   ps: Bootstrap
 
-cache:
-  - C:\RLibrary
+# cache:
+#   - C:\RLibrary
 
 environment:
   NOT_CRAN: true
@@ -25,7 +25,6 @@ environment:
 
 build_script:
   - travis-tool.sh install_deps
-  - travis-tool.sh install_r lifecycle
 
 test_script:
   - travis-tool.sh run_tests

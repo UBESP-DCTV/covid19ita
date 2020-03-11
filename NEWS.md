@@ -1,4 +1,4 @@
-* add explicit lifecycle
+* remove caches for `appveyor.yml`
 * restored original `appveyor.yml` (from `{usethis}`)
 * Added ORCID to `DESCRIPTION`
 
