@@ -29,7 +29,7 @@ mod_ts_reg_ui <- function(id){
         )
       )
     ),
-    fluidRow(plotlyOutput(ns("ts_plot")))
+    fluidRow(plotlyOutput(ns("ts_plot"), height = "200%"))
   )
 }
 
@@ -109,7 +109,7 @@ mod_ts_reg_server <- function(id, type = c("cum", "inc"), color_var = c("measure
         scale_colour_discrete(name = color_name) +
         theme(
           axis.text.x = element_text(angle = 90, hjust = 1, vjust = 0.5),
-          panel.spacing.y = unit(4, "lines")
+          panel.spacing.y = unit(2, "lines")
         )
 
       ggplotly(gg)

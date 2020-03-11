@@ -1,3 +1,5 @@
+* Increase grid plot width
+
 # covid19ita 0.3.0
 
 * App update with regional
