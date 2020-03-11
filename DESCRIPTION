@@ -5,11 +5,13 @@ Authors@R:
     c(person(given = "Corrado",
              family = "Lanera",
              role = c("cre", "aut"),
-             email = "corrado.lanera@unipd.it"),
+             email = "corrado.lanera@unipd.it",
+             comment = c(ORCID = "0000-0002-0520-7428")),
       person(given = "Dario",
              family = "Gregori",
              role = "aut",
-             email = "dario.gregori@unipd.it"),
+             email = "dario.gregori@unipd.it",
+             comment = c(ORCID = "0000-0001-7906-0580")),
       person(given = "UBEP",
              role = "cph"))
 Description: Monitoring platform for Covid-19 infection
