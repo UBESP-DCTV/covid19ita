@@ -32,7 +32,7 @@ remotes::install_github("UBESP-DCTV/covid19ita")
 
 ## Shiny App
 
-![](/home/clanera/covid19ita/inst/app/www/covid19ita_screen.png)
+<img src='inst/app/www/covid19ita_screen.png' align="center"/>
 
 You can visit the `covid19ita` Shiny App running on the UBEP servers
 [here](https://r-ubesp.dctv.unipd.it/shiny/covid19ita/).
@@ -49,7 +49,7 @@ run_app()
 The package provide R versions of the three official Italian COVID-19
 datasets at national, regional and provincial level of detail.
 
-Last data update: 2020-03-11 13:32:04.
+Last data update: 2020-03-11 13:36:50.
 
 Access the data with:
 

@@ -37,7 +37,7 @@ remotes::install_github("UBESP-DCTV/covid19ita")
 
 ## Shiny App
 
-![](`r here::here("inst/app/www/covid19ita_screen.png")`)
+<img src='inst/app/www/covid19ita_screen.png' align="center"/>
 
 You can visit the `covid19ita` Shiny App running on the UBEP servers
 [here](https://r-ubesp.dctv.unipd.it/shiny/covid19ita/).
