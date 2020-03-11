@@ -138,13 +138,13 @@ dashboard_body <- function() {dashboardBody(tabItems(
     h3("Serie storiche"),
     fluidRow(
       box(title = "Eventi cumulati", width = 12,
-        mod_ts_reg_ui("ts_prv_cum")
+        mod_ts_prv_ui("ts_prv_cum")
       )
     ),
 
     fluidRow(
       box(title = "Nuovi eventi", width = 12,
-        mod_ts_reg_ui("ts_prv_inc")
+        mod_ts_prv_ui("ts_prv_inc")
       )
     )
  )
