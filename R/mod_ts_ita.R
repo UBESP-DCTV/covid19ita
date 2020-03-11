@@ -53,7 +53,7 @@ mod_ts_ita_server <- function(id, type = c("cum", "inc")) {
       dplyr::mutate(N = .data$N - dplyr::lag(.data$N)) %>%
       dplyr::ungroup()
 
-    y_lab <- paste(y_lab, "(differences)")
+    y_lab <- paste(y_lab, "(differenze giorno-giorno)")
   }
 
 
@@ -64,7 +64,7 @@ mod_ts_ita_server <- function(id, type = c("cum", "inc")) {
     geom_line() + geom_point() +
     xlab("Data") + ylab(y_lab) +
     scale_x_date(date_breaks = "1 day", date_labels = "%b %d") +
-    scale_colour_discrete(name = "Measure") +
+    scale_colour_discrete(name = "Misura") +
     theme(
       axis.text.x = element_text(angle = 90, hjust = 1, vjust = 0.5)
     )

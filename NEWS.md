@@ -1,3 +1,6 @@
+* National module converted in italian
+* Menu and title in italian
+
 # covid19ita 0.3.2
 
 * Uniform language UI (italian)
