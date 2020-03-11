@@ -33,7 +33,7 @@ app_ui <- function(request) {
 #' @noRd
 dashboard_header <- function() {dashboardHeader(
 
-  title = "Italian COVID-19"
+  title = "COVID-19 - Italia"
 
 )}
 
@@ -49,18 +49,21 @@ dashboard_header <- function() {dashboardHeader(
 #' @noRd
 dashboard_sidebar <- function() {dashboardSidebar(sidebarMenu(
 
-  menuItem("National", tabName = "national", icon = icon("flag")),
-  menuItem("Regional", tabName = "regional", icon = icon("map")),
-  menuItem("Provincial", tabName = "provincial", icon = icon("location-arrow")),
+  menuItem("Nazionale", tabName = "national", icon = icon("flag")),
+  menuItem("Regionale", tabName = "regional", icon = icon("map")),
+  menuItem("Provinciale", tabName = "provincial", icon = icon("location-arrow")),
 
   menuItem(""),
 
-  menuItem("External links", icon = icon("link"),
+  menuItem("Collegamenti esterni", icon = icon("link"),
     menuSubItem("UBEP", icon = icon("signal"),
       href = "https://ubesp.jimdofree.com/"
     ),
-    menuSubItem("Source code", icon = icon("file-code-o"),
+    menuSubItem("Codice sorgente", icon = icon("file-code-o"),
       href = "https://github.com/UBESP-DCTV/covid19ita/"
+    ),
+    menuSubItem("Segnalazioni", icon = icon("exclamation-triangle"),
+      href = "https://github.com/UBESP-DCTV/covid19ita/issues/"
     )
   )
 
@@ -81,16 +84,16 @@ dashboard_body <- function() {dashboardBody(tabItems(
   tabItem(tabName = "national",
     # List the first level UI elements here
     # `box()`es must be included in `fluidRow()`s
-    h2("National events"),
+    h2("Eventi nazionali"),
 
     fluidRow(
-      box(title = "Cumulative events series", width = 12,
+      box(title = "Serie storiche degli eventi cumulati", width = 12,
         mod_ts_ita_ui("ts_nat_cum")
       )
     ),
 
     fluidRow(
-      box(title = "Incidence events rates series", width = 12,
+      box(title = "Serie storiche dei nuovi eventi giornalieri", width = 12,
         mod_ts_ita_ui("ts_nat_inc")
       )
     )
@@ -98,30 +101,30 @@ dashboard_body <- function() {dashboardBody(tabItems(
 
 
   tabItem(tabName = "regional",
-    h2("Regional events"),
+    h2("Eventi regionali"),
 
-    h3("Events by regions"),
+    h3("Serie storiche per regione"),
     fluidRow(
-      box(title = "Cumulative events series", width = 12,
+      box(title = "Eventi cumulati", width = 12,
         mod_ts_reg_ui("ts_reg_cum_mes")
       )
     ),
 
     fluidRow(
-      box(title = "Incidence events rates series", width = 12,
+      box(title = "Nuovi eventi giornalieri", width = 12,
         mod_ts_reg_ui("ts_reg_inc_mes")
       )
     ),
 
-    h3("Regions by events"),
+    h3("Serie storiche regionali per evento"),
     fluidRow(
-      box(title = "Cumulative events series", width = 12,
+      box(title = "Eventi cumulati", width = 12,
         mod_ts_reg_ui("ts_reg_cum_reg")
       )
     ),
 
     fluidRow(
-      box(title = "Incidence events rates series", width = 12,
+      box(title = "Nuovi eventi giornalieri", width = 12,
         mod_ts_reg_ui("ts_reg_inc_reg")
       )
     )
@@ -130,8 +133,8 @@ dashboard_body <- function() {dashboardBody(tabItems(
 
 
   tabItem(tabName = "provincial",
-    h2("Provincial events"),
-    h3("Coming soon...")
+    h2("Eventi provinciali"),
+    h3("In fase di sviluppo...")
   )
 
 ))}

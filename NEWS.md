@@ -1,3 +1,5 @@
+* Uniform language UI (italian)
+
 # covid19ita 0.3.1
 
 * Increase grid plot width
