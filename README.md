@@ -47,7 +47,7 @@ run_app()
 The package provide R versions of the three official Italian COVID-19
 datasets at national, regional and provincial level of detail.
 
-Last data update: 2020-03-10 19:36:53.
+Last data update: 2020-03-11 11:26:16.
 
 Access the data with:
 
