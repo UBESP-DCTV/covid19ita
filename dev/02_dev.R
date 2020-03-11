@@ -43,6 +43,7 @@ devtools::document(roclets = c('rd', 'collate', 'namespace'))
 ## Tests ----
 ## Add one line by test you want to create
 usethis::use_test("download_dpc")
+usethis::use_test("helper_dashboard")
 
 # Documentation
 

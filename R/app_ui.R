@@ -31,9 +31,11 @@ app_ui <- function(request) {
 #' @import shiny
 #' @importFrom shinydashboard dashboardHeader
 #' @noRd
-dashboard_header <- function() {
-    dashboardHeader(title = "Italian COVID-19")
-}
+dashboard_header <- function() {dashboardHeader(
+
+  title = "Italian COVID-19",
+
+)}
 
 
 
@@ -45,15 +47,13 @@ dashboard_header <- function() {
 #' @import shiny
 #' @importFrom shinydashboard dashboardSidebar sidebarMenu menuItem
 #' @noRd
-dashboard_sidebar <- function() {
-  dashboardSidebar(sidebarMenu(
+dashboard_sidebar <- function() {dashboardSidebar(sidebarMenu(
 
-    menuItem("National", tabName = "dashboard", icon = icon("flag")),
-    menuItem("Regional", tabName = "regional", icon = icon("map")),
-    menuItem("Provincial", tabName = "provincial", icon = icon("location-arrow"))
+  menuItem("National", tabName = "national", icon = icon("flag")),
+  menuItem("Regional", tabName = "regional", icon = icon("map")),
+  menuItem("Provincial", tabName = "provincial", icon = icon("location-arrow"))
 
-  ))
-}
+))}
 
 
 
@@ -65,11 +65,12 @@ dashboard_sidebar <- function() {
 #' @import shiny
 #' @importFrom shinydashboard dashboardBody box
 #' @noRd
-dashboard_body <- function() {
-  dashboardBody(
+dashboard_body <- function() {dashboardBody(tabItems(
 
+  tabItem(tabName = "national",
     # List the first level UI elements here
     # `box()`es must be included in `fluidRow()`s
+    h2("National events"),
     fluidRow(
       box(title = "Cumulative events series", width = 12,
         mod_ts_ita_ui("ts_cum")
@@ -81,9 +82,19 @@ dashboard_body <- function() {
         mod_ts_ita_ui("ts_inc")
       )
     )
+  ),
 
+
+  tabItem(tabName = "regional",
+    h2("Regional events")
+  ),
+
+
+  tabItem(tabName = "provincial",
+    h2("Provincial events")
   )
-}
+
+))}
 
 
 
