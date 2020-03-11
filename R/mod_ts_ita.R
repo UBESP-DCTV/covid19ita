@@ -21,12 +21,15 @@ mod_ts_ita_ui <- function(id){
 mod_ts_ita_server <- function(id, type = c("cum", "inc")) {
   type <- match.arg(type)
 
-  var_of_interest <- names(dpc_covid19_ita_andamento_nazionale) %>%
-    setdiff(c("stato", "tamponi", "nuovi_attualmente_positivi"))
+  dpc_data <- dpc_covid19_ita_andamento_nazionale %>%
+    dplyr::mutate(data = as.Date(.data$data))
 
-  ts_ita_to_plot <- dpc_covid19_ita_andamento_nazionale[var_of_interest] %>%
-    dplyr::mutate(data = as.Date(.data$data)) %>%
-    tidyr::pivot_longer(-.data$data,
+  var_to_exclude <- c("stato", "tamponi", "nuovi_attualmente_positivi")
+  var_of_interest <- setdiff(names(dpc_data), var_to_exclude)
+  exclude_from_pivoting <- "data"
+
+  ts_data_to_plot <- dpc_data[var_of_interest] %>%
+    tidyr::pivot_longer( -{{exclude_from_pivoting}},
       names_to = "Measure",
       values_to = "N"
     ) %>%
@@ -42,8 +45,10 @@ mod_ts_ita_server <- function(id, type = c("cum", "inc")) {
   y_lab <- "N"
 
   if (type == "inc") {
-    ts_ita_to_plot <- ts_ita_to_plot %>%
-      dplyr::group_by(.data$Measure) %>%
+    groups <- c("Measure")
+
+    ts_data_to_plot <- ts_data_to_plot %>%
+      dplyr::group_by_at(groups) %>%
       dplyr::arrange(.data$data) %>%
       dplyr::mutate(N = .data$N - dplyr::lag(.data$N)) %>%
       dplyr::ungroup()
@@ -51,8 +56,11 @@ mod_ts_ita_server <- function(id, type = c("cum", "inc")) {
     y_lab <- paste(y_lab, "(differences)")
   }
 
-  gg <- ts_ita_to_plot %>%
-    ggplot(aes(x = .data$data, y = .data$N, colour = .data$Measure)) +
+
+  gg <- ts_data_to_plot %>%
+    ggplot(
+      aes(x = .data$data, y = .data$N, colour = .data$Measure)
+    ) +
     geom_line() + geom_point() +
     xlab("Data") + ylab(y_lab) +
     scale_x_date(date_breaks = "1 day", date_labels = "%b %d") +
@@ -71,5 +79,5 @@ mod_ts_ita_server <- function(id, type = c("cum", "inc")) {
 # mod_ts_ita_ui("time_series_ui_1")
 
 ## To be copied in the server
-# callModule(mod_ts_ita_server, "time_series_ui_1")
+# mod_ts_ita_server("time_series_ui_1", type = )
 
