@@ -1,7 +1,7 @@
 
 <!-- README.md is generated from README.Rmd. Please edit that file -->
 
-# covid19ita <img src='man/figures/logo.png' align="right" height="120" />
+# `{covid19ita}` <img src='man/figures/logo.png' align="right" height="120" />
 
 <!-- badges: start -->
 
@@ -17,8 +17,8 @@ Status](https://travis-ci.com/UBESP-DCTV/covid19ita.svg?branch=master)](https://
 coverage](https://codecov.io/gh/UBESP-DCTV/covid19ita/branch/master/graph/badge.svg)](https://codecov.io/gh/UBESP-DCTV/covid19ita?branch=master)
 <!-- badges: end -->
 
-The goal of covid19ita is to provide a platform for the monitoring of
-Covid-19 infection diffusion in Italy.
+The goal of `{covid19ita}` is to provide a platform for the monitoring
+of COVID-19 infection diffusion in Italy.
 
 ## Installation
 
@@ -33,6 +33,8 @@ remotes::install_github("UBESP-DCTV/covid19ita")
 ## Shiny App
 
 <img src='inst/app/www/covid19ita_screen.png' align="center"/>
+
+**Last app update**: 2020-03-11 14:22:37.
 
 You can visit the `covid19ita` Shiny App running on the UBEP servers
 [here](https://r-ubesp.dctv.unipd.it/shiny/covid19ita/).
@@ -49,7 +51,7 @@ run_app()
 The package provide R versions of the three official Italian COVID-19
 datasets at national, regional and provincial level of detail.
 
-Last data update: 2020-03-11 14:21:31.
+**Last data update**: 2020-03-11 13:33:09.
 
 Access the data with:
 
@@ -72,17 +74,18 @@ You can access to the data documentation with any of:
 
 ## Data attribution
 
-License:
+**License**:
 [CC-BY-4.0](https://creativecommons.org/licenses/by/4.0/deed.en) -
 [Visualizza
 licenza](https://github.com/pcm-dpc/COVID-19/blob/master/LICENSE)
 
-Dataset author/editor: [Dipartimento della Protezione
+**Dataset author/editor**: [Dipartimento della Protezione
 Civile](http://www.protezionecivile.it/)
 
-Data provided by [Ministero della Salute](http://www.salute.gov.it/)
+**Data provided by**: [Ministero della
+Salute](http://www.salute.gov.it/)
 
-Original data processing and management by the [Dipartimento della
+**Original data processing and management by**: [Dipartimento della
 Protezione Civile](http://www.protezionecivile.it/)
 
 ## Code of Conduct
