@@ -1,3 +1,6 @@
+* update `appveyor.yml`
+* Added ORCID to `DESCRIPTION`
+
 # covid19ita 0.5.1
 
 * Add info on datasets in UI and `README`
