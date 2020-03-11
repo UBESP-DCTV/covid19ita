@@ -1,3 +1,5 @@
+# covid19ita 0.3.2
+
 * Uniform language UI (italian)
 
 # covid19ita 0.3.1
