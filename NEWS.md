@@ -1,3 +1,5 @@
+# covid19ita 0.4.0
+
 * Added provincial module
 * National module converted in italian
 * Menu and title in italian
