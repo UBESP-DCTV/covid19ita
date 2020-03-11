@@ -1,4 +1,4 @@
-* remove caches for `appveyor.yml`
+* remove Lifecycle dependency
 * restored original `appveyor.yml` (from `{usethis}`)
 * Added ORCID to `DESCRIPTION`
 
