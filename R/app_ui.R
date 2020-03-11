@@ -33,7 +33,7 @@ app_ui <- function(request) {
 #' @noRd
 dashboard_header <- function() {dashboardHeader(
 
-  title = "Italian COVID-19",
+  title = "Italian COVID-19"
 
 )}
 
@@ -51,7 +51,18 @@ dashboard_sidebar <- function() {dashboardSidebar(sidebarMenu(
 
   menuItem("National", tabName = "national", icon = icon("flag")),
   menuItem("Regional", tabName = "regional", icon = icon("map")),
-  menuItem("Provincial", tabName = "provincial", icon = icon("location-arrow"))
+  menuItem("Provincial", tabName = "provincial", icon = icon("location-arrow")),
+
+  menuItem(""),
+
+  menuItem("External links", icon = icon("link"),
+    menuItem("UBEP", icon = icon("signal"),
+      href = "https://ubesp.jimdofree.com/"
+    ),
+    menuItem("Source code", icon = icon("file-code-o"),
+      href = "https://github.com/UBESP-DCTV/covid19ita/"
+    )
+  )
 
 ))}
 
