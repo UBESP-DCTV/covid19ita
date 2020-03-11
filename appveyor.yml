@@ -20,29 +20,25 @@ environment:
   USE_RTOOLS: true
   R_REMOTES_STANDALONE: true
   WARNINGS_ARE_ERRORS: 1
+  CRAN: http://cran.rstudio.com
+  PKGTYPE: both
 
   matrix:
     - R_VERSION: devel
       GCC_PATH: mingw_32
-      CRAN: http://cran.rstudio.com
 
     - R_VERSION: devel
       R_ARCH: x64
       GCC_PATH: mingw_64
-      CRAN: http://cran.rstudio.com
 
     - R_VERSION: release
       R_ARCH: x64
-      CRAN: http://cran.rstudio.com
 
     - R_VERSION: stable
-      CRAN: http://cran.rstudio.com
 
     - R_VERSION: patched
-      CRAN: http://cran.rstudio.com
 
     - R_VERSION: oldrel
-      CRAN: http://cran.rstudio.com
 
 # Adapt as necessary starting from here
 
