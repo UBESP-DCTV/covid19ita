@@ -1,3 +1,5 @@
+* Add app screenshot to the `README`
+
 # covid19ita 0.4.2
 
 * Fix region -> privince in UI
