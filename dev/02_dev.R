@@ -23,12 +23,13 @@ usethis::use_package("plotly")
 
 ## Add modules ----
 ## Create a module infrastructure in R/
-golem::add_module(name = "time_series") # Name of the module
+golem::add_module(name = "ts_ita") # Name of the module
+golem::add_module(name = "ts_reg") # Name of the module
 
 ## Add helper functions ----
 ## Creates ftc_* and utils_*
 golem::add_fct("download_dpc")
-# golem::add_utils( "helpers" )
+golem::add_utils("helpers")
 
 ## Update package documentation and namespace
 devtools::document(roclets = c('rd', 'collate', 'namespace'))
