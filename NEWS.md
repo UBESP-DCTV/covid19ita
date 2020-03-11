@@ -1,3 +1,6 @@
+* Add info on datasets in UI and `README`
+* Update "Last update"s in README
+
 # covid19ita 0.5.0
 
 

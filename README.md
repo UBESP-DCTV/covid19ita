@@ -48,8 +48,9 @@ run_app()
 
 ## Data
 
-The package provide R versions of the three official Italian COVID-19
-datasets at national, regional and provincial level of detail.
+The package provide R versions of the three [official Italian COVID-19
+datasets](https://github.com/pcm-dpc/COVID-19/) at national, regional
+and provincial level of detail.
 
 **Last data update**: 2020-03-11 13:33:09.
 

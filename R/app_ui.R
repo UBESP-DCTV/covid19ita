@@ -65,7 +65,9 @@ dashboard_sidebar <- function() {dashboardSidebar(sidebarMenu(
     menuSubItem("Segnalazioni", icon = icon("exclamation-triangle"),
       href = "https://github.com/UBESP-DCTV/covid19ita/issues/"
     )
-  )
+  ),
+
+  menuItem("Data", tabName = "data_tab", icon = icon("database"))
 
 ))}
 
@@ -147,7 +149,20 @@ dashboard_body <- function() {dashboardBody(tabItems(
         mod_ts_prv_ui("ts_prv_inc")
       )
     )
- )
+  ),
+
+  tabItem(tabName = "data_tab",
+    h2("Data information"),
+
+    p("L'applicazione utilizza i principali dati ufficiali riguardanti la situazione COVID-19 italiana, a livello nazionale, regionale e provinciale."),
+
+    div(
+      p(
+        "Per informazioni sulla loro attribuzione, disponibilita, e uso, visitare la",
+        a(href = 'https://github.com/UBESP-DCTV/covid19ita/', target="_blank", "pagina del progetto covid19ita.")
+      ),
+    )
+  )
 
 ))}
 
