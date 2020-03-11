@@ -56,10 +56,10 @@ dashboard_sidebar <- function() {dashboardSidebar(sidebarMenu(
   menuItem(""),
 
   menuItem("External links", icon = icon("link"),
-    menuItem("UBEP", icon = icon("signal"),
+    menuSubItem("UBEP", icon = icon("signal"),
       href = "https://ubesp.jimdofree.com/"
     ),
-    menuItem("Source code", icon = icon("file-code-o"),
+    menuSubItem("Source code", icon = icon("file-code-o"),
       href = "https://github.com/UBESP-DCTV/covid19ita/"
     )
   )
@@ -82,22 +82,50 @@ dashboard_body <- function() {dashboardBody(tabItems(
     # List the first level UI elements here
     # `box()`es must be included in `fluidRow()`s
     h2("National events"),
+
     fluidRow(
       box(title = "Cumulative events series", width = 12,
-        mod_ts_ita_ui("ts_cum")
+        mod_ts_ita_ui("ts_nat_cum")
       )
     ),
 
     fluidRow(
       box(title = "Incidence events rates series", width = 12,
-        mod_ts_ita_ui("ts_inc")
+        mod_ts_ita_ui("ts_nat_inc")
       )
     )
   ),
 
 
   tabItem(tabName = "regional",
-    h2("Regional events")
+    h2("Regional events"),
+
+    h3("Events by regions"),
+    fluidRow(
+      box(title = "Cumulative events series", width = 12,
+        mod_ts_reg_ui("ts_reg_cum_mes")
+      )
+    ),
+
+    fluidRow(
+      box(title = "Incidence events rates series", width = 12,
+        mod_ts_reg_ui("ts_reg_inc_mes")
+      )
+    ),
+
+    h3("Regions by events"),
+    fluidRow(
+      box(title = "Cumulative events series", width = 12,
+        mod_ts_reg_ui("ts_reg_cum_reg")
+      )
+    ),
+
+    fluidRow(
+      box(title = "Incidence events rates series", width = 12,
+        mod_ts_reg_ui("ts_reg_inc_reg")
+      )
+    )
+
   ),
 
 
