@@ -1,6 +1,6 @@
 Package: covid19ita
 Title: Covid-19 - Italy
-Version: 0.3.0
+Version: 0.3.1
 Authors@R: c(
     person('Corrado', 'Lanera', email = 'corrado.lanera@unipd.it', role = c('cre', 'aut')),
     person('Dario', 'Gregori', email = 'dario.gregori@unipd.it', role = 'aut'),

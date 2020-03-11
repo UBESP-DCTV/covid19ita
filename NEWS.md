@@ -1,3 +1,5 @@
+# covid19ita 0.3.1
+
 * Increase grid plot width
 
 # covid19ita 0.3.0
