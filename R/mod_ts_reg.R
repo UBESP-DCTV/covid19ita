@@ -67,15 +67,15 @@ mod_ts_reg_server <- function(id, type = c("cum", "inc"), color_var = c("measure
 
     data_to_plot <- reactive({
 
-      data_tmp <- dplyr::filter(dpc_data, denominazione_regione %in% which_region()) %>%
+      data_tmp <- dplyr::filter(dpc_data, .data$denominazione_regione %in% which_region()) %>%
       tidyr::pivot_longer(which_measure(),
         names_to = "Measure",
         values_to = "N"
       ) %>%
       dplyr::mutate(
         Measure = factor(.data$Measure,
-          levels = var_of_interest,
-          labels = var_of_interest %>%
+          levels = which_measure(),
+          labels = which_measure() %>%
             stringr::str_replace_all("_", " ") %>%
             stringr::str_to_title()
         )
