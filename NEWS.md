@@ -1,3 +1,5 @@
+# covid19ita 0.3.0
+
 * App update with regional
 * Added regional module
 * Data Update
