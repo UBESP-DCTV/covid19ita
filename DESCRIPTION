@@ -1,13 +1,24 @@
 Package: covid19ita
 Title: Covid-19 - Italy
 Version: 0.4.3
-Authors@R: c(
-    person('Corrado', 'Lanera', email = 'corrado.lanera@unipd.it', role = c('cre', 'aut')),
-    person('Dario', 'Gregori', email = 'dario.gregori@unipd.it', role = 'aut'),
-    person('UBEP', role = 'cph')
-  )
-Description: Monitoring platform for Covid-19 infection diffusion in Italy.
+Authors@R: 
+    c(person(given = "Corrado",
+             family = "Lanera",
+             role = c("cre", "aut"),
+             email = "corrado.lanera@unipd.it"),
+      person(given = "Dario",
+             family = "Gregori",
+             role = "aut",
+             email = "dario.gregori@unipd.it"),
+      person(given = "UBEP",
+             role = "cph"))
+Description: Monitoring platform for Covid-19 infection
+    diffusion in Italy.
 License: CC BY 4.0
+URL: https://github.com/UBESP-DCTV/covid19ita
+BugReports: https://github.com/UBESP-DCTV/covid19ita/issues
+Depends: 
+    R (>= 3.2)
 Imports: 
     config (>= 0.3),
     golem (>= 0.2.1),
@@ -26,12 +37,8 @@ Imports:
     utils,
     dplyr (>= 0.8.5),
     tidyr (>= 1.0.2),
-    usethis (>= 1.5.1)
-Encoding: UTF-8
-LazyData: true
-RoxygenNote: 7.0.2
-URL: https://github.com/UBESP-DCTV/covid19ita
-BugReports: https://github.com/UBESP-DCTV/covid19ita/issues
+    usethis (>= 1.5.1),
+    lifecycle
 Suggests: 
     testthat (>= 2.1.0),
     covr (>= 3.5.0),
@@ -39,6 +46,9 @@ Suggests:
     readr (>= 1.3.1),
     fs (>= 1.3.2),
     spelling (>= 2.1)
-Depends: 
-    R (>= 3.2)
+RdMacros: 
+    lifecycle
+Encoding: UTF-8
 Language: en-US
+LazyData: true
+RoxygenNote: 7.0.2

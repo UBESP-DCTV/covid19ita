@@ -1,3 +1,8 @@
+
+* Update the project to maturing lifecycle (and badge in the `README`)
+* Added lifecycle support from `{lifecycle}` package
+* Fix screenshot view
+
 # covid19ita 0.4.3
 
 * Add app screenshot to the `README`
