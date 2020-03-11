@@ -1,4 +1,5 @@
-* update `appveyor.yml`
+
+* restored original `appveyor.yml` (from `{usethis}`)
 * Added ORCID to `DESCRIPTION`
 
 # covid19ita 0.5.1
@@ -19,7 +20,7 @@
 
 # covid19ita 0.4.2
 
-* Fix region -> privince in UI
+* Fix region -> province in UI
 
 # covid19ita 0.4.1
 
