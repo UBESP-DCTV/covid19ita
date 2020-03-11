@@ -1,3 +1,5 @@
+* Added provincial UI
+
 # covid19ita 0.4.0
 
 * Added provincial module
