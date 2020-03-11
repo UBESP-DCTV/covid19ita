@@ -42,7 +42,6 @@ remotes::install_github("UBESP-DCTV/covid19ita")
 
 **Last app update**: `r file.mtime(here::here("DESCRIPTION"))`.
 
-
 You can visit the `covid19ita` Shiny App running on the UBEP servers
 [here](https://r-ubesp.dctv.unipd.it/shiny/covid19ita/).
 

@@ -52,7 +52,7 @@ The package provide R versions of the three [official Italian COVID-19
 datasets](https://github.com/pcm-dpc/COVID-19/) at national, regional
 and provincial level of detail.
 
-**Last data update**: 2020-03-11 18:59:51.
+**Last data update**: 2020-03-11 19:33:18.
 
 Access the data with:
 
