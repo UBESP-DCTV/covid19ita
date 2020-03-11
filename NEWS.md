@@ -1,3 +1,9 @@
+* App update with regional
+* Added regional module
+* Data Update
+* Added link to the source code project on GitHub
+* Added body tabs related to the options in the sidebar
+
 # covid19ita 0.2.0
 
 * Data update
