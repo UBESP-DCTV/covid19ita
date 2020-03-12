@@ -12,6 +12,16 @@ Authors@R:
              role = "aut",
              email = "dario.gregori@unipd.it",
              comment = c(ORCID = "0000-0001-7906-0580")),
+      person(given = "Paola",
+             family = "Berchialla",
+             role = "aut",
+             email = "paola.berchialla@unito.it",
+             comment = c(ORCID = "0000-0001-5835-5638")),
+      person(given = "Giulia",
+             family = "Lorenzoni",
+             role = "aut",
+             email = "giulia.lorenzoni@unito.it",
+             comment = c(ORCID = "0000-0003-1771-4686")),
       person(given = "UBEP",
              role = "cph"))
 Description: Monitoring platform for Covid-19 infection
@@ -40,7 +50,8 @@ Imports:
     dplyr (>= 0.8.5),
     tidyr (>= 1.0.2),
     usethis (>= 1.5.1),
-    lifecycle (>= 0.2.0)
+    lifecycle (>= 0.2.0),
+    ggrepel
 Suggests: 
     testthat (>= 2.1.0),
     covr (>= 3.5.0),
