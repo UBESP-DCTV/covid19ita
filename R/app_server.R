@@ -8,7 +8,7 @@ app_server <- function(input, output, session) {
   # List the first level callModules here
 
     ## Header info
-    mod_info_header_server("summary_today")
+    mod_info_sidebar_server("summary_today")
 
     ## National
     mod_ts_ita_server("ts_nat_cum", "cum")

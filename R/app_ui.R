@@ -73,7 +73,7 @@ dashboard_sidebar <- function() {dashboardSidebar(sidebarMenu(
 
   menuItem("Data", tabName = "data_tab", icon = icon("database")),
 
-  mod_info_header_ui("summary_today")
+  mod_info_sidebar_ui("summary_today")
 
 
 ))}

@@ -41,9 +41,9 @@ mod_info_sidebar_server <- function(id) {
         Italia = dpc_covid19_ita_andamento_nazionale,
 
         dpc_covid19_ita_regioni %>%
-          dplyr::filter(denominazione_regione == who())
+          dplyr::filter(.data$denominazione_regione == who())
       ) %>%
-      dplyr::filter(data == max(.data$data))
+      dplyr::filter(.data$data == max(.data$data))
     })
 
 
