@@ -49,11 +49,15 @@ dashboard_header <- function() {dashboardHeader(
 #' @noRd
 dashboard_sidebar <- function() {dashboardSidebar(sidebarMenu(
 
-  menuItem("Nazionale", tabName = "national", icon = icon("flag")),
-  menuItem("Regionale", tabName = "regional", icon = icon("map")),
-  menuItem("Provinciale", tabName = "provincial", icon = icon("location-arrow")),
-
   menuItem(""),
+
+  menuItem("Impatto", tabName = "impact", icon = icon("bullseye")),
+
+  menuItem("Andamenti", icon = icon("chart-line"),
+    menuSubItem("Nazionale", tabName = "national", icon = icon("flag")),
+    menuSubItem("Regionale", tabName = "regional", icon = icon("map")),
+    menuSubItem("Provinciale", tabName = "provincial", icon = icon("location-arrow"))
+  ),
 
   menuItem("Collegamenti esterni", icon = icon("link"),
     menuSubItem("UBEP", icon = icon("signal"),
@@ -67,7 +71,10 @@ dashboard_sidebar <- function() {dashboardSidebar(sidebarMenu(
     )
   ),
 
-  menuItem("Data", tabName = "data_tab", icon = icon("database"))
+  menuItem("Data", tabName = "data_tab", icon = icon("database")),
+
+  mod_info_header_ui("summary_today")
+
 
 ))}
 
