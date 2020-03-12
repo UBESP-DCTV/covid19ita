@@ -8,9 +8,13 @@
 #'
 #' @importFrom shiny NS tagList titlePanel fluidRow h1 h2 h3
 #' @importFrom plotly plotlyOutput
-mod_ts_ita_ui <- function(id){
+mod_ts_ita_ui <- function(id, title, width = 12){
   ns <- NS(id)
-  fluidRow(plotlyOutput(ns("ts_plot")))
+  fluidRow(
+    box(title = title, width = width,
+      plotlyOutput(ns("ts_plot"))
+    )
+  )
 }
 
 #' ts_ita Server Function
@@ -66,7 +70,7 @@ mod_ts_ita_server <- function(id, type = c("cum", "inc")) {
     scale_x_date(date_breaks = "1 day", date_labels = "%b %d") +
     scale_colour_discrete(name = "Misura") +
     theme(
-      axis.text.x = element_text(angle = 90, hjust = 1, vjust = 0.5)
+      axis.text.x = element_text(angle = 60, hjust = 1, vjust = 0.5)
     )
 
   callModule(id = id, function(input, output, session) {

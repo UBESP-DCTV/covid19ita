@@ -111,7 +111,7 @@ mod_ts_reg_server <- function(id, type = c("cum", "inc"), color_var = c("measure
         scale_x_date(date_breaks = "1 day", date_labels = "%b %d") +
         scale_colour_discrete(name = color_name) +
         theme(
-          axis.text.x = element_text(angle = 90, hjust = 1, vjust = 0.5),
+          axis.text.x = element_text(angle = 60, hjust = 1, vjust = 0.5),
           panel.spacing.y = unit(2, "lines")
         )
 
