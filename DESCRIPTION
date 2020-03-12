@@ -1,6 +1,6 @@
 Package: covid19ita
 Title: Covid-19 - Italy
-Version: 0.5.3
+Version: 0.5.4
 Authors@R: 
     c(person(given = "Corrado",
              family = "Lanera",

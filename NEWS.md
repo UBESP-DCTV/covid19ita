@@ -1,3 +1,5 @@
+# covid19ita 0.5.4
+
 * Add plot for regional intensive care
 * Addedl `last_data_update` internal object
 * Added info summary module for sidebar
