@@ -28,6 +28,7 @@ golem::add_module(name = "ts_reg") # Name of the module
 golem::add_module(name = "ts_prv") # Name of the module
 golem::add_module(name = "prev_pb") # Name of the module
 golem::add_module(name = "info_header") # Name of the module
+golem::add_module(name = "intensive_care") # Name of the module
 
 ## Add helper functions ----
 ## Creates ftc_* and utils_*

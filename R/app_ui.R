@@ -90,6 +90,23 @@ dashboard_sidebar <- function() {dashboardSidebar(sidebarMenu(
 #' @noRd
 dashboard_body <- function() {dashboardBody(tabItems(
 
+  tabItem(tabName = "impact",
+
+    h2("Interventi nazionali"),
+
+    h2("Terapie intensive"),
+
+    fluidRow(
+      box(
+        title = "Andamento e soglie di occupazione delle terapie intensive",
+        width = 12,
+        mod_intensive_care_ui("intensive")
+      )
+    )
+
+  ),
+
+
   tabItem(tabName = "national",
     # List the first level UI elements here
     # `box()`es must be included in `fluidRow()`s
