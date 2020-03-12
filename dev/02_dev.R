@@ -26,11 +26,14 @@ usethis::use_package("plotly")
 golem::add_module(name = "ts_ita") # Name of the module
 golem::add_module(name = "ts_reg") # Name of the module
 golem::add_module(name = "ts_prv") # Name of the module
+golem::add_module(name = "prev_pb") # Name of the module
+golem::add_module(name = "info_header") # Name of the module
 
 ## Add helper functions ----
 ## Creates ftc_* and utils_*
 golem::add_fct("download_dpc")
 golem::add_utils("helpers")
+golem::add_utils("render_box_using")
 
 ## Update package documentation and namespace
 devtools::document(roclets = c('rd', 'collate', 'namespace'))
