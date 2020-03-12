@@ -1,3 +1,4 @@
+* added impact plots for Veneto region
 * removed first page regional intensive care
 
 # covid19ita 0.5.4

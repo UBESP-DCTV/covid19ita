@@ -11,6 +11,9 @@ app_server <- function(input, output, session) {
     mod_info_sidebar_server("summary_today")
 
     ## Impact
+    mod_impact_veneto_a_server("smooth_linear")
+    mod_impact_veneto_b_server("loess_veneto", "loess")
+    mod_impact_veneto_b_server("gam_veneto", "gam")
 
     ## National
     mod_ts_ita_server("ts_nat_cum", "cum")

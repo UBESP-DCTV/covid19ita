@@ -23,11 +23,12 @@ usethis::use_package("plotly")
 
 ## Add modules ----
 ## Create a module infrastructure in R/
-golem::add_module(name = "ts_ita") # Name of the module
-golem::add_module(name = "ts_reg") # Name of the module
-golem::add_module(name = "ts_prv") # Name of the module
-golem::add_module(name = "prev_pb") # Name of the module
-golem::add_module(name = "info_header") # Name of the module
+golem::add_module(name = "ts_ita")
+golem::add_module(name = "ts_reg")
+golem::add_module(name = "ts_prv")
+golem::add_module(name = "impact_veneto_a")
+golem::add_module(name = "impact_veneto_b")
+golem::add_module(name = "info_header")
 
 ## Add helper functions ----
 ## Creates ftc_* and utils_*
