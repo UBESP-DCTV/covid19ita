@@ -1,4 +1,4 @@
-#' info_header UI Function
+#' info_sidebar UI Function
 #'
 #' @description A shiny Module.
 #'
@@ -7,7 +7,7 @@
 #' @noRd
 #'
 #' @importFrom shiny NS tagList
-mod_info_header_ui <- function(id) {
+mod_info_sidebar_ui <- function(id) {
   ns <- NS(id)
 
   tagList(
@@ -25,10 +25,10 @@ mod_info_header_ui <- function(id) {
   )
 }
 
-#' info_header Server Function
+#' info_sidebar Server Function
 #'
 #' @noRd
-mod_info_header_server <- function(id) {
+mod_info_sidebar_server <- function(id) {
   callModule(id = id, function(input, output, session) {
     ns <- session$ns
 
@@ -86,8 +86,8 @@ mod_info_header_server <- function(id) {
 }
 
 ## To be copied in the UI
-# mod_info_header_ui("info_header_ui_1")
+# mod_info_sidebar_ui("info_sidebar_ui_1")
 
 ## To be copied in the server
-# callModule(mod_info_header_server, "info_header_ui_1")
+# callModule(mod_info_sidebar_server, "info_sidebar_ui_1")
 
