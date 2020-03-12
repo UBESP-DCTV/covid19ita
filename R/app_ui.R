@@ -204,8 +204,9 @@ dashboard_body <- function() {dashboardBody(tabItems(
   tabItem(tabName = "credits",
     h2("Persone"),
     p(""),
+
     h2("Software"),
-    p("L'applicazione covid19ita sono stati sviluppati come un pacchetto di espansione di R in R ver. 3.6.3, principalmente utilizzando i suoi pacchetti di espansione {shiny} ver. 1.4.0, e {golem} ver. 0.2.1."),
+    p("L'applicazione covid19ita sono stati sviluppati come un pacchetto di espansione di R in R ver. 3.6.3, principalmente utilizzando i suoi pacchetti di espansione {shiny} ver. 1.4.0, {shinydashboard} v.0.7.1 e {golem} ver. 0.2.1."),
     p("Le analisi sono state eseguite sfruttando principalmente i pacchetti {stats} ver. 3.6.3, e {gam} ver. 1.16.1"),
     p("I grafici sono stati prodotti grazie principalmente ai pacchetti {ggplot2} ver. 3.3.0 e {plotly} ver. 4.9.2.")
 

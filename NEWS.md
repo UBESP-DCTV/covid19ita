@@ -1,3 +1,5 @@
+* added credits to R packages
+
 # covid19ita 0.6.0
 
 * added impact plots for Veneto region
