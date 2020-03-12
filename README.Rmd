@@ -58,7 +58,7 @@ The package provide R versions of the three [official Italian COVID-19
 datasets](https://github.com/pcm-dpc/COVID-19/) at national, regional
 and provincial level of detail.
 
-**Last data update**: `r file.mtime(here::here("data/dpc_covid19_ita_andamento_nazionale.rda"))`.
+**Last data update**: `r covid19ita:::last_data_update`.
 
 
 Access the data with:
