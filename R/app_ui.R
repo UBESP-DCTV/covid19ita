@@ -115,16 +115,10 @@ dashboard_body <- function() {dashboardBody(tabItems(
     ),
     fluidRow(
       box(width = 6,
-        p("Il grafico mostra il numero di nuovi casi registrati giornalmente a partire dal 24 febbraio con una tendenza che mostra un incremento del numero di nuovi casi a partire dalla giornata del 6 marzo"),
-        p("La curva rossa mostra i casi osservati e la curva blu i casi previsti considerando i dati osservati fino alla giornata del 2 marzo (giornata a partire dalla quale si assume siano osservabili gli effetti dei provvedimenti varati col Decreto Legge del 23/02/2020)."),
-        p("In altre parole, la curva blu mostra come si stima sarebbe progredito il contagio se non fossero state introdotte delle misure di contenimento dell’epidemia. Lo spazio che separa le due curve rappresenta il numero di casi risparmiati grazie all’introduzione delle misure di contenimento.")
+        p("Comments")
       ),
       box(
-        p("I casi osservati e previsti sono stati modellati considerando un andamento esponenziale degli stessi."),
-        p("La linea rossa mostra i casi osservati e la linea blu i casi previsti considerando i dati osservati fino alla giornata del 2 marzo (giornata a partire dalla quale si assume siano osservabili gli effetti dei provvedimenti varati col Decreto Legge del 23/02/2020)."),
-        p("Come si può notare, la linea blu e la linea rossa si sovrappongono fino al 2 marzo. A partire da quella data si inizia ad osservare un guadagno in termini di casi risparmiati che nel grafico è rappresentato dal progressivo aumento della distanza tra le due curve."),
-        p("I casi osservati e previsti sono stati modellati considerando un andamento lineare degli stessi."),
-        p("Nel primo caso si ipotizza un andamento esponenziale dei casi totali e nel secondo caso un andamento lineare dei casi totali."),
+        p("Comments"),
       )
     )
 

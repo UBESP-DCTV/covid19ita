@@ -47,13 +47,13 @@ mod_impact_veneto_b_server <- function(id, type = c("loess", "gam")) {
 
   db_pred <- switch(type,
     loess = {
-      fit_loess <- loess(totale_casi ~ days,
+      fit_loess <- stats::loess(totale_casi ~ days,
         data    = veneto_0,
-        control = loess.control(surface = "direct")
+        control = stats::loess.control(surface = "direct")
       )
       data.frame(
         day = veneto$days,
-        totale_casi = predict(fit_loess, new_data),
+        totale_casi = stats::predict(fit_loess, new_data),
         series = 'previsione'
       )
     },

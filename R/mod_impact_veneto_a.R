@@ -46,7 +46,7 @@ mod_impact_veneto_a_server <- function(id) {
         geom_smooth(
           data = dplyr::filter(veneto, .data$data <= cut_date),
           colour = "blue",
-          method = lm,
+          method = stats::lm,
           fullrange = TRUE,
           linetype = "dashed"
         ) +
