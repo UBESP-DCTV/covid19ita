@@ -36,6 +36,12 @@ if (all(are_ok)) {
     overwrite = TRUE
   )
 
+  last_data_update <- lubridate::now()
+  usethis::use_data(last_data_update,
+    internal = TRUE,
+    overwrite = TRUE
+  )
+
 } else {
   usethis::ui_oops("Some download had error. No data are imported in the package.")
 }
