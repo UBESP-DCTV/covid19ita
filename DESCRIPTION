@@ -50,8 +50,7 @@ Imports:
     dplyr (>= 0.8.5),
     tidyr (>= 1.0.2),
     usethis (>= 1.5.1),
-    lifecycle (>= 0.2.0),
-    ggrepel
+    lifecycle (>= 0.2.0)
 Suggests: 
     testthat (>= 2.1.0),
     covr (>= 3.5.0),

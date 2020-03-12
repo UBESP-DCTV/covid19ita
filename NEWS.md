@@ -1,3 +1,5 @@
+* removed first page regional intensive care
+
 # covid19ita 0.5.4
 
 * Add plot for regional intensive care

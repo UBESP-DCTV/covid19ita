@@ -92,17 +92,13 @@ dashboard_body <- function() {dashboardBody(tabItems(
 
   tabItem(tabName = "impact",
 
-    h2("Interventi nazionali"),
+    h2("Preambolo"),
 
-    h2("Terapie intensive"),
+    h2("A"),
 
-    fluidRow(
-      box(
-        title = "Andamento e soglie di occupazione delle terapie intensive",
-        width = 12,
-        mod_intensive_care_ui("intensive")
-      )
-    )
+    h2("B"),
+
+    h2("C")
 
   ),
 
@@ -183,7 +179,7 @@ dashboard_body <- function() {dashboardBody(tabItems(
     div(
       p(
         "Per informazioni sulla loro attribuzione, disponibilita, e uso, visitare la",
-        a(href = 'https://github.com/UBESP-DCTV/covid19ita/', target="_blank", "pagina del progetto covid19ita.")
+        a(href = 'https://github.com/UBESP-DCTV/covid19ita/', target = "_blank", "pagina del progetto covid19ita.")
       ),
     )
   )

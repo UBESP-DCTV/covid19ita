@@ -11,7 +11,6 @@ app_server <- function(input, output, session) {
     mod_info_sidebar_server("summary_today")
 
     ## Impact
-    mod_intensive_care_server("intensive")
 
     ## National
     mod_ts_ita_server("ts_nat_cum", "cum")
