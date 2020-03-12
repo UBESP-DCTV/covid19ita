@@ -15,7 +15,7 @@ mod_ts_reg_ui <- function(id){
       column(6,
         shiny::selectInput(ns("whichRegion"),  "Selezionare le regioni da visualizzare",
           choices  = regions(),
-          selected = c("Lombardia", "Veneto"),
+          selected = "Veneto",
           multiple = TRUE,
           width = "100%"
         )
