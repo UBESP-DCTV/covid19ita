@@ -15,6 +15,7 @@ mod_ts_prv_ui <- function(id){
       column(12,
         shiny::selectInput(ns("whichProvince"),  "Selezionare le province da visualizzare",
           choices  = provinces(),
+          selected = c("Belluno", "Padova", "Rovigo", "Treviso", "Verona", "Vicenza"),
           multiple = TRUE,
           width = "100%"
         )
@@ -49,6 +50,7 @@ mod_ts_prv_server <- function(id, type = c("cum", "inc")) {
 
       if (type == "inc") {
         data_tmp <- data_tmp %>%
+          dplyr::group_by(.data$denominazione_provincia) %>%
           dplyr::arrange(.data$data) %>%
           dplyr::mutate(
             totale_casi = .data$totale_casi -
