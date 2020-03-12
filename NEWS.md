@@ -1,9 +1,14 @@
+* Add plot for regional intensive care
+* Addedl `last_data_update` internal object
+* Added info summary module for sidebar
+* Fix delta computation events provincial level
+* Added @berkeley3, and G. Lorenzoni to contributors
+* Added module for impact predictive models (Veneto region)
+
 # covid19ita 0.5.3
 
-# covid19ita 0.5.2
-
-* data update
-* restored original `appveyor.yml` (from `{usethis}`)
+* Data update
+* Restored original `appveyor.yml` (from `{usethis}`)
 * Added ORCID to `DESCRIPTION`
 
 # covid19ita 0.5.1
