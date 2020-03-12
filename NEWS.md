@@ -1,3 +1,5 @@
+# covid19ita 0.6.1
+
 * fix encoding issues
 * added credits to R packages
 
