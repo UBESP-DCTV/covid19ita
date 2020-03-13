@@ -1,3 +1,6 @@
+* fix internal data saving
+* Add help for plottly
+
 # covid19ita 0.6.1
 
 * fix encoding issues
