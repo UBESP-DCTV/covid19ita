@@ -1,3 +1,5 @@
+# covid19ita 0.6.2
+
 * fix internal data saving
 * Add help for plottly
 
