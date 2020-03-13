@@ -1,3 +1,5 @@
+# covid19ita 0.7.1
+
 * fix google analytics tag
 
 # covid19ita 0.7.0
