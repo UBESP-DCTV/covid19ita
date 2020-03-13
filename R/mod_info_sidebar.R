@@ -12,9 +12,13 @@ mod_info_sidebar_ui <- function(id) {
 
   tagList(
     selectInput(
-      ns("who"), label = glue::glue("Oggi ({as.Date(last_data_update)}) in:"),
+      ns("who"),
+      label = HTML(glue::glue("
+        --------</br>
+        <strong>Visualizzati qui sotto i dati dell'ultimo aggiornamento da (selezionare)</strong>:
+      ")),
       choices  = c("Italia", regions()),
-      selected = "Veneto"
+      selected = "Italia"
     ),
 
     fluidRow(valueBoxOutput(ns("totalTest"))),
