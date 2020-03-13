@@ -1,5 +1,6 @@
 # covid19ita 0.7.1
 
+* default for Italy
 * fix google analytics tag
 
 # covid19ita 0.7.0
