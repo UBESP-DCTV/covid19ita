@@ -84,8 +84,9 @@ dashboard_sidebar <- function() {dashboardSidebar(sidebarMenu(
 #' @import shiny
 #' @importFrom shinydashboard dashboardBody box
 #' @noRd
-dashboard_body <- function() {dashboardBody(tabItems(
-  tags$head(includeScript("google-analytics.js")),
+dashboard_body <- function() {dashboardBody(
+  tags$head(includeScript(app_sys('app/www/google-analytics.js'))),
+  tabItems(
   tabItem(tabName = "home",
     fluidPage(title = HTML("Progetto <strong>covid19ita</strong>"),
 
