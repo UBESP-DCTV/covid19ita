@@ -29,6 +29,7 @@ golem::add_module(name = "ts_prv")
 golem::add_module(name = "impact_veneto_a")
 golem::add_module(name = "impact_veneto_b")
 golem::add_module(name = "info_header")
+golem::add_module(name = "img_header")
 golem::add_module(name = "help_plot")
 
 

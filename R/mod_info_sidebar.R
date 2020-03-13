@@ -15,10 +15,11 @@ mod_info_sidebar_ui <- function(id) {
       ns("who"),
       label = HTML(glue::glue("
         --------</br>
-        <strong>Visualizzati qui sotto i dati dell'ultimo aggiornamento da (selezionare)</strong>:
+        <strong>Qui sotto i dati al {as.Date(last_data_update)}</strong></br>
+        (Selezionare zona):
       ")),
       choices  = c("Italia", regions()),
-      selected = "Italia"
+      selected = "Veneto"
     ),
 
     fluidRow(valueBoxOutput(ns("totalTest"))),

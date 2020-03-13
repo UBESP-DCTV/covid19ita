@@ -8,6 +8,10 @@ app_server <- function(input, output, session) {
   # List the first level callModules here
 
     ## Header info
+    mod_img_header_server("logo_testa", "Covid19.png")
+    mod_img_header_server("logo_coda_torino", "Torino.png")
+    mod_img_header_server("logo_coda_novara", "Novara.png")
+    mod_img_header_server("logo_coda", "Covid19.png")
     mod_info_sidebar_server("summary_today")
 
     ## Impact
