@@ -1,3 +1,5 @@
+# covid19ita 0.7.2
+
 # covid19ita 0.7.1
 
 * dashboard title page
