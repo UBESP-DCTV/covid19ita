@@ -11,7 +11,7 @@ app_ui <- function(request) {
     # Leave this function for adding external resources
     golem_add_external_resources(),
 
-    dashboardPage(
+    dashboardPage(title = "covid19ita - UBEP",
       # Helpers for dashboard's header and sidebar
       dashboard_header(), dashboard_sidebar(), dashboard_body(),
       # Main dashboard skin colour

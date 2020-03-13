@@ -1,5 +1,6 @@
 # covid19ita 0.7.1
 
+* dashboard title page
 * default for Italy
 * fix google analytics tag
 
