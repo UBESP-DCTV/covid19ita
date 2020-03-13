@@ -48,34 +48,27 @@ dashboard_header <- function() {dashboardHeader(
 #' @importFrom shinydashboard dashboardSidebar sidebarMenu menuItem
 #' @noRd
 dashboard_sidebar <- function() {dashboardSidebar(sidebarMenu(
+  id = "sidebar",
 
   mod_help_plot_ui("help"),
 
-  menuItem(""),
+  menuItem("Home", tabName = "home", icon = icon("home")),
 
-  menuItem("Impatto", tabName = "impact", icon = icon("bullseye")),
+  menuItem("In evidenza", tabName = "focus", icon = icon("bullseye")),
 
-  menuItem("Andamenti", icon = icon("chart-line"),
+  menuItem("Andamento epidemia", icon = icon("chart-line"),
     menuSubItem("Nazionale", tabName = "national", icon = icon("flag")),
     menuSubItem("Regionale", tabName = "regional", icon = icon("map")),
     menuSubItem("Provinciale", tabName = "provincial", icon = icon("location-arrow"))
   ),
 
-  menuItem("Collegamenti esterni", icon = icon("link"),
-    menuSubItem("UBEP", icon = icon("signal"),
-      href = "https://ubesp.jimdofree.com/"
-    ),
-    menuSubItem("Codice sorgente", icon = icon("file-code-o"),
-      href = "https://github.com/UBESP-DCTV/covid19ita/"
-    ),
-    menuSubItem("Segnalazioni", icon = icon("exclamation-triangle"),
-      href = "https://github.com/UBESP-DCTV/covid19ita/issues/"
-    )
+  menuItem("Impatto epidemia", tabName = "impact", icon = icon("compass")),
+
+  menuItem("Segnalazioni", icon = icon("exclamation-triangle"),
+    href = "https://github.com/UBESP-DCTV/covid19ita/issues/"
   ),
 
-  menuItem("Data", tabName = "data_tab", icon = icon("database")),
-
-  menuItem("Crediti", tabName = "credits", icon = icon("user-friends")),
+  menuItem("Fonti e informazioni", tabName = "data_tab", icon = icon("database")),
 
   mod_info_sidebar_ui("summary_today")
 
@@ -93,40 +86,152 @@ dashboard_sidebar <- function() {dashboardSidebar(sidebarMenu(
 #' @noRd
 dashboard_body <- function() {dashboardBody(tabItems(
 
-  tabItem(tabName = "impact",
+  tabItem(tabName = "home",
+    h1("HOME"),
 
-    h1("Impatto delle politiche di contenimento in Veneto"),
-    h2("A"),
-
-    fluidRow(
-      mod_impact_veneto_a_ui("smooth_linear",
-        title = "Variazione di tendenza"
-      )
+    p(HTML("Il progetto <strong>covid19ita</strong> è stato sviluppato dall'"),
+      a(href = 'https://ubesp.jimdofree.com/', target = '_blank', 'Unità di Biostatistica, Epidemiologia, e Salute Pubblica'),
+      " del ", a(href = 'https://www.dctv.unipd.it/', target = '_blank', 'Dipartimento di Scienze Cardio- Toraco- Vascolari e Salute Pubblica'),
+      " dell'", a(href = 'https://www.unipd.it/', target = '_blank', 'Università degli Studi di Padova'), ",",
+      " in collaborazione con il ", a(href = 'https://www.dscb.unito.it/do/gruppi.pl/Tree', target = '_blank', 'Dipartimento di Scienze Cliniche e Biologiche'),
+      " dell'", a(href = 'https://www.unito.it/', target = '_blank', 'Università degli Studi di Torino'), "."
     ),
 
-    h2("B"),
-
-    fluidRow(
-      mod_impact_veneto_b_ui("loess_veneto",
-        title = "Loess",
-        width = 6
-      ),
-      mod_impact_veneto_b_ui("gam_veneto",
-        title = "GAM",
-        6
-      )
+    h2("Coordinamento"),
+    p(HTML("Professor <strong>Dario Gregori</strong>, Ph.D., responsabile dell'Unità di
+       Biostatistica, Epidemiologia e Salute Pubblica del Dipartimento
+       di Scienze Cardio- Toraco- Vascolari e Salute Pubblica --
+       Università degli studi di Padova."),
+      a(href = "https://linkedin.com/in/dario-gregori-2720039", target = "_blank", "LinkedIn")
     ),
-    fluidRow(
-      box(width = 6,
-        p("Comments")
-      ),
-      box(
-        p("Comments"),
-      )
+
+    h2("Sviluppo applicazione e pacchetto R"),
+    p(HTML("<strong>Corrado Lanera</strong>, MS., Unità di
+       Biostatistica, Epidemiologia e Salute Pubblica del Dipartimento
+       di Scienze Cardio- Toraco- Vascolari e Salute Pubblica --
+       Università degli studi di Padova."),
+      a(href = "https://linkedin.com/in/corradolanera", target = "_blank", "LinkedIn")
+    ),
+
+    h2("Valutazione di impatto"),
+    p(HTML("Professoressa <strong>Paola Berchialla</strong>, Ph.D., Dipartimento di Scienze
+      Cliniche e Biologiche -- Università degli Studi di Torino"),
+      a(href = "https://linkedin.com/in/paola-berchialla-36b44410", target = "_blank", "LinkedIn")
+    ),
+    p(HTML("<strong>Giulia Lorenzoni</strong>, Ph.D., Unità di
+       Biostatistica, Epidemiologia e Salute Pubblica del Dipartimento
+       di Scienze Cardio- Toraco- Vascolari e Salute Pubblica --
+       Università degli studi di Padova."),
+      a(href = "https://linkedin.com/in/giulia-lorenzoni-b382a6180", target = "_blank", "LinkedIn")
+    ),
+
+    p(HTML("<strong>Danila Azzolina</strong>, Ph.D., Dipartimento di Medicina Traslazionale --
+      Università del Piemonte Orientale"),
+      a(href = "https://linkedin.com/in/danila-azzolina-862465166", target = "_blank", "LinkedIn")
+    ),
+
+    p(HTML("<strong>Ilaria Prosepe</strong>, MS., Unità di
+       Biostatistica, Epidemiologia e Salute Pubblica del Dipartimento
+       di Scienze Cardio- Toraco- Vascolari e Salute Pubblica --
+       Università degli studi di Padova."),
+      a(href = "https://linkedin.com/in/ilaria-prosepe-1b52371a4", target = "_blank", "LinkedIn")
+    ),
+
+    h2("Responsabile della comunicazione"),
+    p(HTML("<strong>Nicolas Destro</strong>, Unità di
+       Biostatistica, Epidemiologia e Salute Pubblica del Dipartimento
+       di Scienze Cardio- Toraco- Vascolari e Salute Pubblica --
+       Università degli studi di Padova."),
+      a(href = "https://linkedin.com/in/ilaria-prosepe-1b52371a4", target = "_blank", "LinkedIn")
     )
 
+  ),
 
+  tabItem(tabName = "focus",
 
+    h1("Valutazione dell'andamento dell'epidemia in Veneto"),
+#
+#     fluidRow(
+#       mod_impact_veneto_a_ui("smooth_linear",
+#         title = "Figura 1: Andamento nuovi casi",
+#         footer = HTML("
+#           Il grafico mostra il numero di nuovi casi predetti ipotizzando
+#           un andamento lineare fino all'8 marzo (retta tratteggiata blu)
+#           e il numero di nuovi casi reali grezzi (linea verde) e il
+#           loro andamento approssimato (curva rossa).</br>
+#           </br>
+#           <strong>Interpretazione</strong>:</br>
+#           - si osserva una tendenza (curva rossa) che
+#           mostra un incremento del numero di nuovi casi reali a partire
+#           dall'8 marzo, rispetto a quanto atteso ipotizzando un
+#           andamento lineare (retta tratteggiata blu).
+#         ")
+#       )
+#     ),
+#
+#
+#     fluidRow(
+#       mod_impact_veneto_b_ui("loess_veneto",
+#         title = "Figura 2: Andamento casi totali (andamento esponenziale)",
+#         footer = HTML("
+#           Il grafico mostra (curva rossa) i casi totali osservati e
+#           (curva blu) i casi totali predetti considerando i dati
+#           osservati fino al 2 marzo (giornata a partire dalla quale si
+#           ipotizza siano osservabili gli effetti dei provvedimenti
+#           varati col Decreto-legge del 23/02/2020).</br>
+#           I casi totali osservati e predetti sono stati modellati
+#           ipotizzando un andamento esponenziale degli stessi.</br>
+#           </br>
+#           <strong>Interpretazione</strong>:</br>
+#
+#           - La curva blu mostra come si stima sarebbe progredito il
+#             contagio se non fossero state introdotte le misure di
+#             contenimento dell’epidemia in data 23 febbraio</br>
+#           - La curva blu e la curva rossa si sovrappongono fino al
+#             2 marzo (giornata a partire dalla quale si ipotizza siano
+#             osservabili gli effetti dei provvedimenti varati col
+#             Decreto-legge del 23/02/2020)</br>
+# 	        - Lo spazio che separa le due curve a partire dal 2 marzo
+# 	          rappresenta il numero di casi potenzialmente risparmiati
+# 	          grazie all'introduzione delle misure di contenimento in data
+# 	          23 febbraio
+#         "),
+#         width = 6
+#       ),
+#       mod_impact_veneto_b_ui("gam_veneto",
+#         title = "Figura 2: Andamento casi totali (andamento lineare generalizzato)",
+#         footer = HTML("
+#           Il grafico mostra (curva rossa) i casi totali osservati e
+#           (curva blu) i casi totali predetti considerando i dati
+#           osservati fino al 2 marzo (giornata a partire dalla quale si
+#           ipotizza siano osservabili gli effetti dei provvedimenti
+#           varati col Decreto-legge del 23/02/2020).</br>
+#           I casi totali osservati e predetti sono stati modellati
+#           ipotizzando un andamento lineare generalizzato degli stessi.</br>
+#           </br>
+#           <strong>Interpretazione</strong>:</br>
+#
+#           - La curva blu e la curva rossa si sovrappongono fino al
+#             2 marzo (giornata a partire dalla quale si ipotizza siano
+#             osservabili gli effetti dei provvedimenti varati col
+#             Decreto-legge del 23/02/2020)</br>
+#           - A partire dal 2 marzo si inizia a osservare un guadagno in
+#             termini di casi risparmiati che nel grafico è rappresentato
+#             dal progressivo aumento della distanza tra le due curve</br>
+#           - A partire dal 9-10 marzo si osserva un’inversione di
+#             tendenza: si riduce la distanza tra le curve che arrivano a
+#             intersecarsi e successivamente i casi osservati superano
+#             quelli predetti</br>
+#           - Questa inversione di tendenza riflette l’aumento dei nuovi
+#             casi mostrato nella Figura 1</br>
+#           - L’inversione di tendenza si traduce in una perdita del
+#             guadagno di casi risparmiati nella settimana precedente
+#             (2-8 marzo)
+#         "),
+#         6
+#       )
+#     )
+#
   ),
 
 
@@ -192,13 +297,13 @@ dashboard_body <- function() {dashboardBody(tabItems(
   tabItem(tabName = "data_tab",
     h2("Informazioni sui dati"),
 
-    p("L'applicazione utilizza i principali dati ufficiali riguardanti la situazione COVID-19 italiana, a livello nazionale, regionale e provinciale."),
+    p("L'applicazione utilizza i dati ufficiali riguardanti la situazione COVID-19 italiana, a livello nazionale, regionale e provinciale."),
 
     p(
       'Tali dati sono inizialmente gestiti, processati e messi a disposizione dalla ',
       a(href = "http://www.protezionecivile.it/web/guest/home", target = "_blank", "Presidenza del Consiglio dei Ministri - Dipartimento di Protezione Civile"),
       ' con licenza ', a(href = "https://creativecommons.org/licenses/by/4.0/deed.en", target = "_blank", "CC-BY-4.0"),
-      'così come forniti dal ', a(href = "", target = "_blank", "Ministero della Salute,")
+      'così come forniti dal ', a(href = "", target = "_blank", "Ministero della Salute.")
     ),
 
     p('Di norma, i dati sono aggiornati alle ore 18:00 di ogni giorno.'),
@@ -209,6 +314,17 @@ dashboard_body <- function() {dashboardBody(tabItems(
       "."
     ),
 
+    h2("Software"),
+    p(HTML("L'applicazione <strong>covid19ita</strong> è stata sviluppata in R ver. 3.6.3 come un suo pacchetto di espansione. Il codice sorgente del pacchetto e dell'applicazione è liberamente disponibile disponibile su GitHub all'indirizzo "),
+      a(href = 'https://github.com/UBESP-DCTV/covid19ita/', target = '_blank', 'https://github.com/UBESP-DCTV/covid19ita/'), "."
+    ),
+
+    p("Per il suo sviluppo sono stati utilizzati i pacchetti di espansione {shiny} ver. 1.4.0, {shinydashboard} v.0.7.1 e {golem} ver. 0.2.1."),
+
+    p("Le analisi sono state eseguite sfruttando le funzioni dei pacchetti {stats} ver. 3.6.3, e {gam} ver. 1.16.1"),
+
+    p("I grafici sono stati prodotti grazie ai pacchetti {ggplot2} ver. 3.3.0 e {plotly} ver. 4.9.2."),
+
     h3('Nota per gli utilizzatori di R'),
     p(
       'Oltre a questa stessa applicazione in sé (che può essere eseguita localmente installando il pacchetto {covid19ita} ed eseguendo l\'istruzione `run_app()`), ll pacchetto R {covid19ita}, disponibile su ',
@@ -217,37 +333,12 @@ dashboard_body <- function() {dashboardBody(tabItems(
       a(href = "https://creativecommons.org/licenses/by/4.0/deed.en", target = "_blank", "CC-BY-4.0"),
       ', mette a disposizione tali dati, senza alcun processamento ulteriore rispetto a quelli originali, per un loro diretto utilizzo in R.'
     )
+
   ),
 
-  tabItem(tabName = "credits",
-    h2("Persone"),
-    p("Dario Gregori"),
-    p("Paola Berchialla"),
-    p("Corrado Lanera"),
-    p("Giulia Lorenzoni"),
-    p("Nicolas Destro"),
 
-    h2("Istituzioni e Gruppo di lavoro"),
-    p(
-      "Il progetto covid19ita è stato sviluppato dall'",
-      a(href = 'https://ubesp.jimdofree.com/', target = '_blank', 'Unità di Biostatistica, Epidemiologia, e Salute Pubblica'),
-      " del ", a(href = 'https://www.dctv.unipd.it/', target = '_blank', 'Dipartimento di Scienze Cardio- Toraco- Vascolari e Salute Pubblica'),
-      " dell'", a(href = 'https://www.unipd.it/', target = '_blank', 'Università degli Studi di Padova'), ",",
-      " in collaborazione con il ", a(href = 'https://www.dscb.unito.it/do/gruppi.pl/Tree', target = '_blank', 'Dipartimento di Scienze Cliniche e Biologiche'),
-      " dell'", a(href = 'https://www.unito.it/', target = '_blank', 'Università degli Studi di Torino'), "."
-    ),
-
-    h2("Software"),
-    p(
-      "L'applicazione covid19ita è stata sviluppata in R ver. 3.6.3 come un suo pacchetto di espansione, disponibile su GitHub all'indirizzo ",
-      a(href = 'https://github.com/UBESP-DCTV/covid19ita/', target = '_blank', 'https://github.com/UBESP-DCTV/covid19ita/'), "."),
-
-    p("Principalmente, per il suo sviluppo, sono stati utilizzati i pacchetti di espansione {shiny} ver. 1.4.0, {shinydashboard} v.0.7.1 e {golem} ver. 0.2.1."),
-
-    p("Le analisi sono state eseguite sfruttando principalmente i pacchetti {stats} ver. 3.6.3, e {gam} ver. 1.16.1"),
-
-    p("I grafici sono stati prodotti grazie principalmente ai pacchetti {ggplot2} ver. 3.3.0 e {plotly} ver. 4.9.2.")
-
+  tabItem(tabName = "impact",
+    h1("Valutazione dell'andamento dell'epidemia"),
   )
 
 ))}
