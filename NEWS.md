@@ -1,5 +1,7 @@
 # covid19ita 0.7.2
 
+* Added meta title
+
 # covid19ita 0.7.1
 
 * dashboard title page
