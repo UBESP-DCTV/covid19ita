@@ -49,6 +49,8 @@ dashboard_header <- function() {dashboardHeader(
 #' @noRd
 dashboard_sidebar <- function() {dashboardSidebar(sidebarMenu(
 
+  mod_help_plot_ui("help"),
+
   menuItem(""),
 
   menuItem("Impatto", tabName = "impact", icon = icon("bullseye")),
@@ -93,6 +95,7 @@ dashboard_body <- function() {dashboardBody(tabItems(
 
   tabItem(tabName = "impact",
 
+    h1("Impatto delle politiche di contenimento in Veneto"),
     h2("A"),
 
     fluidRow(
@@ -187,21 +190,62 @@ dashboard_body <- function() {dashboardBody(tabItems(
   ),
 
   tabItem(tabName = "data_tab",
-    h2("Data information"),
+    h2("Informazioni sui dati"),
+
     p("L'applicazione utilizza i principali dati ufficiali riguardanti la situazione COVID-19 italiana, a livello nazionale, regionale e provinciale."),
-    div(p(
-      "Per informazioni sulla loro attribuzione, disponibilita, e uso, visitare la",
-      a(href = 'https://github.com/UBESP-DCTV/covid19ita/', target = "_blank", "pagina del progetto covid19ita.")
-    ))
+
+    p(
+      'Tali dati sono inizialmente gestiti, processati e messi a disposizione dalla ',
+      a(href = "http://www.protezionecivile.it/web/guest/home", target = "_blank", "Presidenza del Consiglio dei Ministri - Dipartimento di Protezione Civile"),
+      ' con licenza ', a(href = "https://creativecommons.org/licenses/by/4.0/deed.en", target = "_blank", "CC-BY-4.0"),
+      'così come forniti dal ', a(href = "", target = "_blank", "Ministero della Salute,")
+    ),
+
+    p('Di norma, i dati sono aggiornati alle ore 18:00 di ogni giorno.'),
+
+    p(
+      "Per ulteriori informazioni sulla loro attribuzione, disponibilita, e uso, si consiglia di visitare la",
+      a(href = 'https://github.com/UBESP-DCTV/covid19ita/', target = "_blank", "pagina del progetto covid19ita"),
+      "."
+    ),
+
+    h3('Nota per gli utilizzatori di R'),
+    p(
+      'Oltre a questa stessa applicazione in sé (che può essere eseguita localmente installando il pacchetto {covid19ita} ed eseguendo l\'istruzione `run_app()`), ll pacchetto R {covid19ita}, disponibile su ',
+      a(href = 'https://github.com/UBESP-DCTV/covid19ita/', target = '_blank', 'GitHub'),
+      ' e sviluppato anch\'esso sotto licenza ',
+      a(href = "https://creativecommons.org/licenses/by/4.0/deed.en", target = "_blank", "CC-BY-4.0"),
+      ', mette a disposizione tali dati, senza alcun processamento ulteriore rispetto a quelli originali, per un loro diretto utilizzo in R.'
+    )
   ),
 
   tabItem(tabName = "credits",
     h2("Persone"),
-    p(""),
+    p("Dario Gregori"),
+    p("Paola Berchialla"),
+    p("Corrado Lanera"),
+    p("Giulia Lorenzoni"),
+    p("Nicolas Destro"),
+
+    h2("Istituzioni e Gruppo di lavoro"),
+    p(
+      "Il progetto covid19ita è stato sviluppato dall'",
+      a(href = 'https://ubesp.jimdofree.com/', target = '_blank', 'Unità di Biostatistica, Epidemiologia, e Salute Pubblica'),
+      " del ", a(href = 'https://www.dctv.unipd.it/', target = '_blank', 'Dipartimento di Scienze Cardio- Toraco- Vascolari e Salute Pubblica'),
+      " dell'", a(href = 'https://www.unipd.it/', target = '_blank', 'Università degli Studi di Padova'), ",",
+      " in collaborazione con il ", a(href = 'https://www.dscb.unito.it/do/gruppi.pl/Tree', target = '_blank', 'Dipartimento di Scienze Cliniche e Biologiche'),
+      " dell'", a(href = 'https://www.unito.it/', target = '_blank', 'Università degli Studi di Torino'), "."
+    ),
 
     h2("Software"),
-    p("L'applicazione covid19ita sono stati sviluppati come un pacchetto di espansione di R in R ver. 3.6.3, principalmente utilizzando i suoi pacchetti di espansione {shiny} ver. 1.4.0, {shinydashboard} v.0.7.1 e {golem} ver. 0.2.1."),
+    p(
+      "L'applicazione covid19ita è stata sviluppata in R ver. 3.6.3 come un suo pacchetto di espansione, disponibile su GitHub all'indirizzo ",
+      a(href = 'https://github.com/UBESP-DCTV/covid19ita/', target = '_blank', 'https://github.com/UBESP-DCTV/covid19ita/'), "."),
+
+    p("Principalmente, per il suo sviluppo, sono stati utilizzati i pacchetti di espansione {shiny} ver. 1.4.0, {shinydashboard} v.0.7.1 e {golem} ver. 0.2.1."),
+
     p("Le analisi sono state eseguite sfruttando principalmente i pacchetti {stats} ver. 3.6.3, e {gam} ver. 1.16.1"),
+
     p("I grafici sono stati prodotti grazie principalmente ai pacchetti {ggplot2} ver. 3.3.0 e {plotly} ver. 4.9.2.")
 
   )

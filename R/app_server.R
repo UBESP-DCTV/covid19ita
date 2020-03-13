@@ -15,6 +15,9 @@ app_server <- function(input, output, session) {
     mod_impact_veneto_b_server("loess_veneto", "loess")
     mod_impact_veneto_b_server("gam_veneto", "gam")
 
+    ## plottply help
+    mod_help_plot_server("help")
+
     ## National
     mod_ts_ita_server("ts_nat_cum", "cum")
     mod_ts_ita_server("ts_nat_inc", "inc")
