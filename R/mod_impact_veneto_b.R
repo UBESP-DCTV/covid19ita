@@ -7,10 +7,10 @@
 #' @noRd
 #'
 #' @importFrom shiny NS tagList
-mod_impact_veneto_b_ui <- function(id, title, width = 12){
+mod_impact_veneto_b_ui <- function(id, title, footer = NULL, width = 12){
   ns <- NS(id)
 
-  box(title = title, width = width,
+  box(title = title, footer = footer, width = width,
     plotOutput(ns("gg"))
   )
 
