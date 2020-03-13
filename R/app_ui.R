@@ -11,7 +11,7 @@ app_ui <- function(request) {
     # Leave this function for adding external resources
     golem_add_external_resources(),
 
-    dashboardPage(title = "COVID-19 - Italia",
+    dashboardPage(title = " COVID-19 - Italia ",
       # Helpers for dashboard's header and sidebar
       dashboard_header(), dashboard_sidebar(), dashboard_body(),
       # Main dashboard skin colour
@@ -425,7 +425,7 @@ golem_add_external_resources <- function(){
     favicon(),
     bundle_resources(
       path = app_sys('app/www'),
-      app_title = 'covid19ita',
+      app_title = ' {covid19ita} ',
       meta = list(title = "COVID-19 - Italy")
     )
     # Add here other external resources
