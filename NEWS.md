@@ -1,3 +1,5 @@
+* Data update
+
 # covid19ita 0.7.2
 
 * Added meta title
