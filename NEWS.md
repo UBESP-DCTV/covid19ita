@@ -1,3 +1,6 @@
+* minor fix to pass CMD
+* Added metadata for social link sharing
+
 # covid19ita 0.8.0
 
 * Added content for "In evidenza"
@@ -40,7 +43,7 @@
 # covid19ita 0.5.4
 
 * Add plot for regional intensive care
-* Addedl `last_data_update` internal object
+* Added `last_data_update` internal object
 * Added info summary module for sidebar
 * Fix delta computation events provincial level
 * Added @berkeley3, and G. Lorenzoni to contributors

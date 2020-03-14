@@ -109,7 +109,7 @@ mod_focus_20200314_server <- function(id, region = "Veneto") {
 
   regione <- dpc_covid19_ita_regioni %>%
     dplyr::filter(
-      denominazione_regione == region,
+      .data$denominazione_regione == region,
       (.data$data <= lubridate::ymd('2020-03-12'))
     ) %>%
     dplyr::mutate(
@@ -173,10 +173,10 @@ mod_focus_20200314_server <- function(id, region = "Veneto") {
   ## FIG 1
 
   gg_fig_1 <- db_pred_loess %>%
-    ggplot(aes(x = .data$day, y = .data$totale_casi, colour = series)) +
+    ggplot(aes(x = .data$day, y = .data$totale_casi, colour = .data$series)) +
     geom_smooth() + geom_point(data = db_true_loess) +
-    geom_line(aes(day, lower)) +
-    geom_line(aes(day, upper)) +
+    geom_line(aes(x = .data$day, y = .data$lower)) +
+    geom_line(aes(x = .data$day, y = .data$upper)) +
     labs(title = "", x = "Giorno", y = "Totale casi") +
     scale_x_datetime(date_breaks = "1 day", date_labels = "%d %b") +
     scale_y_continuous(breaks = seq(0, 2000, 200)) +

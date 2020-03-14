@@ -17,8 +17,26 @@ app_ui <- function(request) {
       # Main dashboard skin colour
       skin = "red"
     )
-
   )
+
+  metathis::meta() %>%
+    metathis::meta_social(
+      title = "{covid19ita} App",
+      description = "Piattaforma di monitoraggio e analisi dell'infezione da COVID-19 in Italia.",
+      url = "https://r-ubesp.dctv.unipd.it/shiny/covid19ita/",
+      image = app_sys('app/www/ubep_covid.png'),
+      image_alt = "Emergenza COVID-19 ITA",
+      twitter_creator = "@CorradoLanera",
+      twitter_card_type = "summary",
+      twitter_site = "@ubesppadova",
+      og_locale = "it_IT",
+      og_author = c(
+        "Corrado L.", "Dario G.", "Paola B.", "Danila A.", "Giulia L.",
+        "Ilaria P.", "Nicolas D."
+      ),
+      og_site_name = "covid19ita"
+  )
+
 }
 
 
@@ -426,11 +444,9 @@ golem_add_external_resources <- function(){
     favicon(),
     bundle_resources(
       path = app_sys('app/www'),
-      app_title = ' {covid19ita} ',
-      meta = list(title = "COVID-19 - Italy")
+      app_title = ' {covid19ita} '
     )
     # Add here other external resources
     # for example, you can add shinyalert::useShinyalert()
   )
 }
-
