@@ -1,3 +1,5 @@
+# covid19ita 0.8.0
+
 * Added content for "In evidenza"
 * Added modules for insights 202003214
 
