@@ -35,4 +35,8 @@ app_server <- function(input, output, session) {
     ## Provincial
     mod_ts_prv_server("ts_prv_cum", "cum")
     mod_ts_prv_server("ts_prv_inc", "inc")
+
+
+    ## In evidenza
+    mod_focus_20200314_server("dapb")
 }

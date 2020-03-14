@@ -62,7 +62,7 @@ dashboard_sidebar <- function() {dashboardSidebar(sidebarMenu(
     menuSubItem("Provinciale", tabName = "provincial", icon = icon("location-arrow"))
   ),
 
-  menuItem("Impatto epidemia", tabName = "impact", icon = icon("compass")),
+  menuItem("Indici principali", tabName = "impact", icon = icon("compass")),
 
   menuItem("Segnalazioni", icon = icon("exclamation-triangle"),
     href = "https://github.com/UBESP-DCTV/covid19ita/issues/"
@@ -210,7 +210,8 @@ dashboard_body <- function() {dashboardBody(
 
   tabItem(tabName = "focus",
 
-    h1("Valutazione dell'andamento dell'epidemia in Veneto"),
+    h1("Possibile effetto delle politiche sanitarie in Veneto"),
+    mod_focus_20200314_ui("dapb")
 #
 #     fluidRow(
 #       mod_impact_veneto_a_ui("smooth_linear",
@@ -399,7 +400,7 @@ dashboard_body <- function() {dashboardBody(
 
 
   tabItem(tabName = "impact",
-    h1("Valutazione dell'andamento dell'epidemia"),
+    h1("Indici principali"),
   )
 
 ))}

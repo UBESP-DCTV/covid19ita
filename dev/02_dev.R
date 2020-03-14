@@ -31,6 +31,7 @@ golem::add_module(name = "impact_veneto_b")
 golem::add_module(name = "info_header")
 golem::add_module(name = "img_header")
 golem::add_module(name = "help_plot")
+golem::add_module(name = "focus_20200314")
 
 
 ## Add helper functions ----
@@ -38,6 +39,10 @@ golem::add_module(name = "help_plot")
 golem::add_fct("download_dpc")
 golem::add_utils("helpers")
 golem::add_utils("render_box_using")
+golem::add_utils("extract_ci_from_gg_txt")
+
+
+
 
 ## Update package documentation and namespace
 devtools::document(roclets = c('rd', 'collate', 'namespace'))
