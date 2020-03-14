@@ -1,3 +1,5 @@
+# covid19ita 0.8.1
+
 * minor fix to pass CMD
 * Added metadata for social link sharing
 
