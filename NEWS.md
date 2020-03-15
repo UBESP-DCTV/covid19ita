@@ -1,6 +1,8 @@
+* duplicated files for English version (#4)
+
 # covid19ita 0.10.1
 
-* Currento positive to the sidebar
+* Current positive to the sidebar
 
 # covid19ita 0.10.0
 
@@ -8,7 +10,7 @@
 * Added contribution
 * note landscape for non-PC devices
 * minor label update
-* data update (and fix (#4))
+* data update (and fix (#3))
 * incorporate `selectize = TRUE` in the option for choices
 * removed old modules impact veneto
 
