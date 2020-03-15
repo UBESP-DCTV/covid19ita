@@ -1,3 +1,5 @@
+* Currento positive to the sidebar
+
 # covid19ita 0.10.0
 
 * minor to fix CMD notes

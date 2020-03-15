@@ -25,6 +25,7 @@ mod_info_sidebar_ui <- function(id) {
 
     fluidRow(valueBoxOutput(ns("totalTest"))),
     fluidRow(valueBoxOutput(ns("totalCases"))),
+    fluidRow(valueBoxOutput(ns("currentPositives"))),
     fluidRow(valueBoxOutput(ns("intensiveCare"))),
     fluidRow(valueBoxOutput(ns("totalDeath"))),
     fluidRow(valueBoxOutput(ns("totalRecovered")))
@@ -55,15 +56,22 @@ mod_info_sidebar_server <- function(id) {
 
     output$totalTest <- renderValueBox({
       valueBox(subtitle = "Tamponi effettuati", icon = icon("info-circle"),
-        color = "purple",# fill = TRUE,
+        color = "aqua",# fill = TRUE,
         value = data_to_use()[["tamponi"]]
       )
     })
 
     output$totalCases <- renderValueBox({
-      valueBox(subtitle = "Contagiati accertati", icon = icon("info-circle"),
-        color = "orange",# fill = TRUE,
+      valueBox(subtitle = "Contagiati accertati totali", icon = icon("info-circle"),
+        color = "purple",# fill = TRUE,
         value = data_to_use()[["totale_casi"]]
+      )
+    })
+
+    output$currentPositives <- renderValueBox({
+      valueBox(subtitle = "Attualmente positivi", icon = icon("info-circle"),
+        color = "orange",# fill = TRUE,
+        value = data_to_use()[["totale_attualmente_positivi"]]
       )
     })
 
