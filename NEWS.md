@@ -1,3 +1,9 @@
+* note landscape for non-PC devices
+* minor label update
+* data update (and fix (#4))
+* incorporate `selectize = TRUE` in the option for choices
+* removed old modules impact veneto
+
 # covid19ita 0.9.0
 
 * Fixed typo in UI (issue #1)

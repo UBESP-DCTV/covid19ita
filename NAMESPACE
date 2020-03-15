@@ -3,7 +3,6 @@
 export("%>%")
 export(download_dpc)
 export(run_app)
-import(gam)
 import(ggplot2)
 import(shiny)
 import(shinydashboard)
