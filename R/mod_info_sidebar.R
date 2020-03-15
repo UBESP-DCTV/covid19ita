@@ -19,6 +19,7 @@ mod_info_sidebar_ui <- function(id) {
         (Selezionare zona):
       ")),
       choices  = c("Italia", regions()),
+      selectize = TRUE,
       selected = "Italia"
     ),
 

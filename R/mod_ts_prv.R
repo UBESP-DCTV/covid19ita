@@ -15,6 +15,7 @@ mod_ts_prv_ui <- function(id){
       column(12,
         shiny::selectInput(ns("whichProvince"),  "Selezionare le province da visualizzare",
           choices  = provinces(),
+          selectize = TRUE,
           selected = c("Belluno", "Padova", "Rovigo", "Treviso", "Verona", "Vicenza"),
           multiple = TRUE,
           width = "100%"
