@@ -32,6 +32,7 @@ golem::add_module(name = "info_header")
 golem::add_module(name = "img_header")
 golem::add_module(name = "help_plot")
 golem::add_module(name = "focus_20200314")
+golem::add_module(name = "ind_ita")
 
 
 ## Add helper functions ----

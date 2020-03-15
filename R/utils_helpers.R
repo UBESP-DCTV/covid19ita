@@ -1,3 +1,7 @@
+nations <- function() {
+  sort(unique(dpc_covid19_ita_andamento_nazionale$stato))
+}
+
 regions <- function() {
   sort(unique(dpc_covid19_ita_regioni$denominazione_regione))
 }

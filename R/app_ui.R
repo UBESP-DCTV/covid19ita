@@ -175,7 +175,7 @@ dashboard_body <- function() {dashboardBody(
             <li><strong>Home</strong>: Questa pagina.</li>
             <li><strong>In evidenza</strong>: Principali considerazioni per la regione Veneto.</li>
             <li><strong>Andamento epidemia</strong>: Serie temporali dinamiche e interattive.</li>
-            <li><strong>Impatto epidemia</strong>: modelli e previsioni regionali e nazionali.</li>
+            <li><strong>Indici principali</strong>: modelli e previsioni regionali e nazionali.</li>
             <li><strong>Segnalazioni</strong>: link per segnalazioni tecniche relative all'applicazione.</li>
             <li><strong>Fonti e informazioni</strong>: Descrizione fonti, licenze d'uso e software utilizzati per lo sviluppo.</li>
             <li><strong>Metriche ultima giornata</strong>: Selezionando una regione (o 'Italia', default) vengono visualizzate le principali metriche dell'ultimo aggiornamento dati, che normalmente avviene alle ore 18 da parte della protezione civile.</li>
@@ -190,116 +190,18 @@ dashboard_body <- function() {dashboardBody(
           p(HTML("2. <strong>rispetto a quali/quante informazioni elaborare e riportare</strong>: In caso compaiano delle celle sopra il grafico in cui poter selezionare <strong>regioni, province o misure, è possibile sia escluderne che aggiungerne</strong> di ulteriori (tra quelle disponibili selezionando il riquadro). Una volta selezionato o deselezionato quanto di interesse, i grafici si aggiorneranno moltiplicandosi o riducendosi, così come moltiplicando o riducento le infornmazioni contenute in ciascuno di essi.")),
       ),
 
-
-
-
     )
-
-    # fluidRow(
-    #   box(width = 6, solidHeader = TRUE,
-    #     mod_img_header_ui("logo_coda_torino")
-    #   ),
-    #   box(width = 6, solidHeader = TRUE,
-    #     mod_img_header_ui("logo_coda_novara")
-    #   )
-    # )
-
 
   ),
 
   tabItem(tabName = "focus",
-
     h1("Possibile effetto delle politiche sanitarie in Veneto"),
     mod_focus_20200314_ui("dapb")
-#
-#     fluidRow(
-#       mod_impact_veneto_a_ui("smooth_linear",
-#         title = "Figura 1: Andamento nuovi casi",
-#         footer = HTML("
-#           Il grafico mostra il numero di nuovi casi predetti ipotizzando
-#           un andamento lineare fino all'8 marzo (retta tratteggiata blu)
-#           e il numero di nuovi casi reali grezzi (linea verde) e il
-#           loro andamento approssimato (curva rossa).</br>
-#           </br>
-#           <strong>Interpretazione</strong>:</br>
-#           - si osserva una tendenza (curva rossa) che
-#           mostra un incremento del numero di nuovi casi reali a partire
-#           dall'8 marzo, rispetto a quanto atteso ipotizzando un
-#           andamento lineare (retta tratteggiata blu).
-#         ")
-#       )
-#     ),
-#
-#
-#     fluidRow(
-#       mod_impact_veneto_b_ui("loess_veneto",
-#         title = "Figura 2: Andamento casi totali (andamento esponenziale)",
-#         footer = HTML("
-#           Il grafico mostra (curva rossa) i casi totali osservati e
-#           (curva blu) i casi totali predetti considerando i dati
-#           osservati fino al 2 marzo (giornata a partire dalla quale si
-#           ipotizza siano osservabili gli effetti dei provvedimenti
-#           varati col Decreto-legge del 23/02/2020).</br>
-#           I casi totali osservati e predetti sono stati modellati
-#           ipotizzando un andamento esponenziale degli stessi.</br>
-#           </br>
-#           <strong>Interpretazione</strong>:</br>
-#
-#           - La curva blu mostra come si stima sarebbe progredito il
-#             contagio se non fossero state introdotte le misure di
-#             contenimento dell’epidemia in data 23 febbraio</br>
-#           - La curva blu e la curva rossa si sovrappongono fino al
-#             2 marzo (giornata a partire dalla quale si ipotizza siano
-#             osservabili gli effetti dei provvedimenti varati col
-#             Decreto-legge del 23/02/2020)</br>
-# 	        - Lo spazio che separa le due curve a partire dal 2 marzo
-# 	          rappresenta il numero di casi potenzialmente risparmiati
-# 	          grazie all'introduzione delle misure di contenimento in data
-# 	          23 febbraio
-#         "),
-#         width = 6
-#       ),
-#       mod_impact_veneto_b_ui("gam_veneto",
-#         title = "Figura 2: Andamento casi totali (andamento lineare generalizzato)",
-#         footer = HTML("
-#           Il grafico mostra (curva rossa) i casi totali osservati e
-#           (curva blu) i casi totali predetti considerando i dati
-#           osservati fino al 2 marzo (giornata a partire dalla quale si
-#           ipotizza siano osservabili gli effetti dei provvedimenti
-#           varati col Decreto-legge del 23/02/2020).</br>
-#           I casi totali osservati e predetti sono stati modellati
-#           ipotizzando un andamento lineare generalizzato degli stessi.</br>
-#           </br>
-#           <strong>Interpretazione</strong>:</br>
-#
-#           - La curva blu e la curva rossa si sovrappongono fino al
-#             2 marzo (giornata a partire dalla quale si ipotizza siano
-#             osservabili gli effetti dei provvedimenti varati col
-#             Decreto-legge del 23/02/2020)</br>
-#           - A partire dal 2 marzo si inizia a osservare un guadagno in
-#             termini di casi risparmiati che nel grafico è rappresentato
-#             dal progressivo aumento della distanza tra le due curve</br>
-#           - A partire dal 9-10 marzo si osserva un’inversione di
-#             tendenza: si riduce la distanza tra le curve che arrivano a
-#             intersecarsi e successivamente i casi osservati superano
-#             quelli predetti</br>
-#           - Questa inversione di tendenza riflette l’aumento dei nuovi
-#             casi mostrato nella Figura 1</br>
-#           - L’inversione di tendenza si traduce in una perdita del
-#             guadagno di casi risparmiati nella settimana precedente
-#             (2-8 marzo)
-#         "),
-#         6
-#       )
-#     )
-#
   ),
 
 
 
   tabItem(tabName = "national",
-    # List the first level UI elements here
-    # `box()`es must be included in `fluidRow()`s
     h2("Eventi nazionali"),
     mod_ts_ita_ui("ts_nat_cum", title = "Serie storiche degli eventi cumulati"),
     mod_ts_ita_ui("ts_nat_inc", title = "Serie storiche dei nuovi eventi giornalieri")
@@ -400,6 +302,7 @@ dashboard_body <- function() {dashboardBody(
 
   tabItem(tabName = "impact",
     h1("Indici principali"),
+    mod_ind_ita_ui("20200315")
   )
 
 ))}

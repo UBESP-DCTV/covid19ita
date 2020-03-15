@@ -1,4 +1,9 @@
+* Fixed typo in UI (issue #1)
+* Added national indeces
+
 # covid19ita 0.8.2
+
+* minor fix to metadata
 
 # covid19ita 0.8.1
 

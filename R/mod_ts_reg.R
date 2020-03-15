@@ -15,6 +15,7 @@ mod_ts_reg_ui <- function(id){
       column(6,
         shiny::selectInput(ns("whichRegion"),  "Selezionare le regioni da visualizzare",
           choices  = regions(),
+          selectize = TRUE,
           selected = "Veneto",
           multiple = TRUE,
           width = "100%"
@@ -23,6 +24,7 @@ mod_ts_reg_ui <- function(id){
       column(6,
         shiny::selectInput(ns("whichMeasure"), "Selezionare le misure di interesse",
           choices  = measures("regional"),
+          selectize = TRUE,
           selected = setdiff(measures(), c("totale_attualmente_positivi", "tamponi")),
           multiple = TRUE,
           width = "100%"
