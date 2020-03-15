@@ -88,7 +88,7 @@ mod_focus_20200314_ui <- function(id){
       )
     ),
     fluidRow(
-      box(width = 12, title = "Bibliografica",
+      box(width = 12, title = "Bibliografia",
         p(HTML("
           <ol>
             <li>Barry D, Hartigan JA. A Bayesian Analysis for Change Point Problems. J Am Stat Assoc. 1993;88(421):309–19.</li>
@@ -288,7 +288,7 @@ mod_focus_20200314_server <- function(id, region = "Veneto") {
     labs(
       title = "",
        x = "Data",
-       y = "Differenziale di crescita giornaliera (numero di nuovi casi)"
+       y = "Variazione nei nuovi casi"
     ) +
     scale_x_datetime(date_breaks = "1 day", date_labels = "%d %b") +
     scale_y_continuous(breaks = seq(-50, 50, 10)) +
