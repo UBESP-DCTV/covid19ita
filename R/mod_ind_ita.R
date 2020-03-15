@@ -85,10 +85,10 @@ mod_ind_ita_server <- function(id) {
       inc_pos = .data$totale_attualmente_positivi,
       cpt = ((.data$inc_pos / dplyr::lag(.data$inc_pos)) * 100) %>% round(2),
 
-      dec_inc = .data$deceduti - dplyr::lag(deceduti),
+      dec_inc = .data$deceduti - dplyr::lag(.data$deceduti),
       ddt = ((.data$dec_inc / dplyr::lag(.data$dec_inc)) * 100) %>% round(2),
 
-      int_inc = .data$terapia_intensiva - dplyr::lag(terapia_intensiva),
+      int_inc = .data$terapia_intensiva - dplyr::lag(.data$terapia_intensiva),
       tit = ((.data$int_inc / dplyr::lag(.data$int_inc)) * 100) %>% round(2),
     ) %>%
     dplyr::ungroup()
