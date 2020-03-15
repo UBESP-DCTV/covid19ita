@@ -1,3 +1,5 @@
+# covid19ita 0.10.1
+
 * Currento positive to the sidebar
 
 # covid19ita 0.10.0
