@@ -1,3 +1,5 @@
+* minor to fix CMD notes
+* Added contribution
 * note landscape for non-PC devices
 * minor label update
 * data update (and fix (#4))
