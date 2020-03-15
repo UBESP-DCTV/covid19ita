@@ -1,3 +1,5 @@
+# covid19ita 0.10.0
+
 * minor to fix CMD notes
 * Added contribution
 * note landscape for non-PC devices
