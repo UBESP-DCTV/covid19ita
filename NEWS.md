@@ -1,3 +1,5 @@
+# covid19ita 0.9.0
+
 * Fixed typo in UI (issue #1)
 * Added national indeces
 
