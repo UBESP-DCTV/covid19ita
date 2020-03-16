@@ -61,8 +61,7 @@ Imports:
     usethis (>= 1.5.1),
     lifecycle (>= 0.2.0),
     gam (>= 1.16.1),
-    lubridate (>= 1.7.4),
-    metathis (>= 1.0.2)
+    lubridate (>= 1.7.4)
 Suggests: 
     testthat (>= 2.1.0),
     covr (>= 3.5.0),
@@ -75,4 +74,4 @@ RdMacros:
 Encoding: UTF-8
 Language: en-US
 LazyData: true
-RoxygenNote: 7.0.2
+RoxygenNote: 7.1.0
