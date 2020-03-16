@@ -12,13 +12,13 @@ eng_app_server <- function(input, output, session) {
     mod_img_header_server("logo_coda_torino", "Torino.png")
     mod_img_header_server("logo_coda_novara", "Novara.png")
     mod_img_header_server("logo_coda", "Covid19.png")
-    mod_info_sidebar_server("summary_today")
+    eng_mod_info_sidebar_server("summary_today")
 
     ## Impact
     mod_ind_ita_server("20200315")
 
     ## plottply help
-    mod_help_plot_server("help")
+    eng_mod_help_plot_server("help")
 
     ## National
     mod_ts_ita_server("ts_nat_cum", "cum")
@@ -36,5 +36,5 @@ eng_app_server <- function(input, output, session) {
 
 
     ## In evidenza
-    mod_focus_20200314_server("dapb")
+    eng_mod_focus_20200314_server("dapb")
 }
