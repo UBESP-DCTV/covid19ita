@@ -5,15 +5,15 @@
 #' @import shiny
 #' @import shinydashboard
 #' @noRd
-app_ui <- function(request) {
+eng_app_ui <- function(request) {
   tagList(
 
     # Leave this function for adding external resources
     golem_add_external_resources(),
 
-    dashboardPage(title = " COVID-19 - Italia ",
+    dashboardPage(title = " COVID-19 - Italy ",
       # Helpers for dashboard's header and sidebar
-      dashboard_header(), dashboard_sidebar(), dashboard_body(),
+      eng_dashboard_header(), eng_dashboard_sidebar(), eng_dashboard_body(),
       # Main dashboard skin colour
       skin = "red"
     )
@@ -30,9 +30,9 @@ app_ui <- function(request) {
 #' @import shiny
 #' @importFrom shinydashboard dashboardHeader
 #' @noRd
-dashboard_header <- function() {dashboardHeader(
+eng_dashboard_header <- function() {dashboardHeader(
 
-  title = "COVID-19 - Italia"
+  title = "COVID-19 - Italy"
 
 )}
 
@@ -46,7 +46,7 @@ dashboard_header <- function() {dashboardHeader(
 #' @import shiny
 #' @importFrom shinydashboard dashboardSidebar sidebarMenu menuItem
 #' @noRd
-dashboard_sidebar <- function() {dashboardSidebar(sidebarMenu(
+eng_dashboard_sidebar <- function() {dashboardSidebar(sidebarMenu(
   id = "sidebar",
 
   mod_help_plot_ui("help"),
@@ -83,12 +83,14 @@ dashboard_sidebar <- function() {dashboardSidebar(sidebarMenu(
 #' @import shiny
 #' @importFrom shinydashboard dashboardBody box
 #' @noRd
-dashboard_body <- function() {dashboardBody(
+eng_dashboard_body <- function() {dashboardBody(
   tags$head(includeScript(app_sys('app/www/google-analytics.js'))),
   tabItems(
   tabItem(tabName = "home",
     fluidPage(title = HTML("Progetto <strong>covid19ita</strong>"),
 
+      p(HTML('<strong>WARNING: Translation in progress.</strong>')),
+      p(''),
       p('Nota: sito ottimizzato per l\'uso da PC, in caso di utilizzo da cellulare o tablet si consiglia di tenere il dispositivo in modalità "orizzontale".'),
 
       # box(width = 12, solidHeader = TRUE,

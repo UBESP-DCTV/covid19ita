@@ -1,3 +1,4 @@
+* Set up for English
 * Modified `run_app()` to accept a language argument to run the app in the 
   proper language. Possible option are "ita" for Italian language and "eng" for
   English language (default = "ita" to maintain compatibility).

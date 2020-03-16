@@ -4,7 +4,7 @@
 #'     DO NOT REMOVE.
 #' @import shiny
 #' @noRd
-app_server <- function(input, output, session) {
+eng_app_server <- function(input, output, session) {
   # List the first level callModules here
 
     ## Header info
