@@ -1,3 +1,7 @@
+# covid19ita 0.11.0
+
+* data update
+
 # covid19ita 0.10.2
 
 * Update wordlist
