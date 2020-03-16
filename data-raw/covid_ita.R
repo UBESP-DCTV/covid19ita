@@ -14,7 +14,7 @@ if (!all(are_ok)) {
   usethis::ui_oops("Some download had error. No data are imported in the package.")
 } else {
 
-  plottly_help_txt <- HTML(
+  plottly_help_txt <- shiny::HTML(
     "Tramite i pulsanti in semi-trasparenza è possibile:</br>
       - zoommare (anche a selezione)</br>
       - deselezionare livelli (singolo click)</br>
