@@ -1,3 +1,5 @@
+# covid19ita 0.10.2
+
 * Update wordlist
 * Set up for English
 * Modified `run_app()` to accept a language argument to run the app in the 
