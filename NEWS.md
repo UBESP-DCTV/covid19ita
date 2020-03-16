@@ -1,3 +1,4 @@
+* completed translation of eng-mod_info_sidebar
 * completed translation of eng-app_ui and eng-run_dev
 
 # covid19ita 0.11.0
