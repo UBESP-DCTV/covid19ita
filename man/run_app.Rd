@@ -4,10 +4,13 @@
 \alias{run_app}
 \title{Run the Shiny Application}
 \usage{
-run_app(...)
+run_app(..., language = c("ita", "eng"))
 }
 \arguments{
 \item{...}{A series of options to be used inside the app.}
+
+\item{language}{(chr, default = "ita") the language of the application
+i.e., "ita" for Italian or "eng" for English)}
 }
 \description{
 Run the Shiny Application

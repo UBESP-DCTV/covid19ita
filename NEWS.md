@@ -1,3 +1,7 @@
+* Modified `run_app()` to accept a language argument to run the app in the 
+  proper language. Possible option are "ita" for Italian language and "eng" for
+  English language (default = "ita" to maintain compatibility).
+* removed metathis from the dependencies
 * duplicated files for English version (#4)
 
 # covid19ita 0.10.1
@@ -12,12 +16,12 @@
 * minor label update
 * data update (and fix (#3))
 * incorporate `selectize = TRUE` in the option for choices
-* removed old modules impact veneto
+* removed old modules impact Veneto
 
 # covid19ita 0.9.0
 
 * Fixed typo in UI (issue #1)
-* Added national indeces
+* Added national indices
 
 # covid19ita 0.8.2
 
