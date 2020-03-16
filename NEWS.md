@@ -1,3 +1,5 @@
+* completed translation of eng-app_ui and eng-run_dev
+
 # covid19ita 0.11.0
 
 * data update
