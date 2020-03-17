@@ -1,3 +1,5 @@
+# covid19ita 0.12.0
+
 * data update
 * small modifictaion to file eng-mod_focus_20200314
 * completed translation of eng-mod_focus_20200114 and eng-mode_helped. Added eng_plottly_help_txt to covid_ita
