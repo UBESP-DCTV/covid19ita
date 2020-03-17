@@ -7,7 +7,7 @@
 #' @noRd
 #'
 #' @importFrom shiny NS tagList
-mod_info_sidebar_ui <- function(id) {
+eng_mod_info_sidebar_ui <- function(id) {
   ns <- NS(id)
 
   tagList(
@@ -15,12 +15,12 @@ mod_info_sidebar_ui <- function(id) {
       ns("who"),
       label = HTML(glue::glue("
         --------</br>
-        <strong>Qui sotto i dati al {as.Date(last_data_update)}</strong></br>
-        (Selezionare zona):
+        <strong>Here below the data as of {as.Date(last_data_update)}</strong></br>
+        (Select area):
       ")),
-      choices  = c("Italia", regions()),
+      choices  = c("Italy", regions()),
       selectize = TRUE,
-      selected = "Italia"
+      selected = "Italy"
     ),
 
     fluidRow(valueBoxOutput(ns("totalTest"))),
@@ -35,7 +35,7 @@ mod_info_sidebar_ui <- function(id) {
 #' info_sidebar Server Function
 #'
 #' @noRd
-mod_info_sidebar_server <- function(id) {
+eng_mod_info_sidebar_server <- function(id) {
   callModule(id = id, function(input, output, session) {
     ns <- session$ns
 
@@ -55,42 +55,42 @@ mod_info_sidebar_server <- function(id) {
 
 
     output$totalTest <- renderValueBox({
-      valueBox(subtitle = "Tamponi effettuati", icon = icon("info-circle"),
+      valueBox(subtitle = "Tests performed", icon = icon("info-circle"),
         color = "aqua",# fill = TRUE,
         value = data_to_use()[["tamponi"]]
       )
     })
 
     output$totalCases <- renderValueBox({
-      valueBox(subtitle = "Contagiati accertati totali", icon = icon("info-circle"),
+      valueBox(subtitle = "Confirmed cases", icon = icon("info-circle"),
         color = "purple",# fill = TRUE,
         value = data_to_use()[["totale_casi"]]
       )
     })
 
     output$currentPositives <- renderValueBox({
-      valueBox(subtitle = "Attualmente positivi", icon = icon("info-circle"),
+      valueBox(subtitle = "Active cases", icon = icon("info-circle"),
         color = "orange",# fill = TRUE,
         value = data_to_use()[["totale_attualmente_positivi"]]
       )
     })
 
     output$intensiveCare <- renderValueBox({
-      valueBox(subtitle = "In terapia intensiva", icon = icon("info-circle"),
+      valueBox(subtitle = "In the ICU", icon = icon("info-circle"),
         color = "fuchsia",
         value = data_to_use()[["terapia_intensiva"]]
       )
     })
 
     output$totalDeath <- renderValueBox({
-      valueBox(subtitle = "Decessi totali", icon = icon("info-circle"),
+      valueBox(subtitle = "Deaths", icon = icon("info-circle"),
         color = "red",
         value = data_to_use()[["deceduti"]]
       )
     })
 
     output$totalRecovered <- renderValueBox({
-      valueBox(subtitle = "Guariti totali", icon = icon("info-circle"),
+      valueBox(subtitle = "Recovered", icon = icon("info-circle"),
         color = "green",
         value = data_to_use()[["dimessi_guariti"]]
       )

@@ -15,7 +15,7 @@ mod_img_header_ui <- function(id){
 #' img_header Server Function
 #'
 #' @noRd
-mod_img_header_server <- function(id, img_name) {
+eng_mod_img_header_server <- function(id, img_name) {
   callModule(id = id, function(input, output, session){
     ns <- session$ns
 
