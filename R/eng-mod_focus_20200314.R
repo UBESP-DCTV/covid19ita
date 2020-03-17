@@ -35,7 +35,7 @@ eng_mod_focus_20200314_ui <- function(id){
             <li>How much the epidemic is slowing down compared to what was expected:
               <ul>
                 <li>2.4 (95% C.I. 2.05 -2.74) days were “gained” as of the 12th of March (Figura 3)</li>
-                <li>as of the 12th of March 15.91 cases were avioded per day (95% C.I. 11.99 – 19.82), peaking on the 6th of March with 40 cases saved that day (Figure 4)</li>
+                <li>the epidemic velocity registered a drop equal to 15.91 cases/day (95% C.I. 11.99 – 19.82), peaking on the 6th of March with 40 cases/day (Figure 4)</li>
               </ul>
             </li>
           </ol>"
@@ -60,7 +60,7 @@ eng_mod_focus_20200314_ui <- function(id){
     ),
     fluidRow(
       box(width = 12, plotlyOutput(ns("fig4")),
-        title = "Figure 4. Slowdown of the epidemics (predicted vs observed). The grey area indicates the 95% confidence interval)."
+        title = "Figure 4. Slowdown of the epidemic velocity (predicted vs observed). The grey area indicates the 95% confidence interval)."
       )
     ),
 
