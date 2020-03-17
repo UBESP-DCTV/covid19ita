@@ -7,15 +7,15 @@
 #' @noRd
 #'
 #' @importFrom shiny NS tagList
-mod_help_plot_ui <- function(id){
+eng_mod_help_plot_ui <- function(id){
   ns <- NS(id)
-  actionButton(ns("show"), "Uso grafici interattivi", icon("question"))
+  actionButton(ns("show"), "How to use the interactive graphs", icon("question"))
 }
 
 #' help_plot Server Function
 #'
 #' @noRd
-mod_help_plot_server <- function(id) {
+eng_mod_help_plot_server <- function(id) {
   callModule(id = id, function(input, output, session){
     ns <- session$ns
 
