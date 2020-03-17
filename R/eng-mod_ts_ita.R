@@ -8,7 +8,7 @@
 #'
 #' @importFrom shiny NS tagList titlePanel fluidRow h1 h2 h3
 #' @importFrom plotly plotlyOutput
-mod_ts_ita_ui <- function(id, title, width = 12){
+eng_mod_ts_ita_ui <- function(id, title, width = 12){
   ns <- NS(id)
   fluidRow(
     box(title = title, width = width,
@@ -22,7 +22,7 @@ mod_ts_ita_ui <- function(id, title, width = 12){
 #' @import ggplot2
 #' @importFrom plotly renderPlotly ggplotly
 #' @noRd
-mod_ts_ita_server <- function(id, type = c("cum", "inc")) {
+eng_mod_ts_ita_server <- function(id, type = c("cum", "inc")) {
   type <- match.arg(type)
 
   dpc_data <- dpc_covid19_ita_andamento_nazionale %>%
@@ -57,7 +57,7 @@ mod_ts_ita_server <- function(id, type = c("cum", "inc")) {
       dplyr::mutate(N = .data$N - dplyr::lag(.data$N)) %>%
       dplyr::ungroup()
 
-    y_lab <- paste(y_lab, "(differenze giorno-giorno)")
+    y_lab <- paste(y_lab, "(daily change)")
   }
 
 
@@ -66,7 +66,7 @@ mod_ts_ita_server <- function(id, type = c("cum", "inc")) {
       aes(x = .data$data, y = .data$N, colour = .data$Measure)
     ) +
     geom_line() + geom_point() +
-    xlab("Data") + ylab(y_lab) +
+    xlab("Date") + ylab(y_lab) +
     scale_x_date(date_breaks = "1 day", date_labels = "%b %d") +
     scale_colour_discrete(name = "Misura") +
     theme(

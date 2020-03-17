@@ -49,27 +49,27 @@ eng_dashboard_header <- function() {dashboardHeader(
 eng_dashboard_sidebar <- function() {dashboardSidebar(sidebarMenu(
   id = "sidebar",
 
-  mod_help_plot_ui("help"),
+  eng_mod_help_plot_ui("help"),
 
   menuItem("Home", tabName = "home", icon = icon("home")),
 
-  menuItem("In evidenza", tabName = "focus", icon = icon("bullseye")),
+  menuItem("Highlights", tabName = "focus", icon = icon("bullseye")),
 
-  menuItem("Andamento epidemia", icon = icon("chart-line"),
-    menuSubItem("Nazionale", tabName = "national", icon = icon("flag")),
-    menuSubItem("Regionale", tabName = "regional", icon = icon("map")),
-    menuSubItem("Provinciale", tabName = "provincial", icon = icon("location-arrow"))
+  menuItem("Epidemic", icon = icon("chart-line"),
+    menuSubItem("National", tabName = "national", icon = icon("flag")),
+    menuSubItem("Regional", tabName = "regional", icon = icon("map")),
+    menuSubItem("Provincial", tabName = "provincial", icon = icon("location-arrow"))
   ),
 
-  menuItem("Indici principali", tabName = "impact", icon = icon("compass")),
+  menuItem("Principal indices", tabName = "impact", icon = icon("compass")),
 
-  menuItem("Segnalazioni", icon = icon("exclamation-triangle"),
+  menuItem("Issues", icon = icon("exclamation-triangle"),
     href = "https://github.com/UBESP-DCTV/covid19ita/issues/"
   ),
 
-  menuItem("Fonti e informazioni", tabName = "data_tab", icon = icon("database")),
+  menuItem("Info and sources", tabName = "data_tab", icon = icon("database")),
 
-  mod_info_sidebar_ui("summary_today")
+  eng_mod_info_sidebar_ui("summary_today")
 
 ))}
 
@@ -87,11 +87,11 @@ eng_dashboard_body <- function() {dashboardBody(
   tags$head(includeScript(app_sys('app/www/google-analytics.js'))),
   tabItems(
   tabItem(tabName = "home",
-    fluidPage(title = HTML("Progetto <strong>covid19ita</strong>"),
+    fluidPage(title = HTML("Project <strong>covid19ita</strong>"),
 
       p(HTML('<strong>WARNING: Translation in progress.</strong>')),
       p(''),
-      p('Nota: sito ottimizzato per l\'uso da PC, in caso di utilizzo da cellulare o tablet si consiglia di tenere il dispositivo in modalità "orizzontale".'),
+      p('Note: the website is optimized for computer viewing; in case of mobile or tablet viewing landscape mode is recommended.'),
 
       # box(width = 12, solidHeader = TRUE,
       #   mod_img_header_ui("logo_testa")
@@ -99,99 +99,99 @@ eng_dashboard_body <- function() {dashboardBody(
 
       box(width = 12,
         p(
-          HTML("Il progetto <strong>covid19ita</strong> è stato sviluppato dall'"),
-          a(href = 'https://ubesp.jimdofree.com/', target = '_blank', 'Unità di Biostatistica, Epidemiologia, e Sanità Pubblica'),
-          " del ", a(href = 'https://www.dctv.unipd.it/', target = '_blank', 'Dipartimento di Scienze Cardio- Toraco- Vascolari e Sanità Pubblica'),
-          " dell'", a(href = 'https://www.unipd.it/', target = '_blank', 'Università degli Studi di Padova'), ",",
-          " in collaborazione con il ", a(href = 'https://www.dscb.unito.it/do/gruppi.pl/Tree', target = '_blank', 'Dipartimento di Scienze Cliniche e Biologiche'),
-          " dell'", a(href = 'https://www.unito.it/', target = '_blank', 'Università degli Studi di Torino'), ",",
-          " e del", a(href = 'https://www.dimet.uniupo.it/', target = '_blank', 'Dipartimento di Medicina Traslazionale'),
-          " dell'", a(href = 'https://www.uniupo.it/', target = '_blank', 'Università del Piemonte Orientale'), "."
+          HTML("The project <strong>covid19ita</strong> was developed by the"),
+          a(href = 'https://ubesp.jimdofree.com/', target = '_blank', 'Unit of Biostatistics, Epidemiology, and Public Health'),
+          " of the", a(href = 'https://www.dctv.unipd.it/', target = '_blank', 'Department of Cardiac, Thoracic and Vascular Sciences and Public Health'),
+          " at ", a(href = 'https://www.unipd.it/', target = '_blank', 'Università degli Studi di Padova'), ",",
+          " in parternship with the ", a(href = 'https://www.dscb.unito.it/do/gruppi.pl/Tree', target = '_blank', 'Department of Clinical and Biological Sciences'),
+          " at ", a(href = 'https://www.unito.it/', target = '_blank', 'Università degli Studi di Torino'), ",",
+          " and the ", a(href = 'https://www.dimet.uniupo.it/', target = '_blank', 'Department of Translational Medicine'),
+          " at ", a(href = 'https://www.uniupo.it/', target = '_blank', 'Università del Piemonte Orientale'), "."
         )
       ),
 
-      h2("Gruppo di lavoro"),
-      box(width = 12, title = HTML("<strong>Coordinatore del progetto</strong>"),
+      h2("Work group"),
+      box(width = 12, title = HTML("<strong>Project coordinator</strong>"),
         p(
-          HTML("Prof. <strong>Dario Gregori</strong>, Ph.D., responsabile dell'Unità di
-            Biostatistica, Epidemiologia e Sanità Pubblica del Dipartimento
-            di Scienze Cardio- Toraco- Vascolari e Sanità Pubblica --
-            Università degli studi di Padova."
+          HTML("Prof. <strong>Dario Gregori</strong>, PhD, Head of the
+            Unit of Biostatistics, Epidemiology, and Public Health of the Department
+            of Cardiac, Thoracic and Vascular Sciences and Public Health --
+            Università degli Studi di Padova."
           ),
           a(href = "https://linkedin.com/in/dario-gregori-2720039", target = "_blank", "LinkedIn")
         )
       ),
 
-      box(width = 12, title = HTML("<strong>Sviluppo applicazione e R package</strong>"),
-        p(HTML("<strong>Corrado Lanera</strong>, Ph.D., Unità di
-          Biostatistica, Epidemiologia e Sanità Pubblica del Dipartimento
-          di Scienze Cardio- Toraco- Vascolari e Sanità Pubblica --
-          Università degli studi di Padova. Responsabile del Laboratorio di Intelligenza Artificiale per le Scienze Mediche"),
+      box(width = 12, title = HTML("<strong>App and R package development</strong>"),
+        p(HTML("<strong>Corrado Lanera</strong>, PhD, Unit of
+          Biostatistics, Epidemiology, and Public Health of the Department
+          of Cardiac, Thoracic and Vascular Sciences and Public Health --
+          Università degli Studi di Padova. Head of the Laboratory of Artificial Intelligence for Medical Sciences"),
           a(href = "https://linkedin.com/in/corradolanera", target = "_blank", "LinkedIn")
         )
       ),
 
-      box(width = 12, title = HTML("<strong>Modellistica Epidemiologica</strong>"),
+      box(width = 12, title = HTML("<strong>Epidemiological modelling</strong>"),
         p(
-          HTML("Prof. <strong>Paola Berchialla</strong>, Ph.D., Dipartimento di Scienze
-            Cliniche e Biologiche -- Università degli Studi di Torino"
+          HTML("Prof. <strong>Paola Berchialla</strong>, PhD, Department of Clinical
+            and Biological Sciences -- Università degli Studi di Torino"
           ),
           a(href = "https://linkedin.com/in/paola-berchialla-36b44410", target = "_blank", "LinkedIn")
         ),
 
-        p(HTML("<strong>Danila Azzolina</strong>, Ph.D., Dipartimento di Medicina Traslazionale --
+        p(HTML("<strong>Danila Azzolina</strong>, PhD, Department of Translational Medicine --
           Università del Piemonte Orientale"),
           a(href = "https://linkedin.com/in/danila-azzolina-862465166", target = "_blank", "LinkedIn")
         ),
 
-        p(HTML("<strong>Ilaria Prosepe</strong>, MS., Unità di
-           Biostatistica, Epidemiologia e Sanità Pubblica del Dipartimento
-           di Scienze Cardio- Toraco- Vascolari e Sanità Pubblica --
-           Università degli studi di Padova."),
+        p(HTML("<strong>Ilaria Prosepe</strong>, MSc, Unit of
+           Biostatistics, Epidemiology, and Public Health of the Department
+           of Cardiac, Thoracic and Vascular Sciences and Public Health --
+           Università degli Studi di Padova."),
           a(href = "https://linkedin.com/in/ilaria-prosepe-1b52371a4", target = "_blank", "LinkedIn")
         )
       ),
 
-      box(width = 12, title = HTML("<strong>Comunicazione del Rischio</strong>"),
+      box(width = 12, title = HTML("<strong>Risk communication</strong>"),
         p(
-          HTML("<strong>Giulia Lorenzoni</strong>, Ph.D., Unità di
-            Biostatistica, Epidemiologia e Sanità Pubblica del Dipartimento
-            di Scienze Cardio- Toraco- Vascolari e Sanità Pubblica --
-            Università degli studi di Padova. Responsabile del Laboratorio di Epidemiologia Clinica e Digital Health"
+          HTML("<strong>Giulia Lorenzoni</strong>, PhD, Unit of
+            Biostatistics, Epidemiology, and Public Health of the Department
+            of Cardiac, Thoracic and Vascular Sciences and Public Health --
+            Università degli Studi di Padova. Responsabile del Laboratorio di Epidemiologia Clinica e Digital Health"
           ),
           a(href = "https://linkedin.com/in/giulia-lorenzoni-b382a6180", target = "_blank", "LinkedIn")
         ),
         p(
           HTML(
-            "<strong>Nicolas Destro</strong>, MA, Unità di
-            Biostatistica, Epidemiologia e Sanità Pubblica del Dipartimento
-            di Scienze Cardio- Toraco- Vascolari e Sanità Pubblica --
-            Università degli studi di Padova."
+            "<strong>Nicolas Destro</strong>, MA, Unit of
+            Biostatistics, Epidemiology, and Public Health of the Department
+            of Cardiac, Thoracic and Vascular Sciences and Public Health --
+            Università degli Studi di Padova."
           ),
           a(href = "https://linkedin.com/in/ilaria-prosepe-1b52371a4", target = "_blank", "LinkedIn")
         )
       ),
 
-            h2("Istruzioni per la navigazione"),
-      box(width = 12, title = HTML("<strong>Organizzazione del sito</strong>"),
+            h2("Navigation instructions"),
+      box(width = 12, title = HTML("<strong>Website structure</strong>"),
         HTML(
           "<ol>
-            <li><strong>Home</strong>: Questa pagina.</li>
-            <li><strong>In evidenza</strong>: Principali considerazioni per la regione Veneto.</li>
-            <li><strong>Andamento epidemia</strong>: Serie temporali dinamiche e interattive.</li>
-            <li><strong>Indici principali</strong>: modelli e previsioni regionali e nazionali.</li>
-            <li><strong>Segnalazioni</strong>: link per segnalazioni tecniche relative all'applicazione.</li>
-            <li><strong>Fonti e informazioni</strong>: Descrizione fonti, licenze d'uso e software utilizzati per lo sviluppo.</li>
-            <li><strong>Metriche ultima giornata</strong>: Selezionando una regione (o 'Italia', default) vengono visualizzate le principali metriche dell'ultimo aggiornamento dati, che normalmente avviene alle ore 18 da parte della protezione civile.</li>
+            <li><strong>Home</strong>: This page.</li>
+            <li><strong>Highlights</strong>: Main considerations for the Veneto region.</li>
+            <li><strong>Epidemic</strong>: Dynamic and interactive time series.</li>
+            <li><strong>Principal indices</strong>: Regional and national models and predictions.</li>
+            <li><strong>Issues</strong>: Link for any technical report.</li>
+            <li><strong>Info and sources</strong>: Sources description, Use License e software used for the app development.</li>
+            <li><strong>Latest metrics</strong>: Choose a region (or 'Italy', default) to visualize the most relevant metrics based on the latest data. Data is updated daily, usually at 6pm (local time), by the Italian Civil Protection.</li>
           </ol>"
         )
       ),
 
-      box(width = 12, title = HTML("<strong>Utilizzo dei grafici dinamici</strong>"),
-          p(HTML("La maggior parte dei grafici riportati nel sito sono dinamici in due modi distinti:")),
+      box(width = 12, title = HTML("<strong>How to use the dynamic graphs</strong>"),
+          p(HTML("The majority of graphs on this website are dynamic. The user can choose:")),
           p(""),
-          p(HTML("1. <strong>rispetto alle informazioni riportate</strong>: all'interno del grafico è possibile <strong>visualizzare ulteriori dettagli</strong> passando il cursore o facendo click sui vari punti/curve riportate, è possibile <strong>zoommare</strong> su alcune zone di interesse tramite i pulsanti +/- in semi-trasparenza in alto a destra nel grafico (o selezionando l'area con il puntatore). Nel caso di informazioni multiple (per esempio più regioni o più misure) riportate nello stesso grafico, è possibile <strong>escludere alcune informazioni</strong> facendo click sulla relativa voce in legenda, o <strong>mantenere attiva una sola informazione di interesse</strong> tramite un doppio click. È inoltre possibile <strong>salvare ciascun grafico</strong>, in modo indipendente e così come visualizzato, selezionando l'icona semitrasparente della macchina fotografica. Tramite la pressione dell'icona a forma di casetta è possibile <strong>ripristinare la visione originale</strong> del grafico visualizzato.")),
-          p(HTML("2. <strong>rispetto a quali/quante informazioni elaborare e riportare</strong>: In caso compaiano delle celle sopra il grafico in cui poter selezionare <strong>regioni, province o misure, è possibile sia escluderne che aggiungerne</strong> di ulteriori (tra quelle disponibili selezionando il riquadro). Una volta selezionato o deselezionato quanto di interesse, i grafici si aggiorneranno moltiplicandosi o riducendosi, così come moltiplicando o riducento le infornmazioni contenute in ciascuno di essi.")),
+          p(HTML("1. <strong>the information he/she wants to visualize</strong>: while looking at one graph the user can <strong>visualize further details</strong> by clicking or hovering the mouse cursor over the different points/curves; <strong>zoom</strong> on some areas of interest by clicking on the semi-transparent buttons +/- at the top right of the graph (or by selecting the area with the mouse cursor). If multiple information is reported on the same graph (e.g. multiple regions o measures), it is possible to <strong>exclude part of the information</strong> by clicking on the right legend items or <strong>visualize only one piece of information</strong> by double-clicking on it. It is moreover possible to <strong>save each graph</strong> independently by clicking on the semi-transparent camera button. By clicking on the small-house button the <strong> original version</strong> of the graph is restored")),
+          p(HTML("2. <strong>which and how much information is to be processed and shown</strong>: Whenever cells appear above the graph, the user can decide to<strong> add or remove regions, provinces or metrics</strong> (from those available when the pane is selected). ")),
       ),
 
     )
@@ -199,44 +199,44 @@ eng_dashboard_body <- function() {dashboardBody(
   ),
 
   tabItem(tabName = "focus",
-    h1("Possibile effetto delle politiche sanitarie in Veneto"),
-    mod_focus_20200314_ui("dapb")
+    h1("Possible effect of the health policies implemented in the Veneto region"),
+    eng_mod_focus_20200314_ui("dapb")
   ),
 
 
 
   tabItem(tabName = "national",
-    h2("Eventi nazionali"),
-    mod_ts_ita_ui("ts_nat_cum", title = "Serie storiche degli eventi cumulati"),
-    mod_ts_ita_ui("ts_nat_inc", title = "Serie storiche dei nuovi eventi giornalieri")
+    h2("National events"),
+    mod_ts_ita_ui("ts_nat_cum", title = "Time series trend - cumulative events"),
+    mod_ts_ita_ui("ts_nat_inc", title = "Time series trend - daily new events")
   ),
 
 
   tabItem(tabName = "regional",
-    h2("Eventi regionali"),
+    h2("Regional events"),
 
-    h3("Serie storiche per regione"),
+    h3("Time series by region"),
     fluidRow(
-      box(title = "Eventi cumulati", width = 12,
+      box(title = "Cumulative events", width = 12,
         mod_ts_reg_ui("ts_reg_cum_mes")
       )
     ),
 
     fluidRow(
-      box(title = "Nuovi eventi giornalieri", width = 12,
+      box(title = "Daily new events", width = 12,
         mod_ts_reg_ui("ts_reg_inc_mes")
       )
     ),
 
-    h3("Serie storiche regionali per evento"),
+    h3("Regional time series by event"),
     fluidRow(
-      box(title = "Eventi cumulati", width = 12,
+      box(title = "Cumulative events", width = 12,
         mod_ts_reg_ui("ts_reg_cum_reg")
       )
     ),
 
     fluidRow(
-      box(title = "Nuovi eventi giornalieri", width = 12,
+      box(title = "Daily new events", width = 12,
         mod_ts_reg_ui("ts_reg_inc_reg")
       )
     )
@@ -245,67 +245,67 @@ eng_dashboard_body <- function() {dashboardBody(
 
 
   tabItem(tabName = "provincial",
-    h2("Eventi provinciali"),
+    h2("Provincial events"),
 
-    h3("Serie storiche"),
+    h3("Time series"),
     fluidRow(
-      box(title = "Eventi cumulati", width = 12,
+      box(title = "Cumulative events", width = 12,
         mod_ts_prv_ui("ts_prv_cum")
       )
     ),
 
     fluidRow(
-      box(title = "Nuovi eventi", width = 12,
+      box(title = "New events", width = 12,
         mod_ts_prv_ui("ts_prv_inc")
       )
     )
   ),
 
   tabItem(tabName = "data_tab",
-    h2("Informazioni sui dati"),
+    h2("Data Info"),
 
-    p("L'applicazione utilizza i dati ufficiali riguardanti la situazione COVID-19 italiana, a livello nazionale, regionale e provinciale."),
+    p("This app takes the needed data from the offical records that track the italian COVID-19 outbreak, on a national, regional and provincial level"),
 
     p(
-      'Tali dati sono inizialmente gestiti, processati e messi a disposizione dalla ',
+      'Data are processed and made available by the ',
       a(href = "http://www.protezionecivile.it/web/guest/home", target = "_blank", "Presidenza del Consiglio dei Ministri - Dipartimento di Protezione Civile"),
-      ' con licenza ', a(href = "https://creativecommons.org/licenses/by/4.0/deed.en", target = "_blank", "CC-BY-4.0"),
-      'così come forniti dal ', a(href = "", target = "_blank", "Ministero della Salute.")
+      ' (Italian Civil Protection Department) and licensed under ', a(href = "https://creativecommons.org/licenses/by/4.0/deed.en", target = "_blank", "CC-BY-4.0"),
+      'as provided by the ', a(href = "", target = "_blank", "Ministero della Salute"), '(Ministry of Health).'
     ),
 
-    p('Di norma, i dati sono aggiornati alle ore 18:00 di ogni giorno.'),
+    p('Data is usually updated daily at 6pm.'),
 
     p(
-      "Per ulteriori informazioni sulla loro attribuzione, disponibilita, e uso, si consiglia di visitare la",
-      a(href = 'https://github.com/UBESP-DCTV/covid19ita/', target = "_blank", "pagina del progetto covid19ita"),
+      "Further information about data attribution and availability can be found at the",
+      a(href = 'https://github.com/UBESP-DCTV/covid19ita/', target = "_blank", "web page of covid19ita."),
       "."
     ),
 
     h2("Software"),
-    p(HTML("L'applicazione <strong>covid19ita</strong> è stata sviluppata in R ver. 3.6.3 come un suo pacchetto di espansione. Il codice sorgente del pacchetto e dell'applicazione è liberamente disponibile disponibile su GitHub all'indirizzo "),
+    p(HTML("The app <strong>covid19ita</strong> was developed using R ver. 3.6.3 as an expansion package. The source code of the package and the app is freely available online on Github at "),
       a(href = 'https://github.com/UBESP-DCTV/covid19ita/', target = '_blank', 'https://github.com/UBESP-DCTV/covid19ita/'), "."
     ),
 
-    p("Per il suo sviluppo sono stati utilizzati i pacchetti di espansione {shiny} ver. 1.4.0, {shinydashboard} v.0.7.1 e {golem} ver. 0.2.1."),
+    p("For the app development the following expansion packages were used: {shiny} ver. 1.4.0, {shinydashboard} v.0.7.1 and {golem} ver. 0.2.1."),
 
-    p("Le analisi sono state eseguite sfruttando le funzioni dei pacchetti {stats} ver. 3.6.3, e {gam} ver. 1.16.1"),
+    p("The analysis were performed using functions of the following packages: {stats} ver. 3.6.3, and {gam} ver. 1.16.1"),
 
-    p("I grafici sono stati prodotti grazie ai pacchetti {ggplot2} ver. 3.3.0 e {plotly} ver. 4.9.2."),
+    p("Our graphs were produced with the following packages: {ggplot2} ver. 3.3.0 and {plotly} ver. 4.9.2."),
 
-    h3('Nota per gli utilizzatori di R'),
+    h3('Note for R users'),
     p(
-      'Oltre a questa stessa applicazione in sé (che può essere eseguita localmente installando il pacchetto {covid19ita} ed eseguendo l\'istruzione `run_app()`), ll pacchetto R {covid19ita}, disponibile su ',
+      'In addition to this app (that can be locally excecuted, after installing the package {covid19ita}, by running the code `run_app()`), the R package {covid19ita}, available on ',
       a(href = 'https://github.com/UBESP-DCTV/covid19ita/', target = '_blank', 'GitHub'),
-      ' e sviluppato anch\'esso sotto licenza ',
+      ' and licenced under ',
       a(href = "https://creativecommons.org/licenses/by/4.0/deed.en", target = "_blank", "CC-BY-4.0"),
-      ', mette a disposizione tali dati, senza alcun processamento ulteriore rispetto a quelli originali, per un loro diretto utilizzo in R.'
+      ', makes raw data available for direct use.'
     )
 
   ),
 
 
   tabItem(tabName = "impact",
-    h1("Indici principali"),
+    h1("Pricipal indeces"),
     mod_ind_ita_ui("20200315")
   )
 
@@ -322,7 +322,7 @@ eng_dashboard_body <- function() {dashboardBody(
 #' @import shiny
 #' @importFrom golem add_resource_path activate_js favicon bundle_resources
 #' @noRd
-golem_add_external_resources <- function(){
+eng_golem_add_external_resources <- function(){
 
   add_resource_path(
     'www', app_sys('app/www')
@@ -335,7 +335,7 @@ golem_add_external_resources <- function(){
       app_title = ' {covid19ita} ',
       meta = list(
         title = "{covid19ita} App",
-        description = "Piattaforma di monitoraggio e analisi dell'infezione da COVID-19 in Italia.",
+        description = "Monitoring platform analysis of the COVID-19 infection in Italy.",
         url = "https://r-ubesp.dctv.unipd.it/shiny/covid19ita/",
         image = app_sys('app/www/ubep_covid.png'),
         image_alt = "Emergenza COVID-19 ITA",

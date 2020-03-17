@@ -7,13 +7,13 @@
 #' @noRd
 #'
 #' @importFrom shiny NS tagList
-mod_ts_prv_ui <- function(id){
+eng_mod_ts_prv_ui <- function(id){
   ns <- NS(id)
 
   fluidPage(
     fluidRow(
       column(12,
-        shiny::selectInput(ns("whichProvince"),  "Selezionare le province da visualizzare",
+        shiny::selectInput(ns("whichProvince"),  "Select provinces",
           choices  = provinces(),
           selectize = TRUE,
           selected = c("Belluno", "Padova", "Rovigo", "Treviso", "Verona", "Vicenza"),
@@ -63,7 +63,7 @@ mod_ts_prv_server <- function(id, type = c("cum", "inc")) {
     })
 
     y_lab <- reactive({
-      if (type == "cum") "Casi Totali" else "Casi Totali (differenza giorno-giorno)"
+      if (type == "cum") "Total cases" else "Cases (daily difference)"
     })
 
 
@@ -76,7 +76,7 @@ mod_ts_prv_server <- function(id, type = c("cum", "inc")) {
           colour = .data$denominazione_provincia
         )) +
         geom_line() + geom_point() +
-        xlab("Data") +
+        xlab("Date") +
         ylab(y_lab()) +
         scale_x_date(date_breaks = "1 day", date_labels = "%b %d") +
         scale_colour_discrete(name = "Provincia") +

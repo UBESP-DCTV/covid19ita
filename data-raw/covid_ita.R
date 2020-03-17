@@ -11,8 +11,17 @@ are_ok <- purrr::map2_lgl(data_levels, data_levels,
 )
 
 if (!all(are_ok)) {
-  usethis::ui_oops("Some download had error. No data are imported in the package.")
+  usethis::ui_oops("Download error. No data are imported in the package.")
 } else {
+
+  eng_plottly_help_txt <- shiny::HTML(
+    "Click on the semi-trasparent icons to:</br>
+      - zoom </br>
+      - remove levels (one click)</br>
+      - keep only one level (double click)</br>
+      - multiple details (tab)</br>
+      - export images (camera)</br>
+  ")
 
   plottly_help_txt <- shiny::HTML(
     "Tramite i pulsanti in semi-trasparenza è possibile:</br>
@@ -44,6 +53,7 @@ if (!all(are_ok)) {
   )
   usethis::use_data(
     plottly_help_txt,
+    eng_plottly_help_txt,
     dpc_covid19_ita_andamento_nazionale,
     dpc_covid19_ita_regioni,
     dpc_covid19_ita_province,

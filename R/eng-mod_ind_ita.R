@@ -7,7 +7,7 @@
 #' @noRd
 #'
 #' @importFrom shiny NS tagList
-mod_ind_ita_ui <- function(id){
+eng_mod_ind_ita_ui <- function(id){
   ns <- NS(id)
 
   fluidPage(
@@ -15,38 +15,38 @@ mod_ind_ita_ui <- function(id){
     h2(HTML("<strong>Decessi</strong>")),
     fluidRow(
       box(plotlyOutput(ns("dsp")),
-        width = 6, title = "Deceduti su positivi"
+        width = 6, title = "Decesead over positive cases"
       ),
       box(plotlyOutput(ns("dso")),
-        width = 6, title = "Deceduti su ospedalizzati"
+        width = 6, title = "Decesead over hospitalized"
       )
     ),
 
 
     h2(HTML("<strong>Guariti</strong>")),
     box(plotlyOutput(ns("dgso")),
-        width = 12, title = "Dimessi guariti su ospedalizzati"
+        width = 12, title = "Recovered over hospitalized"
     ),
 
     h2(HTML("<strong>Isolamento domiciliare</strong>")),
     box(plotlyOutput(ns("idso")),
-        width = 12, title = "Isolamento domiciliare su ospedalizzati"
+        width = 12, title = "Home confined over hospitalized"
     ),
 
 
     h2(HTML("
-      <strong>Percentuali (%) rispetto al giorno precedente</strong></br>
-      (100% = nessuna variazione, >100% incremento, <100% decremento)
+      <strong>Growth rate (%) with respect to the previous day</strong></br>
+      (100% = no growth, >100% increasing, <100% decresing)
     ")),
     fluidRow(
       box(plotlyOutput(ns("cpt")),
-        width = 4, title = "Casi positivi"
+        width = 4, title = "Cases"
       ),
       box(plotlyOutput(ns("ddt")),
-        width = 4, title = "Deceduti"
+        width = 4, title = "Deaths"
       ),
       box(plotlyOutput(ns("tit")),
-        width = 4, title = "Terapia intensiva"
+        width = 4, title = "ICU"
       )
     )
 
@@ -64,7 +64,7 @@ mod_ind_ita_ui <- function(id){
 #'
 #' @import ggplot2
 #' @noRd
-mod_ind_ita_server <- function(id) {
+eng_mod_ind_ita_server <- function(id) {
 
 
   data_to_use <- dpc_covid19_ita_andamento_nazionale %>%
@@ -98,7 +98,7 @@ mod_ind_ita_server <- function(id) {
     data_to_use %>%
       ggplot(aes(x = .data$data, y = .data[[ {{y}} ]], colour = .data$zona)) +
       geom_point() + geom_line() +
-      labs(title = "", x = "Giorno", y = "Proporzione") +
+      labs(title = "", x = "Day", y = "Percentage") +
       scale_x_datetime(date_breaks = "2 days", date_labels = "%d %b") +
       theme_bw() +
       theme(
@@ -140,19 +140,19 @@ mod_ind_ita_server <- function(id) {
     ## Incrementi proporzionali
     output$cpt <- renderPlotly({
       ggplotly(gg_ind_plot("cpt") +
-        ylab("% (rispetto il giorno precedente)")
+        ylab("% (with respect to the previous day)")
       )
     })
 
     output$ddt <- renderPlotly({
       ggplotly(gg_ind_plot("ddt") +
-        ylab("% (rispetto il giorno precedente)")
+        ylab("% (with respect to the previous day)")
       )
     })
 
     output$tit <- renderPlotly({
       ggplotly(gg_ind_plot("tit") +
-        ylab("% (rispetto il giorno precedente)")
+        ylab("% (with respect to the previous day)")
       )
     })
 
