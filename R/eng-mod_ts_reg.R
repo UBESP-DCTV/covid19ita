@@ -7,13 +7,13 @@
 #' @noRd
 #'
 #' @importFrom shiny NS tagList
-mod_ts_reg_ui <- function(id){
+eng_mod_ts_reg_ui <- function(id){
   ns <- NS(id)
 
   fluidPage(
     fluidRow(
       column(6,
-        shiny::selectInput(ns("whichRegion"),  "Selezionare le regioni da visualizzare",
+        shiny::selectInput(ns("whichRegion"),  "Select regions",
           choices  = regions(),
           selectize = TRUE,
           selected = "Veneto",
@@ -22,7 +22,7 @@ mod_ts_reg_ui <- function(id){
         )
       ),
       column(6,
-        shiny::selectInput(ns("whichMeasure"), "Selezionare le misure di interesse",
+        shiny::selectInput(ns("whichMeasure"), "Select measures",
           choices  = measures("regional"),
           selectize = TRUE,
           selected = setdiff(measures(), c("totale_attualmente_positivi", "tamponi")),
@@ -98,7 +98,7 @@ mod_ts_reg_server <- function(id, type = c("cum", "inc"), color_var = c("measure
     })
 
     y_lab <- reactive({
-      if (type == "cum") "N" else "N (differenza giorno-giorno)"
+      if (type == "cum") "N" else "N (daily difference)"
     })
 
 
