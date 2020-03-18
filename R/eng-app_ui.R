@@ -103,7 +103,7 @@ eng_dashboard_body <- function() {dashboardBody(
           a(href = 'https://ubesp.jimdofree.com/', target = '_blank', 'Unit of Biostatistics, Epidemiology, and Public Health'),
           " of the", a(href = 'https://www.dctv.unipd.it/', target = '_blank', 'Department of Cardiac, Thoracic and Vascular Sciences and Public Health'),
           " at ", a(href = 'https://www.unipd.it/', target = '_blank', 'Università degli Studi di Padova'), ",",
-          " in parternship with the ", a(href = 'https://www.dscb.unito.it/do/gruppi.pl/Tree', target = '_blank', 'Department of Clinical and Biological Sciences'),
+          " in partnership with the ", a(href = 'https://www.dscb.unito.it/do/gruppi.pl/Tree', target = '_blank', 'Department of Clinical and Biological Sciences'),
           " at ", a(href = 'https://www.unito.it/', target = '_blank', 'Università degli Studi di Torino'), ",",
           " and the ", a(href = 'https://www.dimet.uniupo.it/', target = '_blank', 'Department of Translational Medicine'),
           " at ", a(href = 'https://www.uniupo.it/', target = '_blank', 'Università del Piemonte Orientale'), "."
@@ -157,7 +157,7 @@ eng_dashboard_body <- function() {dashboardBody(
           HTML("<strong>Giulia Lorenzoni</strong>, PhD, Unit of
             Biostatistics, Epidemiology, and Public Health of the Department
             of Cardiac, Thoracic and Vascular Sciences and Public Health --
-            Università degli Studi di Padova. Responsabile del Laboratorio di Epidemiologia Clinica e Digital Health"
+            Università degli Studi di Padova. Head of the Laboratory of Clinical Epidemiology and Digital Health"
           ),
           a(href = "https://linkedin.com/in/giulia-lorenzoni-b382a6180", target = "_blank", "LinkedIn")
         ),
@@ -180,8 +180,8 @@ eng_dashboard_body <- function() {dashboardBody(
             <li><strong>Highlights</strong>: Main considerations for the Veneto region.</li>
             <li><strong>Epidemic</strong>: Dynamic and interactive time series.</li>
             <li><strong>Principal indices</strong>: Regional and national models and predictions.</li>
-            <li><strong>Issues</strong>: Link for any technical report.</li>
-            <li><strong>Info and sources</strong>: Sources description, Use License e software used for the app development.</li>
+            <li><strong>Issues</strong>: Link to report issues with the website.</li>
+            <li><strong>Info and sources</strong>: Sources description, Use License and software used for the app development.</li>
             <li><strong>Latest metrics</strong>: Choose a region (or 'Italy', default) to visualize the most relevant metrics based on the latest data. Data is updated daily, usually at 6pm (local time), by the Italian Civil Protection.</li>
           </ol>"
         )
@@ -190,7 +190,7 @@ eng_dashboard_body <- function() {dashboardBody(
       box(width = 12, title = HTML("<strong>How to use the dynamic graphs</strong>"),
           p(HTML("The majority of graphs on this website are dynamic. The user can choose:")),
           p(""),
-          p(HTML("1. <strong>the information he/she wants to visualize</strong>: while looking at one graph the user can <strong>visualize further details</strong> by clicking or hovering the mouse cursor over the different points/curves; <strong>zoom</strong> on some areas of interest by clicking on the semi-transparent buttons +/- at the top right of the graph (or by selecting the area with the mouse cursor). If multiple information is reported on the same graph (e.g. multiple regions o measures), it is possible to <strong>exclude part of the information</strong> by clicking on the right legend items or <strong>visualize only one piece of information</strong> by double-clicking on it. It is moreover possible to <strong>save each graph</strong> independently by clicking on the semi-transparent camera button. By clicking on the small-house button the <strong> original version</strong> of the graph is restored")),
+          p(HTML("1. <strong>the information he/she wants to visualize</strong>: while looking at one graph the user can <strong>visualize further details</strong> by clicking or hovering the mouse cursor over the different points/curves; <strong>zoom</strong> on some areas of interest by clicking on the semi-transparent buttons +/- at the top right of the graph (or by selecting the area with the mouse cursor). If multiple information is reported on the same graph (e.g. multiple regions o measures), it is possible to <strong>exclude part of the information</strong> by clicking on the right legend items or <strong>visualize only one piece of information</strong> by double-clicking on it. It is moreover possible to <strong>save each graph</strong> independently by clicking on the semi-transparent camera button. By clicking on the small-house button the <strong> original version</strong> of the graph is restored.")),
           p(HTML("2. <strong>which and how much information is to be processed and shown</strong>: Whenever cells appear above the graph, the user can decide to<strong> add or remove regions, provinces or metrics</strong> (from those available when the pane is selected). ")),
       ),
 
@@ -306,7 +306,7 @@ eng_dashboard_body <- function() {dashboardBody(
 
   tabItem(tabName = "impact",
     h1("Pricipal indeces"),
-    mod_ind_ita_ui("20200315")
+    eng_mod_ind_ita_ui("20200315")
   )
 
 ))}

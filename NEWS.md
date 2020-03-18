@@ -1,3 +1,4 @@
+* small modifications to the translation (#4)
 * added (ita) module for focus on Piemonte (20200318)
 
 # covid19ita 0.12.1
@@ -8,10 +9,10 @@
 # covid19ita 0.12.0
 
 * data update
-* small modifictaion to file eng-mod_focus_20200314
-* completed translation of eng-mod_focus_20200114 and eng-mode_helped. Added eng_plottly_help_txt to covid_ita
-* completed translation of eng-mod_info_sidebar
-* completed translation of eng-app_ui and eng-run_dev
+* small modifictaion to file eng-mod_focus_20200314 (#4)
+* completed translation of eng-mod_focus_20200114 and eng-mode_helped. Added eng_plottly_help_txt to covid_ita     (#4)
+* completed translation of eng-mod_info_sidebar (#4)
+* completed translation of eng-app_ui and eng-run_dev (#4)
 
 # covid19ita 0.11.0
 
