@@ -61,7 +61,8 @@ Imports:
     usethis (>= 1.5.1),
     lifecycle (>= 0.2.0),
     gam (>= 1.16.1),
-    lubridate (>= 1.7.4)
+    lubridate (>= 1.7.4),
+    directlabels
 Suggests: 
     testthat (>= 2.1.0),
     covr (>= 3.5.0),

@@ -48,7 +48,24 @@ mod_ind_ita_ui <- function(id){
       box(plotlyOutput(ns("tit")),
         width = 4, title = "Terapia intensiva"
       )
+    ),
+
+    h2(HTML("Terapie intensive")),
+    fluidRow(
+      shiny::selectInput(ns("whichRegion"),
+        label = "Selezionare le regioni da visualizzare",
+        choices  = regions(),
+        selectize = TRUE,
+        selected = c("Lombardia", "Veneto", "Emilia Romagna"),
+        multiple = TRUE,
+        width = "100%"
+      )
+    ),
+    box(plotlyOutput(ns("titamponi")),
+      width = 12,
+      title = "Occupazione terapia intensiva per tamponi effettuati"
     )
+
 
   )
 }
@@ -154,6 +171,36 @@ mod_ind_ita_server <- function(id) {
       ggplotly(gg_ind_plot("tit") +
         ylab("% (rispetto il giorno precedente)")
       )
+    })
+
+
+    ## terapia intensiva per tamponi
+    which_region <- reactive({
+      req(input$whichRegion)
+    })
+
+    output$titamponi <- renderPlotly({
+      gg_titamponi <- dpc_covid19_ita_regioni %>%
+        dplyr::filter(.data$denominazione_regione %in% which_region()) %>%
+        dplyr::left_join(region_population) %>%
+        ggplot(aes(
+          x = 100000 * (.data$tamponi/.data$residenti),
+          y = 100000 * (.data$terapia_intensiva/.data$residenti),
+          colour = .data$denominazione_regione,
+          label = .data$denominazione_regione
+        )) +
+        geom_smooth(se = FALSE) +
+        ylab("(t. intensiva / residenti) x 100000 ab.") +
+        xlab("(tamponi / residenti) x 100000 ab.") +
+        theme(legend.position = "none") +
+        directlabels::geom_dl(
+          method = list(
+            directlabels::dl.combine("first.points", "last.points"),
+            cex = 0.8
+          )
+        )
+
+      ggplotly(gg_titamponi)
     })
 
   })

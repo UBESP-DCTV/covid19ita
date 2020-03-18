@@ -33,6 +33,33 @@ if (!all(are_ok)) {
   ")
 
 
+  region_population <- tibble::tribble(
+    ~ denominazione_regione, 	         ~residenti,
+    "Lombardia"	           ,             10018806,
+    "Lazio"   	           ,              5898124,
+    "Campania"	           ,              5839084,
+    "Sicilia"              ,              5056641,
+    "Veneto"               ,              4907529,
+    "Emilia Romagna"       ,              4448841,
+    "Piemonte"	           ,              4392526,
+    "Puglia"	             ,              4063888,
+    "Toscana"	             ,              3742437,
+    "Calabria"	           ,              1965128,
+    "Sardegna"	           ,              1653135,
+    "Liguria"	             ,              1565307,
+    "Marche"	             ,              1538055,
+    "Abruzzo"	             ,              1322247,
+    "Friuli Venezia Giulia",              1217872,
+    "P.A. Trento"          ,               541098,
+    "P.A. Bolzano"         ,               531178,
+    "Umbria"	             ,               888908,
+    "Basilicata"	         ,               570365,
+    "Molise"	             ,               310449,
+    "Valle d'Aosta"     	 ,               126883
+  )
+
+
+
   usethis::ui_done("All data correctly downloaded")
 
   covid_ita <- file.path(dest_dir, paste0(data_levels, ".csv")) %>%
@@ -58,6 +85,7 @@ if (!all(are_ok)) {
     dpc_covid19_ita_regioni,
     dpc_covid19_ita_province,
     last_data_update,
+    region_population,
     internal = TRUE,
     overwrite = TRUE
   )

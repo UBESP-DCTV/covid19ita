@@ -207,7 +207,7 @@ dashboard_body <- function() {dashboardBody(
   ),
 
   tabItem(tabName = "20200318Piemonte",
-          h2("Possibile effetto delle politiche sanitarie in Friuli Venezia Giulia"),
+          h2("Possibile effetto delle politiche sanitarie in Piemonte"),
           mod_focus_20200318_piemonte_ui("20200318_piemonte")
   ),
   tabItem(tabName = "20200318Fvg",

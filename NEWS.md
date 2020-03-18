@@ -1,3 +1,6 @@
+* index intensive su tamponi
+* fix title highlight piemonte
+
 # covid19ita 0.13.1
 
 * fix data province e nazionale from dpc
