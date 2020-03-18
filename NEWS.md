@@ -1,3 +1,5 @@
+* fix label etichette/tamponi (#9)
+
 # covid19ita 0.13.2
 
 * index intensive su tamponi

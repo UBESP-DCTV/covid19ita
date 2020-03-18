@@ -191,14 +191,7 @@ mod_ind_ita_server <- function(id) {
         )) +
         geom_smooth(se = FALSE) +
         ylab("(t. intensiva / residenti) x 100000 ab.") +
-        xlab("(tamponi / residenti) x 100000 ab.") +
-        theme(legend.position = "none") +
-        directlabels::geom_dl(
-          method = list(
-            directlabels::dl.combine("first.points", "last.points"),
-            cex = 0.8
-          )
-        )
+        xlab("(tamponi / residenti) x 100000 ab.")
 
       ggplotly(gg_titamponi)
     })
