@@ -20,7 +20,7 @@ mod_focus_20200318_piemonte_ui <- function(id){
           p(
             "Si è confrontato l’andamento prevedibile in base ai dati al
             9 marzo con l’andamento effettivamente riscontrato in
-            Friuli Venezia Giulia, per capire se parte o tutte delle
+            Piemonte, per capire se parte o tutte delle
             azioni implementate abbiano avuto un effetto plausibile di
             rallentamento sull’evolversi dell’epidemia."
           ),
