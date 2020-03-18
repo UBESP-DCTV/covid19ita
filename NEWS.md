@@ -1,3 +1,5 @@
+* fix data province e nazionale from dpc
+
 # covid19ita 0.13.0
 
 * data update
