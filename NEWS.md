@@ -1,3 +1,5 @@
+# covid19ita 0.13.2
+
 * index intensive su tamponi
 * fix title highlight piemonte
 
