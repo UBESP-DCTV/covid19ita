@@ -62,8 +62,8 @@ dashboard_sidebar <- function() {dashboardSidebar(sidebarMenu(
     ),
     menuSubItem("2020-03-14 Veneto", tabName = "20200314Veneto",
           icon = icon("flag")
-)
-),
+    )
+  ),
 
   menuItem("Andamento epidemia", icon = icon("chart-line"),
     menuSubItem("Nazionale", tabName = "national", icon = icon("flag")),
