@@ -15,7 +15,7 @@ eng_app_server <- function(input, output, session) {
     eng_mod_info_sidebar_server("summary_today")
 
     ## Impact
-    mod_ind_ita_server("20200315")
+    eng_mod_ind_ita_server("20200315")
 
     ## plottply help
     eng_mod_help_plot_server("help")
