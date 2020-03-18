@@ -37,5 +37,6 @@ app_server <- function(input, output, session) {
 
     ## In evidenza
     mod_focus_20200314_server("dapb")
-    mod_focus_20200318_friuli_server("20200318")
+    mod_focus_20200318_friuli_server("20200318_fvg")
+    mod_focus_20200318_piemonte_server("20200318_piemonte")
 }
