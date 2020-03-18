@@ -1,3 +1,8 @@
+# covid19ita 0.12.1
+
+* added module for focus in friuli (20200318)
+* data update (after dpc fix)
+
 # covid19ita 0.12.0
 
 * data update
