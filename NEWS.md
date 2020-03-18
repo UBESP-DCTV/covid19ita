@@ -1,3 +1,5 @@
+# covid19ita 0.13.0
+
 * data update
 * small modifications to the translation (#4)
 * added (ita) module for focus on Piemonte (20200318)
