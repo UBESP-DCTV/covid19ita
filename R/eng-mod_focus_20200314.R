@@ -14,7 +14,7 @@ eng_mod_focus_20200314_ui <- function(id){
     fluidRow(
       box(width = 12,
         p(
-          "This worked aimes at giving a first impression of
+          "This works aimes at giving a first impression of
            the possible effect of the health policies implemented by the
            Veneto regions in order to contain the spread of COVID-19."
         ),
@@ -31,10 +31,10 @@ eng_mod_focus_20200314_ui <- function(id){
           "Thanks to the comparison between the predicted and actual
           values it was possible to estimate some quantities:</br>
           <ol>
-            <li>The number of avoided cases in the Veneto region as of the 12th of March: 348 (95% C.I. 322 – 373) (Figura 2)</li>
+            <li>The number of avoided cases in the Veneto region as of the 12th of March: 348 (95% C.I. 322 – 373) (Figure 2)</li>
             <li>How much the epidemic is slowing down compared to what was expected:
               <ul>
-                <li>2.4 (95% C.I. 2.05 -2.74) days were “gained” as of the 12th of March (Figura 3)</li>
+                <li>2.4 (95% C.I. 2.05 -2.74) days were “gained” as of the 12th of March (Figure 3)</li>
                 <li>the epidemic velocity registered a drop equal to 15.91 cases/day (95% C.I. 11.99 – 19.82), peaking on the 6th of March with 40 cases/day (Figure 4)</li>
               </ul>
             </li>
@@ -45,22 +45,22 @@ eng_mod_focus_20200314_ui <- function(id){
 
     fluidRow(
       box(width = 12, plotlyOutput(ns("fig1")),
-        title = "Figure 1. Estimated cases (bold red curve; the other two red curves indicate the 95% confidence levels) based on course of the epidemic as registered until the 2nd of March. Actual values (green dots) observed in the following days."
+        title = "Figure 1. Estimated cases (bold green curve; the other two green curves indicate the 95% confidence levels) based on course of the epidemic as registered until the 2nd of March. Actual values (red dots) observed in the following days."
       )
     ),
     fluidRow(
       box(width = 12, plotlyOutput(ns("fig2")),
-        title = "Figure 2. Avoided cases in the Veneto region compared to what was expected from the data gathered until the 2nd of March. The grey area indicates the 95% confidence interval)."
+        title = "Figure 2. Avoided cases in the Veneto region compared to what was expected from the data gathered until the 2nd of March. The grey area indicates the 95% confidence interval."
       )
     ),
     fluidRow(
       box(width = 12, plotlyOutput(ns("fig3")),
-        title = "Figure 3. Gained days, estimated by looking at the shift to the right of the curve (predicted vs observed). The grey area indicates the 95% confidence interval)."
+        title = "Figure 3. Gained days, estimated by looking at the shift to the right of the curve (predicted vs observed). The grey area indicates the 95% confidence interval."
       )
     ),
     fluidRow(
       box(width = 12, plotlyOutput(ns("fig4")),
-        title = "Figure 4. Slowdown of the epidemic velocity (predicted vs observed). The grey area indicates the 95% confidence interval)."
+        title = "Figure 4. Slowdown of the epidemic velocity (predicted vs observed). The grey area indicates the 95% confidence interval."
       )
     ),
 
@@ -72,14 +72,14 @@ eng_mod_focus_20200314_ui <- function(id){
           were observed until the 2nd of March. This day represents a
           change-point in terms of growth of the epidemics. This change in the
           number series was detected by a Bayesian Changepoint
-          Detection Method (1). The polinomial regression model is based on a
+          Detection Method (1). The polynomial regression model is based on a
           local approximation of the regression function (smoothing parameter
           equal to 1.5). The shape of the curve fits the quadratic trend
           of the early stage of the outbreak.
         "),
         p("
           Recent studies showed that the curve of cases could be of a quadratic
-          nautre rather than exponential, especially in the early stage of the outbreak
+          nature rather than exponential, especially in the early stage of the outbreak
           (2).
         ")
       )
@@ -200,7 +200,7 @@ eng_mod_focus_20200314_server <- function(id, region = "Veneto") {
     labs(
       title = "",
       x = "Day",
-      y = "Differential of cases"
+      y = "Difference of cases"
     ) +
     scale_x_datetime(date_breaks = "1 day", date_labels = "%d %b") +
     scale_y_continuous(breaks = seq(0, 400, 50)) +

@@ -9,7 +9,7 @@
 #' @importFrom shiny NS tagList
 eng_mod_help_plot_ui <- function(id){
   ns <- NS(id)
-  actionButton(ns("show"), "How to use the interactive graphs", icon("question"))
+  actionButton(ns("show"), "How to interact with graphs", icon("question"))
 }
 
 #' help_plot Server Function

@@ -45,7 +45,7 @@ eng_mod_info_sidebar_server <- function(id) {
 
     data_to_use <- reactive({
       switch(who(),
-        Italia = dpc_covid19_ita_andamento_nazionale,
+        Italy = dpc_covid19_ita_andamento_nazionale,
 
         dpc_covid19_ita_regioni %>%
           dplyr::filter(.data$denominazione_regione == who())
