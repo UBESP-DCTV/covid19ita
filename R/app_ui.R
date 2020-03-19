@@ -42,8 +42,8 @@ dashboard_header <- function() {dashboardHeader(
       href = "https://r-ubesp.dctv.unipd.it/shiny/covid19italy/"
     ),
     messageItem(
-      from = "Data",
-      message = "Data updated (2020-03-19 18:20)",
+      from = "Dati",
+      message = "Dati aggiornati (2020-03-19 18:20)",
       icon = icon("database")
     )
   )
