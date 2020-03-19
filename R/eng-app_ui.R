@@ -32,8 +32,16 @@ eng_app_ui <- function(request) {
 #' @noRd
 eng_dashboard_header <- function() {dashboardHeader(
 
-  title = "COVID-19 - Italy"
+  title = "COVID-19 - Italy",
 
+  dropdownMenu(type = "messages",
+    messageItem(
+      from = "Lingua",
+      message = "Clicca qui per il sito in italiano",
+      icon = icon("flag"),
+      href = "https://r-ubesp.dctv.unipd.it/shiny/covid19ita/"
+    )
+  )
 )}
 
 
