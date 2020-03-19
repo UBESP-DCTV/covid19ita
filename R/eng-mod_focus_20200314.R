@@ -16,7 +16,7 @@ eng_mod_focus_20200314_ui <- function(id){
         p(
           "This works aimes at giving a first impression of
            the possible effect of the health policies implemented by the
-           Veneto regions in order to contain the spread of COVID-19."
+           Veneto region in order to contain the spread of COVID-19."
         ),
         p(
           "In order to understand whether the containing measures helped
@@ -66,7 +66,7 @@ eng_mod_focus_20200314_ui <- function(id){
 
 
     fluidRow(
-      box(width = 12, title = "Technical data for the estimation of the model",
+      box(width = 12, title = "Technical details regarding the estimation of the model",
         p("
           The estimation of the model was based on the number series of the cases that
           were observed until the 2nd of March. This day represents a
