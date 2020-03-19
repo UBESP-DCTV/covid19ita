@@ -54,11 +54,14 @@ dashboard_sidebar <- function() {dashboardSidebar(sidebarMenu(
   menuItem("Home", tabName = "home", icon = icon("home")),
 
   menuItem("In evidenza", icon = icon("bullseye"),
+    menuSubItem("2020-03-19 Veneto", tabName = "20200319Veneto",
+                icon = icon("flag")
+    ),
     menuSubItem("2020-03-18 Piemonte", tabName = "20200318Piemonte",
                 icon = icon("flag")
     ),
     menuSubItem("2020-03-18 FVG", tabName = "20200318Fvg",
-                icon = icon("flag")
+         icon = icon("flag")
     ),
     menuSubItem("2020-03-14 Veneto", tabName = "20200314Veneto",
           icon = icon("flag")
@@ -206,6 +209,10 @@ dashboard_body <- function() {dashboardBody(
 
   ),
 
+  tabItem(tabName = "20200319Veneto",
+          h2("Possibile impatto delle politiche sanitarie sull'occupazione dei posti letto nelle terapie intensive in Veneto"),
+          mod_focus_20200318_veneto_intensive_ui("21")
+  ),
   tabItem(tabName = "20200318Piemonte",
           h2("Possibile effetto delle politiche sanitarie in Piemonte"),
           mod_focus_20200318_piemonte_ui("20200318_piemonte")
