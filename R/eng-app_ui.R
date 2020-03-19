@@ -53,7 +53,17 @@ eng_dashboard_sidebar <- function() {dashboardSidebar(sidebarMenu(
 
   menuItem("Home", tabName = "home", icon = icon("home")),
 
-  menuItem("Highlights", tabName = "focus", icon = icon("bullseye")),
+  menuItem("Highlights", icon = icon("bullseye"),
+           menuSubItem("2020-03-18 Piemonte", tabName = "20200318Piemonte",
+                       icon = icon("flag")
+           ),
+           menuSubItem("2020-03-18 FVG", tabName = "20200318Fvg",
+                       icon = icon("flag")
+           ),
+           menuSubItem("2020-03-14 Veneto", tabName = "20200314Veneto",
+                       icon = icon("flag")
+           )
+  ),
 
   menuItem("Epidemic", icon = icon("chart-line"),
     menuSubItem("National", tabName = "national", icon = icon("flag")),
@@ -198,6 +208,14 @@ eng_dashboard_body <- function() {dashboardBody(
 
   ),
 
+  tabItem(tabName = "20200318Piemonte",
+          h2("Possibile effetto delle politiche sanitarie in Friuli Venezia Giulia"),
+          mod_focus_20200318_piemonte_ui("20200318_piemonte")
+  ),
+  tabItem(tabName = "20200318Fvg",
+          h2("Possibile effetto delle politiche sanitarie in Friuli Venezia Giulia"),
+          mod_focus_20200318_friuli_ui("20200318_fvg")
+  ),
   tabItem(tabName = "focus",
     h1("Possible effect of the health policies implemented in the Veneto region"),
     eng_mod_focus_20200314_ui("dapb")

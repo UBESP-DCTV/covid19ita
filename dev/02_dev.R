@@ -34,6 +34,7 @@ golem::add_module(name = "help_plot")
 golem::add_module(name = "focus_20200314")
 golem::add_module(name = "ind_ita")
 golem::add_module(name = "focus_20200318_friuli")
+golem::add_module(name = "focus_20200318_piemonte")
 
 
 ## Add helper functions ----
