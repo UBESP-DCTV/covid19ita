@@ -184,8 +184,7 @@ mod_focus_20200318_piemonte_server <- function(id,
     geom_smooth() + geom_point(data = db_true) +
     geom_line(data = db_loess, aes(x = day, y = lower)) +
     geom_line(data = db_loess, aes(x = day, y = upper)) +
-    labs(title = "", x = "Giorno", y = "Totale casi") +
-    scale_x_datetime(date_breaks = "1 day", date_labels = "%d %b") +
+    labs(title = "", x = "Giorno", y = "Totale casi")
     global_theme
 
 
