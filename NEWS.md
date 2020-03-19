@@ -1,3 +1,5 @@
+# covid19ita 0.14.0
+
 * small change to eng_mod_focus_20200318 (#7)
 * translated eng_mod_focus_20200318_friuli and updated text in eng_app_ui(#8)
 * added message header
