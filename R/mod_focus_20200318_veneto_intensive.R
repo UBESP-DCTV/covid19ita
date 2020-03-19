@@ -68,9 +68,19 @@ mod_focus_20200318_veneto_intensive_server <- function(id) {
     dplyr::arrange(.data$data) %>%
     dplyr::mutate(days = dplyr::row_number())
 
+  train_next <- regione %>%
+    dplyr::filter((.data$time_point != 0)) %>%
+    dplyr::arrange(.data$data) %>%
+    dplyr::mutate(days = dplyr::row_number())
+
   fit_loess <- loess(terapia_intensiva ~ days,
                      data = train, span = 0.7,
                      control = loess.control(surface = "direct")
+  )
+
+  fit_loess_next <- loess(terapia_intensiva ~ days,
+      data = train_next, span = 0.7,
+      control = loess.control(surface = "direct")
   )
 
   y_loess <- stats::predict(fit_loess, n_seq_regione, se = TRUE)
@@ -84,6 +94,19 @@ mod_focus_20200318_veneto_intensive_server <- function(id) {
     series      = 'Predetto'
   )
 
+  y_loess_next <- stats::predict(fit_loess_next,
+    (max(train_next$days) + 1):(max(train_next$days) + 5),
+    se = TRUE
+  )
+  ci_ray_next <- qt(0.975, y_loess_next[["df"]]) * y_loess_next[["se.fit"]]
+
+  db_loess_next <- tibble::tibble(
+    day         = max(regione[["day"]]) + lubridate::days(1:5),
+    totale_casi = y_loess_next[["fit"]],
+    lower       = y_loess_next[["fit"]] - ci_ray_next,
+    upper       = y_loess_next[["fit"]] + ci_ray_next,
+    series      = 'Predetto'
+  )
 
   db_full <- db_true %>%
     dplyr::left_join(db_loess,
@@ -100,25 +123,34 @@ mod_focus_20200318_veneto_intensive_server <- function(id) {
 
       leading_nas <- rep(NA, input$n_days - 1)
 
-      pred <- db_full[["totale_casi_real"]] %>%
+      real <- c(
+        db_full[["totale_casi_real"]],
+        db_loess_next$totale_casi
+      ) %>%
         `-`(dplyr::lag(.))
-      attesi <-  db_full[["totale_casi_pred"]] %>%
+
+      attesi <- c(
+        db_full[["totale_casi_pred"]],
+        db_loess_next$totale_casi
+      ) %>%
         `-`(dplyr::lag(.))
+      attesi <- ifelse(attesi < 0, real, attesi)
 
 
       tibble::tibble(
-        day = db_full[["day"]][[1]] +
-          lubridate::days(seq_len(nrow(db_full) - 1 + input$n_days)),
-        n_osservati = c(pred, leading_nas),
-        n_attesi    = c(attesi, leading_nas),
-        cumulati_osservati = cumulate_for_days(pred, input$n_days),
-        cumulati_attesi    = cumulate_for_days(attesi, input$n_days)
+        day = c(db_full[["day"]], db_loess_next$day),
+        n_osservati = real,
+        n_attesi    = attesi,
+        cumulati_osservati = cumulate_for_days(real, input$n_days)[seq_along(.data$n_attesi)],
+        cumulati_attesi    = cumulate_for_days(attesi, input$n_days)[seq_along(.data$n_attesi)]
       ) %>%
         tidyr::pivot_longer(-day, names_to = c("mode", "type"), names_sep = "_")
     })
 
 
     output$fig1 <- renderPlotly({
+
+
 
       gg_fig1 <- data_to_use() %>%
           ggplot(aes(
@@ -128,16 +160,17 @@ mod_focus_20200318_veneto_intensive_server <- function(id) {
             colour = .data$type
           )) +
           geom_point() +
-          geom_line(
-            data = data_to_use() %>%
-              dplyr::filter(.data$mode == "cumulati")
-          ) +
-          scale_y_continuous(
+        geom_line() +
+        geom_vline(
+          xintercept = lubridate::now() - lubridate::days(1),
+          colour = "red"
+        ) +
+        scale_y_continuous(
             name   = "Numero di posti occupati in terapia intensiva",
-            limits = c(0, 300),
+            limits = c(0, 450),
             breaks = seq(
               from = 0,
-              to   = 300,
+              to   = 450,
               by   = 25
             )
           ) +
