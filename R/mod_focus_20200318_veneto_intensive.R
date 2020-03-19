@@ -31,7 +31,17 @@ mod_focus_20200318_veneto_intensive_ui <- function(id){
           )
       ),
       box(width = 12, plotlyOutput(ns("fig1")),
-          title = "Figure 1. Didascalia"
+          title = "Figure 1. Andamento cumulato dei posti occupati in
+            terapia intensiva in Veneto, ipotizzando un dato numero di
+            giorni medi di permanenza (indicato dall'utente tramite il
+            selettore). Le linee puntinate riportano tale accumulo
+            giorno per giorno, quelle a punti triangolari riportano
+            i posti occupati in più in ciascuna giornata. Le parti
+            rosse si riferiscono all'andamento atteso in assenza di
+            politiche di contenimento, quelle azzurre riportano, fino
+            al 18/03/2020, le quantità osservate, mentre successivamente
+            quelle stimate considerando il nuovo andamento a seguito
+            delle politiche di contenimento adottate."
       )
     ),
 
