@@ -1,3 +1,5 @@
+# covid19ita 0.14.1
+
 * in evidenza: cumulo terapie intensive Veneto
 
 # covid19ita 0.14.0
