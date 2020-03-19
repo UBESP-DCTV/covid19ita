@@ -1,3 +1,5 @@
+* translated eng_mod_focus_20200318_friuli and updated text in eng_app_ui(#8)
+* small change to eng_mod_focus_20200318 (#7)
 * fix label etichette/tamponi (#9)
 
 # covid19ita 0.13.2
@@ -12,6 +14,8 @@
 # covid19ita 0.13.0
 
 * data update
+* small modifications to the translation (#4)
+* translated eng_mod_focus_20200318_piemonte and updated text in eng_app_ui(#7)
 * small modifications to the translation (#4)
 * added (ita) module for focus on Piemonte (20200318)
 
