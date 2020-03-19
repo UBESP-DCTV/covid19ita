@@ -32,7 +32,21 @@ app_ui <- function(request) {
 #' @noRd
 dashboard_header <- function() {dashboardHeader(
 
-  title = "COVID-19 - Italia"
+  title = "COVID-19 - Italia",
+
+  dropdownMenu(type = "messages",
+    messageItem(
+      from = "Language",
+      message = "Click here for the English website",
+      icon = icon("flag"),
+      href = "https://r-ubesp.dctv.unipd.it/shiny/covid19italy/"
+    ),
+    messageItem(
+      from = "Dati",
+      message = "Dati aggiornati (2020-03-19 18:20)",
+      icon = icon("database")
+    )
+  )
 
 )}
 
@@ -65,8 +79,8 @@ dashboard_sidebar <- function() {dashboardSidebar(sidebarMenu(
     ),
     menuSubItem("2020-03-14 Veneto", tabName = "20200314Veneto",
           icon = icon("flag")
-)
-),
+    )
+  ),
 
   menuItem("Andamento epidemia", icon = icon("chart-line"),
     menuSubItem("Nazionale", tabName = "national", icon = icon("flag")),

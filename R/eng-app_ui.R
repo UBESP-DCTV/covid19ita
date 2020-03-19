@@ -32,8 +32,21 @@ eng_app_ui <- function(request) {
 #' @noRd
 eng_dashboard_header <- function() {dashboardHeader(
 
-  title = "COVID-19 - Italy"
+  title = "COVID-19 - Italy",
 
+  dropdownMenu(type = "messages",
+    messageItem(
+      from = "Lingua",
+      message = "Clicca qui per il sito in italiano",
+      icon = icon("flag"),
+      href = "https://r-ubesp.dctv.unipd.it/shiny/covid19ita/"
+    ),
+    messageItem(
+      from = "Data",
+      message = "Data updated (2020-03-19 18:20)",
+      icon = icon("database")
+    )
+  )
 )}
 
 
@@ -53,7 +66,17 @@ eng_dashboard_sidebar <- function() {dashboardSidebar(sidebarMenu(
 
   menuItem("Home", tabName = "home", icon = icon("home")),
 
-  menuItem("Highlights", tabName = "focus", icon = icon("bullseye")),
+  menuItem("Highlights", icon = icon("bullseye"),
+           menuSubItem("2020-03-18 Piemonte", tabName = "20200318Piemonte",
+                       icon = icon("flag")
+           ),
+           menuSubItem("2020-03-18 FVG", tabName = "20200318Fvg",
+                       icon = icon("flag")
+           ),
+           menuSubItem("2020-03-14 Veneto", tabName = "20200314Veneto",
+                       icon = icon("flag")
+           )
+  ),
 
   menuItem("Epidemic", icon = icon("chart-line"),
     menuSubItem("National", tabName = "national", icon = icon("flag")),
@@ -198,12 +221,18 @@ eng_dashboard_body <- function() {dashboardBody(
 
   ),
 
-  tabItem(tabName = "focus",
+  tabItem(tabName = "20200318Piemonte",
+          h2("Possible effect of the health policies implemented in the Piemonte region"),
+          eng_mod_focus_20200318_piemonte_ui("20200318_piemonte")
+  ),
+  tabItem(tabName = "20200318Fvg",
+          h2("Possible effect of the health policies implemented in the Friuli Venezia Giulia region"),
+          eng_mod_focus_20200318_friuli_ui("20200318_fvg")
+  ),
+  tabItem(tabName = "20200314Veneto",
     h1("Possible effect of the health policies implemented in the Veneto region"),
     eng_mod_focus_20200314_ui("dapb")
   ),
-
-
 
   tabItem(tabName = "national",
     h2("National events"),
