@@ -40,6 +40,11 @@ dashboard_header <- function() {dashboardHeader(
       message = "Click here for the English website",
       icon = icon("flag"),
       href = "https://r-ubesp.dctv.unipd.it/shiny/covid19italy/"
+    ),
+    messageItem(
+      from = "Data",
+      message = "Data updated (2020-03-19 18:20)",
+      icon = icon("database")
     )
   )
 
