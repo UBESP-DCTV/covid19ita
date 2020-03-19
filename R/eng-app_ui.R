@@ -209,19 +209,17 @@ eng_dashboard_body <- function() {dashboardBody(
   ),
 
   tabItem(tabName = "20200318Piemonte",
-          h2("Possibile effetto delle politiche sanitarie in Friuli Venezia Giulia"),
+          h2("Possible effect of the health policies implemented in the Piemonte region"),
           eng_mod_focus_20200318_piemonte_ui("20200318_piemonte")
   ),
   tabItem(tabName = "20200318Fvg",
-          h2("Possibile effetto delle politiche sanitarie in Friuli Venezia Giulia"),
+          h2("Possible effect of the health policies implemented in the Friuli Venezia Giulia region"),
           eng_mod_focus_20200318_friuli_ui("20200318_fvg")
   ),
-  tabItem(tabName = "focus",
+  tabItem(tabName = "20200314Veneto",
     h1("Possible effect of the health policies implemented in the Veneto region"),
     eng_mod_focus_20200314_ui("dapb")
   ),
-
-
 
   tabItem(tabName = "national",
     h2("National events"),
