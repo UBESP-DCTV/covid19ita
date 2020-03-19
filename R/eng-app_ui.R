@@ -214,7 +214,7 @@ eng_dashboard_body <- function() {dashboardBody(
   ),
   tabItem(tabName = "20200318Fvg",
           h2("Possibile effetto delle politiche sanitarie in Friuli Venezia Giulia"),
-          mod_focus_20200318_friuli_ui("20200318_fvg")
+          eng_mod_focus_20200318_friuli_ui("20200318_fvg")
   ),
   tabItem(tabName = "focus",
     h1("Possible effect of the health policies implemented in the Veneto region"),
