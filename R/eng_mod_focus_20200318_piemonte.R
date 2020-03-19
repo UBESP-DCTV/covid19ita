@@ -13,31 +13,28 @@ mod_focus_20200318_piemonte_ui <- function(id){
     fluidRow(
       box(width = 12,
           p(
-            "Obiettivo è quello di avere una first-look impression sul
-            possibile effetto delle politiche sanitarie implementate in
-            Piemonte a contenimento dell’ epidemia COVID-19."
+            "This works aimes at giving a first impression of
+           the possible effect of the health policies implemented by the
+           Piemonte region in order to contain the spread of COVID-19."
           ),
           p(
-            "Si è confrontato l’andamento prevedibile in base ai dati al
-            9 marzo con l’andamento effettivamente riscontrato in
-            Friuli Venezia Giulia, per capire se parte o tutte delle
-            azioni implementate abbiano avuto un effetto plausibile di
-            rallentamento sull’evolversi dell’epidemia."
+            "In order to understand whether the containing measures helped
+          slow down the spread of COVID-19, a predictive model based on the
+          data collected until the 9rd of March was compared to what was
+          actually observed."
           ),
           p(
-            "La Figura 1 mostra che vi è stato un rallentamento dopo il
-            9 marzo, giorno in cui si è osservato un changepoint
-            nell’andamento epidemico."),
+            "Figure 1 shows that there was a slowdown after the 9th of
+          March: this day represents an epidemic change-point."),
           p(HTML(
-            "In base a questo confronto (curva stimata al 9 marzo e
-            dati osservati nei giorni seguenti) è stato possibile
-            stimare alcune grandezze:</br>
+            "Thanks to the comparison between the predicted and actual
+          values it was possible to estimate some quantities:</br>
           <ol>
-            <li>1.	Il numero di casi positivi che si sono evitati al 15 marzo in Piemonte: 545 (95% C.I. 461 – 629) (Figura 2)</li>
-            <li>2.	Il rallentamento dell’evolversi della epidemia rispetto al previsto:
+            <li>1.	The number of avoided cases in the Piemonte region as of the 15th of March: 545 (95% C.I. 461 – 629) (Figure 2)</li>
+            <li>2.	How much the epidemic has slowed down compared to what was expected:
               <ul>
-                <li>a.	a.	2.43 (95% C.I. 1.59 -3.27) giorni “guadagnati” a parità di livelli di casi positivi, complessivamente al 15 marzo (Figura 3)</li>
-                <li>b.	b.	Rallentamento dell’epidemia al 15 marzo pari a 95 casi/giorno (95% C.I. 84 – 106).</li>
+                <li>a.	a.	2.43 (95% C.I. 1.59 -3.27) days were “gained” as of the 15th of March (Figure 3)</li>
+                <li>b.	b.	the epidemic velocity registered a drop equal to 95 cases/day (95% C.I. 84 – 106) (Figure 4)</li>
               </ul>
             </li>
           </ol>"
@@ -47,43 +44,42 @@ mod_focus_20200318_piemonte_ui <- function(id){
 
     fluidRow(
       box(width = 12, plotlyOutput(ns("fig1")),
-          title = "Figure 1. Casi stimati (curva azzurra in grassetto) in base all’andamento della epidemia al 9 marzo. Andamento osservato (punti rossi) nei giorni successivi."
+          title = "Figure 1. Estimated cases (bold green curve) based on course of the epidemic as registered until the 9th of March. Actual values (red dots) observed in the following days."
       )
     ),
     fluidRow(
       box(width = 12, plotlyOutput(ns("fig2")),
-          title = "Figure 2. Numero di casi evitati in Piemonte rispetto all’andamento previsto al giorno 9 marzo. L’area grigia indica l’intervallo di confidenza al 95%)."
+          title = "Figure 2. Avoided cases in the Piemonte region compared to what was expected from the data gathered until the 9th of March. The grey area indicates the 95% confidence interval."
       )
     ),
     fluidRow(
       box(width = 12, plotlyOutput(ns("fig3")),
-          title = "Figure 3. Giorni di “ritardo”, stimati in base allo shift a destra della curva di crescita (stimato al 9 marzo vs. osservato). L’area grigia indica l’intervallo di confidenza al 95%)."
+          title = "Figure 3. Gained days, estimated by looking at the shift to the right of the curve (predicted vs observed). The grey area indicates the 95% confidence interval."
       )
     ),
     fluidRow(
       box(width = 12, plotlyOutput(ns("fig4")),
-          title = "Figure 4. Rallentamento dell’osservato rispetto al previsto al 9 marzo. L’area grigia indica l’intervallo di confidenza al 95%)."
+          title = "Figure 4. Slowdown of the epidemic velocity (predicted vs observed). The grey area indicates the 95% confidence interval."
       )
     ),
 
 
     fluidRow(
-      box(width = 12, title = "Dati tecnici sulla stima del Modello",
+      box(width = 12, title = "Technical details regarding the estimation of the model",
           p("
-          La stima del modello è stata effettuata sulla serie del numero
-          di casi osservati fino al 9 marzo. Tale giorno è stato
-          identificato in base ad un BCPDM (Bayesian Changepoint
-          Detection Method) (1). Il modello di regressione polinomiale
-          si basa su un’approssimazione locale della funzione di
-          regressione (smoothing pari a 1.5).  L’andamento della curva
-          stimata si adatta allo shape tendenzialmente quadratico
-          dell’andamento epidemico nelle prime fasi della diffusione.
+          The estimation of the model was based on the number series of the cases that
+          were observed until the 9th of March. This day represents a
+          change-point in terms of growth of the epidemics. This change in the
+          number series was detected by a Bayesian Changepoint
+          Detection Method (1). The polynomial regression model is based on a
+          local approximation of the regression function (smoothing parameter
+          equal to 1.5). The shape of the curve fits the quadratic trend
+          of the early stage of the outbreak.
         "),
           p("
-          Recenti studi hanno dimostrato che la curva dei contagi dai
-          casi di COVID-19 potrebbe avere crescita quadratica piuttosto
-          che di natura esponenziale, soprattutto nelle prime fasi del
-          contagio (2).
+          Recent studies showed that the curve of cases could be of a quadratic
+          nature rather than exponential, especially in the early stage of the outbreak
+          (2).
         ")
       )
     ),
@@ -184,7 +180,7 @@ mod_focus_20200318_piemonte_server <- function(id,
     geom_smooth() + geom_point(data = db_true) +
     geom_line(data = db_loess, aes(x = day, y = lower)) +
     geom_line(data = db_loess, aes(x = day, y = upper)) +
-    labs(title = "", x = "Giorno", y = "Totale casi") +
+    labs(title = "", x="Day", y = "Cases") +
     scale_x_datetime(date_breaks = "1 day", date_labels = "%d %b") +
     global_theme
 
@@ -209,8 +205,8 @@ mod_focus_20200318_piemonte_server <- function(id,
     stat_smooth() + geom_point() +
     labs(
       title = "",
-      x = "Giorno",
-      y = "Differenziale di casi totali"
+      x = "Day",
+      y = "Difference of cases"
     ) +
     scale_x_datetime(date_breaks = "1 day", date_labels = "%d %b") +
     scale_y_continuous(breaks = seq(0, 400, 50)) +
@@ -247,8 +243,8 @@ mod_focus_20200318_piemonte_server <- function(id,
     stat_smooth() + geom_point() +
     labs(
       title = "",
-      x = "Giorno",
-      y = "Numero giorni guadagnati"
+      x = "Day",
+      y = "Number of gained days"
     ) +
     scale_x_datetime(date_breaks = "1 day", date_labels = "%d %b") +
     scale_y_continuous(breaks = seq(0, 3, 1)) +
@@ -295,7 +291,7 @@ mod_focus_20200318_piemonte_server <- function(id,
     labs(
       title = "",
       x = "Data",
-      y = "Variazione nei nuovi casi"
+      y = "Change of rate in cases"
     ) +
     scale_x_datetime(date_breaks = "1 day", date_labels = "%d %b") +
     scale_y_continuous(breaks = seq(-50, 50, 10)) +
