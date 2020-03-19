@@ -1,3 +1,5 @@
+* in evidenza: cumulo terapie intensive Veneto
+
 # covid19ita 0.14.0
 
 * small change to eng_mod_focus_20200318 (#7)
