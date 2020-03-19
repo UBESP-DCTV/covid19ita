@@ -9,18 +9,6 @@
 #' @importFrom shiny NS tagList
 mod_focus_20200318_veneto_intensive_ui <- function(id){
   ns <- NS(id)
-  fluidPage(
-    fluidRow(
-      box(width = 12,
-          p(
-            "Un paragrafo"
-          ),
-          p(
-            "Un altro paragrafo"
-          )
-      )
-    ),
-
     fluidRow(
       box(width = 6,
           sliderInput(ns("n_days"),
@@ -31,21 +19,19 @@ mod_focus_20200318_veneto_intensive_ui <- function(id){
           )
       ),
       box(width = 12, plotlyOutput(ns("fig1")),
-          title = "Figure 1. Andamento cumulato dei posti occupati in
-            terapia intensiva in Veneto, ipotizzando un dato numero di
-            giorni medi di permanenza (indicato dall'utente tramite il
-            selettore). Le linee puntinate riportano tale accumulo
-            giorno per giorno, quelle a punti triangolari riportano
-            i posti occupati in più in ciascuna giornata. Le parti
-            rosse si riferiscono all'andamento atteso in assenza di
-            politiche di contenimento, quelle azzurre riportano, fino
-            al 18/03/2020, le quantità osservate, mentre successivamente
-            quelle stimate considerando il nuovo andamento a seguito
-            delle politiche di contenimento adottate."
+          title = "Figure 1. Numero di ricoveri in terapia intensiva
+          osservati e predetti al 23 marzo (fit loess 0.7 span,
+          2 degree). La curva in rosso si riferisce all'andamento
+          previsto in assenza di contenimento al 04 marzo, quella verde
+          all'andamento effettivamente osservato fino al 18 marzo e
+          proiettato in avanti di 5 giorni (fino al 23 marzo).
+          Di default, la stima ipotizza un numero di giorni di
+          permanenza medio pari a 10 giorni. Lo slider permette di
+          osservare le previsioni simulando tempi diversi di degenza
+          media in terapia intensiva (da 7 giorni minimo a 28 giorni
+          massimo)"
       )
-    ),
-
-  )
+    )
 }
 
 #' focus_20200318_veneto_intensive Server Function

@@ -36,15 +36,20 @@ dashboard_header <- function() {dashboardHeader(
 
   dropdownMenu(type = "messages",
     messageItem(
-      from = "Language",
-      message = "Click here for the English website",
-      icon = icon("flag"),
-      href = "https://r-ubesp.dctv.unipd.it/shiny/covid19italy/"
+      from = "In evidenza",
+      message = "2020-03-19 Veneto: Cumulo t. intensiva",
+      icon = icon("bed")
     ),
     messageItem(
       from = "Dati",
       message = "Dati aggiornati (2020-03-19 18:20)",
       icon = icon("database")
+    ),
+    messageItem(
+      from = "Language",
+      message = "Click here for the English website",
+      icon = icon("flag"),
+      href = "https://r-ubesp.dctv.unipd.it/shiny/covid19italy/"
     )
   )
 
