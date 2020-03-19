@@ -1,3 +1,5 @@
+* Fix legent tamponi (#10)
+
 # covid19ita 0.14.1
 
 * in evidenza: cumulo terapie intensive Veneto

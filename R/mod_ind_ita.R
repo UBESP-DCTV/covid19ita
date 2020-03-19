@@ -191,7 +191,8 @@ mod_ind_ita_server <- function(id) {
         )) +
         geom_smooth(se = FALSE) +
         ylab("(t. intensiva / residenti) x 100000 ab.") +
-        xlab("(tamponi / residenti) x 100000 ab.")
+        xlab("(tamponi / residenti) x 100000 ab.") +
+        scale_color_discrete(name = "Regione")
 
       ggplotly(gg_titamponi)
     })
