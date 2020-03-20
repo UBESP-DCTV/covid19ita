@@ -52,18 +52,25 @@ mod_ind_ita_ui <- function(id){
 
     h2(HTML("Terapie intensive")),
     fluidRow(
-      shiny::selectInput(ns("whichRegion"),
+      selectInput(width = "45%", ns("whichRegion"),
         label = "Selezionare le regioni da visualizzare",
-        choices  = regions(),
+        choices = regions(),
         selectize = TRUE,
         selected = c("Lombardia", "Veneto", "Emilia Romagna"),
-        multiple = TRUE,
-        width = "100%"
+        multiple = TRUE
+      ),
+      sliderInput(width = "45%", ns("lastDate"),
+        label = "Selezionare l'ultima data da considerare per la stima del modello",
+        value = max(dpc_covid19_ita_regioni$data),
+        min = min(dpc_covid19_ita_regioni$data) + lubridate::days(6),
+        max = max(dpc_covid19_ita_regioni$data),
+        step = lubridate::days(1),
+        animate = animationOptions(interval = 1100)
       )
     ),
     box(plotlyOutput(ns("titamponi")),
       width = 12,
-      title = "Occupazione terapia intensiva per tamponi non sintomatici effettuati (approssimati dal totale tamponi effettuati sottratti dei pazienti ricoverati con sintomi e in terapia intensiva)."
+      title = "Andamento (fit loess, span = 1.5, degree = 2) regionale dell'occupazione dei posti in terapia intensiva in funzione del numero di tamponi non sintomatici effettuati (approssimati dal totale tamponi effettuati sottratti dei pazienti ricoverati con sintomi e in terapia intensiva), fino al giorno indicato dallo slider. È possibile riprodurre l'intero andamento dinamicamente in automatico tramite il tasto play."
     )
 
 
@@ -132,10 +139,18 @@ mod_ind_ita_server <- function(id) {
 
   ## dati per tamponi
   dati_tamponi <- dpc_covid19_ita_regioni %>%
+    dplyr::left_join(region_population) %>%
     dplyr::group_by(.data$denominazione_regione) %>%
-    dplyr::mutate(tamponi_no_sintomi = .data$tamponi -
-                                .data$ricoverati_con_sintomi -
-                                .data$terapia_intensiva
+    dplyr::mutate(
+      tamponi_no_sintomi = .data$tamponi -
+                           .data$ricoverati_con_sintomi -
+                           .data$terapia_intensiva,
+      tamp_asint_pesati = 100000 * (
+        .data$tamponi_no_sintomi/.data$residenti
+      ),
+      intensiva_pesati  = 100000 * (
+        .data$terapia_intensiva/.data$residenti
+      )
     ) %>%
     dplyr::ungroup()
 
@@ -184,27 +199,37 @@ mod_ind_ita_server <- function(id) {
 
 
     ## terapia intensiva per tamponi
-    which_region <- reactive({
+    data_to_use <- reactive({
       req(input$whichRegion)
+      req(input$lastDate)
+
+      dati_tamponi %>%
+        dplyr::filter(
+          .data$data <= input$lastDate,
+          .data$denominazione_regione %in% input$whichRegion
+        )
     })
+
 
 
     output$titamponi <- renderPlotly({
 
 
 
-      gg_titamponi <- dati_tamponi %>%
-        dplyr::filter(.data$denominazione_regione %in% which_region()) %>%
-        dplyr::left_join(region_population) %>%
+      gg_titamponi <- data_to_use() %>%
         ggplot(aes(
-          x = 100000 * (.data$tamponi_no_sintomi/.data$residenti),
-          y = 100000 * (.data$terapia_intensiva/.data$residenti),
+          x = .data$tamp_asint_pesati,
+          y = .data$intensiva_pesati,
           colour = .data$denominazione_regione,
           label = .data$denominazione_regione
         )) +
-        geom_smooth(se = FALSE) +
+        geom_smooth(method = stats::loess, span = 1.5, se = FALSE) +
         ylab("(t. intensiva / residenti) x 100000 ab.") +
         xlab("(tamponi non sintomatici / residenti) x 100000 ab.") +
+        coord_cartesian(
+          xlim = c(0, max(dati_tamponi$tamp_asint_pesati) + 1L),
+          ylim = c(0, max(dati_tamponi$intensiva_pesati))
+        ) +
         scale_color_discrete(name = "Regione")
 
       ggplotly(gg_titamponi)
