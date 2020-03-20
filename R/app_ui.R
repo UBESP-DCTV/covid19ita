@@ -37,8 +37,8 @@ dashboard_header <- function() {dashboardHeader(
   dropdownMenu(type = "messages",
     messageItem(
       from = "In evidenza",
-      message = "2020-03-19 Veneto: Cumulo t. intensiva",
-      icon = icon("bed")
+      message = "2020-03-20 Novara: Previsione casi",
+      icon = icon("search")
     ),
     messageItem(
       from = "Dati",
@@ -72,12 +72,16 @@ dashboard_sidebar <- function() {dashboardSidebar(sidebarMenu(
 
   menuItem("Home", tabName = "home", icon = icon("home")),
 
+
   menuItem("In evidenza", icon = icon("bullseye"),
+    menuSubItem("2020-03-20 Novara", tabName = "20200320Novara",
+                icon = icon("flag")
+    ),
     menuSubItem("2020-03-19 Veneto", tabName = "20200319Veneto",
                 icon = icon("flag")
     ),
     menuSubItem("2020-03-18 Piemonte", tabName = "20200318Piemonte",
-                icon = icon("flag")
+         icon = icon("flag")
     ),
     menuSubItem("2020-03-18 FVG", tabName = "20200318Fvg",
          icon = icon("flag")
@@ -228,6 +232,10 @@ dashboard_body <- function() {dashboardBody(
 
   ),
 
+  tabItem(tabName = "20200320Novara",
+          h2("Stime previsive sul totale casi a Novara"),
+          mod_focus_20200320_novara_ui("da_novara")
+  ),
   tabItem(tabName = "20200319Veneto",
           h2("Possibile impatto delle politiche sanitarie sull'occupazione dei posti letto nelle terapie intensive in Veneto"),
           mod_focus_20200318_veneto_intensive_ui("21")
@@ -330,7 +338,7 @@ dashboard_body <- function() {dashboardBody(
 
     p("Per il suo sviluppo sono stati utilizzati i pacchetti di espansione {shiny} ver. 1.4.0, {shinydashboard} v.0.7.1 e {golem} ver. 0.2.1."),
 
-    p("Le analisi sono state eseguite sfruttando le funzioni dei pacchetti {stats} ver. 3.6.3, e {gam} ver. 1.16.1"),
+    p("Le analisi sono state eseguite sfruttando le funzioni dei pacchetti {stats} ver. 3.6.3, {gam} ver. 1.16.1, e {mgcv} ver. 1.8-31"),
 
     p("I grafici sono stati prodotti grazie ai pacchetti {ggplot2} ver. 3.3.0 e {plotly} ver. 4.9.2."),
 

@@ -36,6 +36,7 @@ golem::add_module(name = "ind_ita")
 golem::add_module(name = "focus_20200318_friuli")
 golem::add_module(name = "focus_20200318_piemonte")
 golem::add_module(name = "focus_20200318_veneto_intensive")
+golem::add_module(name = "focus_20200320_novara")
 
 
 ## Add helper functions ----
@@ -45,6 +46,7 @@ golem::add_utils("helpers")
 golem::add_utils("render_box_using")
 golem::add_utils("extract_ci_from_gg_txt")
 golem::add_fct("cumulate_for_days")
+golem::add_utils("pred_to_tbl")
 
 
 
