@@ -63,7 +63,7 @@ mod_ind_ita_ui <- function(id){
     ),
     box(plotlyOutput(ns("titamponi")),
       width = 12,
-      title = "Occupazione terapia intensiva per tamponi effettuati"
+      title = "Occupazione terapia intensiva per tamponi non sintomatici effettuati (approssimati dal totale tamponi effettuati sottratti dei pazienti ricoverati con sintomi e in terapia intensiva)."
     )
 
 
@@ -130,6 +130,15 @@ mod_ind_ita_server <- function(id) {
   }
 
 
+  ## dati per tamponi
+  dati_tamponi <- dpc_covid19_ita_regioni %>%
+    dplyr::group_by(.data$denominazione_regione) %>%
+    dplyr::mutate(tamponi_no_sintomi = .data$tamponi -
+                                .data$ricoverati_con_sintomi -
+                                .data$terapia_intensiva
+    ) %>%
+    dplyr::ungroup()
+
 
   callModule(id = id, function(input, output, session){
     ns <- session$ns
@@ -179,19 +188,23 @@ mod_ind_ita_server <- function(id) {
       req(input$whichRegion)
     })
 
+
     output$titamponi <- renderPlotly({
-      gg_titamponi <- dpc_covid19_ita_regioni %>%
+
+
+
+      gg_titamponi <- dati_tamponi %>%
         dplyr::filter(.data$denominazione_regione %in% which_region()) %>%
         dplyr::left_join(region_population) %>%
         ggplot(aes(
-          x = 100000 * (.data$tamponi/.data$residenti),
+          x = 100000 * (.data$tamponi_no_sintomi/.data$residenti),
           y = 100000 * (.data$terapia_intensiva/.data$residenti),
           colour = .data$denominazione_regione,
           label = .data$denominazione_regione
         )) +
         geom_smooth(se = FALSE) +
         ylab("(t. intensiva / residenti) x 100000 ab.") +
-        xlab("(tamponi / residenti) x 100000 ab.") +
+        xlab("(tamponi non sintomatici / residenti) x 100000 ab.") +
         scale_color_discrete(name = "Regione")
 
       ggplotly(gg_titamponi)
