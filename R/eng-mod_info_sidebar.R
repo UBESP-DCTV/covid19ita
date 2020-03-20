@@ -15,7 +15,8 @@ eng_mod_info_sidebar_ui <- function(id) {
       ns("who"),
       label = HTML(glue::glue("
         --------</br>
-        <strong>Here below the data as of {as.Date(last_data_update)}</strong></br>
+        <strong>Here below the data as of </br>
+        {as.Date(last_data_update)}</strong>
         (Select area):
       ")),
       choices  = c("Italy", regions()),

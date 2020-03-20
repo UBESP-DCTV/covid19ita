@@ -1,3 +1,5 @@
+* fix date position (sidebar) (#18)
+* translated 2020-03-19 Veneto and added tab in eng-app_ui and image in eng-app_server (#12)
 * index t.intensiva/tamponi non sintomatici dinamico
 * Added insight for Novara (ita, #20)
 * Changed plot intensive/tamponi y in tamponi non sintomatici (#17)
@@ -10,7 +12,8 @@
 # covid19ita 0.14.0
 
 * small change to eng_mod_focus_20200318 (#7)
-* translated eng_mod_focus_20200318_friuli and updated text in eng_app_ui(#8)
+* rectified a mistake
+* translated eng_mod_focus_20200318_friuli and updated text in eng_app_ui(#6)
 * added message header
 * added button to switch language
 * data update
@@ -28,6 +31,7 @@
 # covid19ita 0.13.0
 
 * data update
+* small change to eng_mod_focus_20200318_piemonte (#7)
 * small modifications to the translation (#4)
 * translated eng_mod_focus_20200318_piemonte and updated text in eng_app_ui(#7)
 * small modifications to the translation (#4)

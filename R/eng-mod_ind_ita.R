@@ -12,7 +12,7 @@ eng_mod_ind_ita_ui <- function(id){
 
   fluidPage(
 
-    h2(HTML("<strong>Decessi</strong>")),
+    h2(HTML("<strong>Deaths</strong>")),
     fluidRow(
       box(plotlyOutput(ns("dsp")),
         width = 6, title = "Decesead over positive cases"
@@ -23,12 +23,12 @@ eng_mod_ind_ita_ui <- function(id){
     ),
 
 
-    h2(HTML("<strong>Guariti</strong>")),
+    h2(HTML("<strong>Recovered</strong>")),
     box(plotlyOutput(ns("dgso")),
         width = 12, title = "Recovered over hospitalized"
     ),
 
-    h2(HTML("<strong>Isolamento domiciliare</strong>")),
+    h2(HTML("<strong>Self Isolation</strong>")),
     box(plotlyOutput(ns("idso")),
         width = 12, title = "Home confined over hospitalized"
     ),
