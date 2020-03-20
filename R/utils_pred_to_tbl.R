@@ -22,7 +22,7 @@ predict_to_tbl <- function(pred, data) {
 
 gg_novara <- function(db_pred, db_true) {
   ggplot(db_pred, aes(
-    x = .data$day,
+    x = as.Date(.data$day),
     y = .data$totale_casi,
     colour = .data$series
   )) +
@@ -30,5 +30,6 @@ gg_novara <- function(db_pred, db_true) {
     geom_line() +
     geom_line(aes(y = lower), linetype = "dashed") +
     geom_line(aes(y = upper), linetype = "dashed") +
-    labs(title = "", x = "Giorno", y = "Totale casi")
+    labs(title = "", x = "Giorno", y = "Totale casi") +
+    scale_x_date(date_breaks = "1 day", date_labels = "%b %d")
 }

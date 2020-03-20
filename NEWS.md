@@ -1,3 +1,5 @@
+* fix date axes in Novara
+
 # covid19ita 0.15.1
 
 # covid19ita 0.15.0

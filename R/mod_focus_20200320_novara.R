@@ -81,8 +81,7 @@ mod_focus_20200320_novara_server <- function(id) {
 
   ## scenario 1: loess
 
-  new_data_loess <-
-    db_loess <- stats::loess(totale_casi ~ days,
+  db_loess <- stats::loess(totale_casi ~ days,
       data = novara,
       control = stats::loess.control(surface = "direct")
     ) %>%
