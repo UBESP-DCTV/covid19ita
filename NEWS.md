@@ -1,3 +1,4 @@
+* Added insight for Novara (ita, #20)
 * Changed plot intensive/tamponi y in tamponi non sintomatici (#17)
 * Fix legend tamponi (#10)
 
