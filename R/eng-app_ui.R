@@ -67,6 +67,9 @@ eng_dashboard_sidebar <- function() {dashboardSidebar(sidebarMenu(
   menuItem("Home", tabName = "home", icon = icon("home")),
 
   menuItem("Highlights", icon = icon("bullseye"),
+           menuSubItem("2020-03-19 Veneto", tabName = "20200319Veneto",
+                       icon = icon("flag")
+           ),
            menuSubItem("2020-03-18 Piemonte", tabName = "20200318Piemonte",
                        icon = icon("flag")
            ),
@@ -219,6 +222,11 @@ eng_dashboard_body <- function() {dashboardBody(
 
     )
 
+  ),
+
+  tabItem(tabName = "20200319Veneto",
+          h2("Possible impact of the health policies implemented in the Veneto region on the number of patients admitted to the ICU"),
+          eng_mod_focus_20200318_veneto_intensive_ui("21")
   ),
 
   tabItem(tabName = "20200318Piemonte",
