@@ -1,5 +1,6 @@
+* rectified a mistake
 * translated eng_mod_focus_20200318_friuli and updated text in eng_app_ui(#8)
-* small change to eng_mod_focus_20200318 (#7)
+* small change to eng_mod_focus_20200318_piemonte (#7)
 * small modifications to the translation (#4)
 * translated eng_mod_focus_20200318_piemonte and updated text in eng_app_ui(#7)
 * small modifications to the translation (#4)
