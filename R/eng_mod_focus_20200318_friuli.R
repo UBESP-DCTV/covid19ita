@@ -33,8 +33,8 @@ eng_mod_focus_20200318_friuli_ui <- function(id){
             <li>1.	The number of avoided cases in the Veneto region as of the 14th of March: 118 (95% C.I. 102 – 135) (Figure 2)</li>
             <li>2.	How much the epidemic is slowing down compared to what was expected:
               <ul>
-                <li>a.	1.61 (95% C.I. 0.57 - 2.66) days were “gained” as of the 14th of March (Figure 3))</li>
-                <li>b.	the epidemic velocity registered a drop equal to 44 cases/day (95% C.I. 40 – 47).</li>
+                <li>a.	1.61 (95% C.I. 0.57 - 2.66) days were “gained” as of the 14th of March (Figure 3)</li>
+                <li>b.	the epidemic velocity registered a drop equal to 44 cases/day (95% C.I. 40 – 47) (Figure 4)</li>
               </ul>
             </li>
           </ol>"
