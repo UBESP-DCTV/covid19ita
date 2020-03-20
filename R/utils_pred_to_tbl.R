@@ -1,4 +1,4 @@
-predict_to_tbl <- function(pred) {
+predict_to_tbl <- function(pred, data) {
 
 
   ci_ray <- if ("df" %in% names(pred)) {
@@ -8,7 +8,10 @@ predict_to_tbl <- function(pred) {
   }
 
   tibble::tibble(
-    day         = c(regione[["day"]], sequenza),
+    day         = c(
+      data[["day"]],
+      max(data[["day"]]) + lubridate::days(1:3)
+    ),
     totale_casi = pred[["fit"]],
     lower       = pred[["fit"]] - ci_ray,
     upper       = pred[["fit"]] + ci_ray,

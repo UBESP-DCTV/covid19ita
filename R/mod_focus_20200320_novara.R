@@ -44,7 +44,7 @@ mod_focus_20200320_novara_ui <- function(id){
 #' @noRd
 mod_focus_20200320_novara_server <- function(id) {
 
-  regione <- dpc_covid19_ita_province  %>%
+  novara <- dpc_covid19_ita_province  %>%
     dplyr::filter(.data$denominazione_provincia == "Novara") %>%
     dplyr::mutate(
       day  = lubridate::ymd_hms(.data$data),
@@ -52,14 +52,16 @@ mod_focus_20200320_novara_server <- function(id) {
     )
 
   # tre giorni successivi all'ultimo
-  sequenza <- max(regione$day) + lubridate::days(1:3)
   new_to_predict <- tibble::tibble(
-    days = seq_len(nrow(regione) + 3)
+    days = seq_len(nrow(novara) + 3)
   )
 
   db_true <- tibble::tibble(
-    day         = c(regione[["day"]], sequenza),
-    totale_casi = c(regione[["totale_casi"]], rep(NA, 3)),
+    day         = c(
+      novara[["day"]],
+      max(novara$day) + lubridate::days(1:3)
+    ),
+    totale_casi = c(novara[["totale_casi"]], rep(NA, 3)),
     lower       = NA_real_,
     upper       = NA_real_,
     series      = 'Osservato'
@@ -81,11 +83,11 @@ mod_focus_20200320_novara_server <- function(id) {
 
   new_data_loess <-
     db_loess <- stats::loess(totale_casi ~ days,
-      data = regione,
+      data = novara,
       control = stats::loess.control(surface = "direct")
     ) %>%
     stats::predict(new_to_predict[["days"]], se = TRUE) %>%
-    predict_to_tbl()
+    predict_to_tbl(novara)
 
   # fig 1
   gg_fig_1 <- db_loess %>%
@@ -96,14 +98,14 @@ mod_focus_20200320_novara_server <- function(id) {
 
   ## scenario 2 GAM
   db_gam <- mgcv::gam(totale_casi ~ splines::ns(days, 3),
-      data = regione
+      data = novara
     ) %>%
     stats::predict(
       newdata = new_to_predict,
       se = TRUE,
       type = "response"
     ) %>%
-    predict_to_tbl()
+    predict_to_tbl(novara)
 
   # fig 2
   gg_fig_2 <- db_gam %>%
@@ -112,20 +114,20 @@ mod_focus_20200320_novara_server <- function(id) {
 
 
   ## scenario 3 poisson offset log population
-  regione$novara_pop <- 104284
+  novara$novara_pop <- 104284
 
   db_poisson <- stats::glm(totale_casi ~ splines::ns(days, 3),
-      data = regione,
+      data = novara,
       family = "poisson",
       offset = log(novara_pop)
     ) %>%
     stats::predict(
       newdata = new_to_predict %>%
-        dplyr::mutate(novara_pop = regione$novara_pop[[1]]),
+        dplyr::mutate(novara_pop = novara$novara_pop[[1]]),
       se = TRUE,
       type = "response"
     ) %>%
-    predict_to_tbl()
+    predict_to_tbl(novara)
 
   # fig 3
   gg_fig_3 <- db_poisson %>%
