@@ -1,4 +1,5 @@
-* Fix legent tamponi (#10)
+* Changed plot intensive/tamponi y in tamponi non sintomatici (#17)
+* Fix legend tamponi (#10)
 
 # covid19ita 0.14.1
 
