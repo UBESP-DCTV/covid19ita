@@ -1,3 +1,4 @@
+* fix date position (sidebar) (#18)
 * translated 2020-03-19 Veneto and added tab in eng-app_ui and image in eng-app_server (#12)
 
 # covid19ita 0.14.1
