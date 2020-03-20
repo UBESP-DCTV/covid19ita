@@ -20,7 +20,7 @@ mod_focus_20200318_piemonte_ui <- function(id){
           p(
             "Si è confrontato l’andamento prevedibile in base ai dati al
             9 marzo con l’andamento effettivamente riscontrato in
-            Friuli Venezia Giulia, per capire se parte o tutte delle
+            Piemonte, per capire se parte o tutte delle
             azioni implementate abbiano avuto un effetto plausibile di
             rallentamento sull’evolversi dell’epidemia."
           ),
@@ -184,8 +184,7 @@ mod_focus_20200318_piemonte_server <- function(id,
     geom_smooth() + geom_point(data = db_true) +
     geom_line(data = db_loess, aes(x = day, y = lower)) +
     geom_line(data = db_loess, aes(x = day, y = upper)) +
-    labs(title = "", x = "Giorno", y = "Totale casi") +
-    scale_x_datetime(date_breaks = "1 day", date_labels = "%d %b") +
+    labs(title = "", x = "Giorno", y = "Totale casi")
     global_theme
 
 

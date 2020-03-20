@@ -1,5 +1,29 @@
+# covid19ita 0.14.1
+
+* in evidenza: cumulo terapie intensive Veneto
+
+# covid19ita 0.14.0
+
+* small change to eng_mod_focus_20200318 (#7)
 * rectified a mistake
 * translated eng_mod_focus_20200318_friuli and updated text in eng_app_ui(#8)
+* added message header
+* added button to switch language
+* data update
+* fix label etichette/tamponi (#9)
+
+# covid19ita 0.13.2
+
+* index intensive su tamponi
+* fix title highlight piemonte
+
+# covid19ita 0.13.1
+
+* fix data province e nazionale from dpc
+
+# covid19ita 0.13.0
+
+* data update
 * small change to eng_mod_focus_20200318_piemonte (#7)
 * small modifications to the translation (#4)
 * translated eng_mod_focus_20200318_piemonte and updated text in eng_app_ui(#7)
