@@ -1,3 +1,6 @@
+* fix date position (sidebar) (#18)
+* translated 2020-03-19 Veneto and added tab in eng-app_ui and image in eng-app_server (#12)
+
 # covid19ita 0.14.1
 
 * in evidenza: cumulo terapie intensive Veneto
@@ -6,7 +9,7 @@
 
 * small change to eng_mod_focus_20200318 (#7)
 * rectified a mistake
-* translated eng_mod_focus_20200318_friuli and updated text in eng_app_ui(#8)
+* translated eng_mod_focus_20200318_friuli and updated text in eng_app_ui(#6)
 * added message header
 * added button to switch language
 * data update
