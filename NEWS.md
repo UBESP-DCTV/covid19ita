@@ -1,3 +1,5 @@
+* translated Novara 2020-03-20 (#20)
+
 # covid19ita 0.15.2
 
 * fix date axes in Novara

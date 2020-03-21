@@ -40,4 +40,5 @@ eng_app_server <- function(input, output, session) {
     eng_mod_focus_20200318_friuli_server("20200318_fvg")
     eng_mod_focus_20200318_piemonte_server("20200318_piemonte")
     eng_mod_focus_20200318_veneto_intensive_server("21")
+    eng_mod_focus_20200320_novara_server("da_novara")
 }
