@@ -13,8 +13,8 @@ mod_focus_20200320_novara_ui <- function(id){
     fluidRow(
       box(width = 12, p(
         "Le previsioni vengono effettuate stimando un modello sui dati
-        osservati (Totale Casi) fino al 19 marzo per poi fare delle
-        previsioni per i 3 giorni successivi."
+        osservati (Totale Casi) fino al giorno corrente per poi fare
+        delle previsioni per i 3 giorni successivi."
       ))
     ),
 
