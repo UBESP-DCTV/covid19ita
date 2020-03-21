@@ -38,7 +38,7 @@ eng_mod_ts_reg_ui <- function(id){
 #' ts_reg Server Function
 #'
 #' @noRd
-mod_ts_reg_server <- function(id, type = c("cum", "inc"), color_var = c("measure", "region")) {
+eng_mod_ts_reg_server <- function(id, type = c("cum", "inc"), color_var = c("measure", "region")) {
 
   type <- match.arg(type)
   color_var <- switch(match.arg(color_var),
@@ -108,7 +108,7 @@ mod_ts_reg_server <- function(id, type = c("cum", "inc"), color_var = c("measure
         ggplot(aes(x = .data$data, y = .data$N, colour = .data[[{{color_var}}]])) +
         geom_line() + geom_point() +
         facet_wrap(~.data[[{{facet_var}}]], scales = "free_y") +
-        xlab("Data") +
+        xlab("Date") +
         ylab(y_lab()) +
         scale_x_date(date_breaks = "1 day", date_labels = "%b %d") +
         scale_colour_discrete(name = color_name) +
