@@ -36,10 +36,19 @@ eng_dashboard_header <- function() {dashboardHeader(
 
   dropdownMenu(type = "messages",
     messageItem(
-      from = "Lingua",
-      message = "Clicca qui per il sito in italiano",
-      icon = icon("flag"),
-      href = "https://r-ubesp.dctv.unipd.it/shiny/covid19ita/"
+      from = "Highlights",
+      message = "2020-03-21 Alessandria: cases predictions",
+      icon = icon("search")
+    ),
+    messageItem(
+      from = "Highlights",
+      message = "2020-03-21 Vercelli: cases predictions",
+      icon = icon("search")
+    ),
+    messageItem(
+      from = "Highlights",
+      message = "2020-03-21 Novara: cases predictions",
+      icon = icon("search")
     ),
     messageItem(
       from = "Data",
@@ -47,19 +56,10 @@ eng_dashboard_header <- function() {dashboardHeader(
       icon = icon("database")
     ),
     messageItem(
-      from = "Highlights",
-      message = "2020-03-20 Novara: cases predictions",
-      icon = icon("search")
-    ),
-    messageItem(
-      from = "In evidenza",
-      message = "2020-03-21 Alessandria: cases predictions",
-      icon = icon("search")
-    ),
-    messageItem(
-      from = "In evidenza",
-      message = "2020-03-21 Vercelli: cases predictions",
-      icon = icon("search")
+      from = "Lingua",
+      message = "Clicca qui per il sito in italiano",
+      icon = icon("flag"),
+      href = "https://r-ubesp.dctv.unipd.it/shiny/covid19ita/"
     )
   )
 )}
