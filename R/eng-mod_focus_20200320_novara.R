@@ -7,32 +7,32 @@
 #' @noRd
 #'
 #' @importFrom shiny NS tagList
-mod_focus_20200320_novara_ui <- function(id){
+eng_mod_focus_20200320_novara_ui <- function(id){
   ns <- NS(id)
   tagList(
     fluidRow(
       box(width = 12, p(
-        "Le previsioni vengono effettuate stimando un modello sui dati
-        osservati (Totale Casi) fino al giorno corrente per poi fare
-        delle previsioni per i 3 giorni successivi."
+        "The estimation of the models are based on the data
+        collected until the 19th of March; the models are used
+        to predict the number of total cases for the next three days."
       ))
     ),
 
     fluidRow(
       box(width = 12, plotlyOutput(ns("fig1")),
-          title = "Scenario 1. Il primo scenario utilizza una Local Polinomial Regression Estimation con un valore alpha che definisce lo smoothing della curva di 0.75. Si riportano inoltre le stima per il totale casi con i relativi intervalli di confidenza al 95%."
+          title = "Scenario 1. The first scenario uses Local Polinomial Regression Estimation with smoothing parameter alpha equal to 0.75. The expected number of total cases for the next days are reported on the graph together with the 95% CI."
       ),
       box(width = 12, DT::DTOutput(ns("data1")))
     ),
     fluidRow(
       box(width = 12, plotlyOutput(ns("fig2")),
-          title = "Scenario 2. Il secondo scenario basa le stime previsive su un modello GAM (Generalized additive model) con una spline naturale per tener conto della non linearità. Si riportano inoltre le stima per il totale casi con i relativi intervalli di confidenza al 95%."
+          title = "Scenario 2. The second scenario is based on a Generalized Additive Model (GAM) where a natural spline was used to account for non-linearity. The expected number of total cases for the next days are reported on the graph together with the 95% CI."
       ),
       box(width = 12, DT::DTOutput(ns("data2")))
     ),
     fluidRow(
       box(width = 12, plotlyOutput(ns("fig3")),
-          title = "Scenario 3. Il terzo scenario basa le stime previsive su un modello di poisson con un offset sulla popolazione residente con una spline naturale per tener conto della non linearità. Si riportano inoltre le stima per il totale casi con i relativi intervalli di confidenza al 95%."
+          title = "Scenario 3. Il third scenario is based on a Poisson Model (using an offset to account for the place of residency) with a natural spline to account for non-linearity. The expected number of total cases for the next days are reported on the graph together with the 95% CI."
       ),
       box(width = 12, DT::DTOutput(ns("data3")))
     )
@@ -42,11 +42,11 @@ mod_focus_20200320_novara_ui <- function(id){
 #' focus_20200320_novara Server Function
 #'
 #' @noRd
-mod_focus_20200320_novara_server <- function(
+eng_mod_focus_20200320_novara_server <- function(
   id,
   loc = c("Novara", "Vercelli", "Alessandria"),
   pop = 104284 # Novara
-) {
+  ) {
   loc <- match.arg(loc)
   usethis::ui_todo("loc = {loc}, pop = {pop}")
 
