@@ -45,6 +45,21 @@ eng_dashboard_header <- function() {dashboardHeader(
       from = "Data",
       message = "Data updated (2020-03-19 18:20)",
       icon = icon("database")
+    ),
+    messageItem(
+      from = "Highlights",
+      message = "2020-03-20 Novara: cases predictions",
+      icon = icon("search")
+    ),
+    messageItem(
+      from = "In evidenza",
+      message = "2020-03-21 Alessandria: cases predictions",
+      icon = icon("search")
+    ),
+    messageItem(
+      from = "In evidenza",
+      message = "2020-03-21 Vercelli: cases predictions",
+      icon = icon("search")
     )
   )
 )}
@@ -67,6 +82,12 @@ eng_dashboard_sidebar <- function() {dashboardSidebar(sidebarMenu(
   menuItem("Home", tabName = "home", icon = icon("home")),
 
   menuItem("Highlights", icon = icon("bullseye"),
+           menuSubItem("2020-03-21 Alessandria", tabName = "20200321Alessandria",
+                       icon = icon("flag")
+           ),
+           menuSubItem("2020-03-21 Vercelli", tabName = "20200321Vercelli",
+                       icon = icon("flag")
+           ),
            menuSubItem("2020-03-20 Novara", tabName = "20200320Novara",
                        icon = icon("flag")
            ),
@@ -225,6 +246,15 @@ eng_dashboard_body <- function() {dashboardBody(
 
     )
 
+  ),
+
+  tabItem(tabName = "20200321Alessandria",
+          h2("Expected number of total cases in Alessandria"),
+          eng_mod_focus_20200320_novara_ui("da_alessandria")
+  ),
+  tabItem(tabName = "20200321Vercelli",
+          h2("Expected number of total cases in Vercelli"),
+          eng_mod_focus_20200320_novara_ui("da_vercelli")
   ),
 
   tabItem(tabName = "20200320Novara",

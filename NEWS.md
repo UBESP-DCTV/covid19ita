@@ -1,3 +1,4 @@
+* added alessandria and vercelli
 * translated x-y labels of the graphs in the epidemic section (#4)
 * translated Novara 2020-03-20 (#20)
 

@@ -42,10 +42,16 @@ eng_mod_focus_20200320_novara_ui <- function(id){
 #' focus_20200320_novara Server Function
 #'
 #' @noRd
-eng_mod_focus_20200320_novara_server <- function(id) {
+eng_mod_focus_20200320_novara_server <- function(
+  id,
+  loc = c("Novara", "Vercelli", "Alessandria"),
+  pop = 104284 # Novara
+  ) {
+  loc <- match.arg(loc)
+  usethis::ui_todo("loc = {loc}, pop = {pop}")
 
-  novara <- dpc_covid19_ita_province  %>%
-    dplyr::filter(.data$denominazione_provincia == "Novara") %>%
+  loc_db <- dpc_covid19_ita_province  %>%
+    dplyr::filter(.data$denominazione_provincia == loc) %>%
     dplyr::mutate(
       day  = lubridate::ymd_hms(.data$data),
       days = dplyr::row_number()
@@ -53,15 +59,15 @@ eng_mod_focus_20200320_novara_server <- function(id) {
 
   # tre giorni successivi all'ultimo
   new_to_predict <- tibble::tibble(
-    days = seq_len(nrow(novara) + 3)
+    days = seq_len(nrow(loc_db) + 3)
   )
 
   db_true <- tibble::tibble(
     day         = c(
-      novara[["day"]],
-      max(novara$day) + lubridate::days(1:3)
+      loc_db[["day"]],
+      max(loc_db$day) + lubridate::days(1:3)
     ),
-    totale_casi = c(novara[["totale_casi"]], rep(NA, 3)),
+    totale_casi = c(loc_db[["totale_casi"]], rep(NA, 3)),
     lower       = NA_real_,
     upper       = NA_real_,
     series      = 'Osservato'
@@ -82,11 +88,11 @@ eng_mod_focus_20200320_novara_server <- function(id) {
   ## scenario 1: loess
 
   db_loess <- stats::loess(totale_casi ~ days,
-      data = novara,
+      data = loc_db,
       control = stats::loess.control(surface = "direct")
     ) %>%
     stats::predict(new_to_predict[["days"]], se = TRUE) %>%
-    predict_to_tbl(novara)
+    predict_to_tbl(loc_db)
 
   # fig 1
   gg_fig_1 <- db_loess %>%
@@ -97,14 +103,14 @@ eng_mod_focus_20200320_novara_server <- function(id) {
 
   ## scenario 2 GAM
   db_gam <- mgcv::gam(totale_casi ~ splines::ns(days, 3),
-      data = novara
+      data = loc_db
     ) %>%
     stats::predict(
       newdata = new_to_predict,
       se = TRUE,
       type = "response"
     ) %>%
-    predict_to_tbl(novara)
+    predict_to_tbl(loc_db)
 
   # fig 2
   gg_fig_2 <- db_gam %>%
@@ -113,20 +119,20 @@ eng_mod_focus_20200320_novara_server <- function(id) {
 
 
   ## scenario 3 poisson offset log population
-  novara$novara_pop <- 104284
+  loc_db$pop <- pop
 
   db_poisson <- stats::glm(totale_casi ~ splines::ns(days, 3),
-      data = novara,
+      data = loc_db,
       family = "poisson",
-      offset = log(novara_pop)
+      offset = log(pop)
     ) %>%
     stats::predict(
       newdata = new_to_predict %>%
-        dplyr::mutate(novara_pop = novara$novara_pop[[1]]),
+        dplyr::mutate(pop = pop),
       se = TRUE,
       type = "response"
     ) %>%
-    predict_to_tbl(novara)
+    predict_to_tbl(loc_db)
 
   # fig 3
   gg_fig_3 <- db_poisson %>%
