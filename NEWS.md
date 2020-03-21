@@ -1,3 +1,5 @@
+# covid19ita 0.16.0
+
 * Update data
 * Added focus section for Vercelli and Alessandria
 * Update istruzioni (ita)
