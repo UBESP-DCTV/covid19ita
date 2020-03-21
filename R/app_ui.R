@@ -74,6 +74,12 @@ dashboard_sidebar <- function() {dashboardSidebar(sidebarMenu(
 
 
   menuItem("In evidenza", icon = icon("bullseye"),
+    menuSubItem("2020-03-21 Alessandria", tabName = "20200321Alessandria",
+                icon = icon("flag")
+    ),
+    menuSubItem("2020-03-21 Vercelli", tabName = "20200321Vercelli",
+                icon = icon("flag")
+    ),
     menuSubItem("2020-03-20 Novara", tabName = "20200320Novara",
                 icon = icon("flag")
     ),
@@ -232,6 +238,14 @@ dashboard_body <- function() {dashboardBody(
 
   ),
 
+  tabItem(tabName = "20200321Alessandria",
+          h2("Stime previsive sul totale casi ad Alessandria"),
+          mod_focus_20200320_novara_ui("da_alessandria")
+  ),
+  tabItem(tabName = "20200321Vercelli",
+          h2("Stime previsive sul totale casi a Vercelli"),
+          mod_focus_20200320_novara_ui("da_vercelli")
+  ),
   tabItem(tabName = "20200320Novara",
           h2("Stime previsive sul totale casi a Novara"),
           mod_focus_20200320_novara_ui("da_novara")
