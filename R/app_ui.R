@@ -211,9 +211,9 @@ dashboard_body <- function() {dashboardBody(
         HTML(
           "<ol>
             <li><strong>Home</strong>: Questa pagina.</li>
-            <li><strong>In evidenza</strong>: Principali considerazioni per la regione Veneto.</li>
+            <li><strong>In evidenza</strong>: Considerazioni su temi specifici locali o regionali.</li>
             <li><strong>Andamento epidemia</strong>: Serie temporali dinamiche e interattive.</li>
-            <li><strong>Indici principali</strong>: modelli e previsioni regionali e nazionali.</li>
+            <li><strong>Indici principali</strong>: Principali indici di interesse locale, regionale o nazionale.</li>
             <li><strong>Segnalazioni</strong>: link per segnalazioni tecniche relative all'applicazione.</li>
             <li><strong>Fonti e informazioni</strong>: Descrizione fonti, licenze d'uso e software utilizzati per lo sviluppo.</li>
             <li><strong>Metriche ultima giornata</strong>: Selezionando una regione (o 'Italia', default) vengono visualizzate le principali metriche dell'ultimo aggiornamento dati, che normalmente avviene alle ore 18 da parte della protezione civile.</li>
