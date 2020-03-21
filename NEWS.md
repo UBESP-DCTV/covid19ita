@@ -1,3 +1,4 @@
+* Update data
 * Added focus section for Vercelli and Alessandria
 * Update istruzioni (ita)
 

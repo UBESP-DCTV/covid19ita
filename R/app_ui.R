@@ -37,12 +37,17 @@ dashboard_header <- function() {dashboardHeader(
   dropdownMenu(type = "messages",
     messageItem(
       from = "In evidenza",
-      message = "2020-03-20 Novara: Previsione casi",
+      message = "2020-03-21 Alessandria: Previsione casi",
+      icon = icon("search")
+    ),
+    messageItem(
+      from = "In evidenza",
+      message = "2020-03-21 Vercelli: Previsione casi",
       icon = icon("search")
     ),
     messageItem(
       from = "Dati",
-      message = "Dati aggiornati (2020-03-19 18:20)",
+      message = glue::glue("Dati aggiornati ({last_data_update})"),
       icon = icon("database")
     ),
     messageItem(
