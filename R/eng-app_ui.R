@@ -67,6 +67,9 @@ eng_dashboard_sidebar <- function() {dashboardSidebar(sidebarMenu(
   menuItem("Home", tabName = "home", icon = icon("home")),
 
   menuItem("Highlights", icon = icon("bullseye"),
+           menuSubItem("2020-03-20 Novara", tabName = "20200320Novara",
+                       icon = icon("flag")
+           ),
            menuSubItem("2020-03-19 Veneto", tabName = "20200319Veneto",
                        icon = icon("flag")
            ),
@@ -222,6 +225,11 @@ eng_dashboard_body <- function() {dashboardBody(
 
     )
 
+  ),
+
+  tabItem(tabName = "20200320Novara",
+          h2("Expected number of total cases in Novara"),
+          eng_mod_focus_20200320_novara_ui("da_novara")
   ),
 
   tabItem(tabName = "20200319Veneto",

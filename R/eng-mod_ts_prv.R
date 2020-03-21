@@ -29,7 +29,7 @@ eng_mod_ts_prv_ui <- function(id){
 #' ts_prv Server Function
 #'
 #' @noRd
-mod_ts_prv_server <- function(id, type = c("cum", "inc")) {
+eng_mod_ts_prv_server <- function(id, type = c("cum", "inc")) {
 
   type <- match.arg(type)
 
