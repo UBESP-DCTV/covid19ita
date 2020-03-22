@@ -1,3 +1,5 @@
+# covid19ita 0.17.0
+
 * update data
 * Update team group
 * fix link to linkedin account
