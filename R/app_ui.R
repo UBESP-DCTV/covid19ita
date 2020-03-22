@@ -242,7 +242,7 @@ dashboard_body <- function() {dashboardBody(
             di Scienze Cardio- Toraco- Vascolari e Sanità Pubblica --
             Università degli studi di Padova."
           ),
-          a(href = "https://linkedin.com/in/ilaria-prosepe-1b52371a4", target = "_blank", "LinkedIn")
+          a(href = "https://www.linkedin.com/in/nicolas-destro-b2a67212b/", target = "_blank", "LinkedIn")
         )
       ),
 
