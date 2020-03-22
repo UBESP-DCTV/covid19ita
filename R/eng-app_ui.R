@@ -181,6 +181,7 @@ eng_dashboard_body <- function() {dashboardBody(
         )
       ),
 
+
       box(width = 12, title = HTML("<strong>Epidemiological modelling</strong>"),
         p(
           HTML("Prof. <strong>Paola Berchialla</strong>, PhD, Department of Clinical
@@ -189,6 +190,20 @@ eng_dashboard_body <- function() {dashboardBody(
           a(href = "https://linkedin.com/in/paola-berchialla-36b44410", target = "_blank", "LinkedIn")
         ),
 
+        p(
+          HTML(
+            '<strong>Dolores Catelan</strong>, Ph.D., Department of
+            Statistics, Computer Sciences, Applications "G. Parenti" (DISIA),
+            Università degli Studi di Firenze'
+          ),
+          a(
+            href = "https://www.linkedin.com/in/dolores-catelan-43998b23/",
+            target = "_blank", "LinkedIn"
+          )
+        )
+      ),
+
+      box(width = 12, title = HTML("<strong>Modelli Previsivi</strong>"),
         p(HTML("<strong>Danila Azzolina</strong>, PhD, Department of Translational Medicine --
           Università del Piemonte Orientale"),
           a(href = "https://linkedin.com/in/danila-azzolina-862465166", target = "_blank", "LinkedIn")
@@ -201,6 +216,25 @@ eng_dashboard_body <- function() {dashboardBody(
           a(href = "https://linkedin.com/in/ilaria-prosepe-1b52371a4", target = "_blank", "LinkedIn")
         )
       ),
+
+
+      box(width = 12, title = HTML("<strong>Modelli di Environmental Epidemiology and Pollution</strong>"),
+          p(
+            HTML(
+              'Prof. <strong>Annibale Biggeri</strong>, MD, MSPH, MSB,
+              Department of Statistics, Computer Sciences, Applications
+              "G. Parenti" (DISIA), Università degli Studi di Firenze'
+            ),
+            a(href = "https://linkedin.com/in/danila-azzolina-862465166", target = "_blank", "LinkedIn")
+          ),
+          p(HTML("<strong>Elisa Gallo</strong>, MS., Unità di
+           Biostatistics, Epidemiology and Public Health of the Department
+           of Cardiac, Thoracic and Vascular Sciences and Public Health --
+           Università degli studi di Padova."),
+            a(href = "https://www.linkedin.com/in/elisa-gallo-9b3933152/", target = "_blank", "LinkedIn")
+          )
+      ),
+
 
       box(width = 12, title = HTML("<strong>Risk communication</strong>"),
         p(
@@ -218,7 +252,7 @@ eng_dashboard_body <- function() {dashboardBody(
             of Cardiac, Thoracic and Vascular Sciences and Public Health --
             Università degli Studi di Padova."
           ),
-          a(href = "https://linkedin.com/in/ilaria-prosepe-1b52371a4", target = "_blank", "LinkedIn")
+          a(href = "https://www.linkedin.com/in/nicolas-destro-b2a67212b/", target = "_blank", "LinkedIn")
         )
       ),
 
