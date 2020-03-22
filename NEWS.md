@@ -1,3 +1,5 @@
+* fix link to linkedin account
+
 # covid19ita 0.16.0
 
 * Update data

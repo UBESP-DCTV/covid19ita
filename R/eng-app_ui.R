@@ -252,7 +252,7 @@ eng_dashboard_body <- function() {dashboardBody(
             of Cardiac, Thoracic and Vascular Sciences and Public Health --
             Università degli Studi di Padova."
           ),
-          a(href = "https://linkedin.com/in/ilaria-prosepe-1b52371a4", target = "_blank", "LinkedIn")
+          a(href = "https://www.linkedin.com/in/nicolas-destro-b2a67212b/", target = "_blank", "LinkedIn")
         )
       ),
 
