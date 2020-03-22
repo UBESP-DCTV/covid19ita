@@ -183,18 +183,47 @@ dashboard_body <- function() {dashboardBody(
           ),
           a(href = "https://linkedin.com/in/paola-berchialla-36b44410", target = "_blank", "LinkedIn")
         ),
+        p(
+          HTML(
+            '<strong>Dolores Catelan</strong>, Ph.D., Dipartimento di
+            Statistica, Informatica, Applicazioni "G. Parenti" (DISIA),
+            Università degli Studi di Firenze'
+          ),
+          a(
+            href = "https://www.linkedin.com/in/dolores-catelan-43998b23/",
+            target = "_blank", "LinkedIn"
+          )
+        )
+      ),
 
-        p(HTML("<strong>Danila Azzolina</strong>, Ph.D., Dipartimento di Medicina Traslazionale --
+      box(width = 12, title = HTML("<strong>Modelli Previsivi</strong>"),
+          p(HTML("<strong>Danila Azzolina</strong>, Ph.D., Dipartimento di Medicina Traslazionale --
           Università del Piemonte Orientale"),
-          a(href = "https://linkedin.com/in/danila-azzolina-862465166", target = "_blank", "LinkedIn")
-        ),
-
-        p(HTML("<strong>Ilaria Prosepe</strong>, MS., Unità di
+            a(href = "https://linkedin.com/in/danila-azzolina-862465166", target = "_blank", "LinkedIn")
+          ),
+          p(HTML("<strong>Ilaria Prosepe</strong>, MS., Unità di
            Biostatistica, Epidemiologia e Sanità Pubblica del Dipartimento
            di Scienze Cardio- Toraco- Vascolari e Sanità Pubblica --
            Università degli studi di Padova."),
-          a(href = "https://linkedin.com/in/ilaria-prosepe-1b52371a4", target = "_blank", "LinkedIn")
-        )
+            a(href = "https://linkedin.com/in/ilaria-prosepe-1b52371a4", target = "_blank", "LinkedIn")
+          )
+      ),
+
+      box(width = 12, title = HTML("<strong>Modelli di Epidemiologia Ambientale e Inquinamento</strong>"),
+          p(
+            HTML(
+              'Prof. <strong>Annibale Biggeri</strong>, MD, MSPH, MSB,
+              Dipartimento di Statistica, Informatica, Applicazioni
+              "G. Parenti" (DISIA), Università degli Studi di Firenze'
+            ),
+            a(href = "https://linkedin.com/in/danila-azzolina-862465166", target = "_blank", "LinkedIn")
+          ),
+          p(HTML("<strong>Elisa Gallo</strong>, MS., Unità di
+           Biostatistica, Epidemiologia e Sanità Pubblica del Dipartimento
+           di Scienze Cardio- Toraco- Vascolari e Sanità Pubblica --
+           Università degli studi di Padova."),
+            a(href = "https://www.linkedin.com/in/elisa-gallo-9b3933152/", target = "_blank", "LinkedIn")
+          )
       ),
 
       box(width = 12, title = HTML("<strong>Comunicazione del Rischio</strong>"),
