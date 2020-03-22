@@ -1,3 +1,5 @@
+* Update team group
+
 # covid19ita 0.16.0
 
 * Update data
