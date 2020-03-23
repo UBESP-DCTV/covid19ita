@@ -49,4 +49,7 @@ app_server <- function(input, output, session) {
       loc = "Alessandria",
       pop = 428826
     )
+
+    ## Previsioni
+    mod_sir_models_server("sir_1")
 }

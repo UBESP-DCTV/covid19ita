@@ -110,6 +110,12 @@ dashboard_sidebar <- function() {dashboardSidebar(sidebarMenu(
 
   menuItem("Indici principali", tabName = "impact", icon = icon("compass")),
 
+  menuItem("Modelli previsivi", icon = icon("chart-line"),
+    menuSubItem("SIR", tabName = "sir",
+      icon = icon("file-prescription")
+    )
+  ),
+
   menuItem("Segnalazioni", icon = icon("exclamation-triangle"),
     href = "https://github.com/UBESP-DCTV/covid19ita/issues/"
   ),
@@ -405,6 +411,12 @@ dashboard_body <- function() {dashboardBody(
   tabItem(tabName = "impact",
     h1("Indici principali"),
     mod_ind_ita_ui("20200315")
+  ),
+
+
+  tabItem(tabName = "sir",
+    h1("Modello SIR"),
+    mod_sir_models_ui("sir_1")
   )
 
 ))}
