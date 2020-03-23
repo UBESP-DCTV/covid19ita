@@ -79,6 +79,9 @@ dashboard_sidebar <- function() {dashboardSidebar(sidebarMenu(
 
 
   menuItem("In evidenza", icon = icon("bullseye"),
+    menuSubItem("2020-03-23 Metodologia", tabName = "20200323Picco",
+                icon = icon("flag")
+    ),
     menuSubItem("2020-03-21 Alessandria", tabName = "20200321Alessandria",
                 icon = icon("flag")
     ),
@@ -272,6 +275,10 @@ dashboard_body <- function() {dashboardBody(
 
   ),
 
+  tabItem(tabName = "20200321Alessandria",
+          h2("Trova il Picco!"),
+          mod_focus_20200323_picco_ui("picco")
+  ),
   tabItem(tabName = "20200321Alessandria",
           h2("Stime previsive sul totale casi ad Alessandria"),
           mod_focus_20200320_novara_ui("da_alessandria")
