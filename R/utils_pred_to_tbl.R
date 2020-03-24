@@ -2,7 +2,7 @@ predict_to_tbl <- function(pred, data) {
 
 
   ci_ray <- if ("df" %in% names(pred)) {
-    qt(0.975, pred[["df"]]) * pred[["se.fit"]]
+    stats::qt(0.975, pred[["df"]]) * pred[["se.fit"]]
   } else {
     1.96 * pred[["se.fit"]]
   }
@@ -28,8 +28,8 @@ gg_novara <- function(db_pred, db_true) {
   )) +
     geom_point(data = db_true) +
     geom_line() +
-    geom_line(aes(y = lower), linetype = "dashed") +
-    geom_line(aes(y = upper), linetype = "dashed") +
+    geom_line(aes(y = .data$lower), linetype = "dashed") +
+    geom_line(aes(y = .data$upper), linetype = "dashed") +
     labs(title = "", x = "Giorno", y = "Totale casi") +
     scale_x_date(date_breaks = "1 day", date_labels = "%b %d")
 }
