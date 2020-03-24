@@ -1,3 +1,5 @@
+# covid19ita 0.19.0
+
 * spellcheck
 * `cumulate_for_days()` -> `accumulate_for_days()`
 * parametric national and regional logistic estimation
