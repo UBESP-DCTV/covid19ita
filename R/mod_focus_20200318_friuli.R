@@ -177,7 +177,7 @@ mod_focus_20200318_friuli_server <- function(id, region = "Friuli Venezia Giulia
     series      = 'Predetto'
   )
 
-  fit2_loess <- loess(totale_casi ~ days,
+  fit2_loess <- stats::loess(totale_casi ~ days,
     data = train_2,
     span = 1.5,
     control = stats::loess.control(surface = "direct"))

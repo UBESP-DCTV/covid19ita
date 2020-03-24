@@ -43,7 +43,7 @@ mod_focus_20200318_veneto_intensive_server <- function(id) {
     dplyr::filter(.data$denominazione_regione == "Veneto") %>%
     dplyr::mutate(
       day = lubridate::ymd_hms(.data$data),
-      time_point = ifelse(day <= lubridate::ymd('2020-03-04'),
+      time_point = ifelse(.data$day <= lubridate::ymd('2020-03-04'),
                           yes = 0,
                           no  = 1
       )
@@ -69,18 +69,18 @@ mod_focus_20200318_veneto_intensive_server <- function(id) {
     dplyr::arrange(.data$data) %>%
     dplyr::mutate(days = dplyr::row_number())
 
-  fit_loess <- loess(terapia_intensiva ~ days,
+  fit_loess <-stats::loess(terapia_intensiva ~ days,
                      data = train, span = 0.7,
-                     control = loess.control(surface = "direct")
+                     control =stats::loess.control(surface = "direct")
   )
 
-  fit_loess_next <- loess(terapia_intensiva ~ days,
+  fit_loess_next <-stats::loess(terapia_intensiva ~ days,
       data = train_next, span = 0.7,
-      control = loess.control(surface = "direct")
+      control =stats::loess.control(surface = "direct")
   )
 
   y_loess <- stats::predict(fit_loess, n_seq_regione, se = TRUE)
-  ci_ray <- qt(0.975, y_loess[["df"]]) * y_loess[["se.fit"]]
+  ci_ray <- stats::qt(0.975, y_loess[["df"]]) * y_loess[["se.fit"]]
 
   db_loess <- tibble::tibble(
     day         = regione[["day"]],
@@ -94,7 +94,7 @@ mod_focus_20200318_veneto_intensive_server <- function(id) {
     (max(train_next$days) + 1):(max(train_next$days) + 5),
     se = TRUE
   )
-  ci_ray_next <- qt(0.975, y_loess_next[["df"]]) * y_loess_next[["se.fit"]]
+  ci_ray_next <- stats::qt(0.975, y_loess_next[["df"]]) * y_loess_next[["se.fit"]]
 
   db_loess_next <- tibble::tibble(
     day         = max(regione[["day"]]) + lubridate::days(1:5),
@@ -123,13 +123,13 @@ mod_focus_20200318_veneto_intensive_server <- function(id) {
         db_full[["totale_casi_real"]],
         db_loess_next$totale_casi
       ) %>%
-        `-`(dplyr::lag(.))
+        `-`(dplyr::lag(.data$.))
 
       attesi <- c(
         db_full[["totale_casi_pred"]],
         db_loess_next$totale_casi
       ) %>%
-        `-`(dplyr::lag(.))
+        `-`(dplyr::lag(.data$.))
       attesi <- ifelse(attesi < 0, real, attesi)
 
 
@@ -140,7 +140,7 @@ mod_focus_20200318_veneto_intensive_server <- function(id) {
         cumulati_osservati = cumulate_for_days(real, input$n_days)[seq_along(.data$n_attesi)],
         cumulati_attesi    = cumulate_for_days(attesi, input$n_days)[seq_along(.data$n_attesi)]
       ) %>%
-        tidyr::pivot_longer(-day, names_to = c("mode", "type"), names_sep = "_")
+        tidyr::pivot_longer(-.data$day, names_to = c("mode", "type"), names_sep = "_")
     })
 
 

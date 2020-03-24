@@ -2,7 +2,7 @@ predict_to_tbl <- function(pred, data) {
 
 
   ci_ray <- if ("df" %in% names(pred)) {
-    qt(0.975, pred[["df"]]) * pred[["se.fit"]]
+    stats::qt(0.975, pred[["df"]]) * pred[["se.fit"]]
   } else {
     1.96 * pred[["se.fit"]]
   }
