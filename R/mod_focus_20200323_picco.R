@@ -22,7 +22,8 @@ mod_focus_20200323_picco_ui <- function(id){
     box(width = 12, title = "Informazioni sulla lettura e uso dei grafici",
       p('Nuovi casi giornalieri positivi italiani e regionali (punti in colore) e stima previsiva ipotizzando un andamento logistico (punti in nero).'),
       p('È possibile visualizzare le variazioni di previsione in funzione dei paramentri selezionati, a partire da quelli di migliore approssimazione.'),
-      p('Variando i paramentri nazionali rispetto a quelli di migliore approssimazione (escursione ammessa entro l\'intervallo di confidenza al 99%), varieranno modificati, in proporzione, i corrispondenti parametri per le stime regionali.')
+      p('Variando i paramentri nazionali rispetto a quelli di migliore approssimazione (escursione ammessa entro l\'intervallo di confidenza al 99%), varieranno modificati, in proporzione, i corrispondenti parametri per le stime regionali.'),
+      actionButton(ns("reset"), "Rispristino parametri iniziali")
     ),
     fluidRow(
       box(width = 4, footer = "Capacità portante popolazione: massimo numero di casi positivi che possono essere presenti per un tempo indefinito.",
@@ -48,8 +49,7 @@ mod_focus_20200323_picco_ui <- function(id){
           value = round(pred_val$r, 4),
           step  = round(pred_val$r_se / 10, 4)
         )
-      ),
-      box(width = 12, title = "Rispristino parametri iniziali", actionButton(ns("reset"), "Reset")),
+      )
     ),
 
     plotlyOutput(ns("picco")),
