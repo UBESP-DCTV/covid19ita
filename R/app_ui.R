@@ -188,7 +188,7 @@ dashboard_body <- function() {dashboardBody(
         ),
         p(
           HTML(
-            '<strong>Dolores Catelan</strong>, Ph.D., Dipartimento di
+            'Prof. <strong>Dolores Catelan</strong>, Ph.D., Dipartimento di
             Statistica, Informatica, Applicazioni "G. Parenti" (DISIA),
             Università degli Studi di Firenze'
           ),
