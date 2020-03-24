@@ -17,6 +17,7 @@ mod_focus_20200323_picco_ui <- function(id){
     data_n = obs_y
   )$vals
 
+
   tagList(
     sliderInput(ns("n0"), "Scegli il tuo parametro N0",
       min = round(pred_val$n0 - 2.576 * pred_val$n0_se),
@@ -37,7 +38,18 @@ mod_focus_20200323_picco_ui <- function(id){
       step  = round(pred_val$r_se / 10, 4)
     ),
 
-    plotOutput(ns("picco"))
+    plotOutput(ns("picco")),
+
+    shiny::selectInput(ns("whichRegion"),  "Selezionare le regioni da visualizzare",
+      choices  = regions(),
+      selectize = TRUE,
+      selected = c("Veneto", "Lombardia"),
+      multiple = TRUE,
+      width = "100%"
+    ),
+
+    plotOutput(ns("picco_reg")),
+
   )
 }
 
@@ -55,6 +67,29 @@ mod_focus_20200323_picco_server <- function(id) {
   )
 
   pred_t <- c(obs_t, obs_t[[length(obs_t)]] + lubridate::days(1:28))
+
+
+  obs_reg <- dpc_covid19_ita_regioni %>%
+    dplyr::select(
+      .data$data, .data$denominazione_regione, .data$totale_casi
+    ) %>%
+    tidyr::pivot_wider(
+      names_from = .data$denominazione_regione,
+      values_from = .data$totale_casi
+    ) %>%
+    dplyr::mutate(time = seq_along(.data$data)) %>%
+    dplyr::select(-.data$data)
+
+  pred_val_reg <- growthcurver::SummarizeGrowthByPlate(obs_reg) %>%
+    dplyr::rename(regione = .data$sample) %>%
+    dplyr::mutate(
+      y = purrr::pmap(
+        list(.data$k, .data$n0, .data$r),
+        growthcurver::NAtT,
+        t = seq_along(pred_t)
+      )
+    ) %>%
+    tibble::as_tibble()
 
 
   callModule(id = id, function(input, output, session) {
@@ -92,7 +127,23 @@ mod_focus_20200323_picco_server <- function(id) {
         geom_point() +
         geom_point(data = obs_db, colour = "red") +
         ylab("Numero di nuovi casi") +
-        xlab("Data") +
+        xlab("") +
+        scale_x_date(date_breaks = "1 day", date_labels = "%b %d") +
+        theme(
+          axis.text.x = element_text(angle = 60, hjust = 1, vjust = 0.5)
+        )
+
+    })
+
+
+    output$picco_reg <- renderPlot({
+
+      tibble::tibble(t = as.Date(pred_t), y = pred_n()) %>%
+        ggplot(aes(x = t, y = y)) +
+        geom_point() +
+        geom_point(data = obs_db, colour = "red") +
+        ylab("Numero di nuovi casi") +
+        xlab("") +
         scale_x_date(date_breaks = "1 day", date_labels = "%b %d") +
         theme(
           axis.text.x = element_text(angle = 60, hjust = 1, vjust = 0.5)
