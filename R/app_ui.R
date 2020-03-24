@@ -275,7 +275,7 @@ dashboard_body <- function() {dashboardBody(
 
   ),
 
-  tabItem(tabName = "20200321Alessandria",
+  tabItem(tabName = "20200323Picco",
           h2("Trova il Picco!"),
           mod_focus_20200323_picco_ui("picco")
   ),
