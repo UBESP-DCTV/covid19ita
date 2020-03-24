@@ -1,3 +1,5 @@
+* spellcheck
+* `cumulate_for_days()` -> `accumulate_for_days()`
 * parametric national and regional logistic estimation
 * fix namespace for CMD check's notes
 * fix attributions
@@ -18,7 +20,7 @@
 * Added focus section for Vercelli and Alessandria
 * Update istruzioni (ita)
 * update team group eng
-* added alessandria and vercelli
+* added Alessandria and vercelli
 * translated x-y labels of the graphs in the epidemic section (#4)
 * translated Novara 2020-03-20 (#20)
 

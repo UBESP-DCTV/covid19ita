@@ -138,8 +138,8 @@ eng_mod_focus_20200318_veneto_intensive_server <- function(id) {
         day = c(db_full[["day"]], db_loess_next$day),
         n_osservati = real,
         n_attesi    = attesi,
-        cumulati_osservati = cumulate_for_days(real, input$n_days)[seq_along(.data$n_attesi)],
-        cumulati_attesi    = cumulate_for_days(attesi, input$n_days)[seq_along(.data$n_attesi)]
+        cumulati_osservati = accumulate_for_days(real, input$n_days)[seq_along(.data$n_attesi)],
+        cumulati_attesi    = accumulate_for_days(attesi, input$n_days)[seq_along(.data$n_attesi)]
       ) %>%
         tidyr::pivot_longer(-.data$day, names_to = c("mode", "type"), names_sep = "_")
     })
