@@ -118,9 +118,9 @@ mod_focus_20200318_piemonte_server <- function(id,
     ) %>%
     dplyr::mutate(
       day = lubridate::ymd_hms(.data$data),
-      time_point = ifelse(day <= max_train_date,
+      time_point = ifelse(.data$day <= max_train_date,
         yes = 0,
-        no  = ifelse(day > max_train_date, yes = 1, no = 2 )
+        no  = ifelse(.data$day > max_train_date, yes = 1, no = 2 )
       )
     )
 
@@ -155,7 +155,7 @@ mod_focus_20200318_piemonte_server <- function(id,
   )
 
   y_loess <- stats::predict(fit_loess, prediction[["days"]], se = TRUE)
-  ci_ray <- qt(0.975, y_loess[["df"]]) * y_loess[["se.fit"]]
+  ci_ray <- stats::qt(0.975, y_loess[["df"]]) * y_loess[["se.fit"]]
 
   db_loess <- tibble::tibble(
     day         = prediction[["day"]],
@@ -182,8 +182,8 @@ mod_focus_20200318_piemonte_server <- function(id,
   gg_fig_1 <- db_loess %>%
     ggplot(aes(x = .data$day, y = .data$totale_casi, colour = .data$series)) +
     geom_smooth() + geom_point(data = db_true) +
-    geom_line(data = db_loess, aes(x = day, y = lower)) +
-    geom_line(data = db_loess, aes(x = day, y = upper)) +
+    geom_line(data = db_loess, aes(x = .data$day, y = .data$lower)) +
+    geom_line(data = db_loess, aes(x = .data$day, y = .data$upper)) +
     labs(title = "", x = "Giorno", y = "Totale casi") +
     global_theme
 
