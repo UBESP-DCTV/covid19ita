@@ -40,6 +40,7 @@ mod_focus_20200323_picco_ui <- function(id){
       value = round(pred_val$r, 4),
       step  = round(pred_val$r_se / 10, 4)
     ),
+    actionButton(ns("reset"), "Reset"),
 
     plotlyOutput(ns("picco")),
 
@@ -111,6 +112,14 @@ mod_focus_20200323_picco_server <- function(id) {
 
   callModule(id = id, function(input, output, session) {
     ns <- session$ns
+
+    observeEvent(input$reset, {
+      updateNumericInput(session, "k" , value = pred_val_origin[["k" ]])
+      updateNumericInput(session, "n0", value = pred_val_origin[["n0"]])
+      updateNumericInput(session, "r" , value = pred_val_origin[["r" ]])
+    })
+
+
 
     # national plot
     #
