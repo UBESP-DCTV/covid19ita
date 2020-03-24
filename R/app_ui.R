@@ -37,12 +37,7 @@ dashboard_header <- function() {dashboardHeader(
   dropdownMenu(type = "messages",
     messageItem(
       from = "In evidenza",
-      message = "2020-03-21 Alessandria: Previsione casi",
-      icon = icon("search")
-    ),
-    messageItem(
-      from = "In evidenza",
-      message = "2020-03-21 Vercelli: Previsione casi",
+      message = "2020-03-24 Metodologia: Incertezza",
       icon = icon("search")
     ),
     messageItem(
@@ -79,6 +74,9 @@ dashboard_sidebar <- function() {dashboardSidebar(sidebarMenu(
 
 
   menuItem("In evidenza", icon = icon("bullseye"),
+    menuSubItem("2020-03-24 Metodologia", tabName = "20200323Picco",
+                icon = icon("flag")
+    ),
     menuSubItem("2020-03-21 Alessandria", tabName = "20200321Alessandria",
                 icon = icon("flag")
     ),
@@ -272,6 +270,10 @@ dashboard_body <- function() {dashboardBody(
 
   ),
 
+  tabItem(tabName = "20200323Picco",
+          h2("Impatto dell'incertezza statistica sulle previsioni dell'andamento del COVID-19"),
+          mod_focus_20200323_picco_ui("picco")
+  ),
   tabItem(tabName = "20200321Alessandria",
           h2("Stime previsive sul totale casi ad Alessandria"),
           mod_focus_20200320_novara_ui("da_alessandria")

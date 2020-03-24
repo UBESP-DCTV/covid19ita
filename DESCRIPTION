@@ -62,7 +62,8 @@ Imports:
     lifecycle (>= 0.2.0),
     gam (>= 1.16.1),
     lubridate (>= 1.7.4),
-    mgcv
+    mgcv,
+    growthcurver
 Suggests: 
     testthat (>= 2.1.0),
     covr (>= 3.5.0),

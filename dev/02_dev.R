@@ -37,6 +37,7 @@ golem::add_module(name = "focus_20200318_friuli")
 golem::add_module(name = "focus_20200318_piemonte")
 golem::add_module(name = "focus_20200318_veneto_intensive")
 golem::add_module(name = "focus_20200320_novara")
+golem::add_module(name = "focus_20200323_picco")
 
 
 ## Add helper functions ----

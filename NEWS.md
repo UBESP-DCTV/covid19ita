@@ -1,3 +1,6 @@
+* spellcheck
+* `cumulate_for_days()` -> `accumulate_for_days()`
+* parametric national and regional logistic estimation
 * fix namespace for CMD check's notes
 * fix attributions
 
@@ -9,7 +12,7 @@
 
 * update data
 * Update team group
-* fix link to linkedin account
+* fix link to LinkedIn account
 
 # covid19ita 0.16.0
 
@@ -17,7 +20,7 @@
 * Added focus section for Vercelli and Alessandria
 * Update istruzioni (ita)
 * update team group eng
-* added alessandria and vercelli
+* added Alessandria and Vercelli
 * translated x-y labels of the graphs in the epidemic section (#4)
 * translated Novara 2020-03-20 (#20)
 
@@ -54,7 +57,7 @@
 # covid19ita 0.13.2
 
 * index intensive su tamponi
-* fix title highlight piemonte
+* fix title highlight Piemonte
 
 # covid19ita 0.13.1
 
@@ -77,7 +80,7 @@
 # covid19ita 0.12.0
 
 * data update
-* small modifictaion to file eng-mod_focus_20200314 (#4)
+* small modification to file eng-mod_focus_20200314 (#4)
 * completed translation of eng-mod_focus_20200114 and eng-mode_helped. Added eng_plottly_help_txt to covid_ita     (#4)
 * completed translation of eng-mod_info_sidebar (#4)
 * completed translation of eng-app_ui and eng-run_dev (#4)
