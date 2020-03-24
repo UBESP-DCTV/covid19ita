@@ -149,7 +149,7 @@ mod_focus_20200323_picco_server <- function(id) {
     output$picco <- renderPlotly({
 
       gg_ita <- tibble::tibble(t = as.Date(pred_t), y = pred_n()) %>%
-        ggplot(aes(x = t, y = y)) +
+        ggplot(aes(x = .data$t, y = .data$y)) +
         geom_point() +
         geom_point(data = obs_db, colour = "red") +
         ylab("Numero di nuovi casi") +
