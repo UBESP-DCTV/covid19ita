@@ -71,6 +71,10 @@ mod_ind_ita_ui <- function(id){
     box(plotlyOutput(ns("titamponi")),
       width = 12,
       title = "Andamento (fit loess, span = 1.5, degree = 2) regionale dell'occupazione dei posti in terapia intensiva in funzione del numero di tamponi non sintomatici effettuati (approssimati dal totale tamponi effettuati sottratti dei pazienti ricoverati con sintomi e in terapia intensiva), fino al giorno indicato dallo slider. È possibile riprodurre l'intero andamento dinamicamente in automatico tramite il tasto play."
+    ),
+    box(DT::DTOutput(ns("dt_tamponi")),
+      width = 12,
+      title = "Tabella andamento regionale posti letto in terapia intensiva rispetto ai tamponi non sintomatici effettuati (pesati sulla popolazione ed espressi per 100000 abitanti)"
     )
 
 
@@ -214,8 +218,6 @@ mod_ind_ita_server <- function(id) {
 
     output$titamponi <- renderPlotly({
 
-
-
       gg_titamponi <- data_to_use() %>%
         ggplot(aes(
           x = .data$tamp_asint_pesati,
@@ -233,6 +235,17 @@ mod_ind_ita_server <- function(id) {
         scale_color_discrete(name = "Regione")
 
       ggplotly(gg_titamponi)
+    })
+
+    output$dt_tamponi <- DT::renderDT({
+      data_to_use() %>%
+        dplyr::select(
+          .data$data, .data$denominazione_regione,
+          .data$tamp_asint_pesati,
+          .data$intensiva_pesati
+        ) %>%
+        dplyr::mutate(data = as.Date(.data$data)) %>%
+        dplyr::mutate_if(is.numeric, round, digits = 2)
     })
 
   })
