@@ -37,12 +37,7 @@ dashboard_header <- function() {dashboardHeader(
   dropdownMenu(type = "messages",
     messageItem(
       from = "In evidenza",
-      message = "2020-03-21 Alessandria: Previsione casi",
-      icon = icon("search")
-    ),
-    messageItem(
-      from = "In evidenza",
-      message = "2020-03-21 Vercelli: Previsione casi",
+      message = "2020-03-24 Metodologia: Incertezza",
       icon = icon("search")
     ),
     messageItem(
@@ -276,7 +271,7 @@ dashboard_body <- function() {dashboardBody(
   ),
 
   tabItem(tabName = "20200323Picco",
-          h2("Trova il Picco!"),
+          h2("Impatto dell'incertezza statistica sulle previsioni dell'andamento del COVID-19"),
           mod_focus_20200323_picco_ui("picco")
   ),
   tabItem(tabName = "20200321Alessandria",
