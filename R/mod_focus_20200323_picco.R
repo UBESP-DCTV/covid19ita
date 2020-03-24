@@ -12,7 +12,7 @@ mod_focus_20200323_picco_ui <- function(id){
 
   obs_t <- dpc_covid19_ita_andamento_nazionale[["data"]]
   obs_y <- dpc_covid19_ita_andamento_nazionale[["totale_casi"]]
-  pred_val_origin <- growthcurver::SummarizeGrowth(
+  pred_val <- growthcurver::SummarizeGrowth(
     data_t = seq_along(obs_t),
     data_n = obs_y
   )$vals
@@ -66,7 +66,7 @@ mod_focus_20200323_picco_server <- function(id) {
   #
   obs_t  <- dpc_covid19_ita_andamento_nazionale[["data"]]
   obs_y <- dpc_covid19_ita_andamento_nazionale[["totale_casi"]]
-  pred_val <- growthcurver::SummarizeGrowth(
+  pred_val_origin <- growthcurver::SummarizeGrowth(
     data_t = seq_along(obs_t),
     data_n = obs_y
   )$vals
