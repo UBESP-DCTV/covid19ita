@@ -1,3 +1,4 @@
+* fix namespace for CMD check's notes
 * fix attributions
 
 # covid19ita 0.18.0
