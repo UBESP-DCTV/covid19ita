@@ -18,29 +18,39 @@ mod_focus_20200323_picco_ui <- function(id){
   )$vals
 
 
-  tagList(
-    p('Nuovi casi giornalieri positivi italiani e regionali (punti in colore) e stima previsiva ipotizzando un andamento logistico (punti in nero).'),
-    p('È possibile visualizzare le variazioni di previsione in funzione dei paramentri selezionati, a partire da quelli di migliore approssimazione.'),
-    p('Variando i paramentri nazionali rispetto a quelli di migliore approssimazione (escursione ammessa entro l\'intervallo di confidenza al 99%), varieranno modificati, in proporzione, i corrispondenti parametri per le stime regionali.'),
-    sliderInput(ns("k"), "Scegli il tuo parametro k (capacità portante popolazione: massimo numero di casi positivi che possono essere presenti per un tempo indefinito)",
-      min = round(pred_val$k - 2.576 * pred_val$k_se),
-      max = round(pred_val$k + 2.576 * pred_val$k_se),
-      value = round(pred_val$k),
-      step  = round(pred_val$k_se / 10)
+  fluidPage(
+    box(width = 12, title = "Informazioni sulla lettura e uso dei grafici",
+      p('Nuovi casi giornalieri positivi italiani e regionali (punti in colore) e stima previsiva ipotizzando un andamento logistico (punti in nero).'),
+      p('È possibile visualizzare le variazioni di previsione in funzione dei paramentri selezionati, a partire da quelli di migliore approssimazione.'),
+      p('Variando i paramentri nazionali rispetto a quelli di migliore approssimazione (escursione ammessa entro l\'intervallo di confidenza al 99%), varieranno modificati, in proporzione, i corrispondenti parametri per le stime regionali.')
     ),
-    sliderInput(ns("n0"), "Scegli il tuo parametro N0 (Casi iniziali)",
-      min = round(pred_val$n0 - 2.576 * pred_val$n0_se),
-      max = round(pred_val$n0 + 2.576 * pred_val$n0_se),
-      value = round(pred_val$n0),
-      step  = round(pred_val$n0_se / 10)
+    fluidRow(
+      box(width = 4, footer = "Capacità portante popolazione: massimo numero di casi positivi che possono essere presenti per un tempo indefinito.",
+        sliderInput(ns("k"), "Parametro k",
+          min = round(pred_val$k - 2.576 * pred_val$k_se),
+          max = round(pred_val$k + 2.576 * pred_val$k_se),
+          value = round(pred_val$k),
+          step  = round(pred_val$k_se / 10)
+        )
+      ),
+      box(width = 4, footer = "Casi iniziali.",
+        sliderInput( ns("n0"), "Parametro N0",
+          min = round(pred_val$n0 - 2.576 * pred_val$n0_se),
+          max = round(pred_val$n0 + 2.576 * pred_val$n0_se),
+          value = round(pred_val$n0),
+          step  = round(pred_val$n0_se / 10)
+        )
+      ),
+      box(width = 4, footer =  "Tasso esponenziale di crescita.",
+        sliderInput(ns("r"), "Parametro r",
+          min = round(pred_val$r - 2.576 * pred_val$r_se, 4),
+          max = round(pred_val$r + 2.576 * pred_val$r_se, 4),
+          value = round(pred_val$r, 4),
+          step  = round(pred_val$r_se / 10, 4)
+        )
+      ),
+      box(width = 12, title = "Rispristino parametri iniziali", actionButton(ns("reset"), "Reset")),
     ),
-    sliderInput(ns("r"), "Scegli il tuo parametro r (tasso esponenziale di crescita)",
-      min = round(pred_val$r - 2.576 * pred_val$r_se, 4),
-      max = round(pred_val$r + 2.576 * pred_val$r_se, 4),
-      value = round(pred_val$r, 4),
-      step  = round(pred_val$r_se / 10, 4)
-    ),
-    actionButton(ns("reset"), "Reset"),
 
     plotlyOutput(ns("picco")),
 
@@ -209,12 +219,18 @@ mod_focus_20200323_picco_server <- function(id) {
         geom_point(
           data = dplyr::filter(obs_reg, .data$regione %in% reg)
         ) +
-        facet_wrap(~.data$regione, scales = "free") +
+        facet_wrap(~.data$regione, scales = "free_y") +
         ylab("Numero di nuovi casi") +
         xlab("") +
         scale_x_date(date_breaks = "1 day", date_labels = "%b %d") +
         theme(
-          axis.text.x = element_text(angle = 60, hjust = 1, vjust = 0.5)
+          axis.text.x = element_text(
+            angle = 60,
+            hjust = 1,
+            vjust = 0.5
+          ),
+          panel.spacing.y = unit(2, "lines"),
+          legend.position = "none"
         )
 
       ggplotly(gg_reg)
