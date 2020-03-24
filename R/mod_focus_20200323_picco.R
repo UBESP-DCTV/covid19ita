@@ -19,19 +19,22 @@ mod_focus_20200323_picco_ui <- function(id){
 
 
   tagList(
-    sliderInput(ns("n0"), "Scegli il tuo parametro N0",
-      min = round(pred_val$n0 - 2.576 * pred_val$n0_se),
-      max = round(pred_val$n0 + 2.576 * pred_val$n0_se),
-      value = round(pred_val$n0),
-      step  = round(pred_val$n0_se / 10)
-    ),
-    sliderInput(ns("k"), "Scegli il tuo parametro k",
+    p('Nuovi casi giornalieri positivi italiani e regionali (punti in colore) e stima previsiva ipotizzando un andamento logistico (punti in nero).'),
+    p('È possibile visualizzare le variazioni di previsione in funzione dei paramentri selezionati, a partire da quelli di migliore approssimazione.'),
+    p('Variando i paramentri nazionali rispetto a quelli di migliore approssimazione (escursione ammessa entro l\'intervallo di confidenza al 99%), varieranno modificati, in proporzione, i corrispondenti parametri per le stime regionali.'),
+    sliderInput(ns("k"), "Scegli il tuo parametro k (capacità portante popolazione: massimo numero di casi positivi che possono essere presenti per un tempo indefinito)",
       min = round(pred_val$k - 2.576 * pred_val$k_se),
       max = round(pred_val$k + 2.576 * pred_val$k_se),
       value = round(pred_val$k),
       step  = round(pred_val$k_se / 10)
     ),
-    sliderInput(ns("r"), "Scegli il tuo parametro r",
+    sliderInput(ns("n0"), "Scegli il tuo parametro N0 (Casi iniziali)",
+      min = round(pred_val$n0 - 2.576 * pred_val$n0_se),
+      max = round(pred_val$n0 + 2.576 * pred_val$n0_se),
+      value = round(pred_val$n0),
+      step  = round(pred_val$n0_se / 10)
+    ),
+    sliderInput(ns("r"), "Scegli il tuo parametro r (tasso esponenziale di crescita)",
       min = round(pred_val$r - 2.576 * pred_val$r_se, 4),
       max = round(pred_val$r + 2.576 * pred_val$r_se, 4),
       value = round(pred_val$r, 4),
@@ -58,6 +61,8 @@ mod_focus_20200323_picco_ui <- function(id){
 #' @noRd
 mod_focus_20200323_picco_server <- function(id) {
 
+  # national setup
+  #
   obs_t  <- dpc_covid19_ita_andamento_nazionale[["data"]]
   obs_y <- dpc_covid19_ita_andamento_nazionale[["totale_casi"]]
   pred_val <- growthcurver::SummarizeGrowth(
@@ -73,7 +78,8 @@ mod_focus_20200323_picco_server <- function(id) {
   pred_t <- c(obs_t, obs_t[[length(obs_t)]] + lubridate::days(1:28))
 
 
-
+  # regional setup
+  #
   obs_reg <- dpc_covid19_ita_regioni %>%
     dplyr::transmute(
       t = as.Date(.data$data),
@@ -106,6 +112,8 @@ mod_focus_20200323_picco_server <- function(id) {
   callModule(id = id, function(input, output, session) {
     ns <- session$ns
 
+    # national plot
+    #
     n0 <- reactive({
       req(input$n0)
     })
@@ -129,9 +137,27 @@ mod_focus_20200323_picco_server <- function(id) {
       res - dplyr::lag(res, default = 0)
     })
 
+    output$picco <- renderPlotly({
+
+      gg_ita <- tibble::tibble(t = as.Date(pred_t), y = pred_n()) %>%
+        ggplot(aes(x = t, y = y)) +
+        geom_point() +
+        geom_point(data = obs_db, colour = "red") +
+        ylab("Numero di nuovi casi") +
+        xlab("") +
+        scale_x_date(date_breaks = "1 day", date_labels = "%b %d") +
+        theme(
+          axis.text.x = element_text(angle = 60, hjust = 1, vjust = 0.5)
+        )
+
+      ggplotly(gg_ita)
+
+    })
 
 
 
+    # regional plot
+    #
     pred_val_reg <- reactive({
       k_ita  <- req(input$k)
       n0_ita <- req(input$n0)
@@ -139,9 +165,9 @@ mod_focus_20200323_picco_server <- function(id) {
 
       pred_db_reg %>%
        dplyr::mutate(
-         k  = (.data$k  * k_ita) / pred_val_origin[["k"]],
-         n0 = (.data$n0 * k_ita) / pred_val_origin[["n0"]],
-         r  = (.data$r  * k_ita) / pred_val_origin[["r"]],
+         k  = (.data$k  * k_ita ) / pred_val_origin[["k" ]],
+         n0 = (.data$n0 * n0_ita) / pred_val_origin[["n0"]],
+         r  = (.data$r  * r_ita ) / pred_val_origin[["r" ]],
 
          natt = purrr::pmap(
             list(.data$k, .data$n0, .data$r),
@@ -161,23 +187,6 @@ mod_focus_20200323_picco_server <- function(id) {
     })
 
 
-
-    output$picco <- renderPlotly({
-
-      gg_ita <- tibble::tibble(t = as.Date(pred_t), y = pred_n()) %>%
-        ggplot(aes(x = t, y = y)) +
-        geom_point() +
-        geom_point(data = obs_db, colour = "red") +
-        ylab("Numero di nuovi casi") +
-        xlab("") +
-        scale_x_date(date_breaks = "1 day", date_labels = "%b %d") +
-        theme(
-          axis.text.x = element_text(angle = 60, hjust = 1, vjust = 0.5)
-        )
-
-      ggplotly(gg_ita)
-
-    })
 
 
     output$picco_reg <- renderPlotly({

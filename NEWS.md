@@ -1,3 +1,4 @@
+* parametric national and regional logistic estimation
 * fix attributions
 
 # covid19ita 0.18.0
