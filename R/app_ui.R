@@ -79,7 +79,7 @@ dashboard_sidebar <- function() {dashboardSidebar(sidebarMenu(
 
 
   menuItem("In evidenza", icon = icon("bullseye"),
-    menuSubItem("2020-03-23 Metodologia", tabName = "20200323Picco",
+    menuSubItem("2020-03-24 Metodologia", tabName = "20200323Picco",
                 icon = icon("flag")
     ),
     menuSubItem("2020-03-21 Alessandria", tabName = "20200321Alessandria",

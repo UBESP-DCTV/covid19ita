@@ -57,7 +57,7 @@ mod_focus_20200323_picco_ui <- function(id){
     shiny::selectInput(ns("whichRegion"),  "Selezionare le regioni da visualizzare",
       choices  = regions(),
       selectize = TRUE,
-      selected = c("Veneto", "Lombardia"),
+      selected = c("Veneto", "Lombardia", "Sicilia"),
       multiple = TRUE,
       width = "100%"
     ),
@@ -162,6 +162,7 @@ mod_focus_20200323_picco_server <- function(id) {
         ggplot(aes(x = .data$t, y = .data$y)) +
         geom_point() +
         geom_point(data = obs_db, colour = "red") +
+        geom_line() +
         ylab("Numero di nuovi casi") +
         xlab("") +
         scale_x_date(date_breaks = "1 day", date_labels = "%b %d") +
@@ -219,6 +220,7 @@ mod_focus_20200323_picco_server <- function(id) {
         geom_point(
           data = dplyr::filter(obs_reg, .data$regione %in% reg)
         ) +
+        geom_line() +
         facet_wrap(~.data$regione, scales = "free_y") +
         ylab("Numero di nuovi casi") +
         xlab("") +
