@@ -6,7 +6,7 @@
 #' @param x vector to accumulate
 #' @param n number of "times" each element count in the sum
 #'
-#' @return a vector of lenght length(x) + n -1
+#' @return a vector of length length(x) + n -1
 #' @export
 #'
 #' @examples

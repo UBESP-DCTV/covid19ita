@@ -12,7 +12,7 @@ accumulate_for_days(x, n)
 \item{n}{number of "times" each element count in the sum}
 }
 \value{
-a vector of lenght length(x) + n -1
+a vector of length length(x) + n -1
 }
 \description{
 given a vector accumulate the sum supposing each elements count
