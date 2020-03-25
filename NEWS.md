@@ -1,3 +1,4 @@
+* eng-test for veneto-intensive, novara and picco
 * translated 20200323 picco (#23)
 
 # covid19ita 0.19.0
