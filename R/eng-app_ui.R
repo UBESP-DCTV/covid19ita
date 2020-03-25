@@ -37,17 +37,7 @@ eng_dashboard_header <- function() {dashboardHeader(
   dropdownMenu(type = "messages",
     messageItem(
       from = "Highlights",
-      message = "2020-03-21 Alessandria: cases predictions",
-      icon = icon("search")
-    ),
-    messageItem(
-      from = "Highlights",
-      message = "2020-03-21 Vercelli: cases predictions",
-      icon = icon("search")
-    ),
-    messageItem(
-      from = "Highlights",
-      message = "2020-03-21 Novara: cases predictions",
+      message = "2020-03-24 Methodology: uncertainty",
       icon = icon("search")
     ),
     messageItem(
@@ -82,6 +72,9 @@ eng_dashboard_sidebar <- function() {dashboardSidebar(sidebarMenu(
   menuItem("Home", tabName = "home", icon = icon("home")),
 
   menuItem("Highlights", icon = icon("bullseye"),
+           menuSubItem("2020-03-24 Methodology", tabName = "20200323Picco",
+                       icon = icon("flag")
+           ),
            menuSubItem("2020-03-21 Alessandria", tabName = "20200321Alessandria",
                        icon = icon("flag")
            ),
@@ -282,6 +275,10 @@ eng_dashboard_body <- function() {dashboardBody(
 
   ),
 
+  tabItem(tabName = "20200323Picco",
+          h2("Impact of statistical uncertainty on COVID-19 predictions"),
+          eng_mod_focus_20200323_picco_ui("picco")
+  ),
   tabItem(tabName = "20200321Alessandria",
           h2("Expected number of total cases in Alessandria"),
           eng_mod_focus_20200320_novara_ui("da_alessandria")
