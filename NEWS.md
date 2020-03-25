@@ -1,3 +1,4 @@
+* update data
 * fixed plot 2020 03 18 intensive veneto
 
 # covid19ita 0.19.0
