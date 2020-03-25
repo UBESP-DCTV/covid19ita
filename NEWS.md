@@ -1,3 +1,5 @@
+* fix colour focus_picco (#24)
+
 # covid19ita 0.19.0
 
 * spellcheck
