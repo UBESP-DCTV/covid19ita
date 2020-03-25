@@ -122,14 +122,14 @@ mod_focus_20200318_veneto_intensive_server <- function(id) {
       real <- c(
         db_full[["totale_casi_real"]],
         db_loess_next$totale_casi
-      ) %>%
-        `-`(dplyr::lag(.data$.))
+      )
+      real <- real - dplyr::lag(real)
 
       attesi <- c(
         db_full[["totale_casi_pred"]],
         db_loess_next$totale_casi
-      ) %>%
-        `-`(dplyr::lag(.data$.))
+      )
+      attesi <- attesi - dplyr::lag(attesi)
       attesi <- ifelse(attesi < 0, real, attesi)
 
 
