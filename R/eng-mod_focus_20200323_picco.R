@@ -7,7 +7,7 @@
 #' @noRd
 #'
 #' @importFrom shiny NS tagList
-eng-mod_focus_20200323_picco_ui <- function(id){
+eng_mod_focus_20200323_picco_ui <- function(id){
   ns <- NS(id)
 
   obs_t <- dpc_covid19_ita_andamento_nazionale[["data"]]
@@ -20,7 +20,7 @@ eng-mod_focus_20200323_picco_ui <- function(id){
 
   fluidPage(
     box(width = 12, title = "How to read and use the graphs",
-      p('Daily new confirmed cases (red dots), by region or for the whole country, and prediction of what will happen in the future if we assume logistic growth (black dots).'),
+      p('In the graphs the daily new confirmed cases (red dots), by region or for the whole country, vs the prediction of what will happen in the future if we assume logistic growth (black dots).'),
       p('It is possible to see how changing the parameters modifies the predictions. The range given for each parameter is the 99% CI of the values that best explain the data gathered until now.'),
       p('Varying the parameters for Italy (within the 99% CI) also results in a proportional change in all respective regional parameters.'),
       actionButton(ns("reset"), "Rispristino parametri iniziali")
@@ -34,7 +34,7 @@ eng-mod_focus_20200323_picco_ui <- function(id){
           step  = round(pred_val$k_se / 10)
         )
       ),
-      box(width = 4, footer = "Casi iniziali.",
+      box(width = 4, footer = "Initial cases.",
         sliderInput( ns("n0"), "N0 parameter",
           min = round(pred_val$n0 - 2.576 * pred_val$n0_se),
           max = round(pred_val$n0 + 2.576 * pred_val$n0_se),
@@ -42,8 +42,8 @@ eng-mod_focus_20200323_picco_ui <- function(id){
           step  = round(pred_val$n0_se / 10)
         )
       ),
-      box(width = 4, footer =  "Exponential growth rate",
-        sliderInput(ns("r"), "Parametro r",
+      box(width = 4, footer =  "Exponential growth rate.",
+        sliderInput(ns("r"), "r parameter",
           min = round(pred_val$r - 2.576 * pred_val$r_se, 4),
           max = round(pred_val$r + 2.576 * pred_val$r_se, 4),
           value = round(pred_val$r, 4),
@@ -52,7 +52,7 @@ eng-mod_focus_20200323_picco_ui <- function(id){
       )
     ),
 
-    plotlyOutput(ns("peak")),
+    plotlyOutput(ns("picco")),
 
     shiny::selectInput(ns("whichRegion"),  "Select regions",
       choices  = regions(),
@@ -70,7 +70,7 @@ eng-mod_focus_20200323_picco_ui <- function(id){
 #' focus_20200323_picco Server Function
 #'
 #' @noRd
-eng-mod_focus_20200323_picco_server <- function(id) {
+eng_mod_focus_20200323_picco_server <- function(id) {
 
   # national setup
   #

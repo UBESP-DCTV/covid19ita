@@ -72,7 +72,7 @@ eng_dashboard_sidebar <- function() {dashboardSidebar(sidebarMenu(
   menuItem("Home", tabName = "home", icon = icon("home")),
 
   menuItem("Highlights", icon = icon("bullseye"),
-           menuSubItem("2020-03-24 Metodologia", tabName = "20200323Picco",
+           menuSubItem("2020-03-24 Methodology", tabName = "20200323Picco",
                        icon = icon("flag")
            ),
            menuSubItem("2020-03-21 Alessandria", tabName = "20200321Alessandria",
@@ -277,7 +277,7 @@ eng_dashboard_body <- function() {dashboardBody(
 
   tabItem(tabName = "20200323Picco",
           h2("Impact of statistical uncertainty on COVID-19 predictions"),
-          mod_focus_20200323_picco_ui("picco")
+          eng_mod_focus_20200323_picco_ui("picco")
   ),
   tabItem(tabName = "20200321Alessandria",
           h2("Expected number of total cases in Alessandria"),
