@@ -37,7 +37,7 @@ dashboard_header <- function() {dashboardHeader(
   dropdownMenu(type = "messages",
     messageItem(
       from = "In evidenza",
-      message = "2020-03-24 Metodologia: Incertezza",
+      message = "2020-03-25 Veneto: Ospedalizzazioni",
       icon = icon("search")
     ),
     messageItem(
@@ -74,6 +74,9 @@ dashboard_sidebar <- function() {dashboardSidebar(sidebarMenu(
 
 
   menuItem("In evidenza", icon = icon("bullseye"),
+    menuSubItem("2020-03-25 Veneto", tabName = "20200325Hosp",
+                icon = icon("flag")
+    ),
     menuSubItem("2020-03-24 Metodologia", tabName = "20200323Picco",
                 icon = icon("flag")
     ),
@@ -270,6 +273,10 @@ dashboard_body <- function() {dashboardBody(
 
   ),
 
+  tabItem(tabName = "20200325Hosp",
+          h2("Possibile effetto sulle ospedalizzazioni delle politiche sanitarie in Veneto"),
+          mod_focus_20200325_hosp_ui("hosp")
+  ),
   tabItem(tabName = "20200323Picco",
           h2("Impatto dell'incertezza statistica sulle previsioni dell'andamento del COVID-19"),
           mod_focus_20200323_picco_ui("picco")

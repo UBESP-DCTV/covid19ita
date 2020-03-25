@@ -1,3 +1,4 @@
+* 20200325 modul veneto hosp
 * fix colour focus_picco (#24)
 
 # covid19ita 0.19.0
