@@ -161,8 +161,8 @@ mod_focus_20200323_picco_server <- function(id) {
       gg_ita <- tibble::tibble(t = as.Date(pred_t), y = pred_n()) %>%
         ggplot(aes(x = .data$t, y = .data$y)) +
         geom_point() +
-        geom_point(data = obs_db, colour = "red") +
         geom_line() +
+        geom_point(data = obs_db, colour = "red") +
         ylab("Numero di nuovi casi") +
         xlab("") +
         scale_x_date(date_breaks = "1 day", date_labels = "%b %d") +
@@ -217,10 +217,10 @@ mod_focus_20200323_picco_server <- function(id) {
         dplyr::filter(.data$regione %in% reg) %>%
         ggplot(aes(x = .data$t, y = .data$y, colour = .data$regione)) +
         geom_point(colour = "black") +
+        geom_line(colour = "black") +
         geom_point(
           data = dplyr::filter(obs_reg, .data$regione %in% reg)
         ) +
-        geom_line() +
         facet_wrap(~.data$regione, scales = "free_y") +
         ylab("Numero di nuovi casi") +
         xlab("") +
