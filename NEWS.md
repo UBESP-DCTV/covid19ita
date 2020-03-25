@@ -1,3 +1,9 @@
+# covid19ita 0.20.0
+
+* update data
+* fixed plot 2020 03 18 intensive veneto
+* 20200325 modul veneto hosp
+* fix colour focus_picco (#24)
 * eng-test for veneto-intensive, novara and picco
 * translated 20200323 picco (#23)
 
