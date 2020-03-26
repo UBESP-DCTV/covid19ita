@@ -1,3 +1,5 @@
+* update selection procedure for national plots (fix #28)
+
 # covid19ita 0.21.1
 
 * fix for changing names in national dataset
