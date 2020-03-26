@@ -164,7 +164,7 @@ eng_dashboard_body <- function() {dashboardBody(
             of Cardiac, Thoracic and Vascular Sciences and Public Health --
             Università degli Studi di Padova."
           ),
-          a(href = "https://linkedin.com/in/dario-gregori-2720039", target = "_blank", "LinkedIn")
+          a(href = "https://linkedin.com/in/dario-gregori-2720039/", target = "_blank", "LinkedIn")
         )
       ),
 
@@ -173,7 +173,7 @@ eng_dashboard_body <- function() {dashboardBody(
           Biostatistics, Epidemiology, and Public Health of the Department
           of Cardiac, Thoracic and Vascular Sciences and Public Health --
           Università degli Studi di Padova. Head of the Laboratory of Artificial Intelligence for Medical Sciences"),
-          a(href = "https://linkedin.com/in/corradolanera", target = "_blank", "LinkedIn")
+          a(href = "https://linkedin.com/in/corradolanera/", target = "_blank", "LinkedIn")
         )
       ),
 
@@ -183,7 +183,7 @@ eng_dashboard_body <- function() {dashboardBody(
           HTML("Prof. <strong>Paola Berchialla</strong>, PhD, Department of Clinical
             and Biological Sciences -- Università degli Studi di Torino"
           ),
-          a(href = "https://linkedin.com/in/paola-berchialla-36b44410", target = "_blank", "LinkedIn")
+          a(href = "https://linkedin.com/in/paola-berchialla-36b44410/", target = "_blank", "LinkedIn")
         ),
 
         p(
@@ -202,14 +202,14 @@ eng_dashboard_body <- function() {dashboardBody(
       box(width = 12, title = HTML("<strong>Modelli Previsivi</strong>"),
         p(HTML("<strong>Danila Azzolina</strong>, PhD, Department of Translational Medicine --
           Università del Piemonte Orientale"),
-          a(href = "https://linkedin.com/in/danila-azzolina-862465166", target = "_blank", "LinkedIn")
+          a(href = "https://linkedin.com/in/danila-azzolina-862465166/", target = "_blank", "LinkedIn")
         ),
 
         p(HTML("<strong>Ilaria Prosepe</strong>, MSc, Unit of
            Biostatistics, Epidemiology, and Public Health of the Department
            of Cardiac, Thoracic and Vascular Sciences and Public Health --
            Università degli Studi di Padova."),
-          a(href = "https://linkedin.com/in/ilaria-prosepe-1b52371a4", target = "_blank", "LinkedIn")
+          a(href = "https://linkedin.com/in/ilaria-prosepe-1b52371a4/", target = "_blank", "LinkedIn")
         )
       ),
 
@@ -221,13 +221,28 @@ eng_dashboard_body <- function() {dashboardBody(
               Department of Statistics, Computer Sciences, Applications
               "G. Parenti" (DISIA), Università degli Studi di Firenze'
             ),
-            a(href = "https://linkedin.com/in/danila-azzolina-862465166", target = "_blank", "LinkedIn")
+            a(href = "https://linkedin.com/in/danila-azzolina-862465166/", target = "_blank", "LinkedIn")
           ),
-          p(HTML("<strong>Elisa Gallo</strong>, MS., Unità di
+          p(
+            HTML(
+              'Prof. <strong>Cristina Canova</strong>, Ph.D., Unit of
+           Biostatistics, Epidemiology and Public Health of the Department
+           of Cardiac, Thoracic and Vascular Sciences and Public Health --
+           Università degli studi di Padova.'
+            ),
+            a(href = "https://www.linkedin.com/in/cristina-canova-05448861/", target = "_blank", "LinkedIn")
+          ),
+          p(HTML("<strong>Elisa Gallo</strong>, MS., Unit of
            Biostatistics, Epidemiology and Public Health of the Department
            of Cardiac, Thoracic and Vascular Sciences and Public Health --
            Università degli studi di Padova."),
             a(href = "https://www.linkedin.com/in/elisa-gallo-9b3933152/", target = "_blank", "LinkedIn")
+          ),
+          p(HTML("<strong>Francesco Garzotto</strong>, MSc, Unit of
+           Biostatistics, Epidemiology and Public Health of the Department
+           of Cardiac, Thoracic and Vascular Sciences and Public Health --
+           Università degli studi di Padova."),
+            a(href = "https://www.linkedin.com/in/francesco-garzotto-19907826/", target = "_blank", "LinkedIn")
           )
       ),
 
@@ -239,7 +254,7 @@ eng_dashboard_body <- function() {dashboardBody(
             of Cardiac, Thoracic and Vascular Sciences and Public Health --
             Università degli Studi di Padova. Head of the Laboratory of Clinical Epidemiology and Digital Health"
           ),
-          a(href = "https://linkedin.com/in/giulia-lorenzoni-b382a6180", target = "_blank", "LinkedIn")
+          a(href = "https://linkedin.com/in/giulia-lorenzoni-b382a6180/", target = "_blank", "LinkedIn")
         ),
         p(
           HTML(
