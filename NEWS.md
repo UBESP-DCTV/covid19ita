@@ -1,3 +1,5 @@
+# covid19ita 0.21.3
+
 # covid19ita 0.21.2
 
 * update selection procedure for national plots (fix #28)
