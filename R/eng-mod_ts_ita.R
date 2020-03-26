@@ -28,7 +28,9 @@ eng_mod_ts_ita_server <- function(id, type = c("cum", "inc")) {
   dpc_data <- dpc_covid19_ita_andamento_nazionale %>%
     dplyr::mutate(data = as.Date(.data$data))
 
-  var_to_exclude <- c("stato", "tamponi", "nuovi_attualmente_positivi")
+  var_to_exclude <- c(
+    "stato", "tamponi", "nuovi_attualmente_positivi", "note_it", "note_en"
+  )
   var_of_interest <- setdiff(names(dpc_data), var_to_exclude)
   exclude_from_pivoting <- "data"
 
