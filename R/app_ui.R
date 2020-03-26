@@ -164,7 +164,7 @@ dashboard_body <- function() {dashboardBody(
             di Scienze Cardio- Toraco- Vascolari e Sanità Pubblica --
             Università degli studi di Padova."
           ),
-          a(href = "https://linkedin.com/in/dario-gregori-2720039", target = "_blank", "LinkedIn")
+          a(href = "https://linkedin.com/in/dario-gregori-2720039/", target = "_blank", "LinkedIn")
         )
       ),
 
@@ -173,7 +173,7 @@ dashboard_body <- function() {dashboardBody(
           Biostatistica, Epidemiologia e Sanità Pubblica del Dipartimento
           di Scienze Cardio- Toraco- Vascolari e Sanità Pubblica --
           Università degli studi di Padova. Responsabile del Laboratorio di Intelligenza Artificiale per le Scienze Mediche"),
-          a(href = "https://linkedin.com/in/corradolanera", target = "_blank", "LinkedIn")
+          a(href = "https://linkedin.com/in/corradolanera/", target = "_blank", "LinkedIn")
         )
       ),
 
@@ -182,7 +182,7 @@ dashboard_body <- function() {dashboardBody(
           HTML("Prof. <strong>Paola Berchialla</strong>, Ph.D., Dipartimento di Scienze
             Cliniche e Biologiche -- Università degli Studi di Torino"
           ),
-          a(href = "https://linkedin.com/in/paola-berchialla-36b44410", target = "_blank", "LinkedIn")
+          a(href = "https://linkedin.com/in/paola-berchialla-36b44410/", target = "_blank", "LinkedIn")
         ),
         p(
           HTML(
@@ -200,13 +200,13 @@ dashboard_body <- function() {dashboardBody(
       box(width = 12, title = HTML("<strong>Modelli Previsivi</strong>"),
           p(HTML("<strong>Danila Azzolina</strong>, Ph.D., Dipartimento di Medicina Traslazionale --
           Università del Piemonte Orientale"),
-            a(href = "https://linkedin.com/in/danila-azzolina-862465166", target = "_blank", "LinkedIn")
+            a(href = "https://linkedin.com/in/danila-azzolina-862465166/", target = "_blank", "LinkedIn")
           ),
-          p(HTML("<strong>Ilaria Prosepe</strong>, MS., Unità di
+          p(HTML("<strong>Ilaria Prosepe</strong>, MSc., Unità di
            Biostatistica, Epidemiologia e Sanità Pubblica del Dipartimento
            di Scienze Cardio- Toraco- Vascolari e Sanità Pubblica --
            Università degli studi di Padova."),
-            a(href = "https://linkedin.com/in/ilaria-prosepe-1b52371a4", target = "_blank", "LinkedIn")
+            a(href = "https://linkedin.com/in/ilaria-prosepe-1b52371a4/", target = "_blank", "LinkedIn")
           )
       ),
 
@@ -217,13 +217,28 @@ dashboard_body <- function() {dashboardBody(
               Dipartimento di Statistica, Informatica, Applicazioni
               "G. Parenti" (DISIA), Università degli Studi di Firenze'
             ),
-            a(href = "https://linkedin.com/in/danila-azzolina-862465166", target = "_blank", "LinkedIn")
+            a(href = "https://linkedin.com/in/danila-azzolina-862465166/", target = "_blank", "LinkedIn")
           ),
-          p(HTML("<strong>Elisa Gallo</strong>, MS., Unità di
+          p(
+            HTML(
+              'Prof. <strong>Cristina Canova</strong>, Ph.D., Unità di
+           Biostatistica, Epidemiologia e Sanità Pubblica del Dipartimento
+           di Scienze Cardio- Toraco- Vascolari e Sanità Pubblica --
+           Università degli studi di Padova.'
+            ),
+            a(href = "https://www.linkedin.com/in/cristina-canova-05448861/", target = "_blank", "LinkedIn")
+          ),
+          p(HTML("<strong>Elisa Gallo</strong>, MSc., Unità di
            Biostatistica, Epidemiologia e Sanità Pubblica del Dipartimento
            di Scienze Cardio- Toraco- Vascolari e Sanità Pubblica --
            Università degli studi di Padova."),
             a(href = "https://www.linkedin.com/in/elisa-gallo-9b3933152/", target = "_blank", "LinkedIn")
+          ),
+          p(HTML("<strong>Francesco Garzotto</strong>, MSc, Unità di
+           Biostatistica, Epidemiologia e Sanità Pubblica del Dipartimento
+           di Scienze Cardio- Toraco- Vascolari e Sanità Pubblica --
+           Università degli studi di Padova."),
+            a(href = "https://www.linkedin.com/in/francesco-garzotto-19907826/", target = "_blank", "LinkedIn")
           )
       ),
 

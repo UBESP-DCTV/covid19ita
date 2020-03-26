@@ -1,3 +1,5 @@
+* included CC in contributors
+
 # covid19ita 0.20.0
 
 * update data
