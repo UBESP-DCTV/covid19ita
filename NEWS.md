@@ -1,3 +1,5 @@
+* translated 20200325 hosp and created the relative eng-test (#27)
+
 # covid19ita 0.20.0
 
 * update data
