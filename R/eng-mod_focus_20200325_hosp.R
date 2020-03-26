@@ -1,4 +1,4 @@
-#' focus_20200314 UI Function
+#' focus_20200325_hosp UI Function
 #'
 #' @description A shiny Module.
 #'
@@ -7,7 +7,7 @@
 #' @noRd
 #'
 #' @importFrom shiny NS tagList
-eng_mod_focus_20200314_ui <- function(id){
+eng_mod_focus_20200325_hosp_ui <- function(id){
   ns <- NS(id)
 
   tagList(
@@ -21,21 +21,21 @@ eng_mod_focus_20200314_ui <- function(id){
         p(
           "In order to understand whether the containing measures helped
           slow down the spread of COVID-19, a predictive model based on the
-          data collected until the 3rd of March was compared to what was
+          data collected until the 12th of March was compared to what was
           actually observed."
         ),
         p(
-          "Figure 1 shows that there was a slowdown after the 2nd of
+          "Figure 1 shows that there was a slowdown after the 12th of
           March: this day represents an epidemic change-point."),
         p(HTML(
           "Thanks to the comparison between the predicted and actual
           values it was possible to estimate some quantities:</br>
           <ol>
-            <li>The number of avoided cases in the Veneto region as of the 12th of March: 348 (95% C.I. 322 – 373) (Figure 2)</li>
-            <li>How much the epidemic is slowing down compared to what was expected:
+            <li>The number of avoided hospitalizations in the Veneto region as of the 24th of March: 561 (95% C.I. 533 – 589) (Figure 2)</li>
+            <li>How much the epidemic slowed down compared to what was expected:
               <ul>
-                <li>2.4 (95% C.I. 2.05 -2.74) days were “gained” as of the 12th of March (Figure 3)</li>
-                <li>the epidemic velocity registered a drop of 15.91 cases/day (95% C.I. 11.99 – 19.82), peaking on the 6th of March with 40 cases/day (Figure 4)</li>
+                <li>3.23 (95% C.I. 2.53 - 3.93) days were “gained” in terms of hospitalizations as of the 24th of March (Figure 3)</li>
+                <li>the epidemic velocity registered a drop of 64.84 hospitalizations/day (95% C.I. 61.06 – 68.63) (Figure 4)</li>
               </ul>
             </li>
           </ol>"
@@ -45,17 +45,17 @@ eng_mod_focus_20200314_ui <- function(id){
 
     fluidRow(
       box(width = 12, plotlyOutput(ns("fig1")),
-        title = "Figure 1. Estimated cases (bold green curve; the other two green curves indicate the 95% confidence levels) based on course of the epidemic as registered until the 2nd of March. Actual values (red dots) observed in the following days."
+        title = "Figure 1. Expected hospitalizations (bold green curve; the other two green curves indicate the 95% confidence levels) based on course of the epidemic as registered until the 12th of March. Actual values (red dots) observed in the following days."
       )
     ),
     fluidRow(
       box(width = 12, plotlyOutput(ns("fig2")),
-        title = "Figure 2. Avoided cases in the Veneto region compared to what was expected from the data gathered until the 2nd of March. The grey area indicates the 95% confidence interval."
+        title = "Figure 2. Avoided hospitalizations in the Veneto region compared to what was expected from the data gathered until the 12th of March. The grey area indicates the 95% confidence interval."
       )
     ),
     fluidRow(
       box(width = 12, plotlyOutput(ns("fig3")),
-        title = "Figure 3. Gained days, estimated by looking at the shift to the right of the curve (predicted vs observed). The grey area indicates the 95% confidence interval."
+        title = "Figure 3.  Gained days, estimated by looking at the shift to the right of the curve (predicted vs observed). The grey area indicates the 95% confidence interval."
       )
     ),
     fluidRow(
@@ -68,8 +68,8 @@ eng_mod_focus_20200314_ui <- function(id){
     fluidRow(
       box(width = 12, title = "Technical details regarding the estimation of the model",
         p("
-          The estimation of the model was based on the number series of cases that
-          were observed until the 2nd of March. This day represents a
+        The estimation of the model was based on the number series of hospitalizations that
+          were observed until the 12th of March. This day represents a
           change-point in terms of growth of the epidemics. This change in the
           number series was detected by a Bayesian Changepoint
           Detection Method (1). The polynomial regression model is based on a
@@ -81,11 +81,15 @@ eng_mod_focus_20200314_ui <- function(id){
           Recent studies showed that the curve of cases could be of a quadratic
           nature rather than exponential, especially in the early stage of the outbreak
           (2).
+        "),
+        p("
+        It is assumed that the hospitalizations growth rate is similar
+        in shape to the cases growth rate.
         ")
       )
     ),
     fluidRow(
-      box(width = 12, title = "References",
+      box(width = 12, title = "Bibliografia",
         p(HTML("
           <ol>
             <li>Barry D, Hartigan JA. A Bayesian Analysis for Change Point Problems. J Am Stat Assoc. 1993;88(421):309–19.</li>
@@ -97,21 +101,21 @@ eng_mod_focus_20200314_ui <- function(id){
   )
 }
 
-#' focus_20200314 Server Function
+#' focus_20200325_hosp Server Function
 #'
 #' @noRd
-eng_mod_focus_20200314_server <- function(id, region = "Veneto") {
+eng_mod_focus_20200325_hosp_server <- function(id, region = "Veneto") {
 
   # data_plot <- mtcars[1:2]
 
   regione <- dpc_covid19_ita_regioni %>%
     dplyr::filter(
       .data$denominazione_regione == region,
-      (.data$data <= lubridate::ymd('2020-03-12'))
+      (.data$data <= lubridate::ymd('2020-03-24'))
     ) %>%
     dplyr::mutate(
       day = lubridate::ymd_hms(.data$data),
-      time_point = ifelse(.data$day <= lubridate::ymd('2020-03-02'),
+      time_point = ifelse(.data$day <= lubridate::ymd('2020-03-13'),
         yes = 0,
         no  = 1
       )
@@ -127,9 +131,9 @@ eng_mod_focus_20200314_server <- function(id, region = "Veneto") {
 
   #------------- fit loess ------------------
 
-  fit_loess <- stats::loess(totale_casi ~ days,
+  fit_loess <- stats::loess(ricoverati_con_sintomi ~ days,
     data = regione_0,
-    span = 1.5,
+    span = 0.7,
     control = stats::loess.control(surface = "direct")
   )
 
@@ -140,7 +144,7 @@ eng_mod_focus_20200314_server <- function(id, region = "Veneto") {
 
   db_pred_loess <- tibble::tibble(
     day         = regione[["day"]],
-    totale_casi = y_fit,
+    ricoverati_con_sintomi = y_fit,
     lower       = y_fit -
                   stats::qt(0.975, y_loess[["df"]]) * y_loess[["se.fit"]],
     upper       = y_fit +
@@ -150,7 +154,7 @@ eng_mod_focus_20200314_server <- function(id, region = "Veneto") {
 
   db_true_loess <- tibble::tibble(
     day         = regione[["day"]],
-    totale_casi = regione[["totale_casi"]],
+    ricoverati_con_sintomi = regione[["ricoverati_con_sintomi"]],
     lower       = NA_real_,
     upper       = NA_real_,
     series      = 'Osservato'
@@ -170,13 +174,13 @@ eng_mod_focus_20200314_server <- function(id, region = "Veneto") {
   ## FIG 1
 
   gg_fig_1 <- db_pred_loess %>%
-    ggplot(aes(x = .data$day, y = .data$totale_casi, colour = .data$series)) +
+    ggplot(aes(x = .data$day, y = .data$ricoverati_con_sintomi, colour = .data$series)) +
     geom_smooth() + geom_point(data = db_true_loess) +
     geom_line(aes(x = .data$day, y = .data$lower)) +
     geom_line(aes(x = .data$day, y = .data$upper)) +
-    labs(title = "", x = "Day", y = "Cases") +
+    labs(title = "", x = "Day", y = "Total Hospitalizations") +
     scale_x_datetime(date_breaks = "1 day", date_labels = "%d %b") +
-    scale_y_continuous(breaks = seq(0, 2000, 200)) +
+    scale_y_continuous(breaks = seq(0, 2200, 200)) +
     global_theme
 
 
@@ -190,7 +194,7 @@ eng_mod_focus_20200314_server <- function(id, region = "Veneto") {
       suffix = c("_pred", "_true")
     ) %>%
     dplyr::mutate(
-      difference = .data$totale_casi_pred - .data$totale_casi_true
+      difference = .data$ricoverati_con_sintomi_pred - .data$ricoverati_con_sintomi_true
     )
 
 
@@ -200,7 +204,7 @@ eng_mod_focus_20200314_server <- function(id, region = "Veneto") {
     labs(
       title = "",
       x = "Day",
-      y = "Difference of cases"
+      y = "Difference of hospiatlizations"
     ) +
     scale_x_datetime(date_breaks = "1 day", date_labels = "%d %b") +
     scale_y_continuous(breaks = seq(0, 400, 50)) +
@@ -229,7 +233,7 @@ eng_mod_focus_20200314_server <- function(id, region = "Veneto") {
 
   dt_fig_3 <- dt_fig_2 %>%
     dplyr::mutate(
-      day_pred = .data$totale_casi_true %>%
+      day_pred = .data$ricoverati_con_sintomi_true %>%
         purrr::map_dbl(evaluate_inverse_1),
       daygain  = dplyr::row_number() - .data$day_pred
     )
@@ -241,7 +245,7 @@ eng_mod_focus_20200314_server <- function(id, region = "Veneto") {
     labs(
       title = "",
       x = "Day",
-      y = "Number of gained days"
+      y = "Gained days"
     ) +
     scale_x_datetime(date_breaks = "1 day", date_labels = "%d %b") +
     scale_y_continuous(breaks = seq(0, 3, 1)) +
@@ -265,7 +269,7 @@ eng_mod_focus_20200314_server <- function(id, region = "Veneto") {
   #        from  diff(y_fit) / diff(n_seq_regione)
 
 
-  fit_full <- stats::loess(totale_casi_true ~ n_seq_regione,
+  fit_full <- stats::loess(ricoverati_con_sintomi_true ~ n_seq_regione,
     data    = dt_fig_3,
     control = stats::loess.control(surface = "direct")
   )
@@ -274,7 +278,7 @@ eng_mod_focus_20200314_server <- function(id, region = "Veneto") {
   dt_fig_4 <- dt_fig_3 %>%
     dplyr::mutate(
       dY = c(NA_real_,
-             diff(dt_fig_3$totale_casi_pred) - diff(y_pred_full)
+             diff(dt_fig_3$ricoverati_con_sintomi_pred) - diff(y_pred_full)
       )
     )
 
@@ -284,8 +288,8 @@ eng_mod_focus_20200314_server <- function(id, region = "Veneto") {
     stat_smooth() + geom_point() +
     labs(
       title = "",
-       x = "Data",
-       y = "Change of rate in cases"
+       x = "Date",
+       y = "Change in hospitalizations per day"
     ) +
     scale_x_datetime(date_breaks = "1 day", date_labels = "%d %b") +
     scale_y_continuous(breaks = seq(-50, 50, 10)) +
@@ -330,8 +334,8 @@ eng_mod_focus_20200314_server <- function(id, region = "Veneto") {
 }
 
 ## To be copied in the UI
-# mod_focus_20200314_ui("focus_20200314_ui_1")
+# mod_focus_20200325_hosp_ui("focus_20200325_ui_1")
 
 ## To be copied in the server
-# callModule(mod_focus_20200314_server, "focus_20200314_ui_1")
+# callModule(mod_focus_20200325_hosp_server, "focus_20200325_ui_1")
 
