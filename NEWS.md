@@ -1,3 +1,5 @@
+* fix for changing names in national dataset
+
 # covid19ita 0.21.0
 
 * update data
