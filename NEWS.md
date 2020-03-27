@@ -1,8 +1,55 @@
+# covid19ita 0.22.0
+
+* data update
+
+# covid19ita 0.21.4
+
+* update data
+
+# covid19ita 0.21.3
+
+# covid19ita 0.21.2
+
+* update selection procedure for national plots (fix #28)
+
+# covid19ita 0.21.1
+
+* fix for changing names in national dataset
+
+# covid19ita 0.21.0
+
+* update data
+* included FG in contributors
+* included CC in contributors
+* change in contributors eng (#15)
+* translated 20200325 hosp and created the relative eng-test (#27)
+
+# covid19ita 0.20.0
+
+* update data
+* fixed plot 2020 03 18 intensive veneto
+* 20200325 modul veneto hosp
+* fix colour focus_picco (#24)
+* eng-test for veneto-intensive, novara and picco
+* translated 20200323 picco (#23)
+
+# covid19ita 0.19.0
+
+* spellcheck
+* `cumulate_for_days()` -> `accumulate_for_days()`
+* parametric national and regional logistic estimation
+* fix namespace for CMD check's notes
+* fix attributions
+
+# covid19ita 0.18.0
+
+* data update
+
 # covid19ita 0.17.0
 
 * update data
 * Update team group
-* fix link to linkedin account
+* fix link to LinkedIn account
 
 # covid19ita 0.16.0
 
@@ -10,7 +57,7 @@
 * Added focus section for Vercelli and Alessandria
 * Update istruzioni (ita)
 * update team group eng
-* added alessandria and vercelli
+* added Alessandria and Vercelli
 * translated x-y labels of the graphs in the epidemic section (#4)
 * translated Novara 2020-03-20 (#20)
 
@@ -47,7 +94,7 @@
 # covid19ita 0.13.2
 
 * index intensive su tamponi
-* fix title highlight piemonte
+* fix title highlight Piemonte
 
 # covid19ita 0.13.1
 
@@ -70,7 +117,7 @@
 # covid19ita 0.12.0
 
 * data update
-* small modifictaion to file eng-mod_focus_20200314 (#4)
+* small modification to file eng-mod_focus_20200314 (#4)
 * completed translation of eng-mod_focus_20200114 and eng-mode_helped. Added eng_plottly_help_txt to covid_ita     (#4)
 * completed translation of eng-mod_info_sidebar (#4)
 * completed translation of eng-app_ui and eng-run_dev (#4)

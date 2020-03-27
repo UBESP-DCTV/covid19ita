@@ -49,4 +49,6 @@ eng_app_server <- function(input, output, session) {
                                      loc = "Alessandria",
                                      pop = 428826
     )
+    eng_mod_focus_20200323_picco_server("picco")
+    eng_mod_focus_20200325_hosp_server("hosp")
 }

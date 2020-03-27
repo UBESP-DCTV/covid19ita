@@ -116,10 +116,10 @@ mod_focus_20200318_friuli_server <- function(id, region = "Friuli Venezia Giulia
     dplyr::mutate(
       day = lubridate::ymd_hms(.data$data),
       time_point = ifelse(
-        (day >= lubridate::ymd('2020-03-06')) &
-        (day <= lubridate::ymd('2020-03-10')),
+        (.data$day >= lubridate::ymd('2020-03-06')) &
+        (.data$day <= lubridate::ymd('2020-03-10')),
         yes = 0,
-        no  = ifelse(day > lubridate::ymd('2020-03-10'),
+        no  = ifelse(.data$day > lubridate::ymd('2020-03-10'),
           yes = 1,
           no  = 2
         )
@@ -129,7 +129,7 @@ mod_focus_20200318_friuli_server <- function(id, region = "Friuli Venezia Giulia
   n_seq_regione <- seq_len(nrow(regione))
 
   train <- regione %>%
-    dplyr::filter((.data$time_point == 0)) %>%
+    dplyr::filter(.data$time_point == 0) %>%
     dplyr::arrange(.data$data) %>%
     dplyr::mutate(days = dplyr::row_number())
 
@@ -140,14 +140,14 @@ mod_focus_20200318_friuli_server <- function(id, region = "Friuli Venezia Giulia
 
   prediction <- regione %>%
     dplyr::filter(
-      (time_point != 2) & (day <= lubridate::ymd('2020-03-14'))
+      (.data$time_point != 2) & (.data$day <= lubridate::ymd('2020-03-14'))
     ) %>%
     dplyr::arrange(.data$data) %>%
     dplyr::mutate(days = dplyr::row_number())
 
 
   prediction_2 <- regione %>%
-    dplyr::filter(day <= lubridate::ymd('2020-03-07')) %>%
+    dplyr::filter(.data$day <= lubridate::ymd('2020-03-07')) %>%
     dplyr::arrange(.data$data) %>%
     dplyr::mutate(days = dplyr::row_number())
 
@@ -177,7 +177,7 @@ mod_focus_20200318_friuli_server <- function(id, region = "Friuli Venezia Giulia
     series      = 'Predetto'
   )
 
-  fit2_loess <- loess(totale_casi ~ days,
+  fit2_loess <- stats::loess(totale_casi ~ days,
     data = train_2,
     span = 1.5,
     control = stats::loess.control(surface = "direct"))

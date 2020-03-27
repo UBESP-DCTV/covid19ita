@@ -37,12 +37,7 @@ dashboard_header <- function() {dashboardHeader(
   dropdownMenu(type = "messages",
     messageItem(
       from = "In evidenza",
-      message = "2020-03-21 Alessandria: Previsione casi",
-      icon = icon("search")
-    ),
-    messageItem(
-      from = "In evidenza",
-      message = "2020-03-21 Vercelli: Previsione casi",
+      message = "2020-03-25 Veneto: Ospedalizzazioni",
       icon = icon("search")
     ),
     messageItem(
@@ -79,6 +74,12 @@ dashboard_sidebar <- function() {dashboardSidebar(sidebarMenu(
 
 
   menuItem("In evidenza", icon = icon("bullseye"),
+    menuSubItem("2020-03-25 Veneto", tabName = "20200325Hosp",
+                icon = icon("flag")
+    ),
+    menuSubItem("2020-03-24 Metodologia", tabName = "20200323Picco",
+                icon = icon("flag")
+    ),
     menuSubItem("2020-03-21 Alessandria", tabName = "20200321Alessandria",
                 icon = icon("flag")
     ),
@@ -169,7 +170,7 @@ dashboard_body <- function() {dashboardBody(
             di Scienze Cardio- Toraco- Vascolari e Sanità Pubblica --
             Università degli studi di Padova."
           ),
-          a(href = "https://linkedin.com/in/dario-gregori-2720039", target = "_blank", "LinkedIn")
+          a(href = "https://linkedin.com/in/dario-gregori-2720039/", target = "_blank", "LinkedIn")
         )
       ),
 
@@ -178,7 +179,7 @@ dashboard_body <- function() {dashboardBody(
           Biostatistica, Epidemiologia e Sanità Pubblica del Dipartimento
           di Scienze Cardio- Toraco- Vascolari e Sanità Pubblica --
           Università degli studi di Padova. Responsabile del Laboratorio di Intelligenza Artificiale per le Scienze Mediche"),
-          a(href = "https://linkedin.com/in/corradolanera", target = "_blank", "LinkedIn")
+          a(href = "https://linkedin.com/in/corradolanera/", target = "_blank", "LinkedIn")
         )
       ),
 
@@ -187,11 +188,11 @@ dashboard_body <- function() {dashboardBody(
           HTML("Prof. <strong>Paola Berchialla</strong>, Ph.D., Dipartimento di Scienze
             Cliniche e Biologiche -- Università degli Studi di Torino"
           ),
-          a(href = "https://linkedin.com/in/paola-berchialla-36b44410", target = "_blank", "LinkedIn")
+          a(href = "https://linkedin.com/in/paola-berchialla-36b44410/", target = "_blank", "LinkedIn")
         ),
         p(
           HTML(
-            '<strong>Dolores Catelan</strong>, Ph.D., Dipartimento di
+            'Prof. <strong>Dolores Catelan</strong>, Ph.D., Dipartimento di
             Statistica, Informatica, Applicazioni "G. Parenti" (DISIA),
             Università degli Studi di Firenze'
           ),
@@ -205,13 +206,13 @@ dashboard_body <- function() {dashboardBody(
       box(width = 12, title = HTML("<strong>Modelli Previsivi</strong>"),
           p(HTML("<strong>Danila Azzolina</strong>, Ph.D., Dipartimento di Medicina Traslazionale --
           Università del Piemonte Orientale"),
-            a(href = "https://linkedin.com/in/danila-azzolina-862465166", target = "_blank", "LinkedIn")
+            a(href = "https://linkedin.com/in/danila-azzolina-862465166/", target = "_blank", "LinkedIn")
           ),
-          p(HTML("<strong>Ilaria Prosepe</strong>, MS., Unità di
+          p(HTML("<strong>Ilaria Prosepe</strong>, MSc., Unità di
            Biostatistica, Epidemiologia e Sanità Pubblica del Dipartimento
            di Scienze Cardio- Toraco- Vascolari e Sanità Pubblica --
            Università degli studi di Padova."),
-            a(href = "https://linkedin.com/in/ilaria-prosepe-1b52371a4", target = "_blank", "LinkedIn")
+            a(href = "https://linkedin.com/in/ilaria-prosepe-1b52371a4/", target = "_blank", "LinkedIn")
           )
       ),
 
@@ -222,13 +223,28 @@ dashboard_body <- function() {dashboardBody(
               Dipartimento di Statistica, Informatica, Applicazioni
               "G. Parenti" (DISIA), Università degli Studi di Firenze'
             ),
-            a(href = "https://linkedin.com/in/danila-azzolina-862465166", target = "_blank", "LinkedIn")
+            a(href = "https://linkedin.com/in/danila-azzolina-862465166/", target = "_blank", "LinkedIn")
           ),
-          p(HTML("<strong>Elisa Gallo</strong>, MS., Unità di
+          p(
+            HTML(
+              'Prof. <strong>Cristina Canova</strong>, Ph.D., Unità di
+           Biostatistica, Epidemiologia e Sanità Pubblica del Dipartimento
+           di Scienze Cardio- Toraco- Vascolari e Sanità Pubblica --
+           Università degli studi di Padova.'
+            ),
+            a(href = "https://www.linkedin.com/in/cristina-canova-05448861/", target = "_blank", "LinkedIn")
+          ),
+          p(HTML("<strong>Elisa Gallo</strong>, MSc., Unità di
            Biostatistica, Epidemiologia e Sanità Pubblica del Dipartimento
            di Scienze Cardio- Toraco- Vascolari e Sanità Pubblica --
            Università degli studi di Padova."),
             a(href = "https://www.linkedin.com/in/elisa-gallo-9b3933152/", target = "_blank", "LinkedIn")
+          ),
+          p(HTML("<strong>Francesco Garzotto</strong>, MSc, Unità di
+           Biostatistica, Epidemiologia e Sanità Pubblica del Dipartimento
+           di Scienze Cardio- Toraco- Vascolari e Sanità Pubblica --
+           Università degli studi di Padova."),
+            a(href = "https://www.linkedin.com/in/francesco-garzotto-19907826/", target = "_blank", "LinkedIn")
           )
       ),
 
@@ -278,6 +294,14 @@ dashboard_body <- function() {dashboardBody(
 
   ),
 
+  tabItem(tabName = "20200325Hosp",
+          h2("Possibile effetto sulle ospedalizzazioni delle politiche sanitarie in Veneto"),
+          mod_focus_20200325_hosp_ui("hosp")
+  ),
+  tabItem(tabName = "20200323Picco",
+          h2("Impatto dell'incertezza statistica sulle previsioni dell'andamento del COVID-19"),
+          mod_focus_20200323_picco_ui("picco")
+  ),
   tabItem(tabName = "20200321Alessandria",
           h2("Stime previsive sul totale casi ad Alessandria"),
           mod_focus_20200320_novara_ui("da_alessandria")

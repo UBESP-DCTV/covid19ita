@@ -37,19 +37,9 @@ eng_dashboard_header <- function() {dashboardHeader(
   dropdownMenu(type = "messages",
     messageItem(
       from = "Highlights",
-      message = "2020-03-21 Alessandria: cases predictions",
+      message = "2020-03-25 Veneto: Hospitalizations",
       icon = icon("search")
-    ),
-    messageItem(
-      from = "Highlights",
-      message = "2020-03-21 Vercelli: cases predictions",
-      icon = icon("search")
-    ),
-    messageItem(
-      from = "Highlights",
-      message = "2020-03-21 Novara: cases predictions",
-      icon = icon("search")
-    ),
+               ),
     messageItem(
       from = "Data",
       message = "Data updated (2020-03-19 18:20)",
@@ -82,6 +72,12 @@ eng_dashboard_sidebar <- function() {dashboardSidebar(sidebarMenu(
   menuItem("Home", tabName = "home", icon = icon("home")),
 
   menuItem("Highlights", icon = icon("bullseye"),
+           menuSubItem("2020-03-25 Veneto", tabName = "20200325Hosp",
+                       icon = icon("flag")
+           ),
+           menuSubItem("2020-03-24 Methodology", tabName = "20200323Picco",
+                       icon = icon("flag")
+           ),
            menuSubItem("2020-03-21 Alessandria", tabName = "20200321Alessandria",
                        icon = icon("flag")
            ),
@@ -168,7 +164,7 @@ eng_dashboard_body <- function() {dashboardBody(
             of Cardiac, Thoracic and Vascular Sciences and Public Health --
             Università degli Studi di Padova."
           ),
-          a(href = "https://linkedin.com/in/dario-gregori-2720039", target = "_blank", "LinkedIn")
+          a(href = "https://linkedin.com/in/dario-gregori-2720039/", target = "_blank", "LinkedIn")
         )
       ),
 
@@ -177,7 +173,7 @@ eng_dashboard_body <- function() {dashboardBody(
           Biostatistics, Epidemiology, and Public Health of the Department
           of Cardiac, Thoracic and Vascular Sciences and Public Health --
           Università degli Studi di Padova. Head of the Laboratory of Artificial Intelligence for Medical Sciences"),
-          a(href = "https://linkedin.com/in/corradolanera", target = "_blank", "LinkedIn")
+          a(href = "https://linkedin.com/in/corradolanera/", target = "_blank", "LinkedIn")
         )
       ),
 
@@ -187,7 +183,7 @@ eng_dashboard_body <- function() {dashboardBody(
           HTML("Prof. <strong>Paola Berchialla</strong>, PhD, Department of Clinical
             and Biological Sciences -- Università degli Studi di Torino"
           ),
-          a(href = "https://linkedin.com/in/paola-berchialla-36b44410", target = "_blank", "LinkedIn")
+          a(href = "https://linkedin.com/in/paola-berchialla-36b44410/", target = "_blank", "LinkedIn")
         ),
 
         p(
@@ -206,14 +202,14 @@ eng_dashboard_body <- function() {dashboardBody(
       box(width = 12, title = HTML("<strong>Modelli Previsivi</strong>"),
         p(HTML("<strong>Danila Azzolina</strong>, PhD, Department of Translational Medicine --
           Università del Piemonte Orientale"),
-          a(href = "https://linkedin.com/in/danila-azzolina-862465166", target = "_blank", "LinkedIn")
+          a(href = "https://linkedin.com/in/danila-azzolina-862465166/", target = "_blank", "LinkedIn")
         ),
 
         p(HTML("<strong>Ilaria Prosepe</strong>, MSc, Unit of
            Biostatistics, Epidemiology, and Public Health of the Department
            of Cardiac, Thoracic and Vascular Sciences and Public Health --
            Università degli Studi di Padova."),
-          a(href = "https://linkedin.com/in/ilaria-prosepe-1b52371a4", target = "_blank", "LinkedIn")
+          a(href = "https://linkedin.com/in/ilaria-prosepe-1b52371a4/", target = "_blank", "LinkedIn")
         )
       ),
 
@@ -225,13 +221,28 @@ eng_dashboard_body <- function() {dashboardBody(
               Department of Statistics, Computer Sciences, Applications
               "G. Parenti" (DISIA), Università degli Studi di Firenze'
             ),
-            a(href = "https://linkedin.com/in/danila-azzolina-862465166", target = "_blank", "LinkedIn")
+            a(href = "https://linkedin.com/in/danila-azzolina-862465166/", target = "_blank", "LinkedIn")
           ),
-          p(HTML("<strong>Elisa Gallo</strong>, MS., Unità di
+          p(
+            HTML(
+              'Prof. <strong>Cristina Canova</strong>, Ph.D., Unit of
+           Biostatistics, Epidemiology and Public Health of the Department
+           of Cardiac, Thoracic and Vascular Sciences and Public Health --
+           Università degli studi di Padova.'
+            ),
+            a(href = "https://www.linkedin.com/in/cristina-canova-05448861/", target = "_blank", "LinkedIn")
+          ),
+          p(HTML("<strong>Elisa Gallo</strong>, MS., Unit of
            Biostatistics, Epidemiology and Public Health of the Department
            of Cardiac, Thoracic and Vascular Sciences and Public Health --
            Università degli studi di Padova."),
             a(href = "https://www.linkedin.com/in/elisa-gallo-9b3933152/", target = "_blank", "LinkedIn")
+          ),
+          p(HTML("<strong>Francesco Garzotto</strong>, MSc, Unit of
+           Biostatistics, Epidemiology and Public Health of the Department
+           of Cardiac, Thoracic and Vascular Sciences and Public Health --
+           Università degli studi di Padova."),
+            a(href = "https://www.linkedin.com/in/francesco-garzotto-19907826/", target = "_blank", "LinkedIn")
           )
       ),
 
@@ -243,7 +254,7 @@ eng_dashboard_body <- function() {dashboardBody(
             of Cardiac, Thoracic and Vascular Sciences and Public Health --
             Università degli Studi di Padova. Head of the Laboratory of Clinical Epidemiology and Digital Health"
           ),
-          a(href = "https://linkedin.com/in/giulia-lorenzoni-b382a6180", target = "_blank", "LinkedIn")
+          a(href = "https://linkedin.com/in/giulia-lorenzoni-b382a6180/", target = "_blank", "LinkedIn")
         ),
         p(
           HTML(
@@ -281,7 +292,14 @@ eng_dashboard_body <- function() {dashboardBody(
     )
 
   ),
-
+  tabItem(tabName = "20200325Hosp",
+          h2("Possible effect on hospitalizations of the health policies implemented by the Veneto region"),
+          eng_mod_focus_20200325_hosp_ui("hosp")
+  ),
+  tabItem(tabName = "20200323Picco",
+          h2("Impact of statistical uncertainty on COVID-19 predictions"),
+          eng_mod_focus_20200323_picco_ui("picco")
+  ),
   tabItem(tabName = "20200321Alessandria",
           h2("Expected number of total cases in Alessandria"),
           eng_mod_focus_20200320_novara_ui("da_alessandria")
@@ -297,20 +315,20 @@ eng_dashboard_body <- function() {dashboardBody(
   ),
 
   tabItem(tabName = "20200319Veneto",
-          h2("Possible impact of the health policies implemented in the Veneto region on the number of patients admitted to the ICU"),
+          h2("Possible effect on ICU admissions of the health policies implemented by the Veneto region"),
           eng_mod_focus_20200318_veneto_intensive_ui("21")
   ),
 
   tabItem(tabName = "20200318Piemonte",
-          h2("Possible effect of the health policies implemented in the Piemonte region"),
+          h2("Possible effect of the health policies implemented by the Piemonte region"),
           eng_mod_focus_20200318_piemonte_ui("20200318_piemonte")
   ),
   tabItem(tabName = "20200318Fvg",
-          h2("Possible effect of the health policies implemented in the Friuli Venezia Giulia region"),
+          h2("Possible effect of the health policies implemented by the Friuli Venezia Giulia region"),
           eng_mod_focus_20200318_friuli_ui("20200318_fvg")
   ),
   tabItem(tabName = "20200314Veneto",
-    h1("Possible effect of the health policies implemented in the Veneto region"),
+    h1("Possible effect of the health policies implemented by the Veneto region"),
     eng_mod_focus_20200314_ui("dapb")
   ),
 
