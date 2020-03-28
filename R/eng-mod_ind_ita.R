@@ -225,16 +225,29 @@ eng_mod_ind_ita_server <- function(id) {
           colour = .data$denominazione_regione,
           label = .data$denominazione_regione
         )) +
+        geom_point() +
         geom_smooth(method = stats::loess, span = 1.5, se = FALSE) +
-        ylab("(ICU / residents) x 100000 ppl") +
-        xlab("(tests on asympotomatics / residents) x 100000 ppl") +
+        ylab("% people admitted to ICU") +
+        xlab("% tested people who are not hospitalized") +
         coord_cartesian(
           xlim = c(0, max(dati_tamponi$tamp_asint_pesati) + 1L),
           ylim = c(0, max(dati_tamponi$intensiva_pesati))
         ) +
         scale_color_discrete(name = "Regione")
 
-      ggplotly(gg_titamponi)
+      ggplotly(gg_titamponi, originalData = FALSE) %>%
+        plotly::add_fun(function(p) {
+          p %>%
+            dplyr::slice(which.min(.data$x)) %>%
+            plotly::add_annotations(as.Date(min(data_to_use()[["data"]])), ax = 60)
+        }) %>%
+        plotly::add_fun(function(p) {
+          p %>%
+            dplyr::group_by(.data$label) %>%
+            dplyr::slice(which.max(.data$x)) %>%
+            dplyr::ungroup() %>%
+            plotly::add_annotations(as.Date(max(data_to_use()[["data"]])), ax = 60)
+        })
     })
 
     output$dt_tamponi <- DT::renderDT({
@@ -245,7 +258,7 @@ eng_mod_ind_ita_server <- function(id) {
           .data$intensiva_pesati
         ) %>%
         dplyr::mutate(data = as.Date(.data$data)) %>%
-        dplyr::mutate_if(is.numeric, round, digits = 2)
+        dplyr::mutate_if(is.numeric, round, digits = 5)
     })
 
   })

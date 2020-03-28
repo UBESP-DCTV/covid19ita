@@ -1,3 +1,5 @@
+* update plot tamponi/intensive (eng) (#29)
+
 # covid19ita 0.23.0
 
 * data update
