@@ -37,7 +37,7 @@ dashboard_header <- function() {dashboardHeader(
   dropdownMenu(type = "messages",
     messageItem(
       from = "In evidenza",
-      message = "2020-03-25 Veneto: Ospedalizzazioni",
+      message = "2020-03-28 Veneto: Ospedalizzazioni",
       icon = icon("search")
     ),
     messageItem(
@@ -74,6 +74,9 @@ dashboard_sidebar <- function() {dashboardSidebar(sidebarMenu(
 
 
   menuItem("In evidenza", icon = icon("bullseye"),
+    menuSubItem("2020-03-28 Veneto", tabName = "20200328Tot_hosp",
+                icon = icon("flag")
+    ),
     menuSubItem("2020-03-25 Veneto", tabName = "20200325Hosp",
                 icon = icon("flag")
     ),
@@ -288,6 +291,10 @@ dashboard_body <- function() {dashboardBody(
 
   ),
 
+  tabItem(tabName = "20200328Tot_hosp",
+          h2("Possibile effetto sulle ospedalizzazioni delle politiche sanitarie in Veneto"),
+          mod_focus_20200328_hosp_ui("tot")
+  ),
   tabItem(tabName = "20200325Hosp",
           h2("Possibile effetto sulle ospedalizzazioni delle politiche sanitarie in Veneto"),
           mod_focus_20200325_hosp_ui("hosp")
