@@ -70,11 +70,12 @@ mod_ind_ita_ui <- function(id){
     ),
     box(plotlyOutput(ns("titamponi")),
       width = 12,
-      title = "Andamento (fit loess, span = 1.5, degree = 2) regionale dell'occupazione dei posti in terapia intensiva in funzione del numero di tamponi non sintomatici effettuati (approssimati dal totale tamponi effettuati sottratti dei pazienti ricoverati con sintomi e in terapia intensiva), fino al giorno indicato dallo slider. È possibile riprodurre l'intero andamento dinamicamente in automatico tramite il tasto play."
+      title = "Andamento (fit loess, span = 1.5, degree = 2) regionale della percentuale di popolazione che, rispettivamente, è ricoverata in terapia intensiva (asse verticale) e non è (alla data considerata) ospedalizzata nonostante sia stata soggetta a tampone (dato approssimato dal numero totale di tamponi effettuati sottratti dei pazienti ospedalizzati), fino al giorno indicato dallo slider. È possibile riprodurre l'intero andamento dinamicamente in automatico tramite il tasto play.",
+      footer = "NOTE: Le curve riportano andamento cumulato giornaliero sull'asse orizzontale (quindi non potranno mai 'tornare indietro') ma netto giornaliero su quello verticale (quindi possono sia 'salire' che 'scendere'). Importante notare che le curve sono 'temporalmente lunghe' tutte lo stesso numero di giorni (ovvero, dal 24 febbraio, alla data indicata dallo slider). Correndo lungo le curve, i punti si susseguono temporalmente, e ciascuno rappresenta i dati osservati nel giorno corrispondente."
     ),
     box(DT::DTOutput(ns("dt_tamponi")),
       width = 12,
-      title = "Tabella andamento regionale posti letto in terapia intensiva rispetto ai tamponi non sintomatici effettuati (pesati sulla popolazione ed espressi per 100000 abitanti)"
+      title = "Tabella andamento regionale della percentuale di popolazione che, rispettivamente, è ricoverata in terapia intensiva (intensiva_pesati) e non è (alla data considerata) ospedalizzata nonostante sia stata soggetta a tampone (tamp_asint_pesati)."
     )
 
 
@@ -149,10 +150,10 @@ mod_ind_ita_server <- function(id) {
       tamponi_no_sintomi = .data$tamponi -
                            .data$ricoverati_con_sintomi -
                            .data$terapia_intensiva,
-      tamp_asint_pesati = 100000 * (
+      tamp_asint_pesati = 100 * (
         .data$tamponi_no_sintomi/.data$residenti
       ),
-      intensiva_pesati  = 100000 * (
+      intensiva_pesati  = 100 * (
         .data$terapia_intensiva/.data$residenti
       )
     ) %>%
@@ -225,16 +226,29 @@ mod_ind_ita_server <- function(id) {
           colour = .data$denominazione_regione,
           label = .data$denominazione_regione
         )) +
+        geom_point() +
         geom_smooth(method = stats::loess, span = 1.5, se = FALSE) +
-        ylab("(t. intensiva / residenti) x 100000 ab.") +
-        xlab("(tamponi non sintomatici / residenti) x 100000 ab.") +
+        ylab("% soggetti in t. intensiva") +
+        xlab("% soggetti sottoposti a tampone 'attualmente' non ospedalizzati") +
         coord_cartesian(
           xlim = c(0, max(dati_tamponi$tamp_asint_pesati) + 1L),
           ylim = c(0, max(dati_tamponi$intensiva_pesati))
         ) +
         scale_color_discrete(name = "Regione")
 
-      ggplotly(gg_titamponi)
+      ggplotly(gg_titamponi, originalData = FALSE) %>%
+        plotly::add_fun(function(p) {
+          p %>%
+            dplyr::slice(which.min(.data$x)) %>%
+            plotly::add_annotations(as.Date(min(data_to_use()[["data"]])), ax = 60)
+        }) %>%
+        plotly::add_fun(function(p) {
+          p %>%
+            dplyr::group_by(.data$label) %>%
+            dplyr::slice(which.max(.data$x)) %>%
+            dplyr::ungroup() %>%
+            plotly::add_annotations(as.Date(max(data_to_use()[["data"]])), ax = 60)
+        })
     })
 
     output$dt_tamponi <- DT::renderDT({
@@ -245,7 +259,7 @@ mod_ind_ita_server <- function(id) {
           .data$intensiva_pesati
         ) %>%
         dplyr::mutate(data = as.Date(.data$data)) %>%
-        dplyr::mutate_if(is.numeric, round, digits = 2)
+        dplyr::mutate_if(is.numeric, round, digits = 5)
     })
 
   })
