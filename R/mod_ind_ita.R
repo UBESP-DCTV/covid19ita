@@ -239,13 +239,13 @@ mod_ind_ita_server <- function(id) {
       ggplotly(gg_titamponi, originalData = FALSE) %>%
         plotly::add_fun(function(p) {
           p %>%
-            dplyr::slice(which.min(x)) %>%
+            dplyr::slice(which.min(.data$x)) %>%
             plotly::add_annotations(as.Date(min(data_to_use()[["data"]])), ax = 60)
         }) %>%
         plotly::add_fun(function(p) {
           p %>%
-            dplyr::group_by(label) %>%
-            dplyr::slice(which.max(x)) %>%
+            dplyr::group_by(.data$label) %>%
+            dplyr::slice(which.max(.data$x)) %>%
             dplyr::ungroup() %>%
             plotly::add_annotations(as.Date(max(data_to_use()[["data"]])), ax = 60)
         })
