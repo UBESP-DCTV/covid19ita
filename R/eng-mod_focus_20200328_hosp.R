@@ -7,7 +7,7 @@
 #' @noRd
 #'
 #' @importFrom shiny NS tagList
-mod_focus_20200328_hosp_ui <- function(id){
+eng_mod_focus_20200328_hosp_ui <- function(id){
   ns <- NS(id)
 
   tagList(
@@ -104,7 +104,7 @@ mod_focus_20200328_hosp_ui <- function(id){
 #' focus_20200328_hosp Server Function
 #'
 #' @noRd
-mod_focus_20200328_hosp_server <- function(id, region = "Veneto") {
+eng_mod_focus_20200328_hosp_server <- function(id, region = "Veneto") {
 
   # data_plot <- mtcars[1:2]
 

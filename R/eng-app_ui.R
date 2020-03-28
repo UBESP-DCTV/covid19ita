@@ -297,7 +297,7 @@ eng_dashboard_body <- function() {dashboardBody(
   ),
   tabItem(tabName = "20200328Tot_hosp",
           h2("Possible effect on hospitalizations of the health policies implemented by the Veneto region"),
-          mod_focus_20200328_hosp_ui("tot")
+          eng_mod_focus_20200328_hosp_ui("tot")
   ),
   tabItem(tabName = "20200325Hosp",
           h2("Possible effect on hospitalizations of the health policies implemented by the Veneto region"),
