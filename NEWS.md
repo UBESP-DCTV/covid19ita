@@ -1,3 +1,6 @@
+# covid19ita 0.23.0
+
+* data update
 * translation focus veneto hosp 20200328
 *update plot tamponi/intensive eng (#29)
 * focus veneto total hosp 20200327
