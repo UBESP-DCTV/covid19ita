@@ -51,4 +51,5 @@ eng_app_server <- function(input, output, session) {
     )
     eng_mod_focus_20200323_picco_server("picco")
     eng_mod_focus_20200325_hosp_server("hosp")
+    eng_mod_focus_20200328_hosp_server("tot")
 }

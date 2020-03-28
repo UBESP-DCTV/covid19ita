@@ -12,14 +12,14 @@ eng_mod_focus_20200318_veneto_intensive_ui <- function(id){
     fluidRow(
       box(width = 6,
           sliderInput(ns("n_days"),
-            label = "Avarage lenght of stay in the ICU (days)",
+            label = "Avarage length of stay in the ICU (days)",
             min = 7,
             max = 28,
             value = 10
           )
       ),
       box(width = 12, plotlyOutput(ns("fig1")),
-          title = "Figure 1. Observed vs admitted number of people admitted
+          title = "Figure 1. Observed vs actual number of people admitted
           to the ICU (fit loess 0.7 span, 2 degrees).
           The red curve represents the expected number of people that
           would have been in need of intensive care if no containment policies
