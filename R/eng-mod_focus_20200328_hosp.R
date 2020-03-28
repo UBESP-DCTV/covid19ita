@@ -14,29 +14,27 @@ mod_focus_20200328_hosp_ui <- function(id){
     fluidRow(
       box(width = 12,
           p(
-            "Obiettivo è quello di avere un'aggiornamento sul
-           possibile effetto delle politiche sanitarie implementate in
-           Veneto a contenimento dell’epidemia COVID-19."
+            "This works aimes at giving a first impression of
+           the possible effect of the health policies implemented by the
+           Veneto region in order to contain the spread of COVID-19."
           ),
           p(
-            "Si è confrontato l'andamento prevedibile in base ai dati al
-          12 marzo con l'andamento effettivamente riscontrato in Veneto, per
-          capire se parte o tutte delle azioni implementate abbiano avuto un
-          effetto plausibile di rallentamento sull'evolversi dell'epidemia."
+            "In order to understand whether the containing measures helped
+          slow down the spread of COVID-19, a predictive model based on the
+          data collected until the 12th of March was compared to what was
+          actually observed."
           ),
           p(
-            "La Figura 1 mostra che vi è stato un rallentamento dopo il
-          12 marzo, giorno in cui si è osservato un changepoint
-          nell'andamento epidemico."),
+            "Figure 1 shows that there was a slowdown after the 12th of
+          March: this day represents an epidemic change-point."),
           p(HTML(
-            "In base a questo confronto (curva stimata al 27 marzo e dati
-          osservati nei giorni seguenti) è stato possibile stimare alcune
-          grandezze:</br>
+            "Thanks to the comparison between the predicted and actual
+          values it was possible to estimate some quantities:</br>
           <ol>
-            <li>Il numero di ospedalizzazioni che si sono evitate al 27 marzo in Veneto: 800 (95% C.I. 755 – 845) (Figura 2)</li>
+            <li>The number of avoided hospitalizations in the Veneto region as of the 27th of March: 800 (95% C.I. 755 – 845) (Figure 2)</li>
             <li>Il rallentamento dell’evolversi della epidemia rispetto al previsto:
               <ul>
-                <li>3.64 (95% C.I. 3.12 - 4.16 giorni) “guadagnati” a parità di livelli di ospedalizzazione, complessivamente al 27 marzo (Figura 3)</li>
+                <li>3.64 (95% C.I. 3.12 - 4.16) days were “gained” in terms of hospitalizations as of the 24th of March (Figure 3)</li>
                 <li>Rallentamento dell’epidemia al 27 marzo pari a 97.91 ospedalizzazioni/giorno (95% C.I. 94.33 – 101.48) (Figura 4)</li>
               </ul>
             </li>
@@ -47,22 +45,22 @@ mod_focus_20200328_hosp_ui <- function(id){
 
     fluidRow(
       box(width = 12, plotlyOutput(ns("fig1")),
-          title = "Figure 1. Ospedalizzazioni stimate (curva verde in grassetto, le curve verdi non in grassetto indicano i livelli di confidenza al 95%.) in base all’andamento della epidemia al 12 marzo. Andamento osservato (punti rossi) nei giorni successivi."
+          title = "Expected hospitalizations (bold green curve; the other two green curves indicate the 95% confidence levels) based on course of the epidemic as registered until the 12th of March. Actual values (red dots) observed in the following days."
       )
     ),
     fluidRow(
       box(width = 12, plotlyOutput(ns("fig2")),
-          title = "Figure 2. Numero di ospedalizzazioni evitate in Veneto rispetto all’andamento previsto al giorno 12 marzo. L’area grigia indica l’intervallo di confidenza al 95%)."
+          title = "Figure 2. Avoided hospitalizations in the Veneto region compared to what was expected from the data gathered until the 12th of March. The grey area indicates the 95% confidence interval."
       )
     ),
     fluidRow(
       box(width = 12, plotlyOutput(ns("fig3")),
-          title = "Figure 3. Giorni di “ritardo”, stimati in base allo shift a destra della curva di crescita (stimato al 12 marzo vs. osservato). L’area grigia indica l’intervallo di confidenza al 95%)."
+          title = "Figure 3.  Gained days, estimated by looking at the shift to the right of the curve (predicted vs observed). The grey area indicates the 95% confidence interval."
       )
     ),
     fluidRow(
       box(width = 12, plotlyOutput(ns("fig4")),
-          title = "Figure 4. Rallentamento dell’osservato rispetto al previsto al 12 marzo. L’area grigia indica l’intervallo di confidenza al 95%)."
+          title = "Figure 4. Slowdown of the epidemic velocity (predicted vs observed). The grey area indicates the 95% confidence interval."
       )
     ),
 
@@ -70,24 +68,23 @@ mod_focus_20200328_hosp_ui <- function(id){
     fluidRow(
       box(width = 12, title = "Dati tecnici sulla stima del Modello",
           p("
-          La stima del modello è stata effettuata sulla serie del numero
-          di ospedalizzazioni osservate fino al 12 marzo. Tale giorno è stato
-          identificato in base ad un BCPDM (Bayesian Changepoint
-          Detection Method) (1). Il modello di regressione polinomiale si
-          basa su un’approssimazione locale della funzione di regressione
-          (smoothing pari a 0.75). L’andamento della curva stimata si
-          adatta allo shape tendenzialmente quadratico dell’andamento
-          epidemico nelle prime fasi della diffusione.
+        The estimation of the model was based on the number series of hospitalizations that
+          were observed until the 12th of March. This day represents a
+          change-point in terms of growth of the epidemics. This change in the
+          number series was detected by a Bayesian Changepoint
+          Detection Method (1). The polynomial regression model is based on a
+          local approximation of the regression function (smoothing parameter
+          equal to 0.75). The shape of the curve fits the quadratic trend
+          of the early stage of the outbreak.
         "),
           p("
-          Recenti studi hanno dimostrato che la curva dei contagi dai casi
-          di COVID-19 potrebbe avere crescita quadratica piuttosto che di
-          natura esponenziale, soprattutto nelle prime fasi del contagio
+          Recent studies showed that the curve of cases could be of a quadratic
+          nature rather than exponential, especially in the early stage of the outbreak
           (2).
         "),
           p("
-          Si ipotizza che l'andamento del numero di ospedalizzazioni segua
-          in forma quello dei contagi.
+        It is assumed that the hospitalizations growth rate is similar
+        in shape to the cases growth rate.
         ")
       )
     ),
@@ -181,7 +178,7 @@ mod_focus_20200328_hosp_server <- function(id, region = "Veneto") {
     geom_smooth() + geom_point(data = db_true_loess) +
     geom_line(aes(x = .data$day, y = .data$lower)) +
     geom_line(aes(x = .data$day, y = .data$upper)) +
-    labs(title = "", x = "Giorno", y = "Totale ospedalizzazioni") +
+    labs(title = "", x = "Day", y = "Total Hospitalizations") +
     scale_x_datetime(date_breaks = "1 day", date_labels = "%d %b") +
     scale_y_continuous(breaks = seq(0, 3500, 200)) +
     global_theme
@@ -206,8 +203,8 @@ mod_focus_20200328_hosp_server <- function(id, region = "Veneto") {
     stat_smooth() + geom_point() +
     labs(
       title = "",
-      x = "Giorno",
-      y = "Differenziale di ospedalizzazioni"
+      x = "Day",
+      y = "Difference of hospiatlizations"
     ) +
     scale_x_datetime(date_breaks = "1 day", date_labels = "%d %b") +
     scale_y_continuous(breaks = seq(0, 900, 50)) +
@@ -247,8 +244,8 @@ mod_focus_20200328_hosp_server <- function(id, region = "Veneto") {
     stat_smooth() + geom_point() +
     labs(
       title = "",
-      x = "Giorno",
-      y = "Numero giorni guadagnati"
+      x = "Day",
+      y = "Gained days"
     ) +
     scale_x_datetime(date_breaks = "1 day", date_labels = "%d %b") +
     scale_y_continuous(breaks = seq(0, 5, 1)) +
@@ -291,8 +288,8 @@ mod_focus_20200328_hosp_server <- function(id, region = "Veneto") {
     stat_smooth() + geom_point() +
     labs(
       title = "",
-      x = "Data",
-      y = "Variazione nelle nuove ospedalizzazioni"
+      x = "Date",
+      y = "Change in hospitalizations per day"
     ) +
     scale_x_datetime(date_breaks = "1 day", date_labels = "%d %b") +
     scale_y_continuous(breaks = seq(-50, 110, 10)) +

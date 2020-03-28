@@ -74,7 +74,7 @@ eng_mod_focus_20200325_hosp_ui <- function(id){
           number series was detected by a Bayesian Changepoint
           Detection Method (1). The polynomial regression model is based on a
           local approximation of the regression function (smoothing parameter
-          equal to 1.5). The shape of the curve fits the quadratic trend
+          equal to 0.7). The shape of the curve fits the quadratic trend
           of the early stage of the outbreak.
         "),
         p("
