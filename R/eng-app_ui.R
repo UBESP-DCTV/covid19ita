@@ -37,12 +37,12 @@ eng_dashboard_header <- function() {dashboardHeader(
   dropdownMenu(type = "messages",
     messageItem(
       from = "Highlights",
-      message = "2020-03-25 Veneto: Hospitalizations",
+      message = "2020-03-28 Veneto: Hospitalizations",
       icon = icon("search")
                ),
     messageItem(
       from = "Data",
-      message = "Data updated (2020-03-19 18:20)",
+      message = "Data updated ({last_data_update})",
       icon = icon("database")
     ),
     messageItem(
@@ -72,6 +72,9 @@ eng_dashboard_sidebar <- function() {dashboardSidebar(sidebarMenu(
   menuItem("Home", tabName = "home", icon = icon("home")),
 
   menuItem("Highlights", icon = icon("bullseye"),
+           menuSubItem("2020-03-28 Veneto", tabName = "20200328Tot_hosp",
+                       icon = icon("flag")
+           ),
            menuSubItem("2020-03-25 Veneto", tabName = "20200325Hosp",
                        icon = icon("flag")
            ),
@@ -291,6 +294,10 @@ eng_dashboard_body <- function() {dashboardBody(
 
     )
 
+  ),
+  tabItem(tabName = "20200328Tot_hosp",
+          h2("Possible effect on hospitalizations of the health policies implemented by the Veneto region"),
+          mod_focus_20200328_hosp_ui("tot")
   ),
   tabItem(tabName = "20200325Hosp",
           h2("Possible effect on hospitalizations of the health policies implemented by the Veneto region"),
