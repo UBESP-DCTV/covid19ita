@@ -1,3 +1,4 @@
+* Logarithmic scale (resolve #5)
 * fix date in dropdown menu eng
 * logarithmic scale - eng (#5)
 * Solve bug (#31) 
