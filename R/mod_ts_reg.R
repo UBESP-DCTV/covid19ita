@@ -31,6 +31,7 @@ mod_ts_reg_ui <- function(id){
         )
       )
     ),
+    fluidRow(shiny::checkboxInput(ns("y_log"), "Scala logaritmica")),
     fluidRow(plotlyOutput(ns("ts_plot"), height = "200%"))
   )
 }
@@ -116,6 +117,15 @@ mod_ts_reg_server <- function(id, type = c("cum", "inc"), color_var = c("measure
           axis.text.x = element_text(angle = 60, hjust = 1, vjust = 0.5),
           panel.spacing.y = unit(2, "lines")
         )
+
+      if (input$y_log) {
+        gg <- gg + scale_y_continuous(
+          trans = 'log2',
+          breaks = scales::trans_breaks("log2", function(x) 2^x),
+          labels = scales::trans_format("log2", scales::math_format(2^.x))
+        ) +
+          ylab(paste0(y_lab()," - log2"))
+      }
 
       ggplotly(gg)
     })

@@ -1,3 +1,11 @@
+* Added Venezia to default provinces (fix #30)
+
+# covid19ita 0.24.0
+
+* data update
+
+# covid19ita 0.23.1
+
 * update plot tamponi/intensive (eng) (#29)
 
 # covid19ita 0.23.0
