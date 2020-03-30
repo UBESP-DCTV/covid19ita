@@ -1,3 +1,6 @@
+* fix namespace
+* Dependencies to {scales}
+
 # covid19ita 0.25.0
 
 * update data

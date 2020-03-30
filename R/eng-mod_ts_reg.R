@@ -121,7 +121,7 @@ eng_mod_ts_reg_server <- function(id, type = c("cum", "inc"), color_var = c("mea
         gg <- gg + scale_y_continuous(
           trans = 'log2',
           breaks = scales::trans_breaks("log2", function(x) 2^x),
-          labels = scales::trans_format("log2", scales::math_format(2^.x))
+          labels = scales::trans_format("log2", scales::math_format(2^.data[[".x"]]))
         ) +
           ylab(paste0(y_lab()," - log2"))
       }

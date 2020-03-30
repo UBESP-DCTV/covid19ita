@@ -63,7 +63,8 @@ Imports:
     gam (>= 1.16.1),
     lubridate (>= 1.7.4),
     mgcv,
-    growthcurver
+    growthcurver,
+    scales
 Suggests: 
     testthat (>= 2.1.0),
     covr (>= 3.5.0),
