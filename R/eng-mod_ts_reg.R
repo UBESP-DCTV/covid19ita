@@ -23,7 +23,7 @@ eng_mod_ts_reg_ui <- function(id){
       ),
       column(6,
         shiny::selectInput(ns("whichMeasure"), "Select measures",
-          choices  = measures("regional"),
+          choices  = measures("regional", lang = "eng"),
           selectize = TRUE,
           selected = setdiff(measures(), c("totale_attualmente_positivi", "tamponi")),
           multiple = TRUE,
@@ -50,9 +50,9 @@ eng_mod_ts_reg_server <- function(id, type = c("cum", "inc"), color_var = c("mea
 
 
   color_name <- color_var %>%
-    switch(,
-      Measure = "Misurazione",
-      denominazione_regione  = "Regione"
+    switch(
+      Measure = "Measure",
+      denominazione_regione  = "Region"
     )
 
 
@@ -82,8 +82,7 @@ eng_mod_ts_reg_server <- function(id, type = c("cum", "inc"), color_var = c("mea
         Measure = factor(.data$Measure,
           levels = which_measure(),
           labels = which_measure() %>%
-            stringr::str_replace_all("_", " ") %>%
-            stringr::str_to_title()
+            measure_to_labels(lang = "eng")
         )
       )
 

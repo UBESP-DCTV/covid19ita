@@ -45,10 +45,9 @@ eng_mod_ts_ita_server <- function(id, type = c("cum", "inc")) {
     ) %>%
     dplyr::mutate(
       Measure = factor(.data$Measure,
-        levels = var_of_interest,
-        labels = var_of_interest %>%
-          stringr::str_replace_all("_", " ") %>%
-          stringr::str_to_title()
+        levels = setdiff(var_of_interest, exclude_from_pivoting),
+        labels = setdiff(var_of_interest, exclude_from_pivoting) %>%
+          measure_to_labels(lang = "eng")
       )
     )
 
