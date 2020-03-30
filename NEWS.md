@@ -1,3 +1,4 @@
+* Update dictionary
 * fix namespace
 * Dependencies to {scales}
 
@@ -21,9 +22,9 @@
 # covid19ita 0.23.0
 
 * data update
-* translation focus veneto hosp 20200328
+* translation focus Veneto hosp 20200328
 *update plot tamponi/intensive eng (#29)
-* focus veneto total hosp 20200327
+* focus Veneto total hosp 20200327
 * update plot tamponi/intensive (#29)
 
 # covid19ita 0.22.0
@@ -55,10 +56,10 @@
 # covid19ita 0.20.0
 
 * update data
-* fixed plot 2020 03 18 intensive veneto
-* 20200325 modul veneto hosp
+* fixed plot 2020 03 18 intensive Veneto
+* 20200325 module Veneto hosp
 * fix colour focus_picco (#24)
-* eng-test for veneto-intensive, novara and picco
+* eng-test for veneto-intensive, Novara and picco
 * translated 20200323 picco (#23)
 
 # covid19ita 0.19.0
