@@ -10,11 +10,14 @@
 #' @importFrom plotly plotlyOutput
 eng_mod_ts_ita_ui <- function(id, title, width = 12){
   ns <- NS(id)
+  fluidPage(
+    fluidRow(shiny::checkboxInput(ns("y_log"), "Scala logaritmica")),
   fluidRow(
     box(title = title, width = width,
       plotlyOutput(ns("ts_plot"))
     )
   )
+ )
 }
 
 #' ts_ita Server Function
@@ -42,10 +45,9 @@ eng_mod_ts_ita_server <- function(id, type = c("cum", "inc")) {
     ) %>%
     dplyr::mutate(
       Measure = factor(.data$Measure,
-        levels = var_of_interest,
-        labels = var_of_interest %>%
-          stringr::str_replace_all("_", " ") %>%
-          stringr::str_to_title()
+        levels = setdiff(var_of_interest, exclude_from_pivoting),
+        labels = setdiff(var_of_interest, exclude_from_pivoting) %>%
+          measure_to_labels(lang = "eng")
       )
     )
 
@@ -78,7 +80,18 @@ eng_mod_ts_ita_server <- function(id, type = c("cum", "inc")) {
 
   callModule(id = id, function(input, output, session) {
     ns <- session$ns
-    output$ts_plot <- renderPlotly(ggplotly(gg))
+    output$ts_plot <- renderPlotly({
+      if (input$y_log) {
+        gg <- gg + scale_y_continuous(
+          trans = 'log2',
+          breaks = scales::trans_breaks("log2", function(x) 2^x),
+          labels = scales::trans_format("log2", scales::math_format(2^.x))
+        ) +
+          ylab(paste0(y_lab," - log2"))
+      }
+
+      ggplotly(gg)
+    })
   })
 }
 
