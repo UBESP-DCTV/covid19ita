@@ -35,14 +35,9 @@ eng_dashboard_header <- function() {dashboardHeader(
   title = "COVID-19 - Italy",
 
   dropdownMenu(type = "messages",
-    messageItem(
-      from = "Highlights",
-      message = "2020-03-28 Veneto: Hospitalizations",
-      icon = icon("search")
-               ),
-    messageItem(
+messageItem(
       from = "Data",
-      message = "Data updated ({last_data_update})",
+      message = glue::glue("Data updated ({last_data_update})"),
       icon = icon("database")
     ),
     messageItem(
@@ -341,8 +336,8 @@ eng_dashboard_body <- function() {dashboardBody(
 
   tabItem(tabName = "national",
     h2("National events"),
-    mod_ts_ita_ui("ts_nat_cum", title = "Time series trend - cumulative events"),
-    mod_ts_ita_ui("ts_nat_inc", title = "Time series trend - daily new events")
+    eng_mod_ts_ita_ui("ts_nat_cum", title = "Time series trend - cumulative events"),
+    eng_mod_ts_ita_ui("ts_nat_inc", title = "Time series trend - daily new events")
   ),
 
 
@@ -352,26 +347,26 @@ eng_dashboard_body <- function() {dashboardBody(
     h3("Time series by region"),
     fluidRow(
       box(title = "Cumulative events", width = 12,
-        mod_ts_reg_ui("ts_reg_cum_mes")
+        eng_mod_ts_reg_ui("ts_reg_cum_mes")
       )
     ),
 
     fluidRow(
       box(title = "Daily new events", width = 12,
-        mod_ts_reg_ui("ts_reg_inc_mes")
+        eng_mod_ts_reg_ui("ts_reg_inc_mes")
       )
     ),
 
     h3("Regional time series by event"),
     fluidRow(
       box(title = "Cumulative events", width = 12,
-        mod_ts_reg_ui("ts_reg_cum_reg")
+        eng_mod_ts_reg_ui("ts_reg_cum_reg")
       )
     ),
 
     fluidRow(
       box(title = "Daily new events", width = 12,
-        mod_ts_reg_ui("ts_reg_inc_reg")
+        eng_mod_ts_reg_ui("ts_reg_inc_reg")
       )
     )
 
@@ -384,13 +379,13 @@ eng_dashboard_body <- function() {dashboardBody(
     h3("Time series"),
     fluidRow(
       box(title = "Cumulative events", width = 12,
-        mod_ts_prv_ui("ts_prv_cum")
+        eng_mod_ts_prv_ui("ts_prv_cum")
       )
     ),
 
     fluidRow(
       box(title = "New events", width = 12,
-        mod_ts_prv_ui("ts_prv_inc")
+        eng_mod_ts_prv_ui("ts_prv_inc")
       )
     )
   ),
