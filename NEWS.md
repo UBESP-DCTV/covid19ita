@@ -1,3 +1,5 @@
+* Added Venezia to default provinces (fix #30)
+
 # covid19ita 0.24.0
 
 * data update
