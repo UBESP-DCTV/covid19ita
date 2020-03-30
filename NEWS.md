@@ -1,3 +1,4 @@
+* Solve bug (#31) 
 * Added Venezia to default provinces (fix #30)
 
 # covid19ita 0.24.0
