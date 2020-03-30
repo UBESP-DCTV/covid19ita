@@ -35,14 +35,9 @@ eng_dashboard_header <- function() {dashboardHeader(
   title = "COVID-19 - Italy",
 
   dropdownMenu(type = "messages",
-    messageItem(
-      from = "Highlights",
-      message = "2020-03-28 Veneto: Hospitalizations",
-      icon = icon("search")
-               ),
-    messageItem(
+messageItem(
       from = "Data",
-      message = "Data updated ({last_data_update})",
+      message = glue::glue("Data updated ({last_data_update})"),
       icon = icon("database")
     ),
     messageItem(

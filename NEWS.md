@@ -1,3 +1,4 @@
+* fix date in dropdown menu eng
 * logarithmic scale - eng (#5)
 * Solve bug (#31) 
 * Added Venezia to default provinces (fix #30)
