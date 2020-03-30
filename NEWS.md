@@ -1,3 +1,5 @@
+# covid19ita 0.25.0
+
 * update data
 * Logarithmic scale (resolve #5)
 * fix date in dropdown menu eng
