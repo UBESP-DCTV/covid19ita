@@ -1,3 +1,5 @@
+# covid19ita 0.25.1
+
 * Update dictionary
 * fix namespace
 * Dependencies to {scales}
