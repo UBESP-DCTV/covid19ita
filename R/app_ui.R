@@ -37,7 +37,7 @@ dashboard_header <- function() {dashboardHeader(
   dropdownMenu(type = "messages",
     messageItem(
       from = "In evidenza",
-      message = "2020-03-28 Veneto: Ospedalizzazioni",
+      message = "2020-03-31 Comparativa Ven-Pie",
       icon = icon("search")
     ),
     messageItem(
@@ -74,6 +74,9 @@ dashboard_sidebar <- function() {dashboardSidebar(sidebarMenu(
 
 
   menuItem("In evidenza", icon = icon("bullseye"),
+    menuSubItem("2020-03-28 Comparativa", tabName = "20200331Comp",
+                icon = icon("flag")
+    ),
     menuSubItem("2020-03-28 Veneto", tabName = "20200328Tot_hosp",
                 icon = icon("flag")
     ),
@@ -291,6 +294,10 @@ dashboard_body <- function() {dashboardBody(
 
   ),
 
+  tabItem(tabName = "20200331Comp",
+          h2("Analisi comparativa tra Regione Piemonte e Regione Veneto dei dati epidemiologici relativi all’infezione da Covid-29."),
+          mod_focus_20200331_ui("ven_pie")
+  ),
   tabItem(tabName = "20200328Tot_hosp",
           h2("Possibile effetto sulle ospedalizzazioni delle politiche sanitarie in Veneto"),
           mod_focus_20200328_hosp_ui("tot")

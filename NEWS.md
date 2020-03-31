@@ -1,11 +1,13 @@
-# covid19ita 0.25.2
-
-* death and tests labels switched (#34)
 * consistent colour and names for levels eng (#33)
-* fix translation (#32)
+* death and tests labels switched (#34)
+* added focus module 20200331 epidemiologia comparativa Veneto-Piemonte
 * removed unuseful button from plotly
 * added istructions to manage plots
 * colour and label name for levels (#33)
+
+# covid19ita 0.25.2
+
+* death and tests labels switched (#34)
 
 # covid19ita 0.25.1
 
