@@ -336,6 +336,10 @@ dashboard_body <- function() {dashboardBody(
 
   tabItem(tabName = "national",
     h2("Eventi nazionali"),
+    box(width = 12, title = "Istruzioni",
+      p("È possibile attivare/disattivare la visualizzazione di una o più misure dal grafico facendo click sulle corrispondenti voci in legenda. Doppio-click per attivare/disattivare la visualizzazione esclusiva della voce selezionata."),
+      p("Fare click sul pulsante autoscale (terzo) per espandere il grafico alla massima grandezza interamente visionabile."),
+    ),
     mod_ts_ita_ui("ts_nat_cum", title = "Serie storiche degli eventi cumulati"),
     mod_ts_ita_ui("ts_nat_inc", title = "Serie storiche dei nuovi eventi giornalieri")
   ),
@@ -343,6 +347,13 @@ dashboard_body <- function() {dashboardBody(
 
   tabItem(tabName = "regional",
     h2("Eventi regionali"),
+    box(width = 12, title = "Istruzioni",
+      p("È possibile aggiungere o rimuovere la computazione dei grafici per una o più regione/misura selezionandola o deselezionandola dal corrispondente box."),
+      p("NOTA: la misurazione dei tamponi effettuati è selezionabile ma disattivata di default in quanto fuori scala rispetto alle altre misure."),
+      p(""),
+      p("È possibile attivare/disattivare la visualizzazione di una o più regioni/misure dal grafico facendo click sulle corrispondenti voci in legenda. Doppio-click per attivare/disattivare la visualizzazione esclusiva della voce selezionata."),
+      p("Fare click sul pulsante autoscale (terzo) per espandere il grafico alla massima grandezza interamente visionabile."),
+    ),
 
     h3("Serie storiche per regione"),
     fluidRow(
@@ -375,6 +386,9 @@ dashboard_body <- function() {dashboardBody(
 
   tabItem(tabName = "provincial",
     h2("Eventi provinciali"),
+    p("È possibile aggiungere o rimuovere la computazione dei grafici per una o più regione selezionandola o deselezionandola dal corrispondente box."),
+    p("È possibile attivare/disattivare la visualizzazione di una o più regioni dal grafico facendo click sulle corrispondenti voci in legenda. Doppio-click per attivare/disattivare la visualizzazione esclusiva della voce selezionata."),
+    p("Fare click sul pulsante autoscale (terzo) per espandere il grafico alla massima grandezza interamente visionabile."),
 
     h3("Serie storiche"),
     fluidRow(
