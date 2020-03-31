@@ -41,10 +41,10 @@ eng_mod_ts_ita_server <- function(id, type = c("cum", "inc")) {
     ) %>%
     dplyr::mutate(
       Measure = factor(.data$Measure,
-          levels = measures("national"),
-          labels = measures("national") %>%
+        levels = measures("national"),
+        labels = measures("national") %>%
           measure_to_labels(lang = "eng")
-      )
+    )
     )
 
   y_lab <- "N"

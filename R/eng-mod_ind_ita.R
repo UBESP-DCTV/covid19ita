@@ -111,7 +111,7 @@ eng_mod_ind_ita_server <- function(id) {
       idso = .data$isolamento_domiciliare / .data$totale_ospedalizzati,
 
       ## Incrementi proporzionali
-      inc_pos = .data$totale_attualmente_positivi,
+      inc_pos = .data$totale_positivi,
       cpt = ((.data$inc_pos / dplyr::lag(.data$inc_pos)) * 100) %>% round(2),
 
       dec_inc = .data$deceduti - dplyr::lag(.data$deceduti),

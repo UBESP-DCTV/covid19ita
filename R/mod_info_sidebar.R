@@ -71,7 +71,7 @@ mod_info_sidebar_server <- function(id) {
     output$currentPositives <- renderValueBox({
       valueBox(subtitle = "Attualmente positivi", icon = icon("info-circle"),
         color = "orange",# fill = TRUE,
-        value = data_to_use()[["totale_attualmente_positivi"]]
+        value = data_to_use()[["totale_positivi"]]
       )
     })
 

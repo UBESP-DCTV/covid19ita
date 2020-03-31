@@ -74,7 +74,7 @@ dashboard_sidebar <- function() {dashboardSidebar(sidebarMenu(
 
 
   menuItem("In evidenza", icon = icon("bullseye"),
-    menuSubItem("2020-03-28 Comparativa", tabName = "20200331Comp",
+    menuSubItem("2020-03-31 Comparativa", tabName = "20200331Comp",
                 icon = icon("flag")
     ),
     menuSubItem("2020-03-28 Veneto", tabName = "20200328Tot_hosp",
