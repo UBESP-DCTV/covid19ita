@@ -96,7 +96,9 @@ mod_ts_prv_server <- function(id, type = c("cum", "inc")) {
           ) +
           ylab(paste0(y_lab()," - log2"))
       }
-      ggplotly(gg)
+      ggplotly(gg) %>%
+        config(modeBarButtonsToRemove = c("zoomIn2d", "zoomOut2d", "pan2d", "select2d", "lasso2d")) %>%
+        config(displaylogo = FALSE)
     })
 
   })
