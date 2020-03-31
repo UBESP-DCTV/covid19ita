@@ -1,3 +1,4 @@
+* translation comparative piemonte veneto (#35)
 * consistent colour and names for levels eng (#33)
 * death and tests labels switched (#34)
 * added focus module 20200331 epidemiologia comparativa Veneto-Piemonte

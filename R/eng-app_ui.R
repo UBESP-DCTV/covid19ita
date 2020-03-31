@@ -36,6 +36,11 @@ eng_dashboard_header <- function() {dashboardHeader(
 
   dropdownMenu(type = "messages",
 messageItem(
+  from = "Highlights",
+  message = "2020-03-31 Comparative Ven-Pie",
+  icon = icon("search")
+  ),
+messageItem(
       from = "Data",
       message = glue::glue("Data updated ({last_data_update})"),
       icon = icon("database")
@@ -67,6 +72,9 @@ eng_dashboard_sidebar <- function() {dashboardSidebar(sidebarMenu(
   menuItem("Home", tabName = "home", icon = icon("home")),
 
   menuItem("Highlights", icon = icon("bullseye"),
+           menuSubItem("2020-03-31 Comparative", tabName = "20200331Comp",
+                       icon = icon("flag")
+           ),
            menuSubItem("2020-03-28 Veneto", tabName = "20200328Tot_hosp",
                        icon = icon("flag")
            ),
@@ -289,6 +297,10 @@ eng_dashboard_body <- function() {dashboardBody(
 
     )
 
+  ),
+  tabItem(tabName = "20200331Comp",
+          h2("Comparative analysis between the Piemonte Region and Veneto Region of the epidemiological data relative to Covid-19 infection."),
+          mod_focus_20200331_ui("ven_pie")
   ),
   tabItem(tabName = "20200328Tot_hosp",
           h2("Possible effect on hospitalizations of the health policies implemented by the Veneto region"),
