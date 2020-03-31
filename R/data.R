@@ -33,7 +33,7 @@ NULL
 #'
 #' @section Data at national level:
 #' A \code{\link[tibble]{tibble}} with one row per day and
-#'   12 variables:
+#'   15 variables:
 #' \describe{
 #'   \item{data}{Date of notification - Italian time zone)}
 #'   \item{stato}{Country of reference - XYZ (ISO 3166-1 alpha-3)}
@@ -41,12 +41,15 @@ NULL
 #'   \item{terapia_intensiva}{Intensive Care}
 #'   \item{totale_ospedalizzati}{Total hospitalised patients}
 #'   \item{isolamento_domiciliare}{Home confinement}
-#'   \item{totale_attualmente_positivi}{Total amount of current positive cases (Hospitalised patients + Home confinement)}
-#'   \item{nuovi_attualmente_positivi}{News amount of current positive cases (Hospitalised patients + Home confinement)}
+#'   \item{totale_positivi}{Total amount of current positive cases (Hospitalised patients + Home confinement)}
+#'   \item{variazione_totale_positivi}{News amount of current positive cases (Hospitalised patients + Home confinement)}
+#'   \item{nuovi_positivi}{today active cases - yesterday active cases}
 #'   \item{dimessi_guariti}{Recovered}
 #'   \item{deceduti}{Death}
 #'   \item{totale_casi}{Total amount of positive cases}
 #'   \item{tamponi}{Tests performed}
+#'   \item{note_it}{Notes in Italian language}
+#'   \item{note_eng}{Notes in English Language}
 #' }
 #'
 "dpc_covid19_ita_andamento_nazionale"
@@ -57,7 +60,7 @@ NULL
 #'
 #' @section Data at regional level:
 #' A \code{\link[tibble]{tibble}} with one row per day/region
-#'  and 16 variables:
+#'  and 19 variables:
 #' \describe{
 #'   \item{data}{Date of notification - Italian time zone)}
 #'   \item{stato}{Country of reference - XYZ (ISO 3166-1 alpha-3)}
@@ -69,12 +72,15 @@ NULL
 #'   \item{terapia_intensiva}{Intensive Care}
 #'   \item{totale_ospedalizzati}{Total hospitalised patients}
 #'   \item{isolamento_domiciliare}{Home confinement}
-#'   \item{totale_attualmente_positivi}{Total amount of current positive cases (Hospitalised patients + Home confinement)}
-#'   \item{nuovi_attualmente_positivi}{News amount of current positive cases (Hospitalised patients + Home confinement)}
+#'   \item{totale_positivi}{Total amount of current positive cases (Hospitalised patients + Home confinement)}
+#'   \item{variazione_totale_positivi}{News amount of current positive cases (Hospitalised patients + Home confinement)}
+#'   \item{nuovi_positivi}{today active cases - yesterday active cases}
 #'   \item{dimessi_guariti}{Recovered}
 #'   \item{deceduti}{Death}
 #'   \item{totale_casi}{Total amount of positive cases}
 #'   \item{tamponi}{Tests performed}
+#'   \item{note_it}{Notes in Italian language}
+#'   \item{note_eng}{Notes in English Language}
 #' }
 #'
 "dpc_covid19_ita_regioni"
@@ -84,7 +90,7 @@ NULL
 #'
 #' @section Data at provincial level:
 #' A \code{\link[tibble]{tibble}} with one row per day/province
-#'  and 10 variables:
+#'  and 12 variables:
 #' \describe{
 #'   \item{data}{Date of notification - Italian time zone)}
 #'   \item{stato}{Country of reference - XYZ (ISO 3166-1 alpha-3)}
@@ -97,6 +103,8 @@ NULL
 #'   \item{long}{Longitude - WGS84}
 #'   \item{totale_casi}{Total amount of positive cases}
 #'   \item{tamponi}{Tests performed}
+#'   \item{note_it}{Notes in Italian language}
+#'   \item{note_eng}{Notes in English Language}
 #' }
 #'
 "dpc_covid19_ita_province"
