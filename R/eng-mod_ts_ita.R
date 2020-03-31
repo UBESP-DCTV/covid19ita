@@ -31,11 +31,7 @@ eng_mod_ts_ita_server <- function(id, type = c("cum", "inc")) {
   dpc_data <- dpc_covid19_ita_andamento_nazionale %>%
     dplyr::mutate(data = as.Date(.data$data))
 
-  var_of_interest <- c(
-    "data", "ricoverati_con_sintomi", "terapia_intensiva",
-    "totale_ospedalizzati", "isolamento_domiciliare",
-    "totale_attualmente_positivi", "dimessi_guariti", "deceduti", "totale_casi"
-  )
+  var_of_interest <- c("data", measures("national"))
   exclude_from_pivoting <- "data"
 
   ts_data_to_plot <- dpc_data[var_of_interest] %>%
@@ -45,10 +41,10 @@ eng_mod_ts_ita_server <- function(id, type = c("cum", "inc")) {
     ) %>%
     dplyr::mutate(
       Measure = factor(.data$Measure,
-        levels = setdiff(var_of_interest, exclude_from_pivoting),
-        labels = setdiff(var_of_interest, exclude_from_pivoting) %>%
+        levels = measures("national"),
+        labels = measures("national") %>%
           measure_to_labels(lang = "eng")
-      )
+    )
     )
 
   y_lab <- "N"

@@ -1,3 +1,6 @@
+* fix English moduls changes for data naming
+* fix today focus date
+
 # covid19ita 0.26.0
 
 * data update (including renaming)
