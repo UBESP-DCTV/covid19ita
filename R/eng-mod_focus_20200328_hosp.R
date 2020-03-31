@@ -89,7 +89,7 @@ eng_mod_focus_20200328_hosp_ui <- function(id){
       )
     ),
     fluidRow(
-      box(width = 12, title = "Bibliografia",
+      box(width = 12, title = "References",
           p(HTML("
           <ol>
             <li>Barry D, Hartigan JA. A Bayesian Analysis for Change Point Problems. J Am Stat Assoc. 1993;88(421):309–19.</li>

@@ -300,7 +300,7 @@ eng_dashboard_body <- function() {dashboardBody(
   ),
   tabItem(tabName = "20200331Comp",
           h2("Comparative analysis between the Piemonte Region and Veneto Region of the epidemiological data relative to Covid-19 infection."),
-          mod_focus_20200331_ui("ven_pie")
+          eng_mod_focus_20200331_ui("ven_pie")
   ),
   tabItem(tabName = "20200328Tot_hosp",
           h2("Possible effect on hospitalizations of the health policies implemented by the Veneto region"),

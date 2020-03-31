@@ -124,7 +124,7 @@ eng_mod_focus_20200331_ui <- function(id) {
     ),
     fluidRow(
       box(width = 12, plotlyOutput(ns("fig2")),
-          footer = "Figure 2. Number of hospitalized (total hospitalized) in the Piemonte Region and the Veneto Region."
+          footer = "Figure 2. Number of hospitalizations (total hospitalized) in the Piemonte Region and the Veneto Region."
       )
     ),
     fluidRow(
