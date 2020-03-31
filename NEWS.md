@@ -1,3 +1,4 @@
+* fix translation (#32)
 * removed unuseful button from plotly
 * added istructions to manage plots
 * colour and label name for levels (#33)

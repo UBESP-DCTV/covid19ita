@@ -11,7 +11,7 @@
 eng_mod_ts_ita_ui <- function(id, title, width = 12){
   ns <- NS(id)
   fluidPage(
-    fluidRow(shiny::checkboxInput(ns("y_log"), "Scala logaritmica")),
+    fluidRow(shiny::checkboxInput(ns("y_log"), "logarithmic scale")),
   fluidRow(
     box(title = title, width = width,
       plotlyOutput(ns("ts_plot"))

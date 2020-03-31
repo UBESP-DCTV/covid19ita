@@ -176,7 +176,7 @@ eng_dashboard_body <- function() {dashboardBody(
       ),
 
 
-      box(width = 12, title = HTML("<strong>Epidemiological modelling</strong>"),
+      box(width = 12, title = HTML("<strong>Epidemiological modeling</strong>"),
         p(
           HTML("Prof. <strong>Paola Berchialla</strong>, PhD, Department of Clinical
             and Biological Sciences -- Università degli Studi di Torino"
@@ -186,7 +186,7 @@ eng_dashboard_body <- function() {dashboardBody(
 
         p(
           HTML(
-            '<strong>Dolores Catelan</strong>, Ph.D., Department of
+            'Prof. <strong>Dolores Catelan</strong>, Ph.D., Department of
             Statistics, Computer Sciences, Applications "G. Parenti" (DISIA),
             Università degli Studi di Firenze'
           ),
@@ -197,7 +197,7 @@ eng_dashboard_body <- function() {dashboardBody(
         )
       ),
 
-      box(width = 12, title = HTML("<strong>Modelli Previsivi</strong>"),
+      box(width = 12, title = HTML("<strong>Predictive models</strong>"),
         p(HTML("<strong>Danila Azzolina</strong>, PhD, Department of Translational Medicine --
           Università del Piemonte Orientale"),
           a(href = "https://linkedin.com/in/danila-azzolina-862465166/", target = "_blank", "LinkedIn")
@@ -212,7 +212,7 @@ eng_dashboard_body <- function() {dashboardBody(
       ),
 
 
-      box(width = 12, title = HTML("<strong>Modelli di Environmental Epidemiology and Pollution</strong>"),
+      box(width = 12, title = HTML("<strong>Modeling in Environmental Epidemiology and Pollution</strong>"),
           p(
             HTML(
               'Prof. <strong>Annibale Biggeri</strong>, MD, MSPH, MSB,

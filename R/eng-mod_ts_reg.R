@@ -31,7 +31,7 @@ eng_mod_ts_reg_ui <- function(id){
         )
       )
     ),
-    fluidRow(shiny::checkboxInput(ns("y_log"), "Scala logaritmica")),
+    fluidRow(shiny::checkboxInput(ns("y_log"), "Logarithmic scale")),
     fluidRow(plotlyOutput(ns("ts_plot"), height = "200%"))
   )
 }
