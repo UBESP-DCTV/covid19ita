@@ -1,3 +1,5 @@
+* Fix covid 29 -> 19 on focus title
+
 # covid19ita 0.26.1
 
 * translation comparative piemonte veneto (#35)

@@ -295,7 +295,7 @@ dashboard_body <- function() {dashboardBody(
   ),
 
   tabItem(tabName = "20200331Comp",
-          h2("Analisi comparativa tra Regione Piemonte e Regione Veneto dei dati epidemiologici relativi all’infezione da Covid-29."),
+          h2("Analisi comparativa tra Regione Piemonte e Regione Veneto dei dati epidemiologici relativi all’infezione da Covid-19."),
           mod_focus_20200331_ui("ven_pie")
   ),
   tabItem(tabName = "20200328Tot_hosp",
