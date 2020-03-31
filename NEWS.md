@@ -1,3 +1,7 @@
+* removed unuseful button from plotly
+* added istructions to manage plots
+* colour and label name for levels (#33)
+
 # covid19ita 0.25.1
 
 * Update dictionary
