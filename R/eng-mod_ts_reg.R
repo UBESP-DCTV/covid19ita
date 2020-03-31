@@ -25,7 +25,7 @@ eng_mod_ts_reg_ui <- function(id){
         shiny::selectInput(ns("whichMeasure"), "Select measures",
           choices  = measures("regional", lang = "eng"),
           selectize = TRUE,
-          selected = setdiff(measures(), c("totale_attualmente_positivi", "tamponi")),
+          selected = setdiff(measures("regional"), "tamponi"),
           multiple = TRUE,
           width = "100%"
         )
@@ -51,7 +51,7 @@ eng_mod_ts_reg_server <- function(id, type = c("cum", "inc"), color_var = c("mea
 
   color_name <- color_var %>%
     switch(
-      Measure = "Measure",
+      Measure = "Misura",
       denominazione_regione  = "Region"
     )
 
@@ -80,10 +80,10 @@ eng_mod_ts_reg_server <- function(id, type = c("cum", "inc"), color_var = c("mea
       ) %>%
       dplyr::mutate(
         Measure = factor(.data$Measure,
-          levels = which_measure(),
-          labels = which_measure() %>%
-            measure_to_labels(lang = "eng")
-        )
+          levels = measures("regional"),
+          labels = measures("regional") %>%
+            measure_to_labels(lang = "ita")
+      )
       )
 
       if (type == "inc") {
@@ -126,7 +126,9 @@ eng_mod_ts_reg_server <- function(id, type = c("cum", "inc"), color_var = c("mea
           ylab(paste0(y_lab()," - log2"))
       }
 
-      ggplotly(gg)
+      ggplotly(gg) %>%
+        config(modeBarButtonsToRemove = c("zoomIn2d", "zoomOut2d", "pan2d", "select2d", "lasso2d")) %>%
+        config(displaylogo = FALSE)
     })
 
   })

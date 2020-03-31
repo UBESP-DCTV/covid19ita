@@ -336,6 +336,10 @@ eng_dashboard_body <- function() {dashboardBody(
 
   tabItem(tabName = "national",
     h2("National events"),
+    box(width = 12, title = "Instructions",
+        p("Visualize/hide one or more measures on the graph by clicking on the items in the legend. Double click to only visualize the selected item."),
+        p("Click on the autoscale button (the third one) to maximize the size of the graph."),
+    ),
     eng_mod_ts_ita_ui("ts_nat_cum", title = "Time series trend - cumulative events"),
     eng_mod_ts_ita_ui("ts_nat_inc", title = "Time series trend - daily new events")
   ),
@@ -343,6 +347,13 @@ eng_dashboard_body <- function() {dashboardBody(
 
   tabItem(tabName = "regional",
     h2("Regional events"),
+    box(width = 12, title = "Istructions",
+        p("Add/remove computations for one or more region/measure by adding/removing it from the box."),
+        p("NOTE: The number of tests per day can be visualized on the graph (by selecting the correct item in the legend) but it is hidden by default as it is off the scale (compared to the other measures)."),
+        p(""),
+        p("Visualize/hide one or more regions/measures on the graph by clicking on the items in the legend. Double click to only visualize the selected item."),
+        p("Click on the autoscale button (the third one) to maximize the size of the graph."),
+      ),
 
     h3("Time series by region"),
     fluidRow(
@@ -375,6 +386,9 @@ eng_dashboard_body <- function() {dashboardBody(
 
   tabItem(tabName = "provincial",
     h2("Provincial events"),
+    p("Add/remove computations for one or more region/measure by adding/removing it from the box."),
+    p("Visualize/hide one or more regions on the graph by clicking on the items in the legend. Double click to only visualize the selected item."),
+    p("Click on the autoscale button (the third one) to maximize the size of the graph."),
 
     h3("Time series"),
     fluidRow(
