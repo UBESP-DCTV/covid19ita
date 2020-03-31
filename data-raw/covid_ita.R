@@ -58,6 +58,19 @@ if (!all(are_ok)) {
     "Valle d'Aosta"     	 ,               126883
   )
 
+  dictionary <- c(
+    ricoverati_con_sintomi = "hospitalized_with_symptoms",
+    terapia_intensiva = "intensive_care",
+    totale_ospedalizzati = "total_hospitalized",
+    isolamento_domiciliare = "isolation",
+    totale_positivi = "active_cases",
+    variazione_totale_positivi = "active_cases_variation",
+    nuovi_positivi = "new_active_cases",
+    dimessi_guariti = "recovered",
+    totale_casi = "total_cases",
+    deceduti = "deaths",
+    tamponi = "tests_performed"
+  )
 
 
   usethis::ui_done("All data correctly downloaded")
@@ -86,6 +99,7 @@ if (!all(are_ok)) {
     dpc_covid19_ita_province,
     last_data_update,
     region_population,
+    dictionary,
     internal = TRUE,
     overwrite = TRUE
   )

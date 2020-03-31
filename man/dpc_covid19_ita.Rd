@@ -12,11 +12,11 @@
   levels of detail (regional adn provincial) and as many variables
   as provided by the original data (see the corresponding sections).
 
-An object of class \code{spec_tbl_df} (inherits from \code{tbl_df}, \code{tbl}, \code{data.frame}) with 36 rows and 14 columns.
+An object of class \code{spec_tbl_df} (inherits from \code{tbl_df}, \code{tbl}, \code{data.frame}) with 37 rows and 15 columns.
 
-An object of class \code{spec_tbl_df} (inherits from \code{tbl_df}, \code{tbl}, \code{data.frame}) with 756 rows and 18 columns.
+An object of class \code{spec_tbl_df} (inherits from \code{tbl_df}, \code{tbl}, \code{data.frame}) with 777 rows and 19 columns.
 
-An object of class \code{spec_tbl_df} (inherits from \code{tbl_df}, \code{tbl}, \code{data.frame}) with 4608 rows and 12 columns.
+An object of class \code{spec_tbl_df} (inherits from \code{tbl_df}, \code{tbl}, \code{data.frame}) with 4736 rows and 12 columns.
 }
 \source{
 \url{https://github.com/pcm-dpc/COVID-19}
@@ -51,7 +51,7 @@ Le Province autonome di Trento e Bolzano sono indicate in
 \section{Data at national level}{
 
 A \code{\link[tibble]{tibble}} with one row per day and
-  12 variables:
+  15 variables:
 \describe{
   \item{data}{Date of notification - Italian time zone)}
   \item{stato}{Country of reference - XYZ (ISO 3166-1 alpha-3)}
@@ -59,19 +59,22 @@ A \code{\link[tibble]{tibble}} with one row per day and
   \item{terapia_intensiva}{Intensive Care}
   \item{totale_ospedalizzati}{Total hospitalised patients}
   \item{isolamento_domiciliare}{Home confinement}
-  \item{totale_attualmente_positivi}{Total amount of current positive cases (Hospitalised patients + Home confinement)}
-  \item{nuovi_attualmente_positivi}{News amount of current positive cases (Hospitalised patients + Home confinement)}
+  \item{totale_positivi}{Total amount of current positive cases (Hospitalised patients + Home confinement)}
+  \item{variazione_totale_positivi}{News amount of current positive cases (Hospitalised patients + Home confinement)}
+  \item{nuovi_positivi}{today active cases - yesterday active cases}
   \item{dimessi_guariti}{Recovered}
   \item{deceduti}{Death}
   \item{totale_casi}{Total amount of positive cases}
   \item{tamponi}{Tests performed}
+  \item{note_it}{Notes in Italian language}
+  \item{note_eng}{Notes in English Language}
 }
 }
 
 \section{Data at regional level}{
 
 A \code{\link[tibble]{tibble}} with one row per day/region
- and 16 variables:
+ and 19 variables:
 \describe{
   \item{data}{Date of notification - Italian time zone)}
   \item{stato}{Country of reference - XYZ (ISO 3166-1 alpha-3)}
@@ -83,19 +86,22 @@ A \code{\link[tibble]{tibble}} with one row per day/region
   \item{terapia_intensiva}{Intensive Care}
   \item{totale_ospedalizzati}{Total hospitalised patients}
   \item{isolamento_domiciliare}{Home confinement}
-  \item{totale_attualmente_positivi}{Total amount of current positive cases (Hospitalised patients + Home confinement)}
-  \item{nuovi_attualmente_positivi}{News amount of current positive cases (Hospitalised patients + Home confinement)}
+  \item{totale_positivi}{Total amount of current positive cases (Hospitalised patients + Home confinement)}
+  \item{variazione_totale_positivi}{News amount of current positive cases (Hospitalised patients + Home confinement)}
+  \item{nuovi_positivi}{today active cases - yesterday active cases}
   \item{dimessi_guariti}{Recovered}
   \item{deceduti}{Death}
   \item{totale_casi}{Total amount of positive cases}
   \item{tamponi}{Tests performed}
+  \item{note_it}{Notes in Italian language}
+  \item{note_eng}{Notes in English Language}
 }
 }
 
 \section{Data at provincial level}{
 
 A \code{\link[tibble]{tibble}} with one row per day/province
- and 10 variables:
+ and 12 variables:
 \describe{
   \item{data}{Date of notification - Italian time zone)}
   \item{stato}{Country of reference - XYZ (ISO 3166-1 alpha-3)}
@@ -108,6 +114,8 @@ A \code{\link[tibble]{tibble}} with one row per day/province
   \item{long}{Longitude - WGS84}
   \item{totale_casi}{Total amount of positive cases}
   \item{tamponi}{Tests performed}
+  \item{note_it}{Notes in Italian language}
+  \item{note_eng}{Notes in English Language}
 }
 }
 
