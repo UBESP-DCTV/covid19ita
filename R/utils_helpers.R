@@ -26,7 +26,7 @@ measures <- function(
       "ricoverati_con_sintomi", "terapia_intensiva",
       "totale_ospedalizzati", "isolamento_domiciliare",
       "totale_attualmente_positivi", "dimessi_guariti",
-      "deceduti", "totale_casi", "tamponi"
+      "totale_casi", "deceduti","tamponi"
     ))
 
   res <- sort(switch(level,
