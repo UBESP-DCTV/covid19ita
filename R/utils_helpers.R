@@ -17,25 +17,14 @@ measures <- function(
   level <- match.arg(level)
   lang <- match.arg(lang)
 
-  dictionary <- c(
-    "hospitalized_with_symptoms", "intensive_care", "total_hospitalized",
-    "isolation", "active_cases", "recovered", "total_cases", "deaths",
-    "tests_performed"
-  ) %>%
-    purrr::set_names(c(
-      "ricoverati_con_sintomi", "terapia_intensiva",
-      "totale_ospedalizzati", "isolamento_domiciliare",
-      "totale_attualmente_positivi", "dimessi_guariti",
-      "totale_casi", "deceduti","tamponi"
-    ))
-
   res <- sort(switch(level,
     national = ,
     regional = c(
       "ricoverati_con_sintomi", "terapia_intensiva",
       "totale_ospedalizzati", "isolamento_domiciliare",
-      "totale_attualmente_positivi", "dimessi_guariti",
-      "deceduti", "totale_casi", "tamponi"),
+      "totale_positivi", "variazione_totale_positivi", "nuovi_positivi",
+      "dimessi_guariti", "deceduti", "totale_casi", "tamponi"
+    ),
     provincial = "totale_casi"
   ))
 
@@ -56,18 +45,6 @@ measures <- function(
 measure_to_labels <- function(x, lang = c("ita", "eng")) {
  lang <- match.arg(lang)
  stopifnot(is.character(x))
-
- dictionary <- c(
-   "hospitalized_with_symptoms", "intensive_care", "total_hospitalized",
-   "isolation", "active_cases", "recovered", "total_cases", "deaths",
-   "tests_performed"
-   ) %>%
-   purrr::set_names(c(
-   "ricoverati_con_sintomi", "terapia_intensiva",
-   "totale_ospedalizzati", "isolamento_domiciliare",
-   "totale_attualmente_positivi", "dimessi_guariti",
-   "totale_casi", "deceduti", "tamponi"
-   ))
 
  stopifnot(all(x %in% names(dictionary)))
 

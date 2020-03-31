@@ -37,7 +37,7 @@ dashboard_header <- function() {dashboardHeader(
   dropdownMenu(type = "messages",
     messageItem(
       from = "In evidenza",
-      message = "2020-03-28 Veneto: Ospedalizzazioni",
+      message = "2020-03-31 Comparativa Ven-Pie",
       icon = icon("search")
     ),
     messageItem(
@@ -74,6 +74,9 @@ dashboard_sidebar <- function() {dashboardSidebar(sidebarMenu(
 
 
   menuItem("In evidenza", icon = icon("bullseye"),
+    menuSubItem("2020-03-28 Comparativa", tabName = "20200331Comp",
+                icon = icon("flag")
+    ),
     menuSubItem("2020-03-28 Veneto", tabName = "20200328Tot_hosp",
                 icon = icon("flag")
     ),
@@ -291,6 +294,10 @@ dashboard_body <- function() {dashboardBody(
 
   ),
 
+  tabItem(tabName = "20200331Comp",
+          h2("Analisi comparativa tra Regione Piemonte e Regione Veneto dei dati epidemiologici relativi all’infezione da Covid-29."),
+          mod_focus_20200331_ui("ven_pie")
+  ),
   tabItem(tabName = "20200328Tot_hosp",
           h2("Possibile effetto sulle ospedalizzazioni delle politiche sanitarie in Veneto"),
           mod_focus_20200328_hosp_ui("tot")
@@ -336,6 +343,10 @@ dashboard_body <- function() {dashboardBody(
 
   tabItem(tabName = "national",
     h2("Eventi nazionali"),
+    box(width = 12, title = "Istruzioni",
+      p("È possibile attivare/disattivare la visualizzazione di una o più misure dal grafico facendo click sulle corrispondenti voci in legenda. Doppio-click per attivare/disattivare la visualizzazione esclusiva della voce selezionata."),
+      p("Fare click sul pulsante autoscale (terzo) per espandere il grafico alla massima grandezza interamente visionabile."),
+    ),
     mod_ts_ita_ui("ts_nat_cum", title = "Serie storiche degli eventi cumulati"),
     mod_ts_ita_ui("ts_nat_inc", title = "Serie storiche dei nuovi eventi giornalieri")
   ),
@@ -343,6 +354,13 @@ dashboard_body <- function() {dashboardBody(
 
   tabItem(tabName = "regional",
     h2("Eventi regionali"),
+    box(width = 12, title = "Istruzioni",
+      p("È possibile aggiungere o rimuovere la computazione dei grafici per una o più regione/misura selezionandola o deselezionandola dal corrispondente box."),
+      p("NOTA: la misurazione dei tamponi effettuati è selezionabile ma disattivata di default in quanto fuori scala rispetto alle altre misure."),
+      p(""),
+      p("È possibile attivare/disattivare la visualizzazione di una o più regioni/misure dal grafico facendo click sulle corrispondenti voci in legenda. Doppio-click per attivare/disattivare la visualizzazione esclusiva della voce selezionata."),
+      p("Fare click sul pulsante autoscale (terzo) per espandere il grafico alla massima grandezza interamente visionabile."),
+    ),
 
     h3("Serie storiche per regione"),
     fluidRow(
@@ -375,6 +393,9 @@ dashboard_body <- function() {dashboardBody(
 
   tabItem(tabName = "provincial",
     h2("Eventi provinciali"),
+    p("È possibile aggiungere o rimuovere la computazione dei grafici per una o più regione selezionandola o deselezionandola dal corrispondente box."),
+    p("È possibile attivare/disattivare la visualizzazione di una o più regioni dal grafico facendo click sulle corrispondenti voci in legenda. Doppio-click per attivare/disattivare la visualizzazione esclusiva della voce selezionata."),
+    p("Fare click sul pulsante autoscale (terzo) per espandere il grafico alla massima grandezza interamente visionabile."),
 
     h3("Serie storiche"),
     fluidRow(
