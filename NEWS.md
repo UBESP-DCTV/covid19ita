@@ -1,3 +1,5 @@
+# covid19ita 0.26.0
+
 * data update (including renaming)
 * added focus module 20200331 epidemiologia comparativa Veneto-Piemonte
 * removed useless button from Plotly
