@@ -1,3 +1,5 @@
+# covid19ita 0.26.1
+
 * translation comparative piemonte veneto (#35)
 * consistent colour and names for levels eng (#33)
 * death and tests labels switched (#34)
