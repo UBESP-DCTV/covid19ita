@@ -1,3 +1,6 @@
+* translation comparative piemonte veneto (#35)
+* consistent colour and names for levels eng (#33)
+* death and tests labels switched (#34)
 * fix English moduls changes for data naming
 * fix today focus date
 

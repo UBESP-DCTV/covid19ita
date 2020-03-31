@@ -66,7 +66,7 @@ eng_mod_focus_20200328_hosp_ui <- function(id){
 
 
     fluidRow(
-      box(width = 12, title = "Dati tecnici sulla stima del Modello",
+      box(width = 12, title = "Technical details regarding the estimation of the model",
           p("
         The estimation of the model was based on the number series of hospitalizations that
           were observed until the 12th of March. This day represents a
@@ -89,7 +89,7 @@ eng_mod_focus_20200328_hosp_ui <- function(id){
       )
     ),
     fluidRow(
-      box(width = 12, title = "Bibliografia",
+      box(width = 12, title = "References",
           p(HTML("
           <ol>
             <li>Barry D, Hartigan JA. A Bayesian Analysis for Change Point Problems. J Am Stat Assoc. 1993;88(421):309–19.</li>

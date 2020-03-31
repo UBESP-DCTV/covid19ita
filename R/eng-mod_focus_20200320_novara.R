@@ -32,7 +32,7 @@ eng_mod_focus_20200320_novara_ui <- function(id){
     ),
     fluidRow(
       box(width = 12, plotlyOutput(ns("fig3")),
-          title = "Scenario 3. Il third scenario is based on a Poisson Model (using an offset to account for the place of residency) with a natural spline to account for non-linearity. The expected number of total cases for the next days are reported on the graph together with the 95% CI."
+          title = "Scenario 3. The third scenario is based on a Poisson Model (using an offset to account for the place of residency) with a natural spline to account for non-linearity. The expected number of total cases for the next days are reported on the graph together with the 95% CI."
       ),
       box(width = 12, DT::DTOutput(ns("data3")))
     )

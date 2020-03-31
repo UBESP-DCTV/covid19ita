@@ -36,6 +36,11 @@ eng_dashboard_header <- function() {dashboardHeader(
 
   dropdownMenu(type = "messages",
 messageItem(
+  from = "Highlights",
+  message = "2020-03-31 Comparative Ven-Pie",
+  icon = icon("search")
+  ),
+messageItem(
       from = "Data",
       message = glue::glue("Data updated ({last_data_update})"),
       icon = icon("database")
@@ -67,6 +72,9 @@ eng_dashboard_sidebar <- function() {dashboardSidebar(sidebarMenu(
   menuItem("Home", tabName = "home", icon = icon("home")),
 
   menuItem("Highlights", icon = icon("bullseye"),
+           menuSubItem("2020-03-31 Comparative", tabName = "20200331Comp",
+                       icon = icon("flag")
+           ),
            menuSubItem("2020-03-28 Veneto", tabName = "20200328Tot_hosp",
                        icon = icon("flag")
            ),
@@ -176,7 +184,7 @@ eng_dashboard_body <- function() {dashboardBody(
       ),
 
 
-      box(width = 12, title = HTML("<strong>Epidemiological modelling</strong>"),
+      box(width = 12, title = HTML("<strong>Epidemiological modeling</strong>"),
         p(
           HTML("Prof. <strong>Paola Berchialla</strong>, PhD, Department of Clinical
             and Biological Sciences -- Università degli Studi di Torino"
@@ -186,7 +194,7 @@ eng_dashboard_body <- function() {dashboardBody(
 
         p(
           HTML(
-            '<strong>Dolores Catelan</strong>, Ph.D., Department of
+            'Prof. <strong>Dolores Catelan</strong>, Ph.D., Department of
             Statistics, Computer Sciences, Applications "G. Parenti" (DISIA),
             Università degli Studi di Firenze'
           ),
@@ -197,7 +205,7 @@ eng_dashboard_body <- function() {dashboardBody(
         )
       ),
 
-      box(width = 12, title = HTML("<strong>Modelli Previsivi</strong>"),
+      box(width = 12, title = HTML("<strong>Predictive models</strong>"),
         p(HTML("<strong>Danila Azzolina</strong>, PhD, Department of Translational Medicine --
           Università del Piemonte Orientale"),
           a(href = "https://linkedin.com/in/danila-azzolina-862465166/", target = "_blank", "LinkedIn")
@@ -212,7 +220,7 @@ eng_dashboard_body <- function() {dashboardBody(
       ),
 
 
-      box(width = 12, title = HTML("<strong>Modelli di Environmental Epidemiology and Pollution</strong>"),
+      box(width = 12, title = HTML("<strong>Modeling in Environmental Epidemiology and Pollution</strong>"),
           p(
             HTML(
               'Prof. <strong>Annibale Biggeri</strong>, MD, MSPH, MSB,
@@ -290,6 +298,10 @@ eng_dashboard_body <- function() {dashboardBody(
     )
 
   ),
+  tabItem(tabName = "20200331Comp",
+          h2("Comparative analysis between the Piemonte Region and Veneto Region of the epidemiological data relative to Covid-19 infection."),
+          eng_mod_focus_20200331_ui("ven_pie")
+  ),
   tabItem(tabName = "20200328Tot_hosp",
           h2("Possible effect on hospitalizations of the health policies implemented by the Veneto region"),
           eng_mod_focus_20200328_hosp_ui("tot")
@@ -336,6 +348,10 @@ eng_dashboard_body <- function() {dashboardBody(
 
   tabItem(tabName = "national",
     h2("National events"),
+    box(width = 12, title = "Instructions",
+        p("Visualize/hide one or more measures on the graph by clicking on the items in the legend. Double click to only visualize the selected item."),
+        p("Click on the autoscale button (the third one) to maximize the size of the graph."),
+    ),
     eng_mod_ts_ita_ui("ts_nat_cum", title = "Time series trend - cumulative events"),
     eng_mod_ts_ita_ui("ts_nat_inc", title = "Time series trend - daily new events")
   ),
@@ -343,6 +359,13 @@ eng_dashboard_body <- function() {dashboardBody(
 
   tabItem(tabName = "regional",
     h2("Regional events"),
+    box(width = 12, title = "Istructions",
+        p("Add/remove computations for one or more region/measure by adding/removing it from the box."),
+        p("NOTE: The number of tests per day can be visualized on the graph (by selecting the correct item in the legend) but it is hidden by default as it is off the scale (compared to the other measures)."),
+        p(""),
+        p("Visualize/hide one or more regions/measures on the graph by clicking on the items in the legend. Double click to only visualize the selected item."),
+        p("Click on the autoscale button (the third one) to maximize the size of the graph."),
+      ),
 
     h3("Time series by region"),
     fluidRow(
@@ -375,6 +398,9 @@ eng_dashboard_body <- function() {dashboardBody(
 
   tabItem(tabName = "provincial",
     h2("Provincial events"),
+    p("Add/remove computations for one or more region/measure by adding/removing it from the box."),
+    p("Visualize/hide one or more regions on the graph by clicking on the items in the legend. Double click to only visualize the selected item."),
+    p("Click on the autoscale button (the third one) to maximize the size of the graph."),
 
     h3("Time series"),
     fluidRow(
@@ -417,7 +443,7 @@ eng_dashboard_body <- function() {dashboardBody(
 
     p("For the app development the following expansion packages were used: {shiny} ver. 1.4.0, {shinydashboard} v.0.7.1 and {golem} ver. 0.2.1."),
 
-    p("The analysis were performed using functions of the following packages: {stats} ver. 3.6.3, and {gam} ver. 1.16.1"),
+    p("The analyses were performed using functions of the following packages: {stats} ver. 3.6.3, and {gam} ver. 1.16.1"),
 
     p("Our graphs were produced with the following packages: {ggplot2} ver. 3.3.0 and {plotly} ver. 4.9.2."),
 
@@ -434,7 +460,7 @@ eng_dashboard_body <- function() {dashboardBody(
 
 
   tabItem(tabName = "impact",
-    h1("Pricipal indeces"),
+    h1("Principal indices"),
     eng_mod_ind_ita_ui("20200315")
   )
 

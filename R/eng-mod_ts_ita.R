@@ -11,7 +11,7 @@
 eng_mod_ts_ita_ui <- function(id, title, width = 12){
   ns <- NS(id)
   fluidPage(
-    fluidRow(shiny::checkboxInput(ns("y_log"), "Scala logaritmica")),
+    fluidRow(shiny::checkboxInput(ns("y_log"), "Logarithmic scale")),
   fluidRow(
     box(title = title, width = width,
       plotlyOutput(ns("ts_plot"))
@@ -23,7 +23,7 @@ eng_mod_ts_ita_ui <- function(id, title, width = 12){
 #' ts_ita Server Function
 #'
 #' @import ggplot2
-#' @importFrom plotly renderPlotly ggplotly
+#' @importFrom plotly renderPlotly ggplotly config
 #' @noRd
 eng_mod_ts_ita_server <- function(id, type = c("cum", "inc")) {
   type <- match.arg(type)
@@ -86,7 +86,9 @@ eng_mod_ts_ita_server <- function(id, type = c("cum", "inc")) {
           ylab(paste0(y_lab," - log2"))
       }
 
-      ggplotly(gg)
+      ggplotly(gg) %>%
+        config(modeBarButtonsToRemove = c("zoomIn2d", "zoomOut2d", "pan2d", "select2d", "lasso2d")) %>%
+        config(displaylogo = FALSE)
     })
   })
 }
