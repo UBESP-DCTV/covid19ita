@@ -431,7 +431,7 @@ eng_dashboard_body <- function() {dashboardBody(
 
     p("For the app development the following expansion packages were used: {shiny} ver. 1.4.0, {shinydashboard} v.0.7.1 and {golem} ver. 0.2.1."),
 
-    p("The analysis were performed using functions of the following packages: {stats} ver. 3.6.3, and {gam} ver. 1.16.1"),
+    p("The analyses were performed using functions of the following packages: {stats} ver. 3.6.3, and {gam} ver. 1.16.1"),
 
     p("Our graphs were produced with the following packages: {ggplot2} ver. 3.3.0 and {plotly} ver. 4.9.2."),
 
@@ -448,7 +448,7 @@ eng_dashboard_body <- function() {dashboardBody(
 
 
   tabItem(tabName = "impact",
-    h1("Pricipal indeces"),
+    h1("Principal indices"),
     eng_mod_ind_ita_ui("20200315")
   )
 

@@ -66,7 +66,7 @@ eng_mod_focus_20200328_hosp_ui <- function(id){
 
 
     fluidRow(
-      box(width = 12, title = "Dati tecnici sulla stima del Modello",
+      box(width = 12, title = "Technical details regarding the estimation of the model",
           p("
         The estimation of the model was based on the number series of hospitalizations that
           were observed until the 12th of March. This day represents a

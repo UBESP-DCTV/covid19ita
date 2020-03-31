@@ -15,10 +15,10 @@ eng_mod_ind_ita_ui <- function(id){
     h2(HTML("<strong>Deaths</strong>")),
     fluidRow(
       box(plotlyOutput(ns("dsp")),
-        width = 6, title = "Decesead over positive cases"
+        width = 6, title = "Deceased over positive cases"
       ),
       box(plotlyOutput(ns("dso")),
-        width = 6, title = "Decesead over hospitalized"
+        width = 6, title = "Deceased over hospitalized"
       )
     ),
 
@@ -36,7 +36,7 @@ eng_mod_ind_ita_ui <- function(id){
 
     h2(HTML("
       <strong>Growth rate (%) with respect to the previous day</strong></br>
-      (100% = no growth, >100% increasing, <100% decresing)
+      (100% = no growth, >100% increasing, <100% decreasing)
     ")),
     fluidRow(
       box(plotlyOutput(ns("cpt")),
@@ -70,12 +70,12 @@ eng_mod_ind_ita_ui <- function(id){
     ),
     box(plotlyOutput(ns("titamponi")),
         width = 12,
-        title = "Regional percentage (fit loess, span = 1.5, degree = 2) of population that, repectively, has been admitted to the ICU (vertical axis) and has not been (as of today) hospitalized though being tested (this data was approximated by the total number of tests minus hospitalized patients), up to the day chosen in the slider. It is possible to see the entire evolution automatically by clicking play.",
-        footer = "REMARKS: The curves show the daily cumulative events on the horizontal axis (hence it is never possible to 'go back in time') and daily net on the vertical axis (hence we can both 'move up' and 'move down'). It is important to notice that the curves are 'temporally long': they all have the same number of days (i.e., from the 24th of February, up to the date chosen in the slider) and, moving along the curves, each point represents the data that was observed on the corresponing day."
+        title = "Regional percentage (fit loess, span = 1.5, degree = 2) of population that, respectively, has been admitted to the ICU (vertical axis) and has not been (as of today) hospitalized though being tested (this data was approximated by the total number of tests minus hospitalized patients), up to the day chosen in the slider. It is possible to see the entire evolution automatically by clicking play.",
+        footer = "REMARKS: The curves show the daily cumulative events on the horizontal axis (hence it is never possible to 'go back in time') and daily net on the vertical axis (hence we can both 'move up' and 'move down'). It is important to notice that the curves are 'temporally long': they all have the same number of days (i.e., from the 24th of February, up to the date chosen in the slider) and, moving along the curves, each point represents the data that was observed on the corresponding day."
     ),
     box(DT::DTOutput(ns("dt_tamponi")),
         width = 12,
-        title = "Table: regional evolution of bed occupancy with respect to the asympomatic tests (weighted on the population)"
+        title = "Table: regional evolution of bed occupancy with respect to the asymptomatic tests (weighted on the population)"
     )
 
 
