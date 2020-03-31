@@ -1,3 +1,5 @@
+* death and tests labels switched (#34)
+
 # covid19ita 0.25.1
 
 * Update dictionary
