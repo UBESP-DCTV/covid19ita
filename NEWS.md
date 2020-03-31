@@ -1,3 +1,6 @@
+# covid19ita 0.25.2
+
+* death and tests labels switched (#34)
 * consistent colour and names for levels eng (#33)
 * fix translation (#32)
 * removed unuseful button from plotly
