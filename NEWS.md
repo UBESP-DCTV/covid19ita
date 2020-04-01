@@ -1,3 +1,5 @@
+* data update
+
 # covid19ita 0.26.2
 
 * Fix covid 29 -> 19 on focus title
