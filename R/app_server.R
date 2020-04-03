@@ -53,4 +53,8 @@ app_server <- function(input, output, session) {
     mod_focus_20200325_hosp_server("hosp")
     mod_focus_20200328_hosp_server("tot")
     mod_focus_20200331_server("ven_pie")
+
+
+    ## Geo-spatial
+    mod_maps_server("geo_1")
 }

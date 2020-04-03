@@ -117,6 +117,8 @@ dashboard_sidebar <- function() {dashboardSidebar(sidebarMenu(
 
   menuItem("Indici principali", tabName = "impact", icon = icon("compass")),
 
+  menuItem("Mappe", tabName = "geo_spatial", icon = icon("map-marked-alt")),
+
   menuItem("Segnalazioni", icon = icon("exclamation-triangle"),
     href = "https://github.com/UBESP-DCTV/covid19ita/issues/"
   ),
@@ -457,7 +459,14 @@ dashboard_body <- function() {dashboardBody(
   tabItem(tabName = "impact",
     h1("Indici principali"),
     mod_ind_ita_ui("20200315")
+  ),
+
+  tabItem(tabName = "geo_spatial",
+    h1("Mappe 1"),
+    mod_maps_ui("geo_1")
   )
+
+
 
 ))}
 
