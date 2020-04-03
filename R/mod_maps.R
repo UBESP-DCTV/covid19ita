@@ -63,15 +63,13 @@ mod_maps_server <- function(id) {
     ## particolare la definizione degli output (ricordarsi che tali nomi
     ## NON vanno inseriti (a differenza della controparte in input)
     ## all'interno della chiamata a `ns()`)
-    output$foo <- renderText("Bar.")
-
-    current_data <- reactive({
+    output$foo <- renderText({
       req(input[["n_min"]])
 
-      data_to_use %>%
-        dplyr::filter(.data$totale_casi >= input[["n_min"]])
 
+      glue::glue("doppio di n = {raddopia(input[['n_min']])}")
     })
+
 
     output$baz <- renderPlotly({
       req(input[["n_min"]])
@@ -100,6 +98,17 @@ mod_maps_server <- function(id) {
           displaylogo = FALSE
         )
     })
+
+
+
+    current_data <- reactive({
+      req(input[["n_min"]])
+
+      data_to_use %>%
+        dplyr::filter(.data$totale_casi >= input[["n_min"]])
+
+    })
+
   })
 
 }
