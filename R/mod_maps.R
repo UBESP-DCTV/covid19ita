@@ -67,7 +67,11 @@ mod_maps_ui <- function(id){
       .datepicker { z-index:999999  !important; }
       .selectize-dropdown{   z-index:99999999 !important;  }
       #%s-mymap {
-        border-radius:10px;
+        height:calc(100vh - 200px) !important;
+        min-height:600px;
+        background: #333;
+        border: 1px solid black;
+        border-radius: 8px;
       }
       #%s-date1 input.form-control  {
         color: red !important;
