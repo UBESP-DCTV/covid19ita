@@ -465,12 +465,12 @@ dashboard_body <- function() {dashboardBody(
   ),
 
   tabItem(tabName = "geo_spatialTot",
-    h1("Mappe 1"),
+   # h1("Mappe 1"),
     mod_maps_ui("geo_1")
   ),
 
   tabItem(tabName = "geo_spatialDaily",
-          h1("Mappe 2"),
+         # h1("Mappe 2"),
           mod_maps_ui("geo_2")
   )
 

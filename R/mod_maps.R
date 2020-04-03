@@ -64,9 +64,18 @@ mod_maps_ui <- function(id){
     tags$head(
       tags$style(type="text/css",
                  sprintf("
+      .datepicker { z-index:999999  !important; }
+      .selectize-dropdown{   z-index:99999999 !important;  }
       #%s-mymap {
         border-radius:10px;
-      }", id))
+      }
+      #%s-date1 input.form-control  {
+        color: red !important;
+        font-size: larger;
+        margin: 0;
+        background: darkgray;
+        padding: 15px;
+      }", id, id))
     ),
     fluidRow(
       column(3, style="font-weight:bold;",
@@ -155,8 +164,14 @@ mod_maps_server <- function(id) {
     dplyr::group_by(codice_provincia) %>%
     dplyr::mutate(  delta     =c(0, diff(totale_casi)) ) %>%
     dplyr::select(
-      .data$data, .data$totale_casi, .data$delta, .data$lat, .data$long
+      .data$data, .data$denominazione_provincia , .data$totale_casi, .data$delta, .data$lat, .data$long
     )
+
+  data_to_use <- merge(data_to_use, province_population2019)
+
+
+  data_to_use$totale_casi.normPop<-data_to_use$totale_casi/data_to_use$Residenti * 10000
+  data_to_use$delta.normPop<-data_to_use$delta/data_to_use$Residenti * 10000
 
   callModule(id = id, function(input, output, session) {
     ns <- session$ns
@@ -171,10 +186,17 @@ mod_maps_server <- function(id) {
 
     observe(  {
       req(input[["date1"]])
+
+
       dt.filtered<- data_to_use %>%
         dplyr::filter( as.Date(.data$data) == input[["date1"]])
 
 
+      if( nrow(dt.filtered)<1 )
+      {
+        showNotification("No data found for selected day.",  type ="warning")
+        return(NULL)
+      }
       dt.label<- unname(unlist(dt.filtered[,input$calculus]))
       if( !is.element(input$calculus,c("delta", "totale_casi") ) )  label<-sprintf("%.2f",dt.label)
       else label <- sprintf("%d",   dt.label)
