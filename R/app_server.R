@@ -57,4 +57,5 @@ app_server <- function(input, output, session) {
 
     ## Geo-spatial
     mod_maps_server("geo_1")
+    mod_maps_server("geo_2")
 }

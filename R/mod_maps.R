@@ -35,9 +35,9 @@ mod_maps_ui <- function(id){
       )
     ),
     fluidRow(
-      box(plotlyOutput(ns("baz")),
+      box(  leaflet::leafletOutput(ns("mymap")) ,
         title = "Andamento dei casi nel tempo per regione",
-        footer = "Fare click sul nome di una regione per disattivarla",
+        footer = "CIRGEO Centro Interdipartimentale di Ricerca di Geomatica",
         width = 12
       )
     )
@@ -50,6 +50,39 @@ mod_maps_ui <- function(id){
 mod_maps_server <- function(id) {
 
   ## Zona dedicata alle computazioni preliminari, non reattive
+  ## qui se possibile metterli su un "global.R" dato che sono identici per tutti
+  basic.layerlist.list<-list(    baseGroups = list( osm.bn="Map Night",osm.light ="Map Light",
+                                                    osm="None" ),
+                                 overlayGroups = list( Casi_COVID19="COVID-19",
+                                                       Casi_COVID19labels="Labels")
+  )
+
+  basic.layerlist<-list(
+    baseGroups = unname(unlist(basic.layerlist.list$baseGroups )),
+    overlayGroups = unname(unlist(basic.layerlist.list$overlayGroups ))
+  )
+
+  myLeaflet<-leaflet::leaflet(width="100%", height = 600) %>%
+
+    htmlwidgets::onRender("function(el, x) {
+           mapElement=this;
+           this.on('layeradd', onLayerAddFunction);
+           }") %>%
+    leaflet::flyTo( 11, 43, 6)  %>%
+    leaflet::addTiles(urlTemplate = "https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png",
+                      attribution = '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors &copy; <a href="https://carto.com/attributions">CARTO</a>',
+                      options =  leaflet::tileOptions(zIndex = 1, preferCanvas=TRUE, maxZoom = 19, subdomains = "abcd" ), group=basic.layerlist.list$baseGroups$osm.bn)  %>%
+    leaflet::addTiles(urlTemplate = "https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png",
+                      attribution = '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors &copy; <a href="https://carto.com/attributions">CARTO</a>',
+                      options =  leaflet::tileOptions(zIndex = 2, preferCanvas=TRUE, maxZoom = 19, subdomains = "abcd" ), group=basic.layerlist.list$baseGroups$osm.light)  %>%
+
+
+    #  hideGroup( as.character(basic.layerlist.list$overlayGroups) ) %>%
+    leaflet::showGroup( c(basic.layerlist.list$overlayGroups$Casi_COVID19 ) )   %>%
+    # addMouseCoordinates() %>%
+    leaflet::addLayersControl(baseGroups    =  basic.layerlist$baseGroups,
+                              overlayGroups = basic.layerlist$overlayGroups,
+                              options =  leaflet::layersControlOptions(collapsed = F) )
 
   data_to_use <- dpc_covid19_ita_regioni %>%
     dplyr::select(
@@ -73,32 +106,10 @@ mod_maps_server <- function(id) {
 
     })
 
-    output$baz <- renderPlotly({
-      req(input[["n_min"]])
+    output$mymap <- leaflet::renderLeaflet({
+      #req(input[["n_min"]])
+      myLeaflet
 
-      gg <- current_data() %>%
-        ggplot(aes(
-          x = .data$data,
-          y = .data$totale_casi,
-          colour = .data$denominazione_regione
-        )) +
-        geom_point() +
-        geom_line() +
-        xlab("Data") +
-        ylab(glue::glue("N casi (> {input[['n_min']]})")) +
-        scale_colour_discrete(name = "Regione") +
-        theme(
-          axis.text.x = element_text(angle = 60, hjust = 1, vjust = 0.5)
-        )
-
-
-      ggplotly(gg) %>%
-        config(
-          modeBarButtonsToRemove = c(
-            "zoomIn2d", "zoomOut2d", "pan2d", "select2d", "lasso2d"
-          ),
-          displaylogo = FALSE
-        )
     })
   })
 

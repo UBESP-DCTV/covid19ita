@@ -20,6 +20,8 @@ usethis::use_package("purrr", type = "Suggests")
 usethis::use_package("readr", type = "Suggests")
 usethis::use_tibble()
 usethis::use_package("plotly")
+usethis::use_package("htmlwidgets")
+usethis::use_package("leaflet")
 
 ## Add modules ----
 ## Create a module infrastructure in R/
