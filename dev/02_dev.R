@@ -23,6 +23,9 @@ usethis::use_package("plotly")
 usethis::use_package("htmlwidgets")
 usethis::use_package("leaflet")
 usethis::use_package("RColorBrewer")
+usethis::use_package("sf")
+usethis::use_package("leafgl")
+usethis::use_package("colorspace")
 
 ## Add modules ----
 ## Create a module infrastructure in R/

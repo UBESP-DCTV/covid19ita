@@ -133,29 +133,6 @@ mod_maps_server <- function(id) {
     overlayGroups = unname(unlist(basic.layerlist.list$overlayGroups ))
   )
 
-  myLeaflet<-leaflet::leaflet(width="100%", height = 600) %>%
-
-    htmlwidgets::onRender("function(el, x) {
-           mapElement=this;
-           //this.on('layeradd', onLayerAddFunction);
-           }") %>%
-    leaflet::flyTo( 11, 43, 6)  %>%
-    leaflet::addTiles(urlTemplate = "https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png",
-                      attribution = '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors &copy; <a href="https://carto.com/attributions">CARTO</a>',
-                      options =  leaflet::tileOptions(zIndex = 1, preferCanvas=TRUE, maxZoom = 19, subdomains = "abcd" ), group=basic.layerlist.list$baseGroups$osm.bn)  %>%
-    leaflet::addTiles(urlTemplate = "https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png",
-                      attribution = '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors &copy; <a href="https://carto.com/attributions">CARTO</a>',
-                      options =  leaflet::tileOptions(zIndex = 2, preferCanvas=TRUE, maxZoom = 19, subdomains = "abcd" ), group=basic.layerlist.list$baseGroups$osm.light)  %>%
-
-
-    #  hideGroup( as.character(basic.layerlist.list$overlayGroups) ) %>%
-    leaflet::showGroup( c(basic.layerlist.list$overlayGroups$Casi_COVID19 ) )   %>%
-    # addMouseCoordinates() %>%
-    leaflet::addLayersControl(baseGroups    =  basic.layerlist$baseGroups,
-                              overlayGroups = basic.layerlist$overlayGroups,
-                              options =  leaflet::layersControlOptions(collapsed = F) )
-
-
   data_to_use <- dpc_covid19_ita_province %>%
     dplyr::group_by(codice_provincia) %>%
     dplyr::mutate(  delta     =c(0, diff(totale_casi)) ) %>%
@@ -178,7 +155,12 @@ mod_maps_server <- function(id) {
     ## all'interno della chiamata a `ns()`)
     output$foo <- renderText("Bar.")
 
-    output$mymap <- leaflet::renderLeaflet(  myLeaflet )
+    output$mymap <- leaflet::renderLeaflet(
+
+
+
+
+      )
 
     observe(  {
       req(input[["date1"]])
