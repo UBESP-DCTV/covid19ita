@@ -58,7 +58,10 @@ if (!all(are_ok)) {
     "Valle d'Aosta"     	 ,               126883
   )
 
-  province_population2019 <- readRDS("data-raw/province_population2019.Rda")
+  province_population2019 <- readRDS("data-raw/province_population2019.rds")
+
+  province_geometry2019 <- readRDS("data-raw/province_geometry2019.rds")
+
   dictionary <- c(
     ricoverati_con_sintomi = "hospitalized_with_symptoms",
     terapia_intensiva = "intensive_care",
@@ -101,6 +104,7 @@ if (!all(are_ok)) {
     last_data_update,
     region_population,
     province_population2019,
+    province_geometry2019,
     dictionary,
     internal = TRUE,
     overwrite = TRUE
