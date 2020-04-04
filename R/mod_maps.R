@@ -93,20 +93,12 @@ mod_maps_ui <- function(id){
       )
       ),
 
-      #   column(1,  `data-toggle` ="tooltip" , `data-html` ="true" ,   `data-placement`="bottom" , title=tooltips$scale.fixed,
-      #           checkboxInput("scale.fixed", "F.S.", value = F )),
       column(2,
              div(style="display: inline-block; margin-top: 12px; width:50px; ",
                  `data-toggle` ="tooltip" , `data-html` ="true" ,   `data-placement`="bottom" , title=tooltips$scale.fixed,
                 shinyWidgets::prettyCheckbox(
                    inputId = ns("scale.fixed"), label = "FixScale", icon = icon("check"),
-                   animation = "pulse", plain = TRUE, outline = TRUE ) ) #,
-             # div(style="display: inline-block;vertical-align:top; width:150px; ",  `data-toggle` ="tooltip" , `data-html` ="true" ,   `data-placement`="bottom" ,
-             #     title=tooltips$scale.residents,
-             #     prettyCheckbox(
-             #   inputId = "scale.residents", label = "x1000 residents", icon = icon("users"),
-             #   animation = "pulse", plain = TRUE, outline = TRUE
-             # ) )
+                   animation = "pulse", plain = TRUE, outline = TRUE ) )
       ),
       column(2, title="Scales",  `data-toggle` ="tooltip" ,  `data-placement`="bottom" ,
              selectInput(ns("scale.funct_"), NULL,  choices = functionList ) ),
