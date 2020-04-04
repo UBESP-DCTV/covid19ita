@@ -1,6 +1,7 @@
 ## code to prepare `covid_ita` dataset goes here
 requireNamespace("purrr", quietly = TRUE)
 requireNamespace("readr", quietly = TRUE)
+requireNamespace("readxl", quietly = TRUE)
 library(covid19ita)
 
 data_levels <- list("italia", "regioni", "province")
@@ -85,21 +86,126 @@ if (!all(are_ok)) {
 
   last_data_update <- lubridate::now()
 
+
+  decessi_url <- paste0(
+    "https://www.istat.it/",
+    "it/files/2020/03/",
+    "Tavola-sintetica-decessi.xlsx"
+  )
+
+  tmp <- tempfile(fileext = ".xlsx")
+
+  download.file(decessi_url, tmp, mode = 'wb')
+
+
+
+
+# decessi (Magnani focus 20200404) --------------------------------
+
+
+  decessi_genere <- tmp %>%
+    readxl::read_excel(
+      "Totale per sesso",
+      skip = 2,
+      col_names = c(
+        "id_reg", "id_prov",
+        "nome_reg", "nome_prov", "nome_comune",
+        "id_codprov",
+        "tot_m_2019", "tot_f_2019", "tot_mf_2019",
+        "tot_m_2020", "tot_f_2020", "tot_mf_2020",
+        "var_m_2020", "var_f_2020", "var_mf_2020"
+      ),
+      na = "-"
+   )
+
+  decessi_eta <- tmp %>%
+    readxl::read_excel(
+      "Età",
+      skip = 2,
+      col_names = c(
+        "id_reg", "id_prov",
+        "nome_reg", "nome_prov", "nome_comune",
+        "id_codprov",
+        "tot_65-74_2019", "tot_75-84_2019", "tot_85+_2019",
+        "tot_65-74_2020", "tot_75-84_2020", "tot_85+_2020",
+        "var_65-74_2020", "var_75-84_2020", "var_85+_2020"
+      ),
+      na = "-"
+    )
+
+  decessi_eta_maschi <- tmp %>%
+    readxl::read_excel(
+      "Età Maschi",
+      skip = 2,
+      col_names = c(
+        "id_reg", "id_prov",
+        "nome_reg", "nome_prov", "nome_comune",
+        "id_codprov",
+        "tot_65-74_2019", "tot_75-84_2019", "tot_85+_2019",
+        "tot_65-74_2020", "tot_75-84_2020", "tot_85+_2020",
+        "var_65-74_2020", "var_75-84_2020", "var_85+_2020"
+      ),
+      na = "-"
+    )
+
+  decessi_eta_femmine <- tmp %>%
+    readxl::read_excel(
+      "Età Femmine",
+      skip = 2,
+      col_names = c(
+        "id_reg", "id_prov",
+        "nome_reg", "nome_prov", "nome_comune",
+        "id_codprov",
+        "tot_65-74_2019", "tot_75-84_2019", "tot_85+_2019",
+        "tot_65-74_2020", "tot_75-84_2020", "tot_85+_2020",
+        "var_65-74_2020", "var_75-84_2020", "var_85+_2020"
+      ),
+      na = "-"
+    )
+
+
+
+
+
+
+
+
+
+
+
+
+
+# Storing data ----------------------------------------------------
+
   usethis::use_data(
     dpc_covid19_ita_andamento_nazionale,
     dpc_covid19_ita_regioni,
     dpc_covid19_ita_province,
+
+    decessi_genere,
+    decessi_eta,
+    decessi_eta_maschi,
+    decessi_eta_femmine,
+
     overwrite = TRUE
   )
+
   usethis::use_data(
     plottly_help_txt,
     eng_plottly_help_txt,
     dpc_covid19_ita_andamento_nazionale,
     dpc_covid19_ita_regioni,
     dpc_covid19_ita_province,
+
     last_data_update,
     region_population,
     dictionary,
+
+    decessi_genere,
+    decessi_eta,
+    decessi_eta_maschi,
+    decessi_eta_femmine,
+
     internal = TRUE,
     overwrite = TRUE
   )
