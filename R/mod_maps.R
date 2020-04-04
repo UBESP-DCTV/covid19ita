@@ -176,8 +176,6 @@ mod_maps_server <- function(id) {
   data_to_use$totale_casi.normPop<-data_to_use$totale_casi/data_to_use$Residenti * 10000
   data_to_use$delta.normPop<-data_to_use$delta/data_to_use$Residenti * 10000
 
-  cols = colourvalues::colour_values_rgb(province_geom2019$SIGLA, include_alpha = FALSE) / 255
-
 
   callModule(id = id, function(input, output, session) {
     ns <- session$ns
@@ -253,6 +251,9 @@ mod_maps_server <- function(id) {
       dt.filtered<- data_to_use %>%
         dplyr::filter( as.Date(.data$data) ==  as.Date(max.date) )
 
+
+      cols = colourvalues::colour_values_rgb(province_geometry2019$sigla_provincia, include_alpha = FALSE) / 255
+
       dt.label<- unname(unlist(dt.filtered[,input$calculus]))
 
       if( !is.element(input$calculus,c("delta", "totale_casi") ) )  label<-sprintf("%.2f",dt.label)
@@ -262,7 +263,7 @@ mod_maps_server <- function(id) {
 
       shinyjs::runjs(sprintf("$('#%s-loader').show();", id))
       leaflet::leafletProxy("mymap") %>%
-        leafgl::addGlPolygons(data = province_geom2019,
+        leafgl::addGlPolygons(data = province_geometry2019,
                               color = cols,
                               #popup = "SIGLA",
                               layerId = basic.layerlist.list$overlayGroups$Casi_COVID19 ,
