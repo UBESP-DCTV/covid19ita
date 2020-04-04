@@ -59,6 +59,33 @@ if (!all(are_ok)) {
     "Valle d'Aosta"     	 ,               126883
   )
 
+
+  residenti_anpr_1084 <- tibble::tribble(
+    ~NOME_REGIONE,      ~Totale_Maschi, ~Totale_Femmine,
+     "Totale",	               6177016,         6496805,
+     "Piemonte",	              391799,          417469,
+     "Valle d'Aosta",            18268,           20588,
+     "Lombardia",              2769384,         2912559,
+     "Trentino A.A.",            50868,           52953,
+     "Veneto",                  527531,          542071,
+     "Friuli Venezia Giulia",    42849,           44577,
+     "Liguria",                 147120,          161849,
+     "Emilia-Romagna",	        899173,          946560,
+     "Toscana",	                404649,          431081,
+     "Umbria",                   93868,          100686,
+     "Marche",                  175079,          186308,
+     "Lazio",                    51261,           54331,
+     "Abruzzo",                  57323,           59194,
+     "Molise",                   12326,           12420,
+     "Campania",                 79492,           82714,
+     "Puglia",                  202119,          213439,
+     "Basilicata",               16411,           16778,
+     "Calabria",                 17885,           18251,
+     "Sicilia",                 132204,          135107,
+     "Sardegna",                 87407,           87870
+  )
+
+
   dictionary <- c(
     ricoverati_con_sintomi = "hospitalized_with_symptoms",
     terapia_intensiva = "intensive_care",
@@ -87,6 +114,11 @@ if (!all(are_ok)) {
   last_data_update <- lubridate::now()
 
 
+
+
+# decessi (Magnani focus 20200404) --------------------------------
+
+
   decessi_url <- paste0(
     "https://www.istat.it/",
     "it/files/2020/03/",
@@ -96,11 +128,6 @@ if (!all(are_ok)) {
   tmp <- tempfile(fileext = ".xlsx")
 
   download.file(decessi_url, tmp, mode = 'wb')
-
-
-
-
-# decessi (Magnani focus 20200404) --------------------------------
 
 
   decessi_genere <- tmp %>%
@@ -182,6 +209,7 @@ if (!all(are_ok)) {
     dpc_covid19_ita_regioni,
     dpc_covid19_ita_province,
 
+    residenti_anpr_1084,
     decessi_genere,
     decessi_eta,
     decessi_eta_maschi,
@@ -201,6 +229,7 @@ if (!all(are_ok)) {
     region_population,
     dictionary,
 
+    residenti_anpr_1084,
     decessi_genere,
     decessi_eta,
     decessi_eta_maschi,

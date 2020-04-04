@@ -20,6 +20,19 @@ mod_focus_20200404_magnani_ui <- function(id){
       ")),
 
       p(HTML("
+        In sintesi sono compresi nella rilevazione 1084 comuni che
+        includono complessivamente 6.177.016 uomini e 6.496.805 donne,
+        così distribuiti per regione di residenza. La rappresentazione
+        è diversa nelle diverse regioni. I residenti per regione
+      ")),
+    )),
+
+    fluidRow(box(width = 12,
+      DT::DTOutput(ns("tab_0_residenti"))
+    )),
+
+    fluidRow(box(width = 12,
+      p(HTML("
         La mortalità complessiva costituisce un indicatore estremamente
         rilevante perché è poco suscettibile a errori o difformità di
         valutazione e tiene conto sia della mortalità direttamente
@@ -83,9 +96,15 @@ mod_focus_20200404_magnani_ui <- function(id){
         Istat e alla numerosità dei dati osservati alcune variabili
         sono state raggruppate in categorie più ampie, come indicato
         nella presentazione dei risultati delle diverse analisi.
-      ")),
+      "))
+    )),
 
-      p(HTML("
+
+
+
+
+    fluidRow(box(width = 12,
+      h2(HTML("
         Di quale entità è la variazione di mortalità osservata
         confrontando il periodo tra il 1 e il 21 marzo 2019 con il
         periodo tra il 1 e il 21 marzo 2020?. La variazione osservata
@@ -132,13 +151,14 @@ mod_focus_20200404_magnani_ui <- function(id){
 
       p(HTML("
         L’analisi è stata condotta anche separatamente per classe di
-        età, ed i risultati sono presentati nel grafico seguente
-        (figura 1):
+        età, e per sesso, i risultati sono presentati nei grafici
+        seguenti (figura 1 e figura 2):
       "))
     )),
 
-    fluidRow(box(width = 12, Title = "Figura 1: XXXXX",
-      plotlyOutput(ns("fig_1"))
+    fluidRow(box(plotlyOutput(ns("fig_1_age")),
+      title = "Figura 1: XXXXX",
+      width = 12
     )),
 
     fluidRow(box(width = 12,
@@ -156,9 +176,55 @@ mod_focus_20200404_magnani_ui <- function(id){
     )),
 
     fluidRow(box(width = 12, Title = "Tabella 1: XXXXX",
-      DT::DTOutput(ns("tab_1"))
+      DT::DTOutput(ns("tab_1_age"))
     )),
 
+    fluidRow(box(plotlyOutput(ns("fig_2_sex")),
+      title = "Figura 2: XXXXX",
+      footer = "f: femminile; m: maschile; mf: globale",
+      width = 12,
+    )),
+
+    fluidRow(box(width = 12, Title = "Tabella 2: XXXXX",
+      DT::DTOutput(ns("tab_2_sex"))
+    )),
+
+
+    fluidRow(box(width = 12,
+      h2(HTML("
+        Estendendo la valutazione agli anni precedenti, partendo dal
+        2015, esistono variazioni tra i diversi anni e di quale entità,
+        sempre considerando sesso, classe di età e regione di residenza?
+      ")),
+
+      p(HTML("
+        La base dati messa a disposizione consente di valutare
+        l’andamento della mortalità negli anni precedenti, a partire
+        dal 2015. Sono stati usati i dati presentati nella tabella
+        https://www.istat.it/it/files//2020/03/dati-comunali-settimanali-ANPR-1.zip
+        Le analisi saranno approfondite in futuro valutando più
+        appropriatamente l’andamento della mortalità nel periodo
+        2015-2020 anche con metodi di modellizzazione, comunque
+        l’ispezione dei dati con metodi descrittivi consente di
+        apprezzare come limitata la variabilità nel numero di decessi
+        nel periodo 2015 - 2019, sia complessivamente sia nelle
+        disaggregazioni per sesso e classe di età.
+      ")),
+
+      p(HTML("
+        I grafici che seguono (figura 3) presentano il numero totale di
+        morti nel periodo 2015-2020 per regione. Le regioni sono state
+        aggregate in due gruppi per migliorare la leggibilità dei
+        grafici, corrispondenti alla classificazione Istat con le
+        regioni del Nord e con le regioni del Centro-Sud-Isole.
+      "))
+    )),
+
+
+    fluidRow(box(plotlyOutput(ns("fig_3_age_history")),
+      title = "Figura 3: Analisi di mortalità per tutte le classi di età assieme",
+      width = 12,
+    )),
 
     fluidRow(box(width = 12, title = "Notes",
       p(HTML("
@@ -195,12 +261,10 @@ mod_focus_20200404_magnani_ui <- function(id){
 #' @noRd
 mod_focus_20200404_magnani_server <- function(id) {
 
-  # Data preparation ------------------------------------------------
-  data_sex <- mort_data_reg("sex")
-  data_age <- mort_data_reg("age")
 
-  gg_fig_1 <- data_age %>%
-    ggplot(aes(
+  # Supporting functions --------------------------------------------
+  ggmort <- function(x, legend_title) {
+    ggplot(x, aes(
       x = .data$nome_reg,
       y = .data$variation,
       fill = .data$strata
@@ -209,13 +273,30 @@ mod_focus_20200404_magnani_server <- function(id) {
     theme(
       axis.text.x = element_text(angle = 60, hjust = 1)
     ) +
+    labs(
+      y = "Variazione Percentuale",
+      x = "Nome regione",
+      fill = legend_title
+    ) +
+    theme(panel.background = element_blank())
+  }
+
+
+  # Data preparation ------------------------------------------------
+  data_age <- mort_data_reg("age")
+  data_sex <- mort_data_reg("sex")
+
+  gg_fig_1_age <- data_age %>%
+    ggmort("Classe di età") +
     ggtitle("Mortalità totale per classe di età",
       subtitle = "Confronto 1-21 marzo 2019 vs 2020"
-    ) +
-    ylab("Variazione Percentuale") +
-    xlab("Nome regione") +
-    theme(panel.background = element_blank())
+    )
 
+  gg_fig_2_sex <- data_sex %>%
+    ggmort("Sesso") +
+    ggtitle("Mortalità totale per sesso",
+      subtitle = "Confronto 1-21 marzo 2019 vs 2020"
+    )
 
 
 
@@ -224,12 +305,25 @@ mod_focus_20200404_magnani_server <- function(id) {
   callModule(id = id, function(input, output, session) {
     ns <- session$ns
 
-    output$fig_1 <- renderPlotly({
-      ggplotly(gg_fig_1)
+    output$tab_0_residenti <- DT::renderDT({
+      residenti_anpr_1084
     })
 
-    output$tab_1 <- DT::renderDT({
+    output$fig_1_age <- renderPlotly({
+      ggplotly(gg_fig_1_age)
+    })
+
+    output$tab_1_age <- DT::renderDT({
       data_age %>%
+        dplyr::rename("Nome regione" = .data$nome_reg)
+    })
+
+    output$fig_2_sex <- renderPlotly({
+      ggplotly(gg_fig_2_sex)
+    })
+
+    output$tab_2_sex <- DT::renderDT({
+      data_sex %>%
         dplyr::rename("Nome regione" = .data$nome_reg)
     })
 
