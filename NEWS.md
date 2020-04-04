@@ -1,5 +1,9 @@
 * added module focus 20200404 Magnani
 
+# covid19ita 0.30.0
+
+* data update
+
 # covid19ita 0.29.0
 
 * data update
