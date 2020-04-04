@@ -151,10 +151,13 @@ mod_focus_20200404_magnani_ui <- function(id){
         che è molto diversa tra le regioni a causa della diversa
         numerosità del campione. In alcune regioni una variazione
         appare importante ma è causata da piccoli numeri di morti in
-        più o in meno (Tabella 2).
+        più o in meno (Tabella 1).
       "))
     )),
 
+    fluidRow(box(width = 12, Title = "Tabella 1: XXXXX",
+      DT::DTOutput(ns("tab_1"))
+    )),
 
 
     fluidRow(box(width = 12, title = "Notes",
@@ -210,6 +213,7 @@ mod_focus_20200404_magnani_server <- function(id) {
       subtitle = "Confronto 1-21 marzo 2019 vs 2020"
     ) +
     ylab("Variazione Percentuale") +
+    xlab("Nome regione") +
     theme(panel.background = element_blank())
 
 
@@ -222,6 +226,11 @@ mod_focus_20200404_magnani_server <- function(id) {
 
     output$fig_1 <- renderPlotly({
       ggplotly(gg_fig_1)
+    })
+
+    output$tab_1 <- DT::renderDT({
+      data_age %>%
+        dplyr::rename("Nome regione" = .data$nome_reg)
     })
 
   })

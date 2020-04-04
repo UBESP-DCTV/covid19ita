@@ -3,6 +3,7 @@
 export("%>%")
 export(accumulate_for_days)
 export(download_dpc)
+export(mort_data_reg)
 export(run_app)
 import(ggplot2)
 import(shiny)
