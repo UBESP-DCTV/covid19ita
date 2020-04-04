@@ -37,7 +37,7 @@ dashboard_header <- function() {dashboardHeader(
   dropdownMenu(type = "messages",
     messageItem(
       from = "In evidenza",
-      message = "2020-03-31 Comparativa Ven-Pie",
+      message = "2020-04-04 Mortality",
       icon = icon("search")
     ),
     messageItem(
@@ -74,6 +74,9 @@ dashboard_sidebar <- function() {dashboardSidebar(sidebarMenu(
 
 
   menuItem("In evidenza", icon = icon("bullseye"),
+    menuSubItem("2020-04-04 Mortalità", tabName = "20200404Mort",
+                icon = icon("flag")
+    ),
     menuSubItem("2020-03-31 Comparativa", tabName = "20200331Comp",
                 icon = icon("flag")
     ),
@@ -294,6 +297,10 @@ dashboard_body <- function() {dashboardBody(
 
   ),
 
+  tabItem(tabName = "20200404Mort",
+          h2("Analisi preliminare della mortalità generale in Italia durante il periodo da 1 a 21 Marzo 2020."),
+          mod_focus_20200404_magnani_ui("mortality")
+  ),
   tabItem(tabName = "20200331Comp",
           h2("Analisi comparativa tra Regione Piemonte e Regione Veneto dei dati epidemiologici relativi all’infezione da Covid-19."),
           mod_focus_20200331_ui("ven_pie")

@@ -39,6 +39,7 @@ golem::add_module(name = "focus_20200323_picco")
 golem::add_module(name = "focus_20200325")
 golem::add_module(name = "focus_20200327")
 golem::add_module(name = "focus_20200331")
+golem::add_module(name = "focus_20200404_magnani")
 
 
 ## Add helper functions ----
