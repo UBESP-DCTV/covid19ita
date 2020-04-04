@@ -132,6 +132,7 @@ mod_maps_ui <- function(id){
                  style="width:100%; position:absolute; text-align: center; z-index:9999999999;",
                  loader,
                  HTML("<font style='display: block; color:white;text-shadow:0px 0px 3px black;'>Loading Geodata...</font>" )),
+            HTML(sprintf("<input style='width:100%%;' type=range id='%s' />", ns("dateRange") ) ),
             leafgl::leafglOutput(ns("mymap")) ,
         title = "Distribuzione geografica del numero di casi per provincia",
         footer = HTML("<div style='width:100% ; text-align:center; font-size:smaller;'>by F. Pirotti,  Dip.to TESAF /
