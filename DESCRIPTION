@@ -65,7 +65,8 @@ Imports:
     mgcv,
     growthcurver,
     scales,
-    leaflet
+    leaflet,
+    pkgload
 Suggests: 
     testthat (>= 2.1.0),
     covr (>= 3.5.0),
