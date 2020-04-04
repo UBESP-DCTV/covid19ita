@@ -83,6 +83,7 @@ mod_maps_ui <- function(id){
     ## `fludRow()`
     shinyjs::useShinyjs(),
     tags$head(
+    #  tags$script(src = "https://cdnjs.cloudflare.com/ajax/libs/rangeslider.js/2.3.3/rangeslider.min.js"),
       tags$style(type="text/css",
                  sprintf("
       .datepicker { z-index:999999999999  !important; }
@@ -193,33 +194,32 @@ mod_maps_server <- function(id) {
         htmlwidgets::onRender(sprintf("function(el, x) {
            %s_mapElement=this;
            %s_layerobjects={};
- //          var %s_loadHandler = function (event) {
- //               const keys = Object.keys(%s_layerobjects);
- //               for (var  key of keys) {
- //                 console.log(key);
- //                 if(key !== event.sourceTarget.options.layerId){
- //                     console.log('rimuovo '+key);
- //                     %s_mapElement.removeLayer(%s_layerobjects[key]);
- //                     delete %s_layerobjects[key];
- //                 }
- //               }
- //         };
-
+           %s_webglLayer='';
 
           function %s_onLayerAddFunction(e){
-              if( typeof(e.layer.options.layers)=='undefined'  ) {
-                  //console.log(e.layer);
+              if( typeof(e.layer.canvas)!='undefined' ) {
                   $('#%s-loader').hide();
-                  //%s_layerobjects[e.layer.options.layerId]=e.layer;
-                  //e.layer.on('load', %s_loadHandler);
               }
           }
 
            Shiny.onInputChange('%s-leaflet_rendered', true);
            this.on('layeradd', %s_onLayerAddFunction);
 
+           $(\".leaflet-control-layers-overlays > label:nth-child(1) > div:nth-child(1)\").append(\"<input style='width: 100px;' title='change transparency to layer' id='%s_opacitySlider' type='range' value='60' step='1'  >\");
+           $('#%s_opacitySlider').on('input', function(x){
+              var oo = Object.values(%s_mapElement.layerManager._byGroup['COVID-19'])[0];
+              console.log(oo.options.shapeslayer);
+              oo.options.shapeslayer.settings.opacity=$('#%s_opacitySlider').val()/100;
+              var gl = oo.options.shapeslayer.gl;
+              gl.clear(gl.DEPTH_BUFFER_BIT | gl.COLOR_BUFFER_BIT | gl.STENCIL_BUFFER_BIT);
+              oo.options.shapeslayer.render(false);
+              gl.clear(gl.DEPTH_BUFFER_BIT | gl.COLOR_BUFFER_BIT | gl.STENCIL_BUFFER_BIT);
+
+            });
+
+
            }", id, id, id,id, id, id, id, id, id, id, id,
-              id, id, id)) %>%
+              id, id, id, id)) %>%
         leaflet::setView( 11, 43, 6)  %>%
         leaflet::addTiles(urlTemplate = "https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png",
                           attribution = '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors &copy; <a href="https://carto.com/attributions">CARTO</a>',
