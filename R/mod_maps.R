@@ -43,9 +43,7 @@ mod_maps_ui <- function(id){
   )
 
   paletteList.t<-list(
-
-    Person=c("#cccccc",   "#ffffd9", "#edf8b1", "#c7e9b4", "#7fcdbb",
-             "#41b6c4", "#1d91c0", "#225ea8",  "#6e016b", "#990000", "#d7301f", "#FF0000" ),
+    Person=c("#cccccc",   "#ffffd9", "#edf8b1", "#c7e9b4", "#7fcdbb",  "#41b6c4", "#1d91c0", "#225ea8",  "#6e016b", "#990000", "#d7301f", "#FF0000" ),
     Spectral=c("#cccccc",   rev( rainbow(20)[1:12])),
     YellowOrangeRed= RColorBrewer::brewer.pal(9,"YlOrRd"),
     RedYellowBlue= RColorBrewer::brewer.pal(11,"RdYlBu"),
@@ -54,11 +52,7 @@ mod_maps_ui <- function(id){
   )
   paletteList<- (names(paletteList.t))
 
-  functionList<- list( "Linear"="linear",
-                       "Log10"="log10Per",
-                       #"Ln"= "logPer",
-                       "Sqrt"= "sqrt"  )
-
+  functionList<- list( "Linear"="linear", "Log10"="log10Per" )
   functionList.lut <- names(functionList)
   names(functionList.lut) <- functionList
 
@@ -133,7 +127,7 @@ mod_maps_ui <- function(id){
                  loader,
                  HTML("<font style='display: block; color:white;text-shadow:0px 0px 3px black;'>Loading Geodata...</font>" )),
             HTML(sprintf("<input style='width:100%%;'  type='range' id='%s' />",   ns("dateRange") ) ),
-            leafgl::leafglOutput(ns("mymap")) ,
+            leaflet::leafletOutput(ns("mymap")) ,
         title = "Distribuzione geografica del numero di casi per provincia",
         footer = HTML("<div style='width:100% ; text-align:center; font-size:smaller;'>by F. Pirotti,  Dip.to TESAF /
                       <a href='https://www.cirgeo.unipd.it' target=_blank>
@@ -151,6 +145,47 @@ mod_maps_server <- function(id) {
 
   ## Zona dedicata alle computazioni preliminari, non reattive
   ## qui se possibile metterli su un "global.R" dato che sono identici per tutti
+
+  base.url<-"https://geolab02.vs-ix.net"
+  remote.path<-"/var/www/html/covid19carto/"
+  remote.base.url<-sprintf("%s/covid19carto/" , base.url)
+  remote.mapfile.creator<-sprintf("%s/creamapfile.php" , remote.base.url)
+  ### un mapfile per server WMS identificato da 5 variabili:
+  ### 1-data 2-scale.fixed 3-scale.funct_, 4-calculus (e.g. totale, giornaliero etcc) 5-colorscale
+  remote.mapfile.template<-"mapfile%s_%s_%s_%s_%s.map"
+
+
+  httpheader <- c(Accept="application/json; charset=UTF-8",
+                  "Content-Type"="application/json")
+
+
+  creaMap<-function( cm=list("*"="666666"), filename="dummy.map"){
+    ### inizio con funzioni per verificare che il server CIRGEO/VSIX sia online e che ci siano i files
+    full.remote.path.mapfile<-sprintf("%s/%s" , remote.base.url, filename)
+    if( RCurl::url.exists( full.remote.path.mapfile ) ){
+      ### esiste quindi
+      return(T)
+    }
+    if( !RCurl::url.exists( remote.mapfile.creator ) ){
+      return("Non esiste nel server remoto il file per creare i MAPFILES!")
+    }
+    # jsonbody <- RJSONIO::toJSON( list(mapname=filename ,  colormap=cm), collapse = "" )
+    #
+    # bls.content <- RCurl::postForm(remote.mapfile.creator ,
+    #                         .opts=list(httpheader=httpheader,
+    #                                    postfields=jsonbody))
+
+
+    r<-httr::POST(remote.mapfile.creator,
+         body = list(layername=basic.layerlist.list$overlayGroups$Casi_COVID19,
+                     mapname=filename ,
+                     colormap=as.list(cm)), encode = "json")
+
+    print(httr::http_status(r) )
+    return(T)
+
+  }
+
   basic.layerlist.list<-list(    baseGroups = list( osm.bn="Map Night",osm.light ="Map Light",
                                                     osm="None" ),
                                  overlayGroups = list( Casi_COVID19="COVID-19",
@@ -163,17 +198,14 @@ mod_maps_server <- function(id) {
   )
 
 
-
-
   data_to_use <- dpc_covid19_ita_province %>%
     dplyr::group_by(sigla_provincia) %>%
     dplyr::mutate(  delta     =c(0, diff(totale_casi)) ) %>%
     dplyr::select(
-      .data$data, .data$denominazione_provincia , .data$totale_casi, .data$delta, .data$lat, .data$long
+      .data$data,  .data$totale_casi, .data$delta, .data$lat, .data$long
     )
 
   data_to_use <- merge(data_to_use, province_population2019)
-
 
   data_to_use$totale_casi.normPop<-data_to_use$totale_casi/data_to_use$Residenti * 10000
   data_to_use$delta.normPop<-data_to_use$delta/data_to_use$Residenti * 10000
@@ -187,43 +219,56 @@ mod_maps_server <- function(id) {
     ## particolare la definizione degli output (ricordarsi che tali nomi
     ## NON vanno inseriti (a differenza della controparte in input)
     ## all'interno della chiamata a `ns()`)
-    output$foo <- renderText("Bar.")
 
     output$mymap <- leaflet::renderLeaflet(
-      leaflet::leaflet(width="100%", height = 600) %>%
-
+      leaflet::leaflet(width="100%", height = 600 ) %>%
         htmlwidgets::onRender(sprintf("function(el, x) {
            %s_mapElement=this;
            %s_layerobjects={};
-           %s_webglLayer='';
 
-          function %s_onLayerAddFunction(e){
-              if( typeof(e.layer.canvas)!='undefined' ) {
-                  $('#%s-loader').hide();
+
+            var loadHandler = function (event) {
+                const keys = Object.keys(%s_layerobjects);
+                for (var  key of keys) {
+
+                  if(key !== event.sourceTarget.options.layerId){
+                      %s_mapElement.removeLayer(%s_layerobjects[key]);
+                      delete %s_layerobjects[key];
+                      //console.log(%s_layerobjects);
+                  }
+                }
+                      $('#%s-loader').hide();
+            };
+
+
+            function %s_onLayerAddFunction(e){
+              if( typeof(e.layer.options.layers)!=='undefined' && e.layer.options.layers=='%s'  ) {
+                  %s_layerobjects[e.layer.options.layerId]=e.layer;
+                  e.layer.on('load', loadHandler);
+                  console.log('sssss');
               }
-          }
+            }
+
+
 
            Shiny.onInputChange('%s-leaflet_rendered', true);
            this.on('layeradd', %s_onLayerAddFunction);
 
            $(\".leaflet-control-layers-overlays > label:nth-child(1) > div:nth-child(1)\").append(\"<input style='width: 100px;' title='change transparency to layer' id='%s_opacitySlider' type='range' value='60' step='1'  >\");
+
            $('#%s_opacitySlider').on('input', function(x){
               var oo = Object.values(%s_mapElement.layerManager._byGroup['COVID-19'])[0];
-              oo.options.shapeslayer.settings.opacity=$('#%s_opacitySlider').val()/100;
-              oo.options.shapeslayer.render(false);
-
+              console.log(oo);
             });
 
             $('#%s-dateRange').on('input', function(e){
              //Shiny.onInputChange('%s-dateRangeChanged', e.target.value);
-              var oo = Object.values(%s_mapElement.layerManager._byGroup['COVID-19'])[0];
-              oo.options.shapeslayer.settings.opacity=e.target.value/100;
-              oo.options.shapeslayer.render(true);
             });
 
 
-           }", id, id, id,id, id, id, id, id, id, id, id,
-              id, id, id, id)) %>%
+           }", id, id, id, id, id, id, id, id,
+               id, basic.layerlist.list$overlayGroups$Casi_COVID19 ,
+               id, id, id, id, id, id, id, id)) %>%
         leaflet::setView( 11, 43, 6)  %>%
         leaflet::addTiles(urlTemplate = "https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png",
                           attribution = '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors &copy; <a href="https://carto.com/attributions">CARTO</a>',
@@ -248,43 +293,59 @@ mod_maps_server <- function(id) {
 
 
     observeEvent(input$dateRangeChanged, {
-      shinyjs::runjs(sprintf("var oo = Object.values(%s_mapElement.layerManager._byGroup['COVID-19'])[0];
-              oo.options.shapeslayer.settings.opacity=1;
-              oo.options.shapeslayer.render(); ", id))
+
     })
 
 
 
-    observeEvent(input$leaflet_rendered, {
-      req(input$leaflet_rendered,input$calculus)
+    observe({
+
+      #req(input$leaflet_rendered,input$calculus)
+      req(input$leaflet_rendered, input$calculus,
+          input$date1, input$scale.fixed,
+          input$palette )
+
+      shinyjs::runjs(sprintf("$('#%s-loader').show();", id))
       ## trovo labels per ultima data
-      max.date<-max(data_to_use$data)
-
-      dt.filtered<- data_to_use %>%
-        dplyr::filter( as.Date(.data$data) ==  as.Date(max.date) )
 
 
-      cols = colourvalues::colour_values_rgb(province_geometry2019$sigla_provincia, include_alpha = FALSE) / 255
+      dt.filtered<- current_data()
 
-      dt.label<- unname(unlist(dt.filtered[,input$calculus]))
+      mapfilename<-sprintf(remote.mapfile.template,
+                           input$date1, input$scale.fixed,
+                           input$scale.funct_, input$calculus,  input$palette)
+
+      cm<-current_palettFunction()
+      retMessage<-creaMap( setNames( cm(dt.filtered[[input$calculus]]) ,
+                                     dt.filtered[["sigla_provincia"]]  ) , filename=mapfilename)
+
+      if(  !isTRUE(retMessage) ){
+        showNotification(retMessage,   duration = 15, type ="error")
+        return(NULL)
+      }
+
+
+      dt.label<-  dt.filtered[[input$calculus]]
 
       if( !is.element(input$calculus,c("delta", "totale_casi") ) )  label<-sprintf("%.2f",dt.label)
       else label <- sprintf("%d",   dt.label)
 
       label[label=="NA"]<-""
 
-      shinyjs::runjs(sprintf("$('#%s-loader').show();", id))
-      print("non si sa mai2")
+
       leaflet::leafletProxy("mymap") %>%
-        leafgl::addGlPolygons(data = province_geometry2019,
-                              color = cols,
-                              #popup = "SIGLA",
-                              layerId = basic.layerlist.list$overlayGroups$Casi_COVID19 ,
-                              group = basic.layerlist.list$overlayGroups$Casi_COVID19 ) %>%
+        leaflet::addWMSTiles(baseUrl = sprintf("%s/cgi-bin/mapserv?map=%s%s",
+                                      base.url, remote.path, mapfilename    ) ,
+                    options = leaflet::WMSTileOptions(zIndex = 4, format = "image/png", transparent = T ,
+                                             layerId = sprintf("%s_%s", basic.layerlist.list$overlayGroups$Casi_COVID19, input$date1)  ),
+                    layers=basic.layerlist.list$overlayGroups$Casi_COVID19,
+                    layerId = sprintf("%s_%s", basic.layerlist.list$overlayGroups$Casi_COVID19, input$giorno),
+                    group=basic.layerlist.list$overlayGroups$Casi_COVID19,
+                    attribution = "<a href='mailto:francesco.pirotti@unipd.it;' target='_blank' >F. Pirotti</a> @CIRGEO" )  %>%
 
         leaflet::addLabelOnlyMarkers(data = dt.filtered, lng = ~long, lat=~lat,
                                      layerId = sprintf("%s%s", basic.layerlist.list$overlayGroups$Casi_COVID19labels,
-                                                       dt.filtered$codice_provincia    ),
+                                                       dt.filtered$sigla_provincia    ),
                                      group =  basic.layerlist.list$overlayGroups$Casi_COVID19labels,
 
                                      label = label ,
@@ -306,11 +367,10 @@ mod_maps_server <- function(id) {
 
 
     observe(  {
-      req(input$date1, input$leaflet_rendered, input$calculus )
+      req(input$date1, NULL,  input$leaflet_rendered, input$calculus )
 
       dt.filtered<- data_to_use %>%
         dplyr::filter( as.Date(.data$data) == input[["date1"]])
-
 
       if( nrow(dt.filtered)<1 )
       {
@@ -350,6 +410,29 @@ mod_maps_server <- function(id) {
 
 
       })
+
+
+
+    ### reactive functions
+
+    current_data <- reactive({
+      data_to_use %>%
+        dplyr::filter( as.Date(.data$data) == input$date1) %>%
+        dplyr::select(
+          .data$sigla_provincia,
+          .data[[ input$calculus ]],
+          .data$lat, .data$long
+        )
+    })
+
+    current_palettFunction <- reactive({
+      dt<-current_data()
+      req(dt,  input[["palette"]], input[["calculus"]])
+      leaflet::colorNumeric(
+        palette =   paletteList.t[[  input[["palette"]] ]] ,
+        domain =  dt[[ input[["calculus"]] ]]
+      )
+    })
 
   })
 
