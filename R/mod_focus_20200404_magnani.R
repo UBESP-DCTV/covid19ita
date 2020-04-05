@@ -221,10 +221,35 @@ mod_focus_20200404_magnani_ui <- function(id){
     )),
 
 
-    fluidRow(box(plotlyOutput(ns("fig_3_age_history")),
-      title = "Figura 3: Analisi di mortalità per tutte le classi di età assieme",
+    fluidRow(box(plotlyOutput(ns("fig_3_year_all")),
+      title = "Figura 3: XXXXXXXX",
       width = 12,
     )),
+
+    fluidRow(box(width = 12,
+      p(HTML("
+        I grafici seguenti (figura 4) presentano il confronto della
+        mortalità negli anni dal 2015 al 2020, per regione e classe di
+        età. Le classi di età sono state definite sulla base dei
+        raggruppamenti con cui sono presentati i dati originali,
+        e precisamente: fino a 64 anni (ottenuto sommando le due classi
+        presenti nella tabella originale 0-14 e 15-64), da 65 a 74, 75
+        e oltre.
+      ")),
+
+      p(HTML("
+        Si ricorda che i grafici presentano i numeri assoluti e quindi
+        le differenze tra le regioni riflettono in primo luogo la
+        dimensione regionale del campione.
+      "))
+    )),
+
+    fluidRow(box(
+      plotlyOutput(ns("fig_4_year_age")),
+      title = "Figura 4: XXXXXXXX",
+      width = 12,
+    )),
+
 
     fluidRow(box(width = 12, title = "Notes",
       p(HTML("
@@ -283,6 +308,8 @@ mod_focus_20200404_magnani_server <- function(id) {
 
 
   # Data preparation ------------------------------------------------
+
+  ## variazione percentuale 2019-2020
   data_age <- mort_data_reg("age")
   data_sex <- mort_data_reg("sex")
 
@@ -300,6 +327,41 @@ mod_focus_20200404_magnani_server <- function(id) {
 
 
 
+  ## mortalità prime tre settimane di marzo 2015-2020
+
+
+  ### all (fig 3)
+  data_year_all <- mort_data_comuni() %>%
+    dplyr::group_by(regione, area, year) %>%
+    dplyr::summarise(decessi = sum(.data$n_death))
+
+  gg_fig_3_year_all <- data_year_all %>%
+    ggplot(aes(x = year, y = decessi, colour = regione)) +
+    geom_point() +
+    geom_smooth() +
+    facet_wrap(~ .data$area, scales = "free_y") +
+    labs(y = "Numero decessi 1-20 marzo")
+
+
+  ### by age (fig 4)
+  data_year_age <- mort_data_comuni() %>%
+    dplyr::mutate(
+      classe_di_eta = classe_di_eta %>%
+        stringr::str_replace_all(c(
+          "0-14" = "0-64",
+          "15-64" = "0-64"
+        ))
+    ) %>%
+    dplyr::group_by(area, regione, year, classe_di_eta) %>%
+    dplyr::summarise(decessi = sum(.data$n_death))
+
+  gg_fig_4_year_age <- data_year_age %>%
+      ggplot(aes(x = year, y = decessi, colour = regione)) +
+      geom_point() +
+      geom_smooth() +
+      facet_grid(.data$area ~ .data$classe_di_eta, scales = "free_y") +
+      labs(y = "Numero decessi 1-20 marzo")
+
 # Output (reactive) objects ---------------------------------------
 
   callModule(id = id, function(input, output, session) {
@@ -310,7 +372,7 @@ mod_focus_20200404_magnani_server <- function(id) {
     })
 
     output$fig_1_age <- renderPlotly({
-      ggplotly(gg_fig_1_age)
+      clean_ggplotly(gg_fig_1_age)
     })
 
     output$tab_1_age <- DT::renderDT({
@@ -319,12 +381,20 @@ mod_focus_20200404_magnani_server <- function(id) {
     })
 
     output$fig_2_sex <- renderPlotly({
-      ggplotly(gg_fig_2_sex)
+      clean_ggplotly(gg_fig_2_sex)
     })
 
     output$tab_2_sex <- DT::renderDT({
       data_sex %>%
         dplyr::rename("Nome regione" = .data$nome_reg)
+    })
+
+    output$fig_3_all <- renderPlotly({
+      clean_ggplotly(gg_fig_3_year_all)
+    })
+
+    output$fig_4_year_age <- renderPlotly({
+      clean_ggplotly(gg_fig_4_year_age)
     })
 
   })

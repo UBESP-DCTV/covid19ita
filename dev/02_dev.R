@@ -51,7 +51,9 @@ golem::add_utils("extract_ci_from_gg_txt")
 golem::add_fct("cumulate_for_days")
 golem::add_utils("pred_to_tbl")
 golem::add_fct("regional_poiss")
-golem::add_fct("mort_data")
+golem::add_fct("mort_data_reg")
+golem::add_fct("mort_data_comuni")
+golem::add_fct("clean_ggplotly")
 
 
 

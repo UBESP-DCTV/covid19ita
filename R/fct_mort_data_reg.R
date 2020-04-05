@@ -18,7 +18,6 @@ mort_data_reg <- function(type = c("sex", "age")) {
   )
 
 
-
   data_region <- ref_data %>%
     dplyr::select(-dplyr::starts_with("var")) %>%
     dplyr::group_by(.data$nome_reg) %>%

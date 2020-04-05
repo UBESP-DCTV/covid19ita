@@ -192,6 +192,33 @@ if (!all(are_ok)) {
 
 
 
+# Mortalit`a settimanale ------------------------------------------
+
+  settimanale_url <- paste0(
+    "https://www.istat.it/",
+    "it/files//2020/03/",
+    "dati-comunali-settimanali-ANPR-1.zip"
+  )
+
+  tmp_sett <- tempfile(fileext = ".zip")
+
+  download.file(settimanale_url, tmp_sett, mode = 'wb')
+
+  comuni_settimana <- unzip(tmp_sett, "comuni_settimana.xlsx") %>%
+    readxl::read_xlsx() %>%
+    janitor::clean_names() %>%
+    dplyr::rename(
+      regione = nome_regione,
+      provincia = nome_provincia,
+      comune = nome_comune
+    ) %>%
+    dplyr::mutate(
+      regione = stringr::str_replace_all(regione, c(
+        "Trentino-Alto Adige/Südtirol" = "Trentino A.A.",
+        "Valle d'Aosta/Vallée d'Aoste" = "Valle d'Aosta",
+        "Friuli-Venezia Giulia" = "Friuli Venezia Giulia"
+      ))
+    )
 
 
 
@@ -209,6 +236,7 @@ if (!all(are_ok)) {
     dpc_covid19_ita_regioni,
     dpc_covid19_ita_province,
 
+    comuni_settimana,
     residenti_anpr_1084,
     decessi_genere,
     decessi_eta,
@@ -229,6 +257,7 @@ if (!all(are_ok)) {
     region_population,
     dictionary,
 
+    comuni_settimana,
     residenti_anpr_1084,
     decessi_genere,
     decessi_eta,
