@@ -12,6 +12,15 @@ mod_focus_20200404_magnani_ui <- function(id){
   fluidPage(
     fluidRow(box(width = 12,
       p(HTML("
+        Prof. <strong>Corrado Magnani</strong>
+        <br>
+        Dipartimento di Medicina Traslazionale – Università del Piemonte Orientale
+      ")),
+    )),
+
+    fluidRow(box(width = 12,
+
+      p(HTML("
         L'Istituto Nazionale di Statistica (Istat) ha messo a
         disposizione su proprio sito web
         (https://www.istat.it/it/archivio/240401) i risultati della
@@ -29,7 +38,7 @@ mod_focus_20200404_magnani_ui <- function(id){
 
     fluidRow(box(width = 12,
       DT::DTOutput(ns("tab_0_residenti")),
-      title = "Tabella 1: XXXXXXXXXXXX"
+      title = "Tabella 1: Popolazione residente al 1 gennaio 2019 nei 1084 comuni inclusi nei dati."
     )),
 
     fluidRow(box(width = 12,
@@ -158,7 +167,7 @@ mod_focus_20200404_magnani_ui <- function(id){
     )),
 
     fluidRow(box(plotlyOutput(ns("fig_1_age")),
-      title = "Figura 1: XXXXX",
+      title = "Figura 1: Variazione percentuale per classi di età e regione. Periodo 1-21 marzo 2019 vs. 1-21 marzo 2020.",
       width = 12
     )),
 
@@ -176,17 +185,17 @@ mod_focus_20200404_magnani_ui <- function(id){
       "))
     )),
 
-    fluidRow(box(width = 12, Title = "Tabella 2: XXXXX",
+    fluidRow(box(width = 12, Title = "Tabella 2: Variazione percentuale per classi di età e regione. Periodo 1-21 marzo 2019 vs. 1-21 marzo 2020.",
       DT::DTOutput(ns("tab_1_age"))
     )),
 
     fluidRow(box(plotlyOutput(ns("fig_2_sex")),
-      title = "Figura 2: XXXXX",
+      title = "Figura 2: Variazione percentuale per classi di sesso e regione. Periodo 1-21 marzo 2019 vs. 1-21 marzo 2020.",
       footer = "f: femminile; m: maschile; mf: globale",
       width = 12,
     )),
 
-    fluidRow(box(width = 12, Title = "Tabella 3: XXXXX",
+    fluidRow(box(width = 12, Title = "Tabella 3: Variazione percentuale per classi di sesso e regione. Periodo 1-21 marzo 2019 vs. 1-21 marzo 2020.",
       DT::DTOutput(ns("tab_2_sex"))
     )),
 
@@ -223,7 +232,7 @@ mod_focus_20200404_magnani_ui <- function(id){
 
 
     fluidRow(box(plotlyOutput(ns("fig_3_year_all")),
-      title = "Figura 3: XXXXXXXX",
+      title = "Figura 3: Numero di decessi per regione nel periodo 1-21 marzo dal 2015 al 2020.",
       width = 12,
     )),
 
@@ -247,7 +256,7 @@ mod_focus_20200404_magnani_ui <- function(id){
 
     fluidRow(box(
       plotlyOutput(ns("fig_4_year_age")),
-      title = "Figura 4: XXXXXXXX",
+      title = "Figura 4: Numero di decessi per regione e classi di età nel periodo 1-21 marzo dal 2015 al 2020.",
       width = 12,
     )),
 
@@ -273,7 +282,7 @@ mod_focus_20200404_magnani_ui <- function(id){
         10 gennaio e quindi non è confrontabile con i successivi perché
         comprende 11 giorni di osservazione. In questa fase si è deciso
         pertanto di escluderlo e di partire dal secondo periodo, che ha
-        inizio il 12 gennaio 2020. I grafici seguenti (figura 5 - 7)
+        inizio il 12 gennaio 2020. I grafici seguenti (figura 5 e figura 6)
         presentano l’andamento per classe di età, sesso e regione.
         Le classi ed i raggruppamenti regionali adottati per rendere più
         agevole l’esame dei risultati sono gli stessi adottati per le
@@ -292,13 +301,13 @@ mod_focus_20200404_magnani_ui <- function(id){
 
     fluidRow(box(
       plotlyOutput(ns("fig_5_week_sex")),
-      title = "Figura 5: XXXXXXXX",
+      title = "Figura 5: Numero di decessi settimanali per regione e sesso dall'12 al 21 marzo 2020.",
       width = 12,
     )),
 
     fluidRow(box(
       plotlyOutput(ns("fig_6_week_age")),
-      title = "Figura 6: XXXXXXXX",
+      title = "Figura 6: Numero di decessi settimanali per regione e classi di età dall'12 al 21 marzo 2020.",
       width = 12,
     )),
 
