@@ -197,7 +197,9 @@ mod_maps_server <- function(id) {
     overlayGroups = unname(unlist(basic.layerlist.list$overlayGroups ))
   )
 
-
+  ## FIX che Napoli ha sigla "NA" sbaglio importazione
+  naples<-which(dpc_covid19_ita_province$denominazione_provincia=="Napoli")
+  dpc_covid19_ita_province[naples, "sigla_provincia"]<-"NA"
   data_to_use <- dpc_covid19_ita_province %>%
     dplyr::group_by(sigla_provincia) %>%
     dplyr::mutate(  delta     =c(0, diff(totale_casi)) ) %>%
