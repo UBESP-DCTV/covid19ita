@@ -1,3 +1,13 @@
+* added helper `ggmort()` as helper for standar dmortality plot
+* added `clean_ggplotly()` to render plotly with reduced number of
+  buttons
+* added internal weekly mortality 2015-2020 data from 
+  https://www.istat.it/it/files/2020/03/dati-comunali-settimanali-ANPR-1.zip
+* added internal version of mortality 2019-2020 data from
+  https://www.istat.it/it/files/2020/03/Tavola-sintetica-decessi.xlsx
+* added internal data `residenti_anpr_1084`
+* added module focus 20200404 Magnani
+
 # covid19ita 0.30.0
 
 * data update

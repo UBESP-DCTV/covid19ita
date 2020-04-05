@@ -1,6 +1,7 @@
 ## code to prepare `covid_ita` dataset goes here
 requireNamespace("purrr", quietly = TRUE)
 requireNamespace("readr", quietly = TRUE)
+requireNamespace("readxl", quietly = TRUE)
 library(covid19ita)
 
 data_levels <- list("italia", "regioni", "province")
@@ -58,6 +59,45 @@ if (!all(are_ok)) {
     "Valle d'Aosta"     	 ,               126883
   )
 
+
+  # pop_regioni <- "http://demo.istat.it/pop2019/dati/regioni.zip"
+  #
+  # tmp_regioni <- tempfile(fileext = ".zip")
+  #
+  # download.file(pop_regioni, tmp_regioni, mode = 'wb')
+  #
+  #
+  # decessi_genere <- unzip(tmp_regioni, "regioni.csv") %>%
+  #   readr::read_csv(skip = 1) %>%
+  #   dplyr::select(.data$Regione, dplyr::starts_with("Totale")) %>%
+  #   dplyr::group_by(Regione) %>%
+  #   dplyr::summarise_all(sum, na.rm = TRUE)
+  residenti_anpr_1084 <- tibble::tribble(
+    ~NOME_REGIONE,      ~Totale_Maschi, ~Totale_Femmine,
+     "Totale",	               6177016,         6496805,
+     "Piemonte",	              391799,          417469,
+     "Valle d'Aosta",            18268,           20588,
+     "Lombardia",              2769384,         2912559,
+     "Trentino A.A.",            50868,           52953,
+     "Veneto",                  527531,          542071,
+     "Friuli Venezia Giulia",    42849,           44577,
+     "Liguria",                 147120,          161849,
+     "Emilia-Romagna",	        899173,          946560,
+     "Toscana",	                404649,          431081,
+     "Umbria",                   93868,          100686,
+     "Marche",                  175079,          186308,
+     "Lazio",                    51261,           54331,
+     "Abruzzo",                  57323,           59194,
+     "Molise",                   12326,           12420,
+     "Campania",                 79492,           82714,
+     "Puglia",                  202119,          213439,
+     "Basilicata",               16411,           16778,
+     "Calabria",                 17885,           18251,
+     "Sicilia",                 132204,          135107,
+     "Sardegna",                 87407,           87870
+  )
+
+
   dictionary <- c(
     ricoverati_con_sintomi = "hospitalized_with_symptoms",
     terapia_intensiva = "intensive_care",
@@ -85,21 +125,191 @@ if (!all(are_ok)) {
 
   last_data_update <- lubridate::now()
 
+
+
+
+# decessi (Magnani focus 20200404) --------------------------------
+
+  decessi_url <- paste0(
+    "https://www.istat.it/",
+    "it/files/2020/03/",
+    "Tavola-sintetica-decessi.xlsx"
+  )
+
+  tmp <- tempfile(fileext = ".xlsx")
+
+  download.file(decessi_url, tmp, mode = 'wb')
+
+
+  decessi_genere <- tmp %>%
+    readxl::read_excel(
+      "Totale per sesso",
+      skip = 2,
+      col_names = c(
+        "id_reg", "id_prov",
+        "nome_reg", "nome_prov", "nome_comune",
+        "id_codprov",
+        "tot_m_2019", "tot_f_2019", "tot_mf_2019",
+        "tot_m_2020", "tot_f_2020", "tot_mf_2020",
+        "var_m_2020", "var_f_2020", "var_mf_2020"
+      ),
+      na = "-"
+   )
+
+  decessi_eta <- tmp %>%
+    readxl::read_excel(
+      "Età",
+      skip = 2,
+      col_names = c(
+        "id_reg", "id_prov",
+        "nome_reg", "nome_prov", "nome_comune",
+        "id_codprov",
+        "tot_65-74_2019", "tot_75-84_2019", "tot_85+_2019",
+        "tot_65-74_2020", "tot_75-84_2020", "tot_85+_2020",
+        "var_65-74_2020", "var_75-84_2020", "var_85+_2020"
+      ),
+      na = "-"
+    )
+
+  decessi_eta_maschi <- tmp %>%
+    readxl::read_excel(
+      "Età Maschi",
+      skip = 2,
+      col_names = c(
+        "id_reg", "id_prov",
+        "nome_reg", "nome_prov", "nome_comune",
+        "id_codprov",
+        "tot_65-74_2019", "tot_75-84_2019", "tot_85+_2019",
+        "tot_65-74_2020", "tot_75-84_2020", "tot_85+_2020",
+        "var_65-74_2020", "var_75-84_2020", "var_85+_2020"
+      ),
+      na = "-"
+    )
+
+  decessi_eta_femmine <- tmp %>%
+    readxl::read_excel(
+      "Età Femmine",
+      skip = 2,
+      col_names = c(
+        "id_reg", "id_prov",
+        "nome_reg", "nome_prov", "nome_comune",
+        "id_codprov",
+        "tot_65-74_2019", "tot_75-84_2019", "tot_85+_2019",
+        "tot_65-74_2020", "tot_75-84_2020", "tot_85+_2020",
+        "var_65-74_2020", "var_75-84_2020", "var_85+_2020"
+      ),
+      na = "-"
+    )
+
+
+  mort_data_reg_age <- mort_data_reg("age")
+  mort_data_reg_sex <- mort_data_reg("sex")
+
+
+
+# Mortalit`a settimanale ------------------------------------------
+
+  settimanale_url <- paste0(
+    "https://www.istat.it/",
+    "it/files//2020/03/",
+    "dati-comunali-settimanali-ANPR-1.zip"
+  )
+
+  tmp_sett <- tempfile(fileext = ".zip")
+
+  download.file(settimanale_url, tmp_sett, mode = 'wb')
+
+  comuni_settimana <- unzip(tmp_sett, "comuni_settimana.xlsx") %>%
+    readxl::read_xlsx() %>%
+    janitor::clean_names() %>%
+    dplyr::rename(
+      regione = nome_regione,
+      provincia = nome_provincia,
+      comune = nome_comune
+    ) %>%
+    dplyr::mutate(
+      regione = stringr::str_replace_all(regione, c(
+        "Trentino-Alto Adige/Südtirol" = "Trentino A.A.",
+        "Valle d'Aosta/Vallée d'Aoste" = "Valle d'Aosta",
+        "Friuli-Venezia Giulia" = "Friuli Venezia Giulia"
+      ))
+    )
+
+
+
+
+# Mortalità comuni ------------------------------------------------
+
+    nord <- c(
+      "Friuli Venezia Giulia", "Emilia-Romagna", "Liguria", "Veneto",
+      "Lombardia", "Piemonte", "Trentino A.A.", "Valle d'Aosta"
+    )
+    sud_centro_isole <- setdiff(
+      unique(comuni_settimana[["regione"]]),
+      nord
+    )
+
+    mort_data_comuni <- comuni_settimana %>%
+      dplyr::select(-.data$reg, -.data$prov, -.data$cod_provcom) %>%
+      dplyr::mutate(
+        area = dplyr::if_else(.data$regione %in% nord,
+          true  = "nord",
+          false = "sud, centro, isole"
+        )
+      ) %>%
+      tidyr::pivot_longer(.data$maschi_2015:.data$totale_2020,
+        names_to = c("sex", "year"),
+        names_ptypes = list(sex = character(), year = integer()),
+        names_sep = "_",
+        values_to = "n_death",
+        values_ptypes = list(n_death = integer())
+      ) %>%
+      dplyr::mutate(
+        classe_di_eta = .data$classe_di_eta %>%
+          forcats::fct_collapse(
+            "0-64 anni" = c("0-14 anni", "15-64 anni")
+          )
+      )
+
+
+
+
+
+
+
+
+# Storing data ----------------------------------------------------
+
   usethis::use_data(
     dpc_covid19_ita_andamento_nazionale,
     dpc_covid19_ita_regioni,
     dpc_covid19_ita_province,
+
     overwrite = TRUE
   )
+
   usethis::use_data(
-    plottly_help_txt,
-    eng_plottly_help_txt,
     dpc_covid19_ita_andamento_nazionale,
     dpc_covid19_ita_regioni,
     dpc_covid19_ita_province,
+
+    plottly_help_txt,
+    eng_plottly_help_txt,
+
     last_data_update,
     region_population,
     dictionary,
+
+    comuni_settimana,
+    residenti_anpr_1084,
+    mort_data_reg_age,
+    mort_data_reg_sex,
+    decessi_genere,
+    decessi_eta,
+    decessi_eta_maschi,
+    decessi_eta_femmine,
+    mort_data_comuni,
+
     internal = TRUE,
     overwrite = TRUE
   )
