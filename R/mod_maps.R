@@ -50,6 +50,23 @@ mod_maps_ui <- function(id){
     BlueYellowRed=rev(RColorBrewer::brewer.pal(11,"RdYlBu")),
     RedWhiteGrey= rev(RColorBrewer::brewer.pal(11,"RdGy"))
   )
+
+  paletteList.img<-c()
+  for( pal in paletteList.t){
+    png(tf1 <- tempfile(fileext = ".png"), width = 160, height=20)
+    op <- par(mar = rep(0, 4))
+    image(1:length(pal), 1, as.matrix(1:length(pal)),
+          col = pal,
+          xlab = "", ylab = "", xaxt = "n", yaxt = "n",   bty = "n"  )
+    dev.off()
+
+    txt <- RCurl::base64Encode(readBin(tf1, "raw", file.info(tf1)[1, "size"]), "txt")
+    paletteList.img<-c(paletteList.img,  sprintf('<img src="data:image/png;base64,%s">', txt))
+
+    # cat(html, file = tf2 <- tempfile(fileext = ".html"))
+    # browseURL(tf2)
+  }
+
   paletteList<- (names(paletteList.t))
 
   functionList<- list( "Linear"="linear", "Log10"="log10Per" )
@@ -119,7 +136,10 @@ mod_maps_ui <- function(id){
       column(2, title="Scales",  `data-toggle` ="tooltip" ,  `data-placement`="bottom" ,
              selectInput(ns("scale.funct_"), NULL,  choices = functionList ) ),
       column(2, title="Color Palette",   `data-toggle` ="tooltip" ,  `data-placement`="bottom" ,
-             selectInput(ns("palette"), NULL,  choices = paletteList, selectize = T ) )
+             shinyWidgets::pickerInput(ns("palette"), NULL,
+                                       choices = paletteList,
+                                       choicesOpt = list(content = paletteList.img
+                                       ) ) )
     ),
     fluidRow(
       box(  div( id=ns("loader"), alt="",
@@ -339,7 +359,8 @@ mod_maps_server <- function(id) {
       leaflet::leafletProxy("mymap") %>%
         leaflet::addWMSTiles(baseUrl = sprintf("%s/cgi-bin/mapserv?map=%s%s",
                                       base.url, remote.path, mapfilename    ) ,
-                    options = leaflet::WMSTileOptions(zIndex = 4, format = "image/png", transparent = T ,
+                    options = leaflet::WMSTileOptions(zIndex = 4, format = "image/png",
+                                                      transparent = T , opacity=0.6,
                                              layerId = sprintf("%s_%s", basic.layerlist.list$overlayGroups$Casi_COVID19, input$date1)  ),
                     layers=basic.layerlist.list$overlayGroups$Casi_COVID19,
                     layerId = sprintf("%s_%s", basic.layerlist.list$overlayGroups$Casi_COVID19, input$giorno),
