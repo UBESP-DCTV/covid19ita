@@ -258,7 +258,8 @@ mod_maps_server <- function(id) {
 
            $('#%s_opacitySlider').on('input', function(x){
               var oo = Object.values(%s_mapElement.layerManager._byGroup['COVID-19'])[0];
-              console.log(oo);
+              vv=$('#%s_opacitySlider').val();
+               $(oo._container).css({ 'opacity' : vv/100 });
             });
 
             $('#%s-dateRange').on('input', function(e){
@@ -268,7 +269,7 @@ mod_maps_server <- function(id) {
 
            }", id, id, id, id, id, id, id, id,
                id, basic.layerlist.list$overlayGroups$Casi_COVID19 ,
-               id, id, id, id, id, id, id, id)) %>%
+               id, id, id, id, id, id, id, id, id)) %>%
         leaflet::setView( 11, 43, 6)  %>%
         leaflet::addTiles(urlTemplate = "https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png",
                           attribution = '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors &copy; <a href="https://carto.com/attributions">CARTO</a>',
