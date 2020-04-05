@@ -98,7 +98,8 @@ mod_maps_ui <- function(id){
       tags$style(type="text/css",
                  sprintf("
       .datepicker { z-index:999999999999  !important; }
-      .selectize-dropdown{   z-index:99999999 !important;  }
+      .selectize-dropdown{   z-index:9999999999 !important;  }
+      .dropdown-menu{   z-index:9999999999 !important;  }
       #%s-mymap {
         height:calc(100vh - 200px) !important;
         min-height:500px;
@@ -252,14 +253,16 @@ mod_maps_server <- function(id) {
             var loadHandler = function (event) {
                 const keys = Object.keys(%s_layerobjects);
                 for (var  key of keys) {
-
                   if(key !== event.sourceTarget.options.layerId){
                       %s_mapElement.removeLayer(%s_layerobjects[key]);
                       delete %s_layerobjects[key];
                       //console.log(%s_layerobjects);
                   }
                 }
-                      $('#%s-loader').hide();
+
+                event.sourceTarget.off('load');
+
+                $('#%s-loader').hide();
             };
 
 
@@ -267,20 +270,42 @@ mod_maps_server <- function(id) {
               if( typeof(e.layer.options.layers)!=='undefined' && e.layer.options.layers=='%s'  ) {
                   %s_layerobjects[e.layer.options.layerId]=e.layer;
                   e.layer.on('load', loadHandler);
-                  console.log('sssss');
+                  console.log(e.layer);
               }
             }
-
-
 
            Shiny.onInputChange('%s-leaflet_rendered', true);
            this.on('layeradd', %s_onLayerAddFunction);
 
+           $(\".leaflet-control-layers-overlays > label:nth-child(2) > div:nth-child(1)\").append(\"&nbsp;&nbsp;(<input   title='black label' id='%s_labelBlack' type='checkbox'   >B/W)\");
+
+           $(\".leaflet-control-layers-overlays > label:nth-child(2) > div:nth-child(1)\").append(\"<input style='width: 100px;' title='change size of label' id='%s_labelsizeSlider' type='range' value='11' step='1' min='3' max='30'  >\");
+
            $(\".leaflet-control-layers-overlays > label:nth-child(1) > div:nth-child(1)\").append(\"<input style='width: 100px;' title='change transparency to layer' id='%s_opacitySlider' type='range' value='60' step='1'  >\");
 
+           $('#%s_labelBlack').on('change', function(x){
+              vv=this.checked;
+              Shiny.onInputChange('%s-currentLabelBlack', vv);
+              if(vv){
+                 $('.leaflet-tooltip').css({ 'color' : 'black'  });
+                 $('.leaflet-tooltip').css({ 'text-shadow' : '0px 0px 3px white'  });
+              } else {
+                 $('.leaflet-tooltip').css({ 'color' : 'white'  });
+                 $('.leaflet-tooltip').css({ 'text-shadow' : '0px 0px 3px black'  });
+              }
+            });
+
+           $('#%s_labelsizeSlider').on('input', function(x){
+              vv=$(this).val();
+              Shiny.onInputChange('%s-currentLabelSize', vv);
+              $('.leaflet-tooltip').css({ 'font-size' : vv+'px'  });
+            });
+
            $('#%s_opacitySlider').on('input', function(x){
-              var oo = Object.values(%s_mapElement.layerManager._byGroup['COVID-19'])[0];
-              vv=$('#%s_opacitySlider').val();
+              var oo = Object.values(%s_layerobjects)[0];
+              vv=$(this).val();
+              Shiny.onInputChange('%s-currentWMSopacity', vv);
+               oo.options.opacity=vv/100 ;
                $(oo._container).css({ 'opacity' : vv/100 });
             });
 
@@ -291,13 +316,13 @@ mod_maps_server <- function(id) {
 
            }", id, id, id, id, id, id, id, id,
                id, basic.layerlist.list$overlayGroups$Casi_COVID19 ,
-               id, id, id, id, id, id, id, id, id)) %>%
+               id, id, id, id, id, id, id, id, id, id, id, id, id, id, id)) %>%
         leaflet::setView( 11, 43, 6)  %>%
         leaflet::addTiles(urlTemplate = "https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png",
-                          attribution = '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors &copy; <a href="https://carto.com/attributions">CARTO</a>',
+                          attribution = '&copy;<a href="https://carto.com/attributions">OSM CARTO</a>',
                           options =  leaflet::tileOptions(zIndex = 1, preferCanvas=TRUE, maxZoom = 19, subdomains = "abcd" ), group=basic.layerlist.list$baseGroups$osm.bn)  %>%
         leaflet::addTiles(urlTemplate = "https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png",
-                          attribution = '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors &copy; <a href="https://carto.com/attributions">CARTO</a>',
+                          attribution = '&copy;<a href="https://carto.com/attributions">OSM CARTO</a>',
                           options =  leaflet::tileOptions(zIndex = 2, preferCanvas=TRUE, maxZoom = 19, subdomains = "abcd" ), group=basic.layerlist.list$baseGroups$osm.light)  %>%
 
         leaflet::hideGroup( as.character(basic.layerlist.list$overlayGroups) ) %>%
@@ -355,17 +380,36 @@ mod_maps_server <- function(id) {
 
       label[label=="NA"]<-""
 
+      op<-isolate(input$currentWMSopacity )
+      labsize<-isolate(input$currentLabelSize )
+      labelBlackv<-isolate(input$currentLabelBlack )
+
+      labelBlack<-'white'
+      labelBlack2<-'black'
+      if(!is.null(labelBlackv) && labelBlackv) {
+        labelBlack<-'black'
+        labelBlack2<-'white'
+        }
+
+      if(is.null(op)) op<-0.6
+      else op<-as.integer(isolate(input$currentWMSopacity ))/100
+
+      if(is.null(labsize)) labsize<-11
+      else  labsize<-as.integer(isolate(input$currentLabelSize ))
 
       leaflet::leafletProxy("mymap") %>%
         leaflet::addWMSTiles(baseUrl = sprintf("%s/cgi-bin/mapserv?map=%s%s",
                                       base.url, remote.path, mapfilename    ) ,
                     options = leaflet::WMSTileOptions(zIndex = 4, format = "image/png",
-                                                      transparent = T , opacity=0.6,
-                                             layerId = sprintf("%s_%s", basic.layerlist.list$overlayGroups$Casi_COVID19, input$date1)  ),
+                                                      transparent = T , opacity=op,
+                                            ## below a unique layerid depending on mapfilename.
+                                             layerId = sprintf("%s_%s",
+                                                               basic.layerlist.list$overlayGroups$Casi_COVID19,
+                                                               mapfilename)  ),
                     layers=basic.layerlist.list$overlayGroups$Casi_COVID19,
                     layerId = sprintf("%s_%s", basic.layerlist.list$overlayGroups$Casi_COVID19, input$giorno),
                     group=basic.layerlist.list$overlayGroups$Casi_COVID19,
-                    attribution = "<a href='mailto:francesco.pirotti@unipd.it;' target='_blank' >F. Pirotti</a> @CIRGEO" )  %>%
+                    attribution = "&copy <a title='WMS Service of COVID-19 Maps' href='mailto:francesco.pirotti@unipd.it;'>F. Pirotti</a><a href='www.cirgeo.unipd.it' target='_blank'>@CIRGEO</a>" )  %>%
 
         leaflet::addLabelOnlyMarkers(data = dt.filtered, lng = ~long, lat=~lat,
                                      layerId = sprintf("%s%s", basic.layerlist.list$overlayGroups$Casi_COVID19labels,
@@ -377,10 +421,10 @@ mod_maps_server <- function(id) {
                                                                           # direction = "bottom",
                                                                           textOnly = T,
                                                                           style= list(
-                                                                            "font-size" = "11px",
+                                                                            "font-size" = sprintf("%dpx",labsize),
                                                                             "font-weight" = "bold",
-                                                                            "color"="white",
-                                                                            "text-shadow"="0px 0px 3px black"
+                                                                            "color"=labelBlack,
+                                                                            "text-shadow"=sprintf("0px 0px 3px %s", labelBlack2)
                                                                           ),
                                                                           #offset = c(0, -10),
                                                                           opacity = 1
