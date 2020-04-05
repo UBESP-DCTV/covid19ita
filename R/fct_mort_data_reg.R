@@ -21,9 +21,9 @@ mort_data_reg <- function(type = c("sex", "age")) {
   data_region <- ref_data %>%
     dplyr::select(-dplyr::starts_with("var")) %>%
     dplyr::group_by(.data$nome_reg) %>%
-    dplyr::summarise_if(purrr::is_numeric, sum, na.rm = TRUE) %>%
+    dplyr::summarise_if(is.numeric, sum, na.rm = TRUE) %>%
     dplyr::mutate(
-      nome_reg = stringr::str_replace_all(nome_reg, c(
+      nome_reg = stringr::str_replace_all(.data$nome_reg, c(
         "Trentino-Alto Adige/Südtirol" = "Trentino A.A.",
         "Valle d'Aosta/Vallée d'Aoste" = "Valle d'Aosta",
         "Friuli-Venezia Giulia" = "Friuli Venezia Giulia"
@@ -31,7 +31,7 @@ mort_data_reg <- function(type = c("sex", "age")) {
     )
 
   data_italy <- data_region %>%
-    dplyr::summarise_if(purrr::is_numeric, sum) %>%
+    dplyr::summarise_if(is.numeric, sum) %>%
     dplyr::mutate(nome_reg = "Italia")
 
 
@@ -51,6 +51,7 @@ mort_data_reg <- function(type = c("sex", "age")) {
           .data[["2020"]] - .data[["2019"]]
         ) / .data[["2019"]]
       ) %>% round(2)
-    )
+    ) %>%
+    dplyr::rename(regione = .data$nome_reg)
 
 }

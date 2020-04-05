@@ -23,12 +23,13 @@ mod_focus_20200404_magnani_ui <- function(id){
         In sintesi sono compresi nella rilevazione 1084 comuni che
         includono complessivamente 6.177.016 uomini e 6.496.805 donne,
         così distribuiti per regione di residenza. La rappresentazione
-        è diversa nelle diverse regioni. I residenti per regione
+        è diversa nelle diverse regioni (Tabella 1).
       ")),
     )),
 
     fluidRow(box(width = 12,
-      DT::DTOutput(ns("tab_0_residenti"))
+      DT::DTOutput(ns("tab_0_residenti")),
+      title = "Tabella 1: XXXXXXXXXXXX"
     )),
 
     fluidRow(box(width = 12,
@@ -171,11 +172,11 @@ mod_focus_20200404_magnani_ui <- function(id){
         che è molto diversa tra le regioni a causa della diversa
         numerosità del campione. In alcune regioni una variazione
         appare importante ma è causata da piccoli numeri di morti in
-        più o in meno (Tabella 1).
+        più o in meno (Tabella 2).
       "))
     )),
 
-    fluidRow(box(width = 12, Title = "Tabella 1: XXXXX",
+    fluidRow(box(width = 12, Title = "Tabella 2: XXXXX",
       DT::DTOutput(ns("tab_1_age"))
     )),
 
@@ -185,7 +186,7 @@ mod_focus_20200404_magnani_ui <- function(id){
       width = 12,
     )),
 
-    fluidRow(box(width = 12, Title = "Tabella 2: XXXXX",
+    fluidRow(box(width = 12, Title = "Tabella 3: XXXXX",
       DT::DTOutput(ns("tab_2_sex"))
     )),
 
@@ -289,6 +290,19 @@ mod_focus_20200404_magnani_ui <- function(id){
 
     )),
 
+    fluidRow(box(
+      plotlyOutput(ns("fig_5_week_sex")),
+      title = "Figura 5: XXXXXXXX",
+      width = 12,
+    )),
+
+    fluidRow(box(
+      plotlyOutput(ns("fig_6_week_age")),
+      title = "Figura 6: XXXXXXXX",
+      width = 12,
+    )),
+
+
 
     fluidRow(box(width = 12, title = "Notes",
       p(HTML("
@@ -325,40 +339,19 @@ mod_focus_20200404_magnani_ui <- function(id){
 #' @noRd
 mod_focus_20200404_magnani_server <- function(id) {
 
-
-  # Supporting functions --------------------------------------------
-  ggmort <- function(x, legend_title) {
-    ggplot(x, aes(
-      x = .data$nome_reg,
-      y = .data$variation,
-      fill = .data$strata
-    )) +
-    geom_bar(position = "dodge", stat = "identity") +
-    theme(
-      axis.text.x = element_text(angle = 60, hjust = 1)
-    ) +
-    labs(
-      y = "Variazione Percentuale",
-      x = "Nome regione",
-      fill = legend_title
-    ) +
-    theme(panel.background = element_blank())
-  }
-
-
   # Data preparation ------------------------------------------------
 
-  ## variazione percentuale 2019-2020
-  data_age <- mort_data_reg("age")
-  data_sex <- mort_data_reg("sex")
+  ## 1-2: variazione percentuale 2019-2020 --------------------------
 
-  gg_fig_1_age <- data_age %>%
+  ### by age (fig 1)
+  gg_fig_1_age <- mort_data_reg_age %>%
     ggmort("Classe di età") +
     ggtitle("Mortalità totale per classe di età",
       subtitle = "Confronto 1-21 marzo 2019 vs 2020"
     )
 
-  gg_fig_2_sex <- data_sex %>%
+  ### by age (fig 2)
+  gg_fig_2_sex <- mort_data_reg_sex %>%
     ggmort("Sesso") +
     ggtitle("Mortalità totale per sesso",
       subtitle = "Confronto 1-21 marzo 2019 vs 2020"
@@ -366,69 +359,113 @@ mod_focus_20200404_magnani_server <- function(id) {
 
 
 
-  ## mortalità prime tre settimane di marzo 2015-2020
 
-  data_year_marzo <- mort_data_comuni() %>%
+  ## 3: mortalità prime tre settimane di marzo 2015-2020 ------------
+
+  data_year_marzo <- mort_data_comuni %>%
     dplyr::filter(
       .data$settimana %in%
         c("01/03-07/03", "08/03-14/03", "15/03-21/03")
     )
 
+
   ### all (fig 3)
   data_year_marzo_all <- data_year_marzo %>%
-    dplyr::group_by(regione, area, year) %>%
+    dplyr::group_by(.data$regione, .data$area, .data$year) %>%
     dplyr::summarise(decessi = sum(.data$n_death))
 
   gg_fig_3_year_all <- data_year_marzo_all %>%
-    ggplot(aes(x = year, y = decessi, colour = regione)) +
+    ggplot(aes(
+      x = .data$year,
+      y = .data$decessi,
+      colour = .data$regione
+    )) +
     geom_point() +
-    geom_smooth() +
+    geom_smooth(se = FALSE) +
     facet_wrap(~ .data$area, scales = "free_y") +
-    labs(y = "Numero decessi 1-20 marzo")
+    labs(y = "Numero decessi 1-20 marzo") +
+    theme(
+      axis.text.x = element_text(angle = 60, hjust = 1),
+      panel.background = element_blank()
+    )
+
 
   ### by age (fig 4)
   data_year_marzo_age <- data_year_marzo  %>%
-    dplyr::group_by(area, regione, year, classe_di_eta) %>%
+    dplyr::group_by(
+      .data$area, .data$regione, .data$year, .data$classe_di_eta
+    ) %>%
     dplyr::summarise(decessi = sum(.data$n_death))
 
   gg_fig_4_year_age <- data_year_marzo_age %>%
-      ggplot(aes(x = year, y = decessi, colour = regione)) +
-      geom_point() +
-      geom_smooth() +
-      facet_grid(.data$area ~ .data$classe_di_eta, scales = "free_y") +
-      labs(y = "Numero decessi 1-20 marzo")
+    ggplot(aes(
+      x = .data$year,
+      y = .data$decessi,
+      colour = .data$regione
+    )) +
+    geom_point() +
+    geom_smooth(se = FALSE) +
+    facet_grid(.data$area ~ .data$classe_di_eta, scales = "free_y") +
+    labs(y = "Numero decessi 1-20 marzo") +
+    theme(
+      axis.text.x = element_text(angle = 60, hjust = 1),
+      panel.background = element_blank()
+    )
 
 
 
-  ## prime settimane 2020
-  data_inizio_2020 <- mort_data_comuni() %>%
+
+  ## 4: prime settimane 2020 ----------------------------------------
+  data_inizio_2020 <- mort_data_comuni %>%
     dplyr::filter(
-      !.data$settimana %in% "01/01-11/01",
-      .data$year == 2020
+      (.data$settimana != "01/01-11/01") & (.data$year == 2020)
     ) %>%
     dplyr::mutate(
-      settimana = stringr::str_remove(settimana, "-.*") %>%
+      settimana = substr(.data$settimana, start = 1, stop = 5) %>%
         as.Date(format = "%d/%m")
     )
 
 
   data_week <- data_inizio_2020 %>%
-    dplyr::group_by(regione, area, settimana, classe_di_eta, sex) %>%
+    dplyr::group_by(
+      .data$regione, .data$area, .data$settimana,
+      .data$classe_di_eta, .data$sex
+    ) %>%
     dplyr::summarise(decessi = sum(.data$n_death))
 
-  gg_fig_5_week_sex <- data_week %>%
-    ggplot(aes(x = settimana, y = decessi, colour = regione)) +
-    geom_point() +
-    geom_smooth() +
-    facet_grid(.data$area ~ .data$sex, scales = "free_y") +
-    labs(y = "Numero decessi 1-20 marzo")
 
-  gg_fig_6_week_age <- data_week %>%
-    ggplot(aes(x = settimana, y = decessi, colour = regione)) +
+  ### by sex (fig 5)
+  gg_fig_5_week_sex <- data_week %>%
+    ggplot(aes(
+      x = .data$settimana,
+      y = .data$decessi,
+      colour = .data$regione
+    )) +
     geom_point() +
-    geom_smooth() +
+    geom_smooth(se = FALSE) +
+    facet_grid(.data$area ~ .data$sex, scales = "free_y") +
+    labs(y = "Numero decessi 1-20 marzo") +
+    theme(
+      axis.text.x = element_text(angle = 60, hjust = 1),
+      panel.background = element_blank()
+    )
+
+
+  ### bay age (fig 6)
+  gg_fig_6_week_age <- data_week %>%
+    ggplot(aes(
+      x = .data$settimana,
+      y = .data$decessi,
+      colour = .data$regione
+    )) +
+    geom_point() +
+    geom_smooth(se = FALSE) +
     facet_grid(.data$area ~ .data$classe_di_eta, scales = "free_y") +
-    labs(y = "Numero decessi 1-20 marzo")
+    labs(y = "Numero decessi 1-20 marzo") +
+    theme(
+      axis.text.x = element_text(angle = 60, hjust = 1),
+      panel.background = element_blank()
+    )
 
 
 
@@ -446,8 +483,7 @@ mod_focus_20200404_magnani_server <- function(id) {
     })
 
     output$tab_1_age <- DT::renderDT({
-      data_age %>%
-        dplyr::rename("Nome regione" = .data$nome_reg)
+      mort_data_reg_age
     })
 
     output$fig_2_sex <- renderPlotly({
@@ -455,16 +491,23 @@ mod_focus_20200404_magnani_server <- function(id) {
     })
 
     output$tab_2_sex <- DT::renderDT({
-      data_sex %>%
-        dplyr::rename("Nome regione" = .data$nome_reg)
+      mort_data_reg_sex
     })
 
-    output$fig_3_all <- renderPlotly({
+    output$fig_3_year_all <- renderPlotly({
       clean_ggplotly(gg_fig_3_year_all)
     })
 
     output$fig_4_year_age <- renderPlotly({
       clean_ggplotly(gg_fig_4_year_age)
+    })
+
+    output$fig_5_week_sex <- renderPlotly({
+      clean_ggplotly(gg_fig_5_week_sex)
+    })
+
+    output$fig_6_week_age <- renderPlotly({
+      clean_ggplotly(gg_fig_6_week_age)
     })
 
   })

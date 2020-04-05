@@ -60,6 +60,18 @@ if (!all(are_ok)) {
   )
 
 
+  # pop_regioni <- "http://demo.istat.it/pop2019/dati/regioni.zip"
+  #
+  # tmp_regioni <- tempfile(fileext = ".zip")
+  #
+  # download.file(pop_regioni, tmp_regioni, mode = 'wb')
+  #
+  #
+  # decessi_genere <- unzip(tmp_regioni, "regioni.csv") %>%
+  #   readr::read_csv(skip = 1) %>%
+  #   dplyr::select(.data$Regione, dplyr::starts_with("Totale")) %>%
+  #   dplyr::group_by(Regione) %>%
+  #   dplyr::summarise_all(sum, na.rm = TRUE)
   residenti_anpr_1084 <- tibble::tribble(
     ~NOME_REGIONE,      ~Totale_Maschi, ~Totale_Femmine,
      "Totale",	               6177016,         6496805,
@@ -117,7 +129,6 @@ if (!all(are_ok)) {
 
 
 # decessi (Magnani focus 20200404) --------------------------------
-
 
   decessi_url <- paste0(
     "https://www.istat.it/",
@@ -191,6 +202,10 @@ if (!all(are_ok)) {
     )
 
 
+  mort_data_reg_age <- mort_data_reg("age")
+  mort_data_reg_sex <- mort_data_reg("sex")
+
+
 
 # Mortalit`a settimanale ------------------------------------------
 
@@ -223,6 +238,40 @@ if (!all(are_ok)) {
 
 
 
+# Mortalità comuni ------------------------------------------------
+
+    nord <- c(
+      "Friuli Venezia Giulia", "Emilia-Romagna", "Liguria", "Veneto",
+      "Lombardia", "Piemonte", "Trentino A.A.", "Valle d'Aosta"
+    )
+    sud_centro_isole <- setdiff(
+      unique(comuni_settimana[["regione"]]),
+      nord
+    )
+
+    mort_data_comuni <- comuni_settimana %>%
+      dplyr::select(-.data$reg, -.data$prov, -.data$cod_provcom) %>%
+      dplyr::mutate(
+        area = dplyr::if_else(.data$regione %in% nord,
+          true  = "nord",
+          false = "sud, centro, isole"
+        )
+      ) %>%
+      tidyr::pivot_longer(.data$maschi_2015:.data$totale_2020,
+        names_to = c("sex", "year"),
+        names_ptypes = list(sex = character(), year = integer()),
+        names_sep = "_",
+        values_to = "n_death",
+        values_ptypes = list(n_death = integer())
+      ) %>%
+      dplyr::mutate(
+        classe_di_eta = .data$classe_di_eta %>%
+          forcats::fct_collapse(
+            "0-64 anni" = c("0-14 anni", "15-64 anni")
+          )
+      )
+
+
 
 
 
@@ -236,22 +285,16 @@ if (!all(are_ok)) {
     dpc_covid19_ita_regioni,
     dpc_covid19_ita_province,
 
-    comuni_settimana,
-    residenti_anpr_1084,
-    decessi_genere,
-    decessi_eta,
-    decessi_eta_maschi,
-    decessi_eta_femmine,
-
     overwrite = TRUE
   )
 
   usethis::use_data(
-    plottly_help_txt,
-    eng_plottly_help_txt,
     dpc_covid19_ita_andamento_nazionale,
     dpc_covid19_ita_regioni,
     dpc_covid19_ita_province,
+
+    plottly_help_txt,
+    eng_plottly_help_txt,
 
     last_data_update,
     region_population,
@@ -259,10 +302,13 @@ if (!all(are_ok)) {
 
     comuni_settimana,
     residenti_anpr_1084,
+    mort_data_reg_age,
+    mort_data_reg_sex,
     decessi_genere,
     decessi_eta,
     decessi_eta_maschi,
     decessi_eta_femmine,
+    mort_data_comuni,
 
     internal = TRUE,
     overwrite = TRUE
