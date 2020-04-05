@@ -37,7 +37,7 @@ dashboard_header <- function() {dashboardHeader(
   dropdownMenu(type = "messages",
     messageItem(
       from = "In evidenza",
-      message = "2020-04-04 Mortality",
+      message = "2020-04-05 Mortality",
       icon = icon("search")
     ),
     messageItem(
@@ -74,7 +74,7 @@ dashboard_sidebar <- function() {dashboardSidebar(sidebarMenu(
 
 
   menuItem("In evidenza", icon = icon("bullseye"),
-    menuSubItem("2020-04-04 Mortalità", tabName = "20200404Mort",
+    menuSubItem("2020-04-05 Mortalità", tabName = "20200405Mort",
                 icon = icon("flag")
     ),
     menuSubItem("2020-03-31 Comparativa", tabName = "20200331Comp",
@@ -297,7 +297,7 @@ dashboard_body <- function() {dashboardBody(
 
   ),
 
-  tabItem(tabName = "20200404Mort",
+  tabItem(tabName = "20200405Mort",
           h2("Analisi preliminare della mortalità generale in Italia durante il periodo da 1 a 21 Marzo 2020."),
           mod_focus_20200404_magnani_ui("mortality")
   ),
