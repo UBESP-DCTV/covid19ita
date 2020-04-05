@@ -23,8 +23,8 @@ usethis::use_package("plotly")
 usethis::use_package("htmlwidgets")
 usethis::use_package("leaflet")
 usethis::use_package("RColorBrewer")
-usethis::use_package("sf")
-usethis::use_package("leafgl")  ## use devtools::install_github("fpirotti/leafgl") - forked to create animations
+## usethis::use_package("sf")
+## usethis::use_package("leafgl")  ## KO too slow re-rendering provinces - 2Mx4 vertices with colors  use devtools::install_github("fpirotti/leafgl") - forked to create animations
 usethis::use_package("colorspace")
 
 ## Add modules ----

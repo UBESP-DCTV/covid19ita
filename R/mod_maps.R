@@ -132,7 +132,7 @@ mod_maps_ui <- function(id){
                  style="width:100%; position:absolute; text-align: center; z-index:9999999999;",
                  loader,
                  HTML("<font style='display: block; color:white;text-shadow:0px 0px 3px black;'>Loading Geodata...</font>" )),
-            HTML(sprintf("<input style='width:100%%;' type=range id='%s' />", ns("dateRange") ) ),
+            HTML(sprintf("<input style='width:100%%;'  type='range' id='%s' />",   ns("dateRange") ) ),
             leafgl::leafglOutput(ns("mymap")) ,
         title = "Distribuzione geografica del numero di casi per provincia",
         footer = HTML("<div style='width:100% ; text-align:center; font-size:smaller;'>by F. Pirotti,  Dip.to TESAF /
@@ -166,7 +166,7 @@ mod_maps_server <- function(id) {
 
 
   data_to_use <- dpc_covid19_ita_province %>%
-    dplyr::group_by(codice_provincia) %>%
+    dplyr::group_by(sigla_provincia) %>%
     dplyr::mutate(  delta     =c(0, diff(totale_casi)) ) %>%
     dplyr::select(
       .data$data, .data$denominazione_provincia , .data$totale_casi, .data$delta, .data$lat, .data$long
@@ -209,13 +209,16 @@ mod_maps_server <- function(id) {
            $(\".leaflet-control-layers-overlays > label:nth-child(1) > div:nth-child(1)\").append(\"<input style='width: 100px;' title='change transparency to layer' id='%s_opacitySlider' type='range' value='60' step='1'  >\");
            $('#%s_opacitySlider').on('input', function(x){
               var oo = Object.values(%s_mapElement.layerManager._byGroup['COVID-19'])[0];
-              console.log(oo.options.shapeslayer);
               oo.options.shapeslayer.settings.opacity=$('#%s_opacitySlider').val()/100;
-              var gl = oo.options.shapeslayer.gl;
-              gl.clear(gl.DEPTH_BUFFER_BIT | gl.COLOR_BUFFER_BIT | gl.STENCIL_BUFFER_BIT);
               oo.options.shapeslayer.render(false);
-              gl.clear(gl.DEPTH_BUFFER_BIT | gl.COLOR_BUFFER_BIT | gl.STENCIL_BUFFER_BIT);
 
+            });
+
+            $('#%s-dateRange').on('input', function(e){
+             //Shiny.onInputChange('%s-dateRangeChanged', e.target.value);
+              var oo = Object.values(%s_mapElement.layerManager._byGroup['COVID-19'])[0];
+              oo.options.shapeslayer.settings.opacity=e.target.value/100;
+              oo.options.shapeslayer.render(true);
             });
 
 
@@ -244,6 +247,14 @@ mod_maps_server <- function(id) {
 
 
 
+    observeEvent(input$dateRangeChanged, {
+      shinyjs::runjs(sprintf("var oo = Object.values(%s_mapElement.layerManager._byGroup['COVID-19'])[0];
+              oo.options.shapeslayer.settings.opacity=1;
+              oo.options.shapeslayer.render(); ", id))
+    })
+
+
+
     observeEvent(input$leaflet_rendered, {
       req(input$leaflet_rendered,input$calculus)
       ## trovo labels per ultima data
@@ -263,6 +274,7 @@ mod_maps_server <- function(id) {
       label[label=="NA"]<-""
 
       shinyjs::runjs(sprintf("$('#%s-loader').show();", id))
+      print("non si sa mai2")
       leaflet::leafletProxy("mymap") %>%
         leafgl::addGlPolygons(data = province_geometry2019,
                               color = cols,
