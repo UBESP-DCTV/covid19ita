@@ -251,6 +251,45 @@ mod_focus_20200404_magnani_ui <- function(id){
     )),
 
 
+
+
+
+
+    fluidRow(box(width = 12,
+      h2(HTML("
+        In quale settimana di rilevazione (considerando il periodo dal
+        1 gennaio 2020 al 21 marzo 2020) è osservabile una variazione
+        della mortalità complessiva?
+      ")),
+
+      p(HTML("
+        Per contribuire alla risposta a questo quesito sono stati usati
+        i dati nella tabella
+        https://www.istat.it/it/files//2020/03/dati-comunali-settimanali-ANPR-1.zip,
+        limitatamente ai dati per il periodo 1 gennaio – 21 marzo 2020.
+        Nella tabella tali dati sono presentati suddivisi a ritroso in
+        periodi di 7 giorni. Così facendo il primo periodo va da 1 al
+        10 gennaio e quindi non è confrontabile con i successivi perché
+        comprende 11 giorni di osservazione. In questa fase si è deciso
+        pertanto di escluderlo e di partire dal secondo periodo, che ha
+        inizio il 12 gennaio 2020. I grafici seguenti (figura 5 - 7)
+        presentano l’andamento per classe di età, sesso e regione.
+        Le classi ed i raggruppamenti regionali adottati per rendere più
+        agevole l’esame dei risultati sono gli stessi adottati per le
+        analisi precedenti. I grafici riportano sull’asse orizzontale
+        la data di inizio dei diversi periodi settimanali.
+      ")),
+
+      p(HTML("
+        Si osserva da queste analisi un aumento della mortalità
+        generale a partire dalla settimana del 1 marzo in particolare
+        nelle regioni maggiormente interessate dall’epidemia, ed in
+        particolare in Lombardia.
+      "))
+
+    )),
+
+
     fluidRow(box(width = 12, title = "Notes",
       p(HTML("
         <sup>1</sup> Per maggiori informazioni sulla rilevazione si
@@ -329,38 +368,69 @@ mod_focus_20200404_magnani_server <- function(id) {
 
   ## mortalità prime tre settimane di marzo 2015-2020
 
+  data_year_marzo <- mort_data_comuni() %>%
+    dplyr::filter(
+      .data$settimana %in%
+        c("01/03-07/03", "08/03-14/03", "15/03-21/03")
+    )
 
   ### all (fig 3)
-  data_year_all <- mort_data_comuni() %>%
+  data_year_marzo_all <- data_year_marzo %>%
     dplyr::group_by(regione, area, year) %>%
     dplyr::summarise(decessi = sum(.data$n_death))
 
-  gg_fig_3_year_all <- data_year_all %>%
+  gg_fig_3_year_all <- data_year_marzo_all %>%
     ggplot(aes(x = year, y = decessi, colour = regione)) +
     geom_point() +
     geom_smooth() +
     facet_wrap(~ .data$area, scales = "free_y") +
     labs(y = "Numero decessi 1-20 marzo")
 
-
   ### by age (fig 4)
-  data_year_age <- mort_data_comuni() %>%
-    dplyr::mutate(
-      classe_di_eta = classe_di_eta %>%
-        stringr::str_replace_all(c(
-          "0-14" = "0-64",
-          "15-64" = "0-64"
-        ))
-    ) %>%
+  data_year_marzo_age <- data_year_marzo  %>%
     dplyr::group_by(area, regione, year, classe_di_eta) %>%
     dplyr::summarise(decessi = sum(.data$n_death))
 
-  gg_fig_4_year_age <- data_year_age %>%
+  gg_fig_4_year_age <- data_year_marzo_age %>%
       ggplot(aes(x = year, y = decessi, colour = regione)) +
       geom_point() +
       geom_smooth() +
       facet_grid(.data$area ~ .data$classe_di_eta, scales = "free_y") +
       labs(y = "Numero decessi 1-20 marzo")
+
+
+
+  ## prime settimane 2020
+  data_inizio_2020 <- mort_data_comuni() %>%
+    dplyr::filter(
+      !.data$settimana %in% "01/01-11/01",
+      .data$year == 2020
+    ) %>%
+    dplyr::mutate(
+      settimana = stringr::str_remove(settimana, "-.*") %>%
+        as.Date(format = "%d/%m")
+    )
+
+
+  data_week <- data_inizio_2020 %>%
+    dplyr::group_by(regione, area, settimana, classe_di_eta, sex) %>%
+    dplyr::summarise(decessi = sum(.data$n_death))
+
+  gg_fig_5_week_sex <- data_week %>%
+    ggplot(aes(x = settimana, y = decessi, colour = regione)) +
+    geom_point() +
+    geom_smooth() +
+    facet_grid(.data$area ~ .data$sex, scales = "free_y") +
+    labs(y = "Numero decessi 1-20 marzo")
+
+  gg_fig_6_week_age <- data_week %>%
+    ggplot(aes(x = settimana, y = decessi, colour = regione)) +
+    geom_point() +
+    geom_smooth() +
+    facet_grid(.data$area ~ .data$classe_di_eta, scales = "free_y") +
+    labs(y = "Numero decessi 1-20 marzo")
+
+
 
 # Output (reactive) objects ---------------------------------------
 
