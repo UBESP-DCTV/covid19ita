@@ -251,14 +251,14 @@ mod_maps_server <- function(id) {
 
 
             var loadHandler = function (event) {
-                const keys = Object.keys(%s_layerobjects);
-                for (var  key of keys) {
-                  if(key !== event.sourceTarget.options.layerId){
-                      %s_mapElement.removeLayer(%s_layerobjects[key]);
-                      delete %s_layerobjects[key];
-                      //console.log(%s_layerobjects);
-                  }
-                }
+        //        const keys = Object.keys(%s_layerobjects);
+        //        for (var  key of keys) {
+        //          if(key !== event.sourceTarget.options.layerId){
+        //              %s_mapElement.removeLayer(%s_layerobjects[key]);
+        //              delete %s_layerobjects[key];
+        //              //console.log(%s_layerobjects);
+        //          }
+        //        }
 
                 event.sourceTarget.off('load');
 
@@ -407,7 +407,7 @@ mod_maps_server <- function(id) {
                                                                basic.layerlist.list$overlayGroups$Casi_COVID19,
                                                                mapfilename)  ),
                     layers=basic.layerlist.list$overlayGroups$Casi_COVID19,
-                    layerId = sprintf("%s_%s", basic.layerlist.list$overlayGroups$Casi_COVID19, input$giorno),
+                    layerId = sprintf("%s_%s", basic.layerlist.list$overlayGroups$Casi_COVID19, input$date1),
                     group=basic.layerlist.list$overlayGroups$Casi_COVID19,
                     attribution = "&copy <a title='WMS Service of COVID-19 Maps' href='mailto:francesco.pirotti@unipd.it;'>F. Pirotti</a><a href='www.cirgeo.unipd.it' target='_blank'>@CIRGEO</a>" )  %>%
 
