@@ -526,26 +526,27 @@ mod_maps_server <- function(id) {
 
      #print(input[["dateRangeChanged"]])
       cc<-paste0(collapse="','",  sigla2hex )
-      cc<-paste0(collapse="','",  sigla2hex )
+      ll<-paste0(collapse="','",  label )
 
-      shinyjs::runjs( sprintf("
+      js<-sprintf("
               var colorMap = ['%s'];
               var labelMap = ['%s'];
               console.log(labelMap);
               var layers = %s_mapElement.layerManager.getLayerGroup('%s').getLayers();
               var labels = %s_mapElement.layerManager.getLayerGroup('%s').getLayers();
-              if(layers.length!=colorMap.length!=labelMap.length){
-                 alert('OPS problem');
+              if(layers.length!=colorMap.length || layers.length!=labels.length  ){
+                 alert(layers.length+' OPS problem');
               } else {
                 for(var i=0; i < layers.length; i++) {
                    layers[i].setStyle({'fillColor': colorMap[i] });
                    labels[i].setTooltipContent(  labelMap[i]  );
                 }
               }
-                     ",   cc, label,
+                     ",   cc, ll,
               id, basic.layerlist.list$overlayGroups$Casi_COVID19,
               id ,  basic.layerlist.list$overlayGroups$Casi_COVID19labels
-              ) )
+      )
+      shinyjs::runjs( js )
 
 
 
