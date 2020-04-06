@@ -62,7 +62,7 @@ mod_focus_20200406_mort_veneto_ui <- function(id){
                residenza?
           <li> Estendendo la valutazione agli anni precedenti, partendo
                dal 2015, esistono variazioni tra i diversi anni e di
-               quale entità, sempre considerando sesso, classe di età e
+               quale entità, sempre considerando, classe di età e
                provincia di residenza?
           <li> A partire da quale settimana di rilevazione (considerando
                il periodo dal 1 gennaio 2020 al 21 marzo 2020) è
@@ -86,7 +86,7 @@ mod_focus_20200406_mort_veneto_ui <- function(id){
                  h2(HTML("
         Di quale entità è la variazione di mortalità osservata
         confrontando il periodo tra il 1 e il 21 marzo 2019 con il
-        periodo tra il 1 e il 21 marzo 2020?. La variazione osservata
+        periodo tra il 1 e il 21 marzo 2020? La variazione osservata
         come è distribuita in relazione al sesso, alla classe di età e
         alla provincia di residenza?
       ")),
@@ -110,10 +110,10 @@ mod_focus_20200406_mort_veneto_ui <- function(id){
                  p(HTML("
         variazione<sub>%</sub> =
           100 * (
-            morti<sub>2020</sub> –
-            morti<sub>2019</sub>
+            numero decessi<sub>2020</sub> –
+            numero decessi<sub>2019</sub>
           ) /
-          morti<sub>2019</sub>
+          numero decessi<sub>2019</sub>
       ")),
 
                  p(HTML("
@@ -123,9 +123,9 @@ mod_focus_20200406_mort_veneto_ui <- function(id){
         alle fluttuazioni casuali che sono particolarmente marcate nel
         caso di comuni di piccole dimensioni, che costituiscono una
         parte rilevante della base dati. Sono riportati i numeri
-        assoluti di decessi, il numero di comuni inclusi nella
-        rilevazione per ciascuna provincia e le variazioni percentuali
-        dal 2019 al 2020, nel periodo considerato.<sup>2</sup>
+        assoluti di decessi, per ciascuna provincia e le variazioni
+        percentuali dal 2019 al 2020, nel periodo
+        considerato.<sup>2</sup>
       "))
     )),
 
@@ -173,7 +173,7 @@ mod_focus_20200406_mort_veneto_ui <- function(id){
                  h2(HTML("
         Estendendo la valutazione agli anni precedenti, partendo dal
         2015, esistono variazioni tra i diversi anni e di quale entità,
-        sempre considerando sesso, classe di età e provincia di residenza?
+        sempre considerando, classe di età e provincia di residenza?
       ")),
 
                  p(HTML("
@@ -183,15 +183,11 @@ mod_focus_20200406_mort_veneto_ui <- function(id){
         https://www.istat.it/it/files//2020/03/dati-comunali-settimanali-ANPR-1.zip
         Le analisi saranno approfondite in futuro valutando più
         appropriatamente l’andamento della mortalità nel periodo
-        2015-2020 anche con metodi di modellizzazione, comunque
-        l’ispezione dei dati con metodi descrittivi consente di
-        apprezzare come limitata la variabilità nel numero di decessi
-        nel periodo 2015 - 2019, sia complessivamente sia nelle
-        disaggregazioni per sesso e classe di età.
+        2015-2020 anche con metodi di modellizzazione.
       ")),
 
                  p(HTML("
-        I grafici che seguono (figura 3) presentano il numero totale di
+        Il grafico che segue (figura 3) presenta il numero totale di
         morti nel periodo 2015-2020 per provincia.
       "))
     )),
