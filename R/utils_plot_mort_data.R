@@ -1,6 +1,9 @@
-ggmort <- function(x, legend_title) {
-  ggplot(x, aes(
-    x = .data$regione,
+ggmort <- function(data, legend_title, x = c("regione", "provincia")) {
+
+  x <- match.arg(x)
+
+  ggplot(data, aes(
+    x = .data[[x]],
     y = .data$variation,
     fill = .data$strata
   )) +

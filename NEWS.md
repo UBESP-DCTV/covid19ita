@@ -1,3 +1,5 @@
+* added module focus 20200406 mortality veneto
+
 # covid19ita 0.31.0
 
 * added helper `ggmort()` as helper for standar dmortality plot

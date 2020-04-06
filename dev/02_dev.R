@@ -40,6 +40,7 @@ golem::add_module(name = "focus_20200325")
 golem::add_module(name = "focus_20200327")
 golem::add_module(name = "focus_20200331")
 golem::add_module(name = "focus_20200404_magnani")
+golem::add_module(name = "focus_20200406_mort_veneto")
 
 
 ## Add helper functions ----
@@ -53,6 +54,7 @@ golem::add_utils("pred_to_tbl")
 golem::add_fct("regional_poiss")
 golem::add_fct("mort_data_reg")
 golem::add_fct("mort_data_comuni")
+golem::add_fct("mort_data_veneto")
 golem::add_utils("plot_mort_data")
 golem::add_fct("clean_ggplotly")
 
