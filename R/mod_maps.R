@@ -44,7 +44,17 @@ mod_maps_ui <- function(id){
     sqrt=function(x){ x^2 }
   )
 
+  paletteList.t<-list(
 
+    Person=c("#cccccc",   "#ffffd9", "#edf8b1", "#c7e9b4", "#7fcdbb",
+             "#41b6c4", "#1d91c0", "#225ea8",  "#6e016b", "#990000", "#d7301f", "#FF0000" ),
+    Spectral=c("#cccccc",   rev( grDevices::rainbow(20)[1:12])),
+    YellowOrangeRed= RColorBrewer::brewer.pal(9,"YlOrRd"),
+    RedYellowBlue= RColorBrewer::brewer.pal(11,"RdYlBu"),
+    BlueYellowRed=rev(RColorBrewer::brewer.pal(11,"RdYlBu")),
+    RedWhiteGrey= rev(RColorBrewer::brewer.pal(11,"RdGy"))
+  )
+  paletteList<- (names(paletteList.t))
 
   paletteList.img<-c()
   for( pal in paletteList.t){
@@ -428,18 +438,33 @@ mod_maps_server <- function(id) {
       if(is.null(temp.mapfile)){
         pp<-readRDS("../data-raw/province_polygons2019.rds")
         leaflet::leafletProxy("mymap") %>%
-            leaflet::addWMSTiles(baseUrl = sprintf("%s/cgi-bin/mapserv?map=%s",
-                                               base.url, retMessage   ) ,
-                             options = leaflet::WMSTileOptions(zIndex = 4, format = "image/png",
-                                                               transparent = T , opacity=op,
-                                                               ## below a unique layerid depending on mapfilename.
-                                                               layerId =   basic.layerlist.list$overlayGroups$Casi_COVID19
-                                                               ),
-                             layers=basic.layerlist.list$overlayGroups$Casi_COVID19,
-                             group=basic.layerlist.list$overlayGroups$Casi_COVID19,
-                             attribution = "&copy <a title='WMS Service of COVID-19 Maps' href='mailto:francesco.pirotti@unipd.it;'>F. Pirotti</a><a href='www.cirgeo.unipd.it' target='_blank'>@CIRGEO</a>" )  %>%
+            # leaflet::addWMSTiles(baseUrl = sprintf("%s/cgi-bin/mapserv?map=%s",
+            #                                    base.url, retMessage   ) ,
+            #                  options = leaflet::WMSTileOptions(zIndex = 4, format = "image/png",
+            #                                                    transparent = T , opacity=op,
+            #                                                    ## below a unique layerid depending on mapfilename.
+            #                                                    layerId =   basic.layerlist.list$overlayGroups$Casi_COVID19
+            #                                                    ),
+            #                  layers=basic.layerlist.list$overlayGroups$Casi_COVID19,
+            #                  group=basic.layerlist.list$overlayGroups$Casi_COVID19,
+            #                  attribution = "&copy <a title='COVID-19 Maps' href='mailto:francesco.pirotti@unipd.it;'>F. Pirotti</a><a href='www.cirgeo.unipd.it' target='_blank'>@CIRGEO</a>" )  %>%
 
-          leaflet::addPolygons(data = pp, weight=1, color=cm(dt.filtered[[input$calculus]]), options=leaflet::pathOptions(interactive=F) )
+          leaflet::addPolygons(data = pp, weight=2,
+                               color=cm(pp[[input$calculus]]),
+                               options=leaflet::pathOptions(interactive=F),
+                               opacity = 0.5, fillOpacity = 0.2,
+                               className=sprintf("cl%s_%s__%s" ,
+                                                 id,
+                                                 basic.layerlist.list$overlayGroups$Casi_COVID19,
+                                                 pp$SIGLA),
+                               layers=sprintf("%s_%s__%s" ,
+                                                 id,
+                                                 basic.layerlist.list$overlayGroups$Casi_COVID19,
+                                                 pp$SIGLA),
+                               group=basic.layerlist.list$overlayGroups$Casi_COVID19,
+                               attribution = "&copy <a title='COVID-19 Maps' href='mailto:francesco.pirotti@unipd.it;'>F. Pirotti</a><a href='www.cirgeo.unipd.it' target='_blank'>@CIRGEO</a>"
+                               )
+
                   temp.mapfile<<-retMessage
 
       } else {
