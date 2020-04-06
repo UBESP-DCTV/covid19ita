@@ -7,6 +7,8 @@
 #' @noRd
 #'
 #' @importFrom shiny NS tagList
+#'
+#'
 mod_maps_ui <- function(id){
   ns <- NS(id) # non cancellare
 
@@ -42,14 +44,7 @@ mod_maps_ui <- function(id){
     sqrt=function(x){ x^2 }
   )
 
-  paletteList.t<-list(
-    Person=c("#cccccc",   "#ffffd9", "#edf8b1", "#c7e9b4", "#7fcdbb",  "#41b6c4", "#1d91c0", "#225ea8",  "#6e016b", "#990000", "#d7301f", "#FF0000" ),
-    Spectral=c("#cccccc",   rev( rainbow(20)[1:12])),
-    YellowOrangeRed= RColorBrewer::brewer.pal(9,"YlOrRd"),
-    RedYellowBlue= RColorBrewer::brewer.pal(11,"RdYlBu"),
-    BlueYellowRed=rev(RColorBrewer::brewer.pal(11,"RdYlBu")),
-    RedWhiteGrey= rev(RColorBrewer::brewer.pal(11,"RdGy"))
-  )
+
 
   paletteList.img<-c()
   for( pal in paletteList.t){
@@ -66,12 +61,12 @@ mod_maps_ui <- function(id){
     # cat(html, file = tf2 <- tempfile(fileext = ".html"))
     # browseURL(tf2)
   }
-
   paletteList<- (names(paletteList.t))
 
   functionList<- list( "Linear"="linear", "Log10"="log10Per" )
   functionList.lut <- names(functionList)
   names(functionList.lut) <- functionList
+
 
   tooltips<-list(scale.fixed="<b style='font-weight:bold; color:red;'>
            Fixed Scale</b><br>If checked, this box will keep the scale constant to the range of the min and max of all values accross the time-span of analysis of whatever observation is plotted.
@@ -100,6 +95,7 @@ mod_maps_ui <- function(id){
       .datepicker { z-index:999999999999  !important; }
       .selectize-dropdown{   z-index:9999999999 !important;  }
       .dropdown-menu{   z-index:9999999999 !important;  }
+      #shiny-notification-panel{ width:100%% !important; height:200px;}
       #%s-mymap {
         height:calc(100vh - 200px) !important;
         min-height:500px;
@@ -175,35 +171,57 @@ mod_maps_server <- function(id) {
   ### 1-data 2-scale.fixed 3-scale.funct_, 4-calculus (e.g. totale, giornaliero etcc) 5-colorscale
   remote.mapfile.template<-"mapfile%s_%s_%s_%s_%s.map"
 
+  temp.mapfile<-NULL
 
   httpheader <- c(Accept="application/json; charset=UTF-8",
                   "Content-Type"="application/json")
 
 
-  creaMap<-function( cm=list("*"="666666"), filename="dummy.map"){
+  creaMap<-function( cm=list("*"="666666"), mapfile=NULL){
     ### inizio con funzioni per verificare che il server CIRGEO/VSIX sia online e che ci siano i files
-    full.remote.path.mapfile<-sprintf("%s/%s" , remote.base.url, filename)
-    if( RCurl::url.exists( full.remote.path.mapfile ) ){
-      ### esiste quindi
-      return(T)
-    }
+    #full.remote.path.mapfile<-sprintf("%s/%s" , remote.base.url, filename)
+    # if( RCurl::url.exists( full.remote.path.mapfile ) ){
+    #   ### esiste quindi
+    #   return(T)
+    # }
     if( !RCurl::url.exists( remote.mapfile.creator ) ){
-      return("Non esiste nel server remoto il file per creare i MAPFILES!")
+      return(list("message"="Non esiste nel server remoto il file per creare i MAPFILES!"))
     }
-    # jsonbody <- RJSONIO::toJSON( list(mapname=filename ,  colormap=cm), collapse = "" )
-    #
-    # bls.content <- RCurl::postForm(remote.mapfile.creator ,
-    #                         .opts=list(httpheader=httpheader,
-    #                                    postfields=jsonbody))
 
+    if(is.null(mapfile)) {
+      body=list(layername=basic.layerlist.list$overlayGroups$Casi_COVID19,
+                colormap=as.list(cm))
+    } else {
+      body=list(layername=basic.layerlist.list$overlayGroups$Casi_COVID19,
+                mapfile=mapfile ,
+                colormap=as.list(cm))
+    }
 
     r<-httr::POST(remote.mapfile.creator,
-         body = list(layername=basic.layerlist.list$overlayGroups$Casi_COVID19,
-                     mapname=filename ,
-                     colormap=as.list(cm)), encode = "json")
+         body = body, encode = "json")
 
-    print(httr::http_status(r) )
-    return(T)
+    status<-httr::http_status(r)
+    if(r$status_code!=200) {
+      print(status$message )
+      return(status)
+    }
+
+    output<-httr::content(r, "text")
+    print(output)
+
+    output<-httr::content(r)
+    if(!is.list(output)){
+      output<-httr::content(r, "text")
+      return(list("message"=paste0("Cannot parse PHP file from remote host, contact developer.<br>", output, sep="")))
+    }
+    # output.st<- RJSONIO::isValidJSON(output)
+    # if(!output.st) {
+    #   print(output)
+    #   return(list("message"="Cannot parse as JSON PHP file from remote host, contact developer."))
+    # }
+
+    print(output)
+    return(output$message)
 
   }
 
@@ -244,16 +262,18 @@ mod_maps_server <- function(id) {
     ## all'interno della chiamata a `ns()`)
 
     output$mymap <- leaflet::renderLeaflet(
-      leaflet::leaflet(width="100%", height = 600 ) %>%
+      leaflet::leaflet(width="100%", height = 600   ) %>%
         htmlwidgets::onRender(sprintf("function(el, x) {
            %s_mapElement=this;
-           %s_layerobjects={};
+           %s_layerobjects='';
 
 
             var loadHandler = function (event) {
         //        const keys = Object.keys(%s_layerobjects);
         //        for (var  key of keys) {
         //          if(key !== event.sourceTarget.options.layerId){
+        //              var ii = %s_mapElement.currentLayersControl.removeLayer( event.sourceTarget );
+        //              console.log(ii);
         //              %s_mapElement.removeLayer(%s_layerobjects[key]);
         //              delete %s_layerobjects[key];
         //              //console.log(%s_layerobjects);
@@ -267,8 +287,9 @@ mod_maps_server <- function(id) {
 
 
             function %s_onLayerAddFunction(e){
+              console.log(e.layer);
               if( typeof(e.layer.options.layers)!=='undefined' && e.layer.options.layers=='%s'  ) {
-                  %s_layerobjects[e.layer.options.layerId]=e.layer;
+                  %s_layerobjects=e.layer;
                   e.layer.on('load', loadHandler);
                   console.log(e.layer);
               }
@@ -302,11 +323,12 @@ mod_maps_server <- function(id) {
             });
 
            $('#%s_opacitySlider').on('input', function(x){
-              var oo = Object.values(%s_layerobjects)[0];
+              var oo = %s_layerobjects;
               vv=$(this).val();
+              oo.setOpacity(vv/100);
               Shiny.onInputChange('%s-currentWMSopacity', vv);
-               oo.options.opacity=vv/100 ;
-               $(oo._container).css({ 'opacity' : vv/100 });
+              // oo.options.opacity=vv/100 ;
+              // $(oo._container).css({ 'opacity' : vv/100 });
             });
 
             $('#%s-dateRange').on('input', function(e){
@@ -314,7 +336,7 @@ mod_maps_server <- function(id) {
             });
 
 
-           }", id, id, id, id, id, id, id, id,
+           }", id, id, id, id, id, id,   id, id, id,
                id, basic.layerlist.list$overlayGroups$Casi_COVID19 ,
                id, id, id, id, id, id, id, id, id, id, id, id, id, id, id)) %>%
         leaflet::setView( 11, 43, 6)  %>%
@@ -353,25 +375,29 @@ mod_maps_server <- function(id) {
           input$date1, input$scale.fixed,
           input$palette )
 
-      shinyjs::runjs(sprintf("$('#%s-loader').show();", id))
       ## trovo labels per ultima data
 
 
+      print(functionList)
       dt.filtered<- current_data()
 
-      mapfilename<-sprintf(remote.mapfile.template,
-                           input$date1, input$scale.fixed,
-                           input$scale.funct_, input$calculus,  input$palette)
+      print("paletteList.t")
+      # mapfilename<-sprintf(remote.mapfile.template,
+      #                      input$date1, input$scale.fixed,
+      #                      input$scale.funct_, input$calculus,  input$palette)
 
       cm<-current_palettFunction()
-      retMessage<-creaMap( setNames( cm(dt.filtered[[input$calculus]]) ,
-                                     dt.filtered[["sigla_provincia"]]  ) , filename=mapfilename)
+      sigla2hex<-setNames( cm(dt.filtered[[input$calculus]]) ,
+                dt.filtered[["sigla_provincia"]]  )
+      retMessage<-creaMap(sigla2hex , temp.mapfile  )
 
-      if(  !isTRUE(retMessage) ){
-        showNotification(retMessage,   duration = 15, type ="error")
+      if( is.list(retMessage) ){
+        showNotification( HTML(retMessage$message),   duration = NULL, type ="error")
+        shinyjs::runjs(sprintf("$('#%s-loader').hide();", id))
         return(NULL)
       }
 
+      print(retMessage)
 
       dt.label<-  dt.filtered[[input$calculus]]
 
@@ -397,39 +423,54 @@ mod_maps_server <- function(id) {
       if(is.null(labsize)) labsize<-11
       else  labsize<-as.integer(isolate(input$currentLabelSize ))
 
-      leaflet::leafletProxy("mymap") %>%
-        leaflet::addWMSTiles(baseUrl = sprintf("%s/cgi-bin/mapserv?map=%s%s",
-                                      base.url, remote.path, mapfilename    ) ,
-                    options = leaflet::WMSTileOptions(zIndex = 4, format = "image/png",
-                                                      transparent = T , opacity=op,
-                                            ## below a unique layerid depending on mapfilename.
-                                             layerId = sprintf("%s_%s",
-                                                               basic.layerlist.list$overlayGroups$Casi_COVID19,
-                                                               mapfilename)  ),
-                    layers=basic.layerlist.list$overlayGroups$Casi_COVID19,
-                    layerId = sprintf("%s_%s", basic.layerlist.list$overlayGroups$Casi_COVID19, input$date1),
-                    group=basic.layerlist.list$overlayGroups$Casi_COVID19,
-                    attribution = "&copy <a title='WMS Service of COVID-19 Maps' href='mailto:francesco.pirotti@unipd.it;'>F. Pirotti</a><a href='www.cirgeo.unipd.it' target='_blank'>@CIRGEO</a>" )  %>%
 
-        leaflet::addLabelOnlyMarkers(data = dt.filtered, lng = ~long, lat=~lat,
-                                     layerId = sprintf("%s%s", basic.layerlist.list$overlayGroups$Casi_COVID19labels,
-                                                       dt.filtered$sigla_provincia    ),
-                                     group =  basic.layerlist.list$overlayGroups$Casi_COVID19labels,
 
-                                     label = label ,
-                                     labelOptions = leaflet::labelOptions(zIndex = 10,  noHide = TRUE,
-                                                                          # direction = "bottom",
-                                                                          textOnly = T,
-                                                                          style= list(
-                                                                            "font-size" = sprintf("%dpx",labsize),
-                                                                            "font-weight" = "bold",
-                                                                            "color"=labelBlack,
-                                                                            "text-shadow"=sprintf("0px 0px 3px %s", labelBlack2)
-                                                                          ),
-                                                                          #offset = c(0, -10),
-                                                                          opacity = 1
-                                     )
-        )
+      if(is.null(temp.mapfile)){
+        pp<-readRDS("../data-raw/province_polygons2019.rds")
+        leaflet::leafletProxy("mymap") %>%
+            leaflet::addWMSTiles(baseUrl = sprintf("%s/cgi-bin/mapserv?map=%s",
+                                               base.url, retMessage   ) ,
+                             options = leaflet::WMSTileOptions(zIndex = 4, format = "image/png",
+                                                               transparent = T , opacity=op,
+                                                               ## below a unique layerid depending on mapfilename.
+                                                               layerId =   basic.layerlist.list$overlayGroups$Casi_COVID19
+                                                               ),
+                             layers=basic.layerlist.list$overlayGroups$Casi_COVID19,
+                             group=basic.layerlist.list$overlayGroups$Casi_COVID19,
+                             attribution = "&copy <a title='WMS Service of COVID-19 Maps' href='mailto:francesco.pirotti@unipd.it;'>F. Pirotti</a><a href='www.cirgeo.unipd.it' target='_blank'>@CIRGEO</a>" )  %>%
+
+          leaflet::addPolygons(data = pp, weight=1, color=cm(dt.filtered[[input$calculus]]), options=leaflet::pathOptions(interactive=F) )
+                  temp.mapfile<<-retMessage
+
+      } else {
+        ## do cachebusting to reload tiles
+        shinyjs::runjs( sprintf("
+              console.log(%s_layerobjects);
+              %s_layerobjects.setParams({fake: Date.now()});
+              console.log(%s_layerobjects);
+                     ", id, id, id) )
+
+                  }
+
+      # leaflet::leafletProxy("mymap") %>%
+      #   leaflet::addLabelOnlyMarkers(data = dt.filtered, lng = ~long, lat=~lat,
+      #                layerId = sprintf("%s%s", basic.layerlist.list$overlayGroups$Casi_COVID19labels,
+      #                                  dt.filtered$sigla_provincia    ),
+      #                group =  basic.layerlist.list$overlayGroups$Casi_COVID19labels,
+      #                label = label ,
+      #                labelOptions = leaflet::labelOptions(zIndex = 10,  noHide = TRUE,
+      #                                                     # direction = "bottom",
+      #                                                     textOnly = T,
+      #                                                     style= list(
+      #                                                       "font-size" = sprintf("%dpx",labsize),
+      #                                                       "font-weight" = "bold",
+      #                                                       "color"=labelBlack,
+      #                                                       "text-shadow"=sprintf("0px 0px 3px %s", labelBlack2)
+      #                                                     ),
+      #                                                     #offset = c(0, -10),
+      #                                                     opacity = 1 ) )
+
+
 
     })
 
@@ -484,6 +525,7 @@ mod_maps_server <- function(id) {
     ### reactive functions
 
     current_data <- reactive({
+      req(input$date1, input$calculus)
       data_to_use %>%
         dplyr::filter( as.Date(.data$data) == input$date1) %>%
         dplyr::select(
