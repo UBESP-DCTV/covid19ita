@@ -457,7 +457,7 @@ mod_focus_20200404_magnani_server <- function(id) {
 
 
   ### by sex (fig 5)
-  gg_fig_5_week_sex <- data_week %>%
+  gg_fig_5_week_sex <- data_week_sex %>%
     ggplot(aes(
       x = .data$settimana,
       y = .data$decessi,
@@ -474,7 +474,7 @@ mod_focus_20200404_magnani_server <- function(id) {
 
 
   ### bay age (fig 6)
-  gg_fig_6_week_age <- data_week %>%
+  gg_fig_6_week_age <- data_week_age %>%
     ggplot(aes(
       x = .data$settimana,
       y = .data$decessi,
