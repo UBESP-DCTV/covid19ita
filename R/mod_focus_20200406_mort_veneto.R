@@ -248,8 +248,8 @@ mod_focus_20200406_mort_veneto_ui <- function(id){
         10 gennaio e quindi non è confrontabile con i successivi perché
         comprende 11 giorni di osservazione. In questa fase si è deciso
         pertanto di escluderlo e di partire dal secondo periodo, che ha
-        inizio il 12 gennaio 2020. I grafici seguenti (figura 5 e figura 6)
-        presentano l’andamento per classe di età, sesso e provincia.
+        inizio il 12 gennaio 2020. I grafici seguenti (figura 5)
+        presentano l’andamento per classe di età e provincia.
         I grafici riportano sull’asse orizzontale
         la data di inizio dei diversi periodi settimanali.
       ")),
@@ -258,14 +258,8 @@ mod_focus_20200406_mort_veneto_ui <- function(id){
     )),
 
     fluidRow(box(
-      plotlyOutput(ns("fig_5_week_sex")),
-      title = "Figura 5: Numero di decessi settimanali per provincia e sesso dall'12 al 21 marzo 2020.",
-      width = 12,
-    )),
-
-    fluidRow(box(
       plotlyOutput(ns("fig_6_week_age")),
-      title = "Figura 6: Numero di decessi settimanali per provincia e classi di età dall'12 al 21 marzo 2020.",
+      title = "Figura 5: Numero di decessi settimanali per provincia e classi di età dall'12 al 21 marzo 2020.",
       width = 12,
     )),
 
@@ -404,24 +398,9 @@ mod_focus_20200406_mort_veneto_server <- function(id) {
       .data$classe_di_eta,
       .data$sex
     ) %>%
-    dplyr::summarise(decessi = sum(.data$n_death))
+    dplyr::summarise(decessi = sum(.data$n_death)) # %>%
+#    dplyr::filter(.data$classe_di_eta == "75 anni e più")
 
-
-  ### by sex (fig 5)
-  gg_fig_5_week_sex <- data_week_veneto %>%
-    ggplot(aes(
-      x = .data$settimana,
-      y = .data$decessi,
-      colour = .data$provincia
-    )) +
-    geom_point() +
-    geom_smooth(se = FALSE) +
-    facet_wrap(.data$sex ~ ., scales = "free_y") +
-    labs(y = "Numero decessi 1-20 marzo") +
-    theme(
-      axis.text.x = element_text(angle = 60, hjust = 1),
-      panel.background = element_blank()
-    )
 
 
   ### bay age (fig 6)
@@ -468,10 +447,6 @@ mod_focus_20200406_mort_veneto_server <- function(id) {
 
     output$fig_4_year_age <- renderPlotly({
       clean_ggplotly(gg_fig_4_year_age)
-    })
-
-    output$fig_5_week_sex <- renderPlotly({
-      clean_ggplotly(gg_fig_5_week_sex)
     })
 
     output$fig_6_week_age <- renderPlotly({
