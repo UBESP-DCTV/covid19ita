@@ -128,8 +128,6 @@ mod_maps_ui <- function(id){
                       text-shadow:0px 0px 8px black;',
                       "Loading Geodata...", div(id=ns("loader-text")) ) ),
 
-
-
             fluidRow(
               column(4, style="font-weight:bold;",
                      dateInput(ns("date1"), NULL, value = data.ultima, min = data.prima,
@@ -141,7 +139,7 @@ mod_maps_ui <- function(id){
                                             "Daily cases / 10 000 residents"="delta.normPop",
                                             "Daily cases"="delta" ) ),
 
-              )
+                   )
               ),
               column(1,
                      div(style=" ",
@@ -425,6 +423,16 @@ mod_maps_server <- function(id) {
     })
 
  #  observeEvent(input$info, {
+
+
+
+    #### DRAW POLYGONS FIRST RENDER ----------
+    observeEvent(input$leaflet_rendered, {
+      cm<-current_palettFunction()
+      fillColors<-cm.init(dt.filtered.init[["totale_casi.normPop"]])
+
+
+
       showNotification(HTML(sprintf("
       Drag the <b>slider above the map panel</b> to dynamically change day and color
       over the date range (currently from %s to %s). This will simulate a <b style='color:#0700e8;'>timelapse</b> of spatial distribution of COVID-19 positive cases over Italian provinces.<br>
@@ -441,14 +449,11 @@ mod_maps_server <- function(id) {
 
 
                             ",  format(data.prima , "%A %e %B %yyyy"),
-                                format(data.ultima, "%A %e %B %yyyy") ) ) ,
+                                    format(data.ultima, "%A %e %B %yyyy") ) ) ,
                        duration = NULL, type ="warning")
- #   })
 
-    #### DRAW POLYGONS FIRST RENDER ----------
-    observeEvent(input$leaflet_rendered, {
-      cm<-current_palettFunction()
-      fillColors<-cm.init(dt.filtered.init[["totale_casi.normPop"]])
+
+
 
       for(i in 1:length(province_polygons2019)){
         leaflet::leafletProxy("mymap") %>%
