@@ -264,7 +264,20 @@ mod_maps_server <- function(id) {
 
   data_to_use$totale_casi.normPop<-data_to_use$totale_casi/data_to_use$Residenti * 10000
   data_to_use$delta.normPop<-data_to_use$delta/data_to_use$Residenti * 10000
+  ## initial values for polygon loading
+  dt.filtered.init <- data_to_use %>%
+    dplyr::filter( as.Date(.data$data) == as.Date(max(data_to_use$data))) %>%
+    dplyr::select(
+      .data$sigla_provincia,
+      .data$totale_casi.normPop,
+      .data$lat, .data$long
+    )
 
+  cm.init<-leaflet::colorNumeric(
+    palette =   paletteList.t$Person ,
+    domain =  dt.filtered.init$totale_casi.normPop
+  )
+  pp<-readRDS("../data-raw/province_polygons2019.rds")
 
   callModule(id = id, function(input, output, session) {
     ns <- session$ns
@@ -281,16 +294,18 @@ mod_maps_server <- function(id) {
            %s_covidGroupname='%s';
            %s_mapElement=this;
 
-            function %s_onLayerAddFunction(e){
-                 $('#%s-loader').hide();
-            }
+           // function %s_onLayerAddFunction(e){
+           //      console.log('dfd');
+           //      $('#%s-loader').hide();
+           // }
 
+           $('#%s-loader').hide();
            Shiny.onInputChange('%s-leaflet_rendered', true);
-           this.on('layeradd', %s_onLayerAddFunction);
+           //this.on('layeradd', %s_onLayerAddFunction);
 
            $(\".leaflet-control-layers-overlays > label:nth-child(2) > div:nth-child(1)\").append(\"&nbsp;&nbsp;<input   title='black label' id='%s_labelBlack' type='checkbox'   >\");
            $(\".leaflet-control-layers-overlays > label:nth-child(2) > div:nth-child(1)\").append(\"<input style='width: 100px;' title='change size of label' id='%s_labelsizeSlider' type='range' value='11' step='1' min='3' max='30'  >\");
-           $(\".leaflet-control-layers-overlays > label:nth-child(1) > div:nth-child(1)\").append(\"<input style='width: 100px;' title='change transparency to layer' id='%s_opacitySlider' type='range' value='60' step='1'  >\");
+           $(\".leaflet-control-layers-overlays > label:nth-child(1) > div:nth-child(1)\").append(\"<input style='width: 100px;' title='change transparency to layer' id='%s_opacitySlider' type='range' value='50' step='1'  >\");
 
            $('#%s_labelBlack').on('change', function(x){
               vv=this.checked;
@@ -334,7 +349,20 @@ mod_maps_server <- function(id) {
         leaflet::addTiles(urlTemplate = "https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png",
                           attribution = '&copy;<a href="https://carto.com/attributions">OSM CARTO</a>',
                           options =  leaflet::tileOptions(zIndex = 2, preferCanvas=TRUE, maxZoom = 19, subdomains = "abcd" ), group=basic.layerlist.list$baseGroups$osm.light)  %>%
-
+        leaflet::addPolygons(data = pp, weight=1,
+                             color="#FFFFFF",
+                             fillColor=cm.init(dt.filtered.init$totale_casi.normPop),
+                             options=leaflet::pathOptions(interactive=F,
+                                                          className=sprintf("%s_%s__%s" ,
+                                                                            id,
+                                                                            basic.layerlist.list$overlayGroups$Casi_COVID19,
+                                                                            pp$SIGLA) ),
+                             opacity = 1, fillOpacity = 0.5,
+                             layerId=sprintf("%s_%s__%s" ,
+                                             id,
+                                             basic.layerlist.list$overlayGroups$Casi_COVID19,
+                                             pp$SIGLA),
+                             group=basic.layerlist.list$overlayGroups$Casi_COVID19 ) %>%
         leaflet::hideGroup( as.character(basic.layerlist.list$overlayGroups) ) %>%
         leaflet::showGroup( c(basic.layerlist.list$overlayGroups$Casi_COVID19 ) )   %>%
         # addMouseCoordinates() %>%
@@ -366,7 +394,6 @@ mod_maps_server <- function(id) {
       ## trovo labels per ultima data
 
 
-      print(functionList)
       dt.filtered<- current_data()
 
       print("paletteList.t")
@@ -377,15 +404,15 @@ mod_maps_server <- function(id) {
       cm<-current_palettFunction()
       sigla2hex<- stats::setNames( cm(dt.filtered[[input$calculus]]) ,
                 dt.filtered[["sigla_provincia"]]  )
-      retMessage<-creaMap(sigla2hex , temp.mapfile  )
-
-      if( is.list(retMessage) ){
-        showNotification( HTML(retMessage$message),   duration = NULL, type ="error")
-        shinyjs::runjs(sprintf("$('#%s-loader').hide();", id))
-        return(NULL)
-      }
-
-      print(retMessage)
+      # retMessage<-creaMap(sigla2hex , temp.mapfile  )
+      #
+      # if( is.list(retMessage) ){
+      #   showNotification( HTML(retMessage$message),   duration = NULL, type ="error")
+      #   shinyjs::runjs(sprintf("$('#%s-loader').hide();", id))
+      #   return(NULL)
+      # }
+      #
+      # print(retMessage)
 
       dt.label<-  dt.filtered[[input$calculus]]
 
@@ -413,46 +440,46 @@ mod_maps_server <- function(id) {
 
 
 
-      if(is.null(temp.mapfile)){
-        pp<-readRDS("../data-raw/province_polygons2019.rds")
-        leaflet::leafletProxy("mymap") %>%
-            # leaflet::addWMSTiles(baseUrl = sprintf("%s/cgi-bin/mapserv?map=%s",
-            #                                    base.url, retMessage   ) ,
-            #                  options = leaflet::WMSTileOptions(zIndex = 4, format = "image/png",
-            #                                                    transparent = T , opacity=op,
-            #                                                    ## below a unique layerid depending on mapfilename.
-            #                                                    layerId =   basic.layerlist.list$overlayGroups$Casi_COVID19
-            #                                                    ),
-            #                  layers=basic.layerlist.list$overlayGroups$Casi_COVID19,
-            #                  group=basic.layerlist.list$overlayGroups$Casi_COVID19,
-            #                  attribution = "&copy <a title='COVID-19 Maps' href='mailto:francesco.pirotti@unipd.it;'>F. Pirotti</a><a href='www.cirgeo.unipd.it' target='_blank'>@CIRGEO</a>" )  %>%
-
-          leaflet::addPolygons(data = pp, weight=1,
-                               color="#FFFFFF",
-                               fillColor=cm(dt.filtered[[input$calculus]]),
-                               options=leaflet::pathOptions(interactive=F,
-                                                            className=sprintf("%s_%s__%s" ,
-                                                                              id,
-                                                                              basic.layerlist.list$overlayGroups$Casi_COVID19,
-                                                                              pp$SIGLA) ),
-                               opacity = 1, fillOpacity = 1,
-                               layerId=sprintf("%s_%s__%s" ,
-                                                 id,
-                                                 basic.layerlist.list$overlayGroups$Casi_COVID19,
-                                                 pp$SIGLA),
-                               group=basic.layerlist.list$overlayGroups$Casi_COVID19 )
-
-                  temp.mapfile<<-retMessage
-
-      } else {
+      # if(is.null(temp.mapfile)){
+      #   pp<-readRDS("../data-raw/province_polygons2019.rds")
+      #   leaflet::leafletProxy("mymap") %>%
+      #       # leaflet::addWMSTiles(baseUrl = sprintf("%s/cgi-bin/mapserv?map=%s",
+      #       #                                    base.url, retMessage   ) ,
+      #       #                  options = leaflet::WMSTileOptions(zIndex = 4, format = "image/png",
+      #       #                                                    transparent = T , opacity=op,
+      #       #                                                    ## below a unique layerid depending on mapfilename.
+      #       #                                                    layerId =   basic.layerlist.list$overlayGroups$Casi_COVID19
+      #       #                                                    ),
+      #       #                  layers=basic.layerlist.list$overlayGroups$Casi_COVID19,
+      #       #                  group=basic.layerlist.list$overlayGroups$Casi_COVID19,
+      #       #                  attribution = "&copy <a title='COVID-19 Maps' href='mailto:francesco.pirotti@unipd.it;'>F. Pirotti</a><a href='www.cirgeo.unipd.it' target='_blank'>@CIRGEO</a>" )  %>%
+      #
+      #     leaflet::addPolygons(data = pp, weight=1,
+      #                          color="#FFFFFF",
+      #                          fillColor=cm(dt.filtered[[input$calculus]]),
+      #                          options=leaflet::pathOptions(interactive=F,
+      #                                                       className=sprintf("%s_%s__%s" ,
+      #                                                                         id,
+      #                                                                         basic.layerlist.list$overlayGroups$Casi_COVID19,
+      #                                                                         pp$SIGLA) ),
+      #                          opacity = 1, fillOpacity = 1,
+      #                          layerId=sprintf("%s_%s__%s" ,
+      #                                            id,
+      #                                            basic.layerlist.list$overlayGroups$Casi_COVID19,
+      #                                            pp$SIGLA),
+      #                          group=basic.layerlist.list$overlayGroups$Casi_COVID19 )
+      #
+      #             temp.mapfile<<-retMessage
+      #
+      # } else {
         ## do cachebusting to reload tiles
         shinyjs::runjs( sprintf("
-              console.log(%s_layerobjects);
+              //console.log(%s_layerobjects);
               //%s_layerobjects.setParams({fake: Date.now()});
               //console.log(%s_layerobjects);
                      ", id, id, id) )
 
-                  }
+ #                 }
 
       # leaflet::leafletProxy("mymap") %>%
       #   leaflet::addLabelOnlyMarkers(data = dt.filtered, lng = ~long, lat=~lat,
