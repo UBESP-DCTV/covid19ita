@@ -1,3 +1,5 @@
+# covid19ita 0.32.1
+
 * fix plot veneto by age
 * removed plot veneto by sex
 
