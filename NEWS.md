@@ -1,3 +1,5 @@
+# covid19ita 0.31.0
+
 * added helper `ggmort()` as helper for standar dmortality plot
 * added `clean_ggplotly()` to render plotly with reduced number of
   buttons
