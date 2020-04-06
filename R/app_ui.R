@@ -269,7 +269,15 @@ dashboard_body <- function() {dashboardBody(
           a(href = "https://www.linkedin.com/in/nicolas-destro-b2a67212b/", target = "_blank", "LinkedIn")
         )
       ),
-
+      box(width = 12, title = HTML("<strong>Analisi Geospaziale e Rappresentazione Cartografica</strong>"),
+          p(
+            HTML("Prof. <strong>Francesco Pirotti</strong>, Ph.D.,
+            Dipartimento Territorio e Sistemi Agro-Forestali (TESAF)
+            CIRGEO - Centro Interdipartimentale di Ricerca di Geomatica."
+            ),
+            a(href = "https://www.linkedin.com/in/fpirotti", target = "_blank", "LinkedIn")
+          )
+      ),
             h2("Istruzioni per la navigazione"),
       box(width = 12, title = HTML("<strong>Organizzazione del sito</strong>"),
         HTML(
