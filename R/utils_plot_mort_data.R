@@ -11,7 +11,7 @@ ggmort <- function(data, legend_title, x = c("regione", "provincia")) {
     geom_bar(position = "dodge", stat = "identity") +
     labs(
       y = "Variazione Percentuale",
-      x = "Nome regione",
+      x = paste("Nome", x),
       fill = legend_title
     ) +
     theme(

@@ -154,7 +154,7 @@ mod_focus_20200406_mort_veneto_ui <- function(id){
       "))
     )),
 
-    fluidRow(box(width = 12, Title = "Tabella 2: Variazione percentuale per classi di età e provincia. Periodo 1-21 marzo 2019 vs. 1-21 marzo 2020.",
+    fluidRow(box(width = 12, Title = "Tabella 1: Variazione percentuale per classi di età e provincia. Periodo 1-21 marzo 2019 vs. 1-21 marzo 2020.",
                  DT::DTOutput(ns("tab_1_age"))
     )),
 
@@ -164,7 +164,7 @@ mod_focus_20200406_mort_veneto_ui <- function(id){
                  width = 12,
     )),
 
-    fluidRow(box(width = 12, Title = "Tabella 3: Variazione percentuale per classi di sesso e provincia. Periodo 1-21 marzo 2019 vs. 1-21 marzo 2020.",
+    fluidRow(box(width = 12, Title = "Tabella 2: Variazione percentuale per classi di sesso e provincia. Periodo 1-21 marzo 2019 vs. 1-21 marzo 2020.",
                  DT::DTOutput(ns("tab_2_sex"))
     )),
 
@@ -373,6 +373,7 @@ mod_focus_20200406_mort_veneto_server <- function(id) {
     )) +
     geom_point() +
     geom_smooth(se = FALSE) +
+    facet_wrap(.data$classe_di_eta ~. , scales = "free_y") +
     labs(y = "Numero decessi 1-20 marzo") +
     theme(
       axis.text.x = element_text(angle = 60, hjust = 1),
@@ -415,6 +416,7 @@ mod_focus_20200406_mort_veneto_server <- function(id) {
     )) +
     geom_point() +
     geom_smooth(se = FALSE) +
+    facet_wrap(.data$sex ~ ., scales = "free_y") +
     labs(y = "Numero decessi 1-20 marzo") +
     theme(
       axis.text.x = element_text(angle = 60, hjust = 1),
@@ -431,6 +433,7 @@ mod_focus_20200406_mort_veneto_server <- function(id) {
     )) +
     geom_point() +
     geom_smooth(se = FALSE) +
+    facet_wrap(.data$classe_di_eta ~ ., scales = "free_y") +
     labs(y = "Numero decessi 1-20 marzo") +
     theme(
       axis.text.x = element_text(angle = 60, hjust = 1),
@@ -448,7 +451,7 @@ mod_focus_20200406_mort_veneto_server <- function(id) {
     })
 
     output$tab_1_age <- DT::renderDT({
-      mort_data_reg_age
+      mort_data_veneto_age
     })
 
     output$fig_2_sex <- renderPlotly({
@@ -456,7 +459,7 @@ mod_focus_20200406_mort_veneto_server <- function(id) {
     })
 
     output$tab_2_sex <- DT::renderDT({
-      mort_data_reg_sex
+      mort_data_veneto_sex
     })
 
     output$fig_3_year_all <- renderPlotly({
