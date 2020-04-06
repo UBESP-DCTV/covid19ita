@@ -44,6 +44,8 @@ mod_maps_ui <- function(id){
     sqrt=function(x){ x^2 }
   )
 
+
+
   paletteList.t<-list(
 
     Person=c("#cccccc",   "#ffffd9", "#edf8b1", "#c7e9b4", "#7fcdbb",
@@ -54,6 +56,7 @@ mod_maps_ui <- function(id){
     BlueYellowRed=rev(RColorBrewer::brewer.pal(11,"RdYlBu")),
     RedWhiteGrey= rev(RColorBrewer::brewer.pal(11,"RdGy"))
   )
+
   paletteList<- (names(paletteList.t))
 
   paletteList.img<-c()
@@ -152,8 +155,9 @@ mod_maps_ui <- function(id){
       box(  div( id=ns("loader"), alt="",
                  style="width:100%; position:absolute; text-align: center; z-index:9999999999;",
                  loader,
-                 HTML("<font style='display: block; color:white;text-shadow:0px 0px 3px black;'>Loading Geodata...</font>" )),
-            HTML(sprintf("<input style='width:100%%;'  type='range' id='%s' />",   ns("dateRange") ) ),
+                 div( style='display: block; color:white;text-shadow:0px 0px 3px black;',
+                      "Loading Geodata...", div(id=ns("loader-text")) ) ),
+             tags$input(style='width:100%%;',  type='range', id= ns("dateRange") ),
             leaflet::leafletOutput(ns("mymap")) ,
         title = "Distribuzione geografica del numero di casi per provincia",
         footer = HTML("<div style='width:100% ; text-align:center; font-size:smaller;'>by F. Pirotti,  Dip.to TESAF /
@@ -275,7 +279,7 @@ mod_maps_server <- function(id) {
       leaflet::leaflet(width="100%", height = 600   ) %>%
         htmlwidgets::onRender(sprintf("function(el, x) {
            %s_mapElement=this;
-           %s_layerobjects='';
+           %s_layerobjects=[];
 
 
             var loadHandler = function (event) {
@@ -290,19 +294,20 @@ mod_maps_server <- function(id) {
         //          }
         //        }
 
-                event.sourceTarget.off('load');
-
                 $('#%s-loader').hide();
+                event.sourceTarget.off('add');
+
             };
 
 
             function %s_onLayerAddFunction(e){
-              console.log(e.layer);
-              if( typeof(e.layer.options.layers)!=='undefined' && e.layer.options.layers=='%s'  ) {
-                  %s_layerobjects=e.layer;
-                  e.layer.on('load', loadHandler);
-                  console.log(e.layer);
-              }
+            //  if( typeof(e.layer.options.layers)!=='undefined' && e.layer.options.layers=='%s'  ) {
+
+                var lo=%s_layerobjects;
+                %s_layerobjects.push(e.layer);
+                if(lo.length>100)  $('#%s-loader').hide();
+           //       e.layer.on('add', loadHandler);
+           //   }
             }
 
            Shiny.onInputChange('%s-leaflet_rendered', true);
@@ -333,9 +338,10 @@ mod_maps_server <- function(id) {
             });
 
            $('#%s_opacitySlider').on('input', function(x){
-              var oo = %s_layerobjects;
+              var oo = %s_mapElement;
+              var pp = oo.layerManager.getLayerGroup('COVID-19');
               vv=$(this).val();
-              oo.setOpacity(vv/100);
+              pp.setOpacity(vv/100);
               Shiny.onInputChange('%s-currentWMSopacity', vv);
               // oo.options.opacity=vv/100 ;
               // $(oo._container).css({ 'opacity' : vv/100 });
@@ -348,7 +354,7 @@ mod_maps_server <- function(id) {
 
            }", id, id, id, id, id, id,   id, id, id,
                id, basic.layerlist.list$overlayGroups$Casi_COVID19 ,
-               id, id, id, id, id, id, id, id, id, id, id, id, id, id, id)) %>%
+               id, id, id, id, id, id, id, id, id, id,  id, id, id, id, id, id, id)) %>%
         leaflet::setView( 11, 43, 6)  %>%
         leaflet::addTiles(urlTemplate = "https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png",
                           attribution = '&copy;<a href="https://carto.com/attributions">OSM CARTO</a>',
@@ -397,7 +403,7 @@ mod_maps_server <- function(id) {
       #                      input$scale.funct_, input$calculus,  input$palette)
 
       cm<-current_palettFunction()
-      sigla2hex<-setNames( cm(dt.filtered[[input$calculus]]) ,
+      sigla2hex<- stats::setNames( cm(dt.filtered[[input$calculus]]) ,
                 dt.filtered[["sigla_provincia"]]  )
       retMessage<-creaMap(sigla2hex , temp.mapfile  )
 
@@ -449,21 +455,19 @@ mod_maps_server <- function(id) {
             #                  group=basic.layerlist.list$overlayGroups$Casi_COVID19,
             #                  attribution = "&copy <a title='COVID-19 Maps' href='mailto:francesco.pirotti@unipd.it;'>F. Pirotti</a><a href='www.cirgeo.unipd.it' target='_blank'>@CIRGEO</a>" )  %>%
 
-          leaflet::addPolygons(data = pp, weight=2,
-                               color=cm(pp[[input$calculus]]),
-                               options=leaflet::pathOptions(interactive=F),
-                               opacity = 0.5, fillOpacity = 0.2,
-                               className=sprintf("cl%s_%s__%s" ,
+          leaflet::addPolygons(data = pp, weight=1,
+                               color=cm(dt.filtered[[input$calculus]]),
+                               options=leaflet::pathOptions(interactive=F,
+                                                            className=sprintf("%s_%s__%s" ,
+                                                                              id,
+                                                                              basic.layerlist.list$overlayGroups$Casi_COVID19,
+                                                                              pp$SIGLA) ),
+                               opacity = 0.8, fillOpacity = 0.6,
+                               layerId=sprintf("%s_%s__%s" ,
                                                  id,
                                                  basic.layerlist.list$overlayGroups$Casi_COVID19,
                                                  pp$SIGLA),
-                               layers=sprintf("%s_%s__%s" ,
-                                                 id,
-                                                 basic.layerlist.list$overlayGroups$Casi_COVID19,
-                                                 pp$SIGLA),
-                               group=basic.layerlist.list$overlayGroups$Casi_COVID19,
-                               attribution = "&copy <a title='COVID-19 Maps' href='mailto:francesco.pirotti@unipd.it;'>F. Pirotti</a><a href='www.cirgeo.unipd.it' target='_blank'>@CIRGEO</a>"
-                               )
+                               group=basic.layerlist.list$overlayGroups$Casi_COVID19 )
 
                   temp.mapfile<<-retMessage
 
@@ -471,8 +475,8 @@ mod_maps_server <- function(id) {
         ## do cachebusting to reload tiles
         shinyjs::runjs( sprintf("
               console.log(%s_layerobjects);
-              %s_layerobjects.setParams({fake: Date.now()});
-              console.log(%s_layerobjects);
+              //%s_layerobjects.setParams({fake: Date.now()});
+              //console.log(%s_layerobjects);
                      ", id, id, id) )
 
                   }
