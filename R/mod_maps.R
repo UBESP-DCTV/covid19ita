@@ -135,8 +135,9 @@ mod_maps_ui <- function(id){
                                           choices = list(
                                             "Total cases / 10 000 residents"="totale_casi.normPop",
                                             "Total cases"="totale_casi",
-                                            "Daily cases / 10 000 residents"="delta.normPop" ) ),
-                              "Daily cases"="delta"
+                                            "Daily cases / 10 000 residents"="delta.normPop",
+                                            "Daily cases"="delta" ) ),
+
               )
               ),
               column(1,
@@ -202,67 +203,67 @@ mod_maps_server <- function(id) {
   )
 
 
-  base.url<-"https://geolab02.vs-ix.net"
-  remote.path<-"/var/www/html/covid19carto/"
-  remote.base.url<-sprintf("%s/covid19carto/" , base.url)
-  remote.mapfile.creator<-sprintf("%s/creamapfile.php" , remote.base.url)
-  ### un mapfile per server WMS identificato da 5 variabili:
-  ### 1-data 2-scale.fixed 3-scale.funct_, 4-variableName (e.g. totale, giornaliero etcc) 5-colorscale
-  remote.mapfile.template<-"mapfile%s_%s_%s_%s_%s.map"
-
-  temp.mapfile<-NULL
-
-  httpheader <- c(Accept="application/json; charset=UTF-8",
-                  "Content-Type"="application/json")
-
-
-  creaMap<-function( cm=list("*"="666666"), mapfile=NULL){
-    ### inizio con funzioni per verificare che il server CIRGEO/VSIX sia online e che ci siano i files
-    #full.remote.path.mapfile<-sprintf("%s/%s" , remote.base.url, filename)
-    # if( RCurl::url.exists( full.remote.path.mapfile ) ){
-    #   ### esiste quindi
-    #   return(T)
-    # }
-    if( !RCurl::url.exists( remote.mapfile.creator ) ){
-      return(list("message"="Non esiste nel server remoto il file per creare i MAPFILES!"))
-    }
-
-    if(is.null(mapfile)) {
-      body=list(layername=basic.layerlist.list$overlayGroups$Casi_COVID19,
-                colormap=as.list(cm))
-    } else {
-      body=list(layername=basic.layerlist.list$overlayGroups$Casi_COVID19,
-                mapfile=mapfile ,
-                colormap=as.list(cm))
-    }
-
-    r<-httr::POST(remote.mapfile.creator,
-         body = body, encode = "json")
-
-    status<-httr::http_status(r)
-    if(r$status_code!=200) {
-      print(status$message )
-      return(status)
-    }
-
-    output<-httr::content(r, "text")
-    print(output)
-
-    output<-httr::content(r)
-    if(!is.list(output)){
-      output<-httr::content(r, "text")
-      return(list("message"=paste0("Cannot parse PHP file from remote host, contact developer.<br>", output, sep="")))
-    }
-    # output.st<- RJSONIO::isValidJSON(output)
-    # if(!output.st) {
-    #   print(output)
-    #   return(list("message"="Cannot parse as JSON PHP file from remote host, contact developer."))
-    # }
-
-    print(output)
-    return(output$message)
-
-  }
+  # base.url<-"https://geolab02.vs-ix.net"
+  # remote.path<-"/var/www/html/covid19carto/"
+  # remote.base.url<-sprintf("%s/covid19carto/" , base.url)
+  # remote.mapfile.creator<-sprintf("%s/creamapfile.php" , remote.base.url)
+  # ### un mapfile per server WMS identificato da 5 variabili:
+  # ### 1-data 2-scale.fixed 3-scale.funct_, 4-variableName (e.g. totale, giornaliero etcc) 5-colorscale
+  # remote.mapfile.template<-"mapfile%s_%s_%s_%s_%s.map"
+  #
+  # temp.mapfile<-NULL
+  #
+  # httpheader <- c(Accept="application/json; charset=UTF-8",
+  #                 "Content-Type"="application/json")
+  #
+  #
+  # creaMap<-function( cm=list("*"="666666"), mapfile=NULL){
+  #   ### inizio con funzioni per verificare che il server CIRGEO/VSIX sia online e che ci siano i files
+  #   #full.remote.path.mapfile<-sprintf("%s/%s" , remote.base.url, filename)
+  #   # if( RCurl::url.exists( full.remote.path.mapfile ) ){
+  #   #   ### esiste quindi
+  #   #   return(T)
+  #   # }
+  #   if( !RCurl::url.exists( remote.mapfile.creator ) ){
+  #     return(list("message"="Non esiste nel server remoto il file per creare i MAPFILES!"))
+  #   }
+  #
+  #   if(is.null(mapfile)) {
+  #     body=list(layername=basic.layerlist.list$overlayGroups$Casi_COVID19,
+  #               colormap=as.list(cm))
+  #   } else {
+  #     body=list(layername=basic.layerlist.list$overlayGroups$Casi_COVID19,
+  #               mapfile=mapfile ,
+  #               colormap=as.list(cm))
+  #   }
+  #
+  #   r<-httr::POST(remote.mapfile.creator,
+  #        body = body, encode = "json")
+  #
+  #   status<-httr::http_status(r)
+  #   if(r$status_code!=200) {
+  #     print(status$message )
+  #     return(status)
+  #   }
+  #
+  #   output<-httr::content(r, "text")
+  #   print(output)
+  #
+  #   output<-httr::content(r)
+  #   if(!is.list(output)){
+  #     output<-httr::content(r, "text")
+  #     return(list("message"=paste0("Cannot parse PHP file from remote host, contact developer.<br>", output, sep="")))
+  #   }
+  #   # output.st<- RJSONIO::isValidJSON(output)
+  #   # if(!output.st) {
+  #   #   print(output)
+  #   #   return(list("message"="Cannot parse as JSON PHP file from remote host, contact developer."))
+  #   # }
+  #
+  #   print(output)
+  #   return(output$message)
+  #
+  # }
 
   basic.layerlist.list<-list(    baseGroups = list( osm.bn="Map Night",osm.light ="Map Light",
                                                     osm="None" ),
@@ -293,6 +294,8 @@ mod_maps_server <- function(id) {
 
   data.prima<- min(as.Date(data_to_use$data))
   data.ultima<- max(as.Date(data_to_use$data))
+  dates.list<-sort(unique(as.Date(dpc_covid19_ita_province$data)))
+
   ## initial values for polygon loading
   dt.filtered.init <- data_to_use %>%
     dplyr::filter( as.Date(.data$data) ==  data.ultima)  %>%
@@ -331,6 +334,7 @@ mod_maps_server <- function(id) {
                  if(typeof(e.layer.options) !=='undefined' && e.layer.options.group== %s_covidGroupname ){
                     count++;
                     if(count>105) {
+                      count=0;
                       $('#%s-loader').hide();
                       Shiny.onInputChange('%s-leaflet_rendered_all', true);
                     }
@@ -345,10 +349,13 @@ mod_maps_server <- function(id) {
            $(\".leaflet-control-layers-overlays > label:nth-child(2) > div:nth-child(1)\").append(\"<input style='width: 100px;' title='change size of label' id='%s_labelsizeSlider' type='range' value='11' step='1' min='3' max='30'  >\");
            $(\".leaflet-control-layers-overlays > label:nth-child(1) > div:nth-child(1)\").append(\"<input style='width: 100px;' title='change transparency to layer' id='%s_opacitySlider' type='range' value='50' step='1'  >\");
 
-           $('#%s_dateRangeSlider').on('input', function(x){
+           $('#%s-dateRangeSlider').on('input', function(e){
               Shiny.onInputChange('%s-dateRangeChanged', e.target.value );
             });
 
+           $('#%s-dateRangeSlider').on('change', function(e){
+              Shiny.onInputChange('%s-dateRangeChangeFinished', e.target.value );
+            });
 
            $('#%s_labelBlack').on('change', function(x){
               vv=this.checked;
@@ -403,6 +410,9 @@ mod_maps_server <- function(id) {
 
    # outputOptions(output,  "mymap", suspendWhenHidden = FALSE)
 
+    observeEvent(input$dateRangeChanged, {
+      updateDateInput(session, "date1", value= dates.list[[ as.integer(input[["dateRangeChanged"]]) ]] )
+    })
 
     #### DRAW POLYGONS FIRST RENDER ----------
     observeEvent(input$leaflet_rendered, {
@@ -514,42 +524,29 @@ mod_maps_server <- function(id) {
       if(is.null(labsize)) labsize<-11
       else  labsize<-as.integer(isolate(input$currentLabelSize ))
 
-
-
-        ## do cachebusting to reload tiles
+     #print(input[["dateRangeChanged"]])
+      cc<-paste0(collapse="','",  sigla2hex )
       cc<-paste0(collapse="','",  sigla2hex )
 
       shinyjs::runjs( sprintf("
               var colorMap = ['%s'];
-              var layers = %s_mapElement.layerManager.getLayerGroup(%s_covidGroupname).getLayers();
-              if(layers.length!=colorMap.length){
+              var labelMap = ['%s'];
+              console.log(labelMap);
+              var layers = %s_mapElement.layerManager.getLayerGroup('%s').getLayers();
+              var labels = %s_mapElement.layerManager.getLayerGroup('%s').getLayers();
+              if(layers.length!=colorMap.length!=labelMap.length){
                  alert('OPS problem');
               } else {
                 for(var i=0; i < layers.length; i++) {
                    layers[i].setStyle({'fillColor': colorMap[i] });
+                   labels[i].setTooltipContent(  labelMap[i]  );
                 }
               }
-                     ",   cc, id, id  ) )
+                     ",   cc, label,
+              id, basic.layerlist.list$overlayGroups$Casi_COVID19,
+              id ,  basic.layerlist.list$overlayGroups$Casi_COVID19labels
+              ) )
 
- #                 }
-
-      # leaflet::leafletProxy("mymap") %>%
-      #   leaflet::addLabelOnlyMarkers(data = dt.filtered, lng = ~long, lat=~lat,
-      #                layerId = sprintf("%s%s", basic.layerlist.list$overlayGroups$Casi_COVID19labels,
-      #                                  dt.filtered$sigla_provincia    ),
-      #                group =  basic.layerlist.list$overlayGroups$Casi_COVID19labels,
-      #                label = label ,
-      #                labelOptions = leaflet::labelOptions(zIndex = 10,  noHide = TRUE,
-      #                                                     # direction = "bottom",
-      #                                                     textOnly = T,
-      #                                                     style= list(
-      #                                                       "font-size" = sprintf("%dpx",labsize),
-      #                                                       "font-weight" = "bold",
-      #                                                       "color"=labelBlack,
-      #                                                       "text-shadow"=sprintf("0px 0px 3px %s", labelBlack2)
-      #                                                     ),
-      #                                                     #offset = c(0, -10),
-      #                                                     opacity = 1 ) )
 
 
 
