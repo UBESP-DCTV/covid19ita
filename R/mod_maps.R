@@ -72,11 +72,12 @@ mod_maps_ui <- function(id){
   }
 
 
-  data.ultima<-max(dpc_covid19_ita_regioni$data)
-  data.prima<-min(dpc_covid19_ita_regioni$data)
+  data.ultima<-as.Date(max(dpc_covid19_ita_province$data))
+  data.prima<-as.Date(min(dpc_covid19_ita_province$data))
 
   tooltips<-list(scale.fixed="<b style='font-weight:bold; color:red;'>
-           Fixed Scale</b><br>If checked, this box will keep the scale constant to the range of the min and max of all values accross the time-span of analysis of whatever observation is plotted.
+           Fixed Scale</b><br>If checked, the scale will not change, but keep to the full range
+           of all values of chosen variable accross the full time-span.
            If unchecked, the scale will have min and max values of the current day, and therefore change every time a different day is chosen.
            The former allows comparing accross time, but has lower color contrast as range will be larger.
            The latter allows more color contrast over small variations. ",
@@ -96,13 +97,14 @@ mod_maps_ui <- function(id){
     ## `fludRow()`
     shinyjs::useShinyjs(),
     tags$head(
-    #  tags$script(src = "https://cdnjs.cloudflare.com/ajax/libs/rangeslider.js/2.3.3/rangeslider.min.js"),
-      tags$style(type="text/css",
+        tags$style(type="text/css",
                  sprintf("
       .datepicker { z-index:999999999999  !important; }
       .selectize-dropdown{   z-index:9999999999 !important;  }
       .dropdown-menu{   z-index:9999999999 !important;  }
-      #shiny-notification-panel{ width:100%% !important; height:200px;}
+      #shiny-notification-panel{ border:black; position:fixed;  bottom:10px;  width:100%%;}
+      .shiny-notification-warning{  opacity: 0.97; color:black; border: 1px solid black;
+      text-shadow: 0px 0px 15px black; }
       #%s-mymap {
         height:calc(100vh - 200px) !important;
         min-height:500px;
@@ -120,9 +122,10 @@ mod_maps_ui <- function(id){
     ),
     fluidRow(
       box(  div( id=ns("loader"), alt="",
-                 style="width:100%; position:absolute; text-align: center; z-index:9999999999;",
+                 style="width:100%; position:fixed; text-align: center; z-index:9999999999;",
                  loader,
-                 div( style='display: block; color:white;text-shadow:0px 0px 3px black;',
+                 div( style='display: block; color:white; font-weight:bold;
+                      text-shadow:0px 0px 8px black;',
                       "Loading Geodata...", div(id=ns("loader-text")) ) ),
 
 
@@ -142,12 +145,11 @@ mod_maps_ui <- function(id){
               ),
               column(1,
                      div(style=" ",
-                         `data-toggle` ="tooltip" , `data-html` ="true" ,   `data-placement`="bottom" , title=tooltips$scale.fixed,
                          checkboxInput( ns("scale.fixed"), label = "FixScale", value=T ) )
               ),
-              column(2, title="Scales",  `data-toggle` ="tooltip" ,  `data-placement`="bottom" ,
+              column(2, title="Scales",
                      selectInput(ns("scale.funct_"), NULL,  choices = functionList ) ),
-              column(2, title="Color Palette",   `data-toggle` ="tooltip" ,  `data-placement`="bottom" ,
+              column(2, title="Color Palette",
                      shinyWidgets::pickerInput(ns("palette"), NULL,
                                                choices = names(paletteList.t),
                                                choicesOpt = list(content = paletteList.img) ) )
@@ -157,13 +159,13 @@ mod_maps_ui <- function(id){
 
 
 
-             tags$input(style='width:100%;',  type='range', min='1', max=as.integer(data.ultima -  data.prima ) ,
+             tags$input(style='width:100%;',  type='range', min='1',
+                        max=as.integer(data.ultima -  data.prima )+1 ,
+                        value=as.integer(data.ultima -  data.prima )+1 ,
                         id= ns("dateRangeSlider") ),
             leaflet::leafletOutput(ns("mymap")) ,
-        title = "Distribuzione geografica del numero di casi per provincia",
-        footer = HTML("<div style='width:100% ; text-align:center; font-size:smaller;'>by F. Pirotti,  Dip.to TESAF /
-                      <a href='https://www.cirgeo.unipd.it' target=_blank>
-                      CIRGEO Centro Interdipartimentale di Ricerca di Geomatica</a></div>"),
+        title = HTML("Distribuzione geografica del numero di casi per provincia" ),
+        footer = HTML(""),
         width = 12
       )
     )
@@ -300,10 +302,10 @@ mod_maps_server <- function(id) {
   data_to_use$totale_casi.normPop<-data_to_use$totale_casi/data_to_use$Residenti * 10000
   data_to_use$delta.normPop<-data_to_use$delta/data_to_use$Residenti * 10000
 
-  data.prima<- min(as.Date(data_to_use$data))
-  data.ultima<- max(as.Date(data_to_use$data))
-  dates.list<-sort(unique(as.Date(dpc_covid19_ita_province$data)))
 
+  dates.list<-sort(unique(as.Date(dpc_covid19_ita_province$data)))
+  data.prima<- min(dates.list)
+  data.ultima<- max(dates.list)
   ## initial values for polygon loading
   dt.filtered.init <- data_to_use %>%
     dplyr::filter( as.Date(.data$data) ==  data.ultima)  %>%
@@ -422,9 +424,30 @@ mod_maps_server <- function(id) {
       updateDateInput(session, "date1", value= dates.list[[ as.integer(input[["dateRangeChanged"]]) ]] )
     })
 
+ #  observeEvent(input$info, {
+      showNotification(HTML(sprintf("
+      Drag the <b>slider above the map panel</b> to dynamically change day and color
+      over the date range (currently from %s to %s). This will simulate a <b style='color:#0700e8;'>timelapse</b> of spatial distribution of COVID-19 positive cases over Italian provinces.<br>
+      You can <b>switch color palette</b>  and convert <b>from linear to logarithmic scales</b>
+      to improve visualization when frequency distribution of values is strongly asymmetric/skewed.
+      <br><b>FixedScale option</b>: if selected the scale will not change when changing date,
+      but keep to the full range calculated from all values of the chosen variable accross
+      the full time-span. If unchecked, the scale will change every time a different day is chosen according to the day's values.
+      <hr style='margin:3px; color:#666;'>
+      <div style='width:100%% ; font-size:10px; text-align:center; '><a href='mailto:francesco.pirotti@unipd.it;'> Francesco Pirotti PhD - </a>,
+                           <a href='https://www.cirgeo.unipd.it' target=_blank>TESAF</a> /
+                      <a href='https://www.cirgeo.unipd.it' target=_blank>
+                      CIRGEO</a></div>
+
+
+                            ",  format(data.prima , "%A %e %B %yyyy"),
+                                format(data.ultima, "%A %e %B %yyyy") ) ) ,
+                       duration = NULL, type ="warning")
+ #   })
+
     #### DRAW POLYGONS FIRST RENDER ----------
     observeEvent(input$leaflet_rendered, {
-
+      cm<-current_palettFunction()
       fillColors<-cm.init(dt.filtered.init[["totale_casi.normPop"]])
 
       for(i in 1:length(province_polygons2019)){
@@ -432,11 +455,12 @@ mod_maps_server <- function(id) {
           leaflet::addPolygons(data = province_polygons2019[i,], weight=1,
                                color="#FFFFFF",
                                fillColor=fillColors[[i]],
-                               options=leaflet::pathOptions(interactive=F,
-                                                            className=sprintf("%s_%s__%s" ,
-                                                                              id,
-                                                                              basic.layerlist.list$overlayGroups$Casi_COVID19,
-                                                                              province_polygons2019$SIGLA[[i]]) ),
+                               options=leaflet::pathOptions(interactive=F, sigla= province_polygons2019$SIGLA[[i]]
+                                                            # className=sprintf("%s_%s__%s" ,
+                                                            #                   id,
+                                                            #                   basic.layerlist.list$overlayGroups$Casi_COVID19,
+                                                            #                   province_polygons2019$SIGLA[[i]])
+                                                            ),
                                opacity = 1, fillOpacity = 0.5,
                                layerId=sprintf("%s_%s__%s" ,
                                                id,
@@ -460,13 +484,14 @@ mod_maps_server <- function(id) {
 
                                      label = label ,
                                      labelOptions = leaflet::labelOptions(zIndex = 100,
+                                                                          sigla= province_polygons2019$SIGLA[[i]],
                                                                           noHide = TRUE,
                                                                           textOnly = T,
                                                                           style= list(
                                                                             "font-size" = "12px",
                                                                             "font-weight" = "bold",
                                                                             "color"="white",
-                                                                            "text-shadow"="0px 0px 3px black"
+                                                                            "text-shadow"="0px 0px 7px black"
                                                                           ),
                                                                           opacity = 1
                                      )
@@ -502,11 +527,7 @@ mod_maps_server <- function(id) {
       fn<- dir.funct_[[ input[["scale.funct_"]] ]]
 
       cm<-current_palettFunction()
-      sigla2hex<- stats::setNames(
-        cm(
-           fn(dt.filtered[[input$variableName]])
-        ) ,
-                dt.filtered[["sigla_provincia"]]  )
+
 
       dt.label<-  dt.filtered[[input$variableName]]
 
@@ -514,6 +535,19 @@ mod_maps_server <- function(id) {
       else label <- sprintf("%d",   dt.label)
 
       label[label=="NA"]<-""
+
+      # sigla2hex<- stats::setNames(
+      #   cm( fn(dt.filtered[[input$variableName]])  ) ,
+      #   dt.filtered[["sigla_provincia"]]  )
+      #
+      # sigla2label<- stats::setNames(
+      #   label ,
+      #   dt.filtered[["sigla_provincia"]]  )
+
+      jsonString<-sprintf("\"%s\":{ col:\"%s\", lab:\"%s\"}",
+                          dt.filtered[["sigla_provincia"]],
+                          cm( fn(dt.filtered[[input$variableName]])  ) ,
+                          label )
 
       op<-isolate(input$currentWMSopacity )
       labsize<-isolate(input$currentLabelSize )
@@ -533,24 +567,23 @@ mod_maps_server <- function(id) {
       else  labsize<-as.integer(isolate(input$currentLabelSize ))
 
      #print(input[["dateRangeChanged"]])
-      cc<-paste0(collapse="','",  sigla2hex )
-      ll<-paste0(collapse="','",  label )
+      # cc<-paste0(collapse="','",  sigla2hex )
+      # ll<-paste0(collapse="','",  label )
 
       js<-sprintf("
-              var colorMap = ['%s'];
-              var labelMap = ['%s'];
-              console.log(labelMap);
+              var valueMap = {%s};
+              console.log(valueMap);
               var layers = %s_mapElement.layerManager.getLayerGroup('%s').getLayers();
               var labels = %s_mapElement.layerManager.getLayerGroup('%s').getLayers();
-              if(layers.length!=colorMap.length || layers.length!=labels.length  ){
+              if(layers.length!= Object.keys(valueMap).length   ){
                  alert(layers.length+' OPS problem');
               } else {
                 for(var i=0; i < layers.length; i++) {
-                   layers[i].setStyle({'fillColor': colorMap[i] });
-                   labels[i].setTooltipContent(  labelMap[i]  );
+                   layers[i].setStyle({'fillColor': valueMap[ layers[i].options.sigla ].col });
+                   labels[i].setTooltipContent(  valueMap[ layers[i].options.sigla ].lab  );
                 }
               }
-                     ",   cc, ll,
+                     ",   paste(collapse=",",jsonString),
               id, basic.layerlist.list$overlayGroups$Casi_COVID19,
               id ,  basic.layerlist.list$overlayGroups$Casi_COVID19labels
       )
@@ -569,14 +602,17 @@ mod_maps_server <- function(id) {
     #### get data ----
     current_data <- reactive({
       req(input$date1, input$variableName)
-      data_to_use %>%
+      dt<-data_to_use %>%
         dplyr::filter( as.Date(.data$data) == input$date1) %>%
         dplyr::select(
           .data$sigla_provincia,
-          .data[[ input$variableName ]],
+          .data[[ input[["variableName"]] ]],
           .data$lat, .data$long
         ) %>%
         dplyr::arrange(sigla_provincia)
+
+      dt[ which(dt[[ input[["variableName"]] ]]<0), input[["variableName"]] ]<-0
+      dt
     })
 
 
@@ -602,19 +638,18 @@ mod_maps_server <- function(id) {
 
       leaflet::leafletProxy("mymap") %>%
         leaflet::addLegend( "bottomright", pal = pal, values = domain,
-                            title = sprintf("<div  data-toggle ='tooltip' style='font-size:small;
-                             white-space:nowrap; '>N. Cases&nbsp;&nbsp;<font style='color:red;
-                             font-weight:bold;
-                             cursor:pointer;' data-toggle ='tooltip' data-placement='left'
-                                             data-html ='true' title='%s' >&nbsp;(?)</font>
-                                             </div><script> $('[data-toggle=\"tooltip\"]').tooltip();</script>",
-                                            ifelse(input[["scale.fixed"]],
-                                                   sprintf("Period: %s to %s<br>(%d&nbsp;days)", data.prima,
-                                                           data.ultima,
-                                                           as.integer(data.ultima- data.prima) ),
-
-                                                   sprintf(" %s ", format(input$giorno, "%d&nbsp;%B") )
-                                                   ) ),
+                            # title = sprintf("<div   style='font-size:small;
+                            #  white-space:nowrap; '>N. Cases&nbsp;&nbsp;<font style='color:red;
+                            #  font-weight:bold;
+                            #  cursor:pointer;'   title='%s' >&nbsp;(?)</font>
+                            #                  </div>",
+                            #                 ifelse(input[["scale.fixed"]],
+                            #                        sprintf("Period: %s to %s<br>(%d&nbsp;days)", data.prima,
+                            #                                data.ultima,
+                            #                                as.integer(data.ultima- data.prima) ),
+                            #
+                            #                        sprintf(" %s ", format(input[['date1']], "%d&nbsp;%B") )
+                            #                        ) ),
                             layerId="Legend_Casi_COVID19",
                             labFormat = leaflet::labelFormat(prefix = "", big.mark = " ",
                                                     transform = inv.funct_[[input$scale.funct_]] ),
