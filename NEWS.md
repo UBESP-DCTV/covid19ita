@@ -1,3 +1,5 @@
+# covid19ita 0.32.2
+
 * data update
 * minor fix to module mort veneto
 
