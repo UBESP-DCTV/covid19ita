@@ -1,5 +1,15 @@
 * translate 20200404 magagni
 
+# covid19ita 0.32.1
+
+* fix plot veneto by age
+* removed plot veneto by sex
+
+# covid19ita 0.32.0
+
+* data update
+* added module focus 20200406 mortality veneto
+
 # covid19ita 0.31.0
 
 * added helper `ggmort()` as helper for standar dmortality plot

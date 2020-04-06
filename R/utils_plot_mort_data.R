@@ -1,6 +1,9 @@
-ggmort <- function(x, legend_title) {
-  ggplot(x, aes(
-    x = .data$regione,
+ggmort <- function(data, legend_title, x = c("regione", "provincia")) {
+
+  x <- match.arg(x)
+
+  ggplot(data, aes(
+    x = .data[[x]],
     y = .data$variation,
     fill = .data$strata
   )) +
@@ -8,7 +11,7 @@ ggmort <- function(x, legend_title) {
     geom_bar(position = "dodge", stat = "identity") +
     labs(
       y = "Variazione Percentuale",
-      x = "Nome regione",
+      x = paste("Nome", x),
       fill = legend_title
     ) +
     theme(

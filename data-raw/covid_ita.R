@@ -205,6 +205,8 @@ if (!all(are_ok)) {
   mort_data_reg_age <- mort_data_reg("age")
   mort_data_reg_sex <- mort_data_reg("sex")
 
+  mort_data_veneto_age <- mort_data_veneto("age")
+  mort_data_veneto_sex <- mort_data_veneto("sex")
 
 
 # Mortalit`a settimanale ------------------------------------------
@@ -309,6 +311,9 @@ if (!all(are_ok)) {
     decessi_eta_maschi,
     decessi_eta_femmine,
     mort_data_comuni,
+
+    mort_data_veneto_age,
+    mort_data_veneto_sex,
 
     internal = TRUE,
     overwrite = TRUE

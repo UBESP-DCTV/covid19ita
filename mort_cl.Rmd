@@ -1,0 +1,435 @@
+---
+title: "Untitled"
+output: word_document
+---
+
+
+
+<!-- Server side -->
+
+
+
+
+```{r}
+n_output <- 8
+output <- vector("list", n_output)
+
+requireNamespace("tidyverse")
+requireNamespace("knitr")
+requireNamespace("lubridate")
+```
+
+
+```{r include = FALSE}
+knitr::opts_chunk$set(echo = FALSE)
+knitr::opts_chunk$set(fig.width = 8)
+knitr::opts_chunk$set(fig.height = 4)
+
+load(here::here("data", "comuni_settimana.rda"))
+load(here::here("data", "tavola_decessi_sesso.rda"))
+load(here::here("data", "tavola_decessi_eta.rda"))
+```
+
+```{r include = FALSE}
+#per tabella 2
+
+tab2_db <- tavola_decessi_sesso %>%
+    dplyr::filter(nome_regione == "Veneto") %>% 
+    dplyr::group_by(provincia) %>% 
+    dplyr::mutate(maschi19 = sum(m19),
+                  maschi20 = sum(m20),
+                  femmine19 = sum(f19),
+                  femmine20 = sum(f20),
+                  totale19 = sum(tot19),
+                  totale20 = sum(tot20),
+                  n_comuni = n()) %>% 
+    dplyr::distinct(provincia, .keep_all = TRUE) %>% 
+    dplyr::mutate(var_m = 100*((maschi20 - maschi19)/maschi19),
+           var_f = 100*((femmine20 - femmine19)/femmine19),
+           var_tot = 100*((totale20 - totale19)/totale19))
+
+
+
+```
+
+
+```{r include = FALSE}
+#db per figura 1
+
+
+tavola_decessi_eta %>% 
+    dplyr::select(
+        - dplyr::starts_with("x"),
+        - c(reg, prov, cod_provcom)
+    ) %>% 
+    tidyr::pivot_longer(dplyr::starts_with("tot"),
+      names_to = "strata",
+      values_to = "n_death"
+    )
+    
+
+
+
+
+fig1_db <- tavola_decessi_eta %>% 
+    dplyr::filter(nome_regione == "Veneto") %>% 
+    dplyr::group_by(provincia) %>% 
+    dplyr::mutate(o65_19 = sum(tot65_19),
+                  o75_19 = sum(tot75_19),
+                  o85_19 = sum(tot85_19),
+                  o65_20 = sum(tot65_20),
+                  o75_20 = sum(tot75_20),
+                  o85_20 = sum(tot85_20)) %>% 
+    dplyr::distinct(provincia, .keep_all = TRUE) %>% 
+    dplyr::mutate(var_o65 = 100*((o65_20 - o65_19)/o65_19),
+           var_o75 = 100*((o75_20 - o75_19)/o75_19),
+           var_o85 = 100*((o85_20 - o85_19)/o85_19)) %>% 
+    tidyr::pivot_longer(cols = c(var_o65, var_o75, var_o85),
+                        names_to = "age", 
+                        values_to = "var_tot") %>% 
+    dplyr::mutate(age = ifelse(age == "var_o65", "65-74",
+                               ifelse(age == "var_o75", "75-84",
+                                      ifelse(age == "var_o85", "85 +",
+                                             age)))) %>% 
+    rename(`età` = age)
+
+
+```
+
+
+```{r include = FALSE}
+#db figura 2
+
+settimanale_tutti <- comuni_settimana %>%
+    dplyr::filter(nome_regione == "Veneto") %>% 
+    dplyr::filter(settimana == "01/03-07/03" |
+                  settimana == "08/03-14/03" |
+                  settimana == "15/03-21/03") %>% 
+    dplyr::group_by(provincia) %>% 
+    dplyr::mutate(t_15 = sum(totale_2015),
+                  t_16 = sum(totale_2016),
+                  t_17 = sum(totale_2017),
+                  t_18 = sum(totale_2018),
+                  t_19 = sum(totale_2019),
+                  t_20 = sum(totale_2020)) %>% 
+    dplyr::distinct(provincia, .keep_all = TRUE)
+
+
+
+set_tt <- settimanale_tutti %>% 
+    dplyr::select(provincia, t_15, t_16, t_17, t_18, t_19, t_20) %>% 
+    tidyr::pivot_longer(cols = c(t_15, t_16, t_17, t_18, t_19, t_20),
+                 names_to = "anno", values_to = "tot_mort") %>% 
+    dplyr::mutate(anno = as.numeric(ifelse(anno == "t_15", 2015,
+                                ifelse(anno == "t_16", 2016,
+                                     ifelse(anno == "t_17", 2017,
+                                        ifelse(anno == "t_18", 2018,
+                                            ifelse(anno == "t_19", 2019,
+                                                   2020)))))))
+
+
+```
+
+
+```{r include = FALSE}
+#db figura 3
+
+settimanale_cl_eta <- comuni_settimana %>%
+    dplyr::filter(nome_regione == "Veneto") %>% 
+    dplyr::filter(settimana == "01/03-07/03" |
+                  settimana == "08/03-14/03" |
+                  settimana == "15/03-21/03") %>% 
+    dplyr::group_by(provincia, classe_di_eta) %>% 
+    dplyr::mutate(t_15 = sum(totale_2015),
+                  t_16 = sum(totale_2016),
+                  t_17 = sum(totale_2017),
+                  t_18 = sum(totale_2018),
+                  t_19 = sum(totale_2019),
+                  t_20 = sum(totale_2020)) %>% 
+    dplyr::distinct(provincia, classe_di_eta, .keep_all = TRUE)
+
+set_cl_eta <- settimanale_cl_eta %>% 
+    dplyr::select(provincia, t_15, t_16, t_17, t_18, t_19, t_20,
+                  classe_di_eta) %>% 
+    dplyr::mutate(cl_eta = ifelse(classe_di_eta %in% c("0-14 anni",
+                                                       "15-64 anni"),
+                                  "0-64 anni", classe_di_eta)) %>%
+    dplyr::group_by(provincia, cl_eta) %>% 
+    dplyr::mutate(t_15 = sum(t_15),
+                  t_16 = sum(t_16),
+                  t_17 = sum(t_17),
+                  t_18 = sum(t_18),
+                  t_19 = sum(t_19),
+                  t_20 = sum(t_20)) %>% 
+    dplyr::distinct(cl_eta, .keep_all = TRUE) %>% 
+    dplyr::select(-classe_di_eta) %>% 
+    tidyr::pivot_longer(cols = c(t_15, t_16, t_17, t_18, t_19, t_20),
+                 names_to = "anno", values_to = "tot_mort") %>% 
+    dplyr::mutate(anno = as.numeric(ifelse(anno == "t_15", 2015,
+                                ifelse(anno == "t_16", 2016,
+                                     ifelse(anno == "t_17", 2017,
+                                        ifelse(anno == "t_18", 2018,
+                                            ifelse(anno == "t_19", 2019,
+                                                   2020)))))))
+
+```
+
+```{r include = FALSE}
+#db per figura 4-6
+
+db_fig4_6 <- comuni_settimana %>% 
+    dplyr::filter(nome_regione == "Veneto" & 
+                      settimana != "01/01-11/01") %>% 
+    dplyr::group_by(provincia, settimana) %>% 
+    dplyr::mutate(tot_m20 = sum(maschi_2020),
+                  tot_f20 = sum(femmine_2020),
+                  t_20 = sum(totale_2020)) %>% 
+    dplyr::ungroup() %>% 
+    dplyr::mutate(cl_eta = ifelse(classe_di_eta %in% c("0-14 anni",
+                                                       "15-64 anni"),
+                                  "0-64 anni", classe_di_eta)) %>% 
+    dplyr::group_by(provincia, cl_eta, settimana) %>% 
+    dplyr::mutate(tot_eta20 = sum(totale_2020)) %>% 
+    dplyr::ungroup() %>% 
+    dplyr::distinct(provincia, cl_eta, settimana, .keep_all = TRUE) %>% 
+    dplyr::mutate(settimana = lubridate::dmy(ifelse(
+        settimana == "01/03-07/03", "01-03-2020",
+                    ifelse(settimana == "02/02-08/02", "02-02-2020",
+                    ifelse(settimana == "08/03-14/03", "08-03-2020",
+                    ifelse(settimana == "09/02-15/02", "09-02-2020",
+                    ifelse(settimana == "12/01-18/01", "12-01-2020",
+                    ifelse(settimana == "15/03-21/03", "15-03-2020",
+                    ifelse(settimana == "16/02-22/02", "16-02-2020",
+                    ifelse(settimana == "19/01-25/01", "19-01-2020",
+                    ifelse(settimana == "23/02-29/02", "23-02-2020",
+                    ifelse(settimana == "26/01-01/02", "26-01-2020",
+                                    settimana))))))))))))
+    
+
+
+```
+
+
+```{r}
+#tab2
+
+tab_1 <- data.frame(Provincia = tab2_db$provincia,
+           "n comuni" = tab2_db$n_comuni,
+           "Maschi 2019" = tab2_db$maschi19,
+           "Maschi 2020" = tab2_db$maschi20, 
+           "Femmine 2109" = tab2_db$femmine19,
+           "Femmine 2020" = tab2_db$femmine20,
+           "Variazione percentuale maschi" = tab2_db$var_m,
+           "Variazione percentuale femmine" = tab2_db$var_f,
+           "Variazione percentuale totale" = tab2_db$var_tot,
+           check.names = FALSE) %>% 
+    knitr::kable(digits = 2L)
+```
+
+
+```{r }
+#fig 1
+fig_1 <- ggplot2::ggplot(fig1_db) + 
+    geom_bar(aes(x = provincia, y = var_tot,
+                 fill = `età`), stat = "identity",
+                 position = "dodge") +
+    ggtitle("Mortalità totale per classe di età 
+Confronto 1-21 marzo 2019 vs 2020") +
+    ylab("Variazione Percentuale") + 
+    xlab("Provincia") +
+    theme(panel.background = element_blank(),
+          plot.title = element_text(hjust = 0.5))
+
+```
+
+
+
+
+```{r}
+#fig 2
+fig_2 <- ggplot2::ggplot(set_tt, aes(x = anno, y = tot_mort, 
+                        colour = provincia)) + 
+    geom_line() +
+    xlab("Anno") +
+    ylab("Numero decessi 1-21 marzo") +
+    ggtitle("Analisi della mortalità per tutte le età")
+    
+```
+
+
+
+```{r }
+#0-64 figura 3
+fig_3_cl1 <- ggplot2::ggplot(set_cl_eta %>%
+                                 filter(cl_eta == "0-64 anni"), 
+                aes(x = anno, y = tot_mort, 
+                        colour = provincia)) + 
+    geom_line() +
+    xlab("Anno") +
+    ylab("Numero decessi 1-21 marzo") +
+    ggtitle("Analisi della mortalità per classe di età (0-64 anni)")
+```
+
+
+```{r }
+#65-74 figura 3
+fig_3_cl2 <- ggplot2::ggplot(set_cl_eta %>%
+                                 filter(cl_eta == "65-74 anni"), 
+                aes(x = anno, y = tot_mort, 
+                        colour = provincia)) + 
+    geom_line() +
+    xlab("Anno") +
+    ylab("Numero decessi 1-21 marzo") +
+    ggtitle("Analisi della mortalità per classe di età (65-74 anni)")
+```
+
+```{r}
+#75 o più figura 3
+fig_3_cl3 <- ggplot2::ggplot(set_cl_eta %>%
+                                 filter(cl_eta == "75 anni e più"), 
+                aes(x = anno, y = tot_mort, 
+                        colour = provincia)) + 
+    geom_line() +
+    xlab("Anno") +
+    ylab("Numero decessi 1-21 marzo") +
+    ggtitle("Analisi della mortalità per classe di età (75 anni e più)")
+```
+
+
+
+
+```{r}
+#fig 4
+
+fig_4 <- db_fig4_6 %>% 
+    dplyr::select(provincia, settimana, t_20) %>%
+    dplyr::distinct(provincia,settimana, .keep_all = TRUE) %>% 
+    ggplot2::ggplot(aes(x = settimana, y = t_20, 
+                        colour = provincia)) + 
+    geom_line() +
+    xlab("Settimana") +
+    ylab("Numero decessi") +
+    ggtitle("Andamento della mortalità generale nel periodo 12 gennaio - 21 marzo 2020
+per regione")
+
+```
+
+
+
+```{r}
+#figura 6 75 e più
+
+
+fig_6_cl3 <- db_fig4_6 %>% 
+    dplyr::select(cl_eta, provincia, tot_eta20, settimana) %>% 
+    filter(cl_eta == "75 anni e più") %>% 
+    ggplot2::ggplot(aes(x = settimana, y = tot_eta20, 
+                        colour = provincia)) + 
+    geom_line() +
+    xlab("Settimana") +
+    ylab("Numero decessi 12 gennaio- 21 marzo") +
+    ggtitle("Andamento della mortalità nel periodo 12 gennaio - 21 marzo 2020
+per classe di età e regione (75 anni e più)")
+
+```
+
+```{r}
+
+output$tab1 <- tab_1 %>% knitr::kable(digits = 2) #errore, ma quando faccio knit non da problemi 
+output$fig1 <- fig_1
+output$fig_2 <- fig_2
+output$fig_3_cl1 <- fig_3_cl1
+output$fig_3_cl2 <- fig_3_cl2
+output$fig_3_cl3 <- fig_3_cl3
+output$fig_4 <- fig_4
+output$fig_6_cl3 <- fig_6_cl3
+
+```
+
+
+
+<!-- UI side -->
+
+
+
+#corrado, paragrafo 1 (prima di qualsiasi fig/tab)
+La mortalità complessiva costituisce un indicatore estremamente rilevante perché è poco suscettibile ad errori o difformità di valutazione e tiene conto sia della mortalità direttamente indotta da una patologia sia della mortalità causata in modo indiretto, ad esempio per le possibili difficoltà nell’accesso ai servizi ospedalieri per persone affette da altre patologie.
+La mortalità complessiva inoltre non risente di quesiti diagnostici o di difficoltà nella codifica delle cause di morte e quindi è una utile base su cui andrà costruita la valutazione più dettagliata degli effetti della epidemia di COVID-19 in atto.  
+
+I dati sono forniti da Istat in diverse tabelle, accessibili e scaricabili dal sito istituzionale, che consentono una immediata lettura e che possono anche essere utilizzate per la preparazione di ulteriori analisi. Abbiamo utilizzato questa seconda opportunità per preparare alcune analisi descrittive, che sono presentate essenzialmente sotto forma di grafici, per illustrare l’andamento della mortalità complessiva per area geografica, sesso, classe di età e periodo.  
+
+Si tratta di analisi preliminari, finalizzate alla condivisione di informazioni in un momento di emergenza, che saranno migliorate ed approfondite nel prossimo periodo. In particolare l’obiettivo attuale è limitato alla presentazione ragionata dei valori assoluti e dei coefficienti di variazione percentuali. Saranno condotte analisi supplementari per giungere ad una migliore modellizzazione dei trend e per arricchire gli indici dei relativi intervalli di confidenza.  
+
+Le analisi sono state condotte per rispondere ai seguenti quesiti:  
+-	Di quale entità è la variazione di mortalità osservata confrontando il periodo tra il 1 ed il 21 marzo 2019 con il periodo tra il 1 ed il 21 marzo 2020? 
+-	La variazione osservata come è distribuita in relazione al sesso, alla classe di età ed alla provincia di residenza?
+-	Estendendo la valutazione agli anni precedenti, partendo dal 2015, esistono variazioni tra i diversi anni e di quale entità, sempre considerando classe di età e provincia di residenza?  
+-	A partire da quale settimana di rilevazione (considerando il periodo dal 1 gennaio 2020 al 21 marzo 2020) è osservabile una variazione della mortalità complessiva?  
+
+In relazione all’aggregazione dei dati nelle tabelle fornite da ISTAT ed alla numerosità dei dati osservati alcune variabili sono state raggruppate in categorie più ampie, come indicato nella presentazione dei risultati delle diverse analisi.  
+
+Di quale entità è la variazione di mortalità osservata confrontando il periodo tra il 1 ed il 21 marzo 2019 con il periodo tra il 1 ed il 21 marzo 2020?. La variazione osservata come è distribuita in relazione al sesso, alla classe di età ed alla provincia di residenza?  
+
+L’indicatore della variazione percentuale tra il numero di morti osservate nel periodo dal 1 al 21 marzo 2019 e nel corrispondente periodo del 2020 è stato calcolato a partire dai dati aggregati per provincia, sesso e classe di età. Sono state usate le categorizzazioni presenti nella tabella fornita dall’ISTAT (https://www.istat.it/it/files//2020/03/Tavola-sintetica-decessi.xlsx). Le classi di età considerate sono: 65-74 anni, 75-84 anni, 85 anni e oltre, già presenti nei dati. 
+L’indice di variazione percentuale è calcolato come: 
+
+$$Variazione_{percentuale} = 100 * (morti_{2020} – morti_{2019}) / morti_{2019}$$
+
+L’indice è presente nella tabella dei dati originali calcolato a livello comunale. In queste analisi è stato calcolato con aggregazione provinciale, per ridurre la variabilità conseguente alle fluttuazioni casuali che sono particolarmente marcate nel caso di comuni di piccole dimensioni, che costituiscono una parte rilevante della base dati. Sono riportati i numeri assoluti di decessi, il numero di comuni inclusi nella rilevazione per ciascuna provincia e le variazioni percentuali dal 2019 al 2020, nel periodo considerato. Un indice del 100% indica che la mortalità è raddoppiata tra i due periodi a confronto.
+
+```{r}
+output$tab_1
+```
+
+
+#paragrafo prima di fig 1
+
+L’analisi è stata condotta anche separatamente per classe di età, ed i risultati sono presentati nel grafico seguente (fig_1):
+
+
+```{r}
+output$fig_1
+```
+
+
+#paragrafo prima di fig 2
+
+Nella lettura del valore di variazione percentuale occorre tenere conto della numerosità delle morti, che è molto diversa tra le province a causa della diversa numerosità del campione. In alcune province una variazione appare importante ma è causata da piccoli numeri di morti in più o in meno (tab_1).
+
+
+#### Estendendo la valutazione agli anni precedenti, partendo dal 2015, esistono variazioni tra i diversi anni e di quale entità, sempre considerando classe di età e provincia di residenza ?
+
+La base dati messa a disposizione consente di valutare l’andamento della mortalità negli anni precedenti, a partire dal 2015. Sono stati usati i dati presentati nella tabella https://www.istat.it/it/files//2020/03/dati-comunali-settimanali-ANPR-1.zip Le analisi saranno approfondite in futuro valutando più appropriatamente l’andamento della mortalità nel periodo 2015-2020 anche con metodi di modellizzazione. 
+
+I grafico che segue (fig_2) presenta il numero totale di morti nel periodo 2015-2020 per provincia.
+
+```{r}
+output$fig_2
+```
+
+
+#paragarfo prima di fig 3
+
+I grafici seguenti (fig_3) presentano il confronto della mortalità negli anni dal 2015 al 2020, per provincia e classe di età. Le classi di età sono state definite sulla base dei raggruppamenti con cui sono presentati i dati originali, e precisamente: fino a 64 anni (ottenuto sommando le due classi presenti nella tabella originale 0-14 e 15-64), da 65 a 74, 75 e oltre.  
+
+Si ricorda che i grafici presentano i numeri assoluti e quindi le differenze tra le provincia riflettono in primo luogo la dimensione provinciale del campione. 
+
+```{r}
+output$fig_3_cl1
+output$fig_3_cl2
+output$fig_3_cl3
+
+```
+
+#paragrafo prima di fig 4
+
+
+#### In quale settimana di rilevazione (considerando il periodo dal 1 gennaio 2020 al 21 marzo 2020) è osservabile una variazione della mortalità complessiva?
+
+Per contribuire alla risposta a questo quesito sono stati usati i dati nella tabella https://www.istat.it/it/files//2020/03/dati-comunali-settimanali-ANPR-1.zip, limitatamente ai dati per il periodo 1 gennaio – 21 marzo 2020. Nella tabella tali dati sono presentati suddivisi a ritroso in periodi di 7 giorni. Così facendo il primo periodo va da 1 al 10 gennaio e quindi non è confrontabile con i successivi perché comprende 11 giorni di osservazione. In questa fase si è deciso pertanto di escluderlo e di partire dal secondo periodo, che ha inizio il 12 gennaio 2020. I grafici seguenti (fig_4 - fig_5) presentano l’andamento per classe di età e provincia. Le classi ed i raggruppamenti provinciali adottati per rendere più agevole l’esame dei risultati sono gli stessi adottati per le analisi precedenti. I grafici riportano sull’asse orizzontale la data di inizio dei diversi periodi settimanali.  
+
+```{r}
+output$fig_4
+output$fig_6_cl3
+```
+
