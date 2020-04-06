@@ -1,3 +1,5 @@
+* translate 20200404 magagni
+
 # covid19ita 0.32.2
 
 * data update
