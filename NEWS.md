@@ -1,3 +1,5 @@
+* translate 20200404 magagni
+
 # covid19ita 0.31.0
 
 * added helper `ggmort()` as helper for standar dmortality plot
