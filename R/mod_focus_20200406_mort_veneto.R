@@ -95,7 +95,7 @@ mod_focus_20200406_mort_veneto_ui <- function(id){
         L’indicatore della variazione percentuale tra il numero di
         morti osservate nel periodo dal 1 al 21 marzo 2019 e nel
         corrispondente periodo del 2020 è stato calcolato a partire dai
-        dati aggregati per regione, sesso e classe di età. Sono state
+        dati aggregati per provincia, sesso e classe di età. Sono state
         usate le categorizzazioni presenti nella tabella fornita
         dall’Istat
         (https://www.istat.it/it/files//2020/03/Tavola-sintetica-decessi.xlsx).
@@ -124,7 +124,7 @@ mod_focus_20200406_mort_veneto_ui <- function(id){
         caso di comuni di piccole dimensioni, che costituiscono una
         parte rilevante della base dati. Sono riportati i numeri
         assoluti di decessi, il numero di comuni inclusi nella
-        rilevazione per ciascuna regione e le variazioni percentuali
+        rilevazione per ciascuna provincia e le variazioni percentuali
         dal 2019 al 2020, nel periodo considerato.<sup>2</sup>
       "))
     )),
@@ -139,7 +139,7 @@ mod_focus_20200406_mort_veneto_ui <- function(id){
     )),
 
     fluidRow(box(plotlyOutput(ns("fig_1_age")),
-                 title = "Figura 1: Variazione percentuale per classi di età e regione. Periodo 1-21 marzo 2019 vs. 1-21 marzo 2020.",
+                 title = "Figura 1: Variazione percentuale per classi di età e provincia. Periodo 1-21 marzo 2019 vs. 1-21 marzo 2020.",
                  width = 12
     )),
 
@@ -222,7 +222,7 @@ mod_focus_20200406_mort_veneto_ui <- function(id){
 
     fluidRow(box(
       plotlyOutput(ns("fig_4_year_age")),
-      title = "Figura 4: Numero di decessi per regione e classi di età nel periodo 1-21 marzo dal 2015 al 2020.",
+      title = "Figura 4: Numero di decessi per provincia e classi di età nel periodo 1-21 marzo dal 2015 al 2020.",
       width = 12,
     )),
 
