@@ -1,3 +1,4 @@
+* data update
 * added module focus 20200406 mortality veneto
 
 # covid19ita 0.31.0
