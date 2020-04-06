@@ -410,16 +410,29 @@ eng_mod_focus_20200404_magnani_server <- function(id) {
     )
 
 
-  data_week <- data_inizio_2020 %>%
+  data_week_sex <- data_inizio_2020 %>%
     dplyr::group_by(
-      .data$regione, .data$area, .data$settimana,
-      .data$classe_di_eta, .data$sex
+      .data$regione,
+      .data$area,
+      .data$settimana,
+      .data$sex
+    ) %>%
+    dplyr::summarise(decessi = sum(.data$n_death))
+
+  data_week_age <- data_inizio_2020 %>%
+    dplyr::filter(.data$sex == "totale") %>%
+    dplyr::group_by(
+      .data$regione,
+      .data$area,
+      .data$settimana,
+      .data$classe_di_eta,
     ) %>%
     dplyr::summarise(decessi = sum(.data$n_death))
 
 
+
   ### by sex (fig 5)
-  gg_fig_5_week_sex <- data_week %>%
+  gg_fig_5_week_sex <- data_week_sex %>%
     ggplot(aes(
       x = .data$settimana,
       y = .data$decessi,
@@ -428,7 +441,7 @@ eng_mod_focus_20200404_magnani_server <- function(id) {
     geom_point() +
     geom_smooth(se = FALSE) +
     facet_grid(.data$area ~ .data$sex, scales = "free_y") +
-    labs(y = "Number of deaths 1-20 marzo") +
+    labs(y = "Number of death 1-20 marzo") +
     theme(
       axis.text.x = element_text(angle = 60, hjust = 1),
       panel.background = element_blank()
@@ -436,7 +449,7 @@ eng_mod_focus_20200404_magnani_server <- function(id) {
 
 
   ### bay age (fig 6)
-  gg_fig_6_week_age <- data_week %>%
+  gg_fig_6_week_age <- data_week_age %>%
     ggplot(aes(
       x = .data$settimana,
       y = .data$decessi,
