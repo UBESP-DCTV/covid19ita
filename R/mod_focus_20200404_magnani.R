@@ -435,12 +435,25 @@ mod_focus_20200404_magnani_server <- function(id) {
     )
 
 
-  data_week <- data_inizio_2020 %>%
+  data_week_sex <- data_inizio_2020 %>%
     dplyr::group_by(
-      .data$regione, .data$area, .data$settimana,
-      .data$classe_di_eta, .data$sex
+      .data$regione,
+      .data$area,
+      .data$settimana,
+      .data$sex
     ) %>%
     dplyr::summarise(decessi = sum(.data$n_death))
+
+  data_week_age <- data_inizio_2020 %>%
+    dplyr::filter(.data$sex == "totale") %>%
+    dplyr::group_by(
+      .data$regione,
+      .data$area,
+      .data$settimana,
+      .data$classe_di_eta,
+    ) %>%
+    dplyr::summarise(decessi = sum(.data$n_death))
+
 
 
   ### by sex (fig 5)

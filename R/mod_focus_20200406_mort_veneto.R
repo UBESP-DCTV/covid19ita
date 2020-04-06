@@ -392,16 +392,14 @@ mod_focus_20200406_mort_veneto_server <- function(id) {
 
 
   data_week_veneto <- data_inizio_2020_veneto %>%
+    dplyr::filter(.data$sex == "totale") %>%
     dplyr::group_by(
       .data$provincia,
       .data$settimana,
       .data$classe_di_eta
     ) %>%
     dplyr::summarise(decessi = sum(.data$n_death)) # %>%
-    dplyr::filter(
-      .data$classe_di_eta == "75 anni e più",
-      .data$sex == "totale"
-    )
+    # dplyr::filter(.data$classe_di_eta == "75 anni e più")
 
 
 
