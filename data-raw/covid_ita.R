@@ -59,8 +59,13 @@ if (!all(are_ok)) {
   )
 
   province_population2019 <- readRDS("data-raw/province_population2019.rds")
-
   province_polygons2019<-readRDS("data-raw/province_polygons2019.rds")
+  #region_polygons2019<-readRDS("data-raw/region_polygons2019.rds")
+  #province_polygons2019<-rgdal::readOGR("../covid19carto/data/province4326vmp.shp")
+  #saveRDS(province_polygons2019, "data-raw/province_polygons2019.rds")
+  #raster::shapefile(region_polygons2019, "../covid19carto/data/regionemerged.shp", overwrite=TRUE)
+
+
 
   dictionary <- c(
     ricoverati_con_sintomi = "hospitalized_with_symptoms",
@@ -105,6 +110,7 @@ if (!all(are_ok)) {
     region_population,
     province_population2019,
     province_polygons2019,
+    region_polygons2019,
     dictionary,
     internal = TRUE,
     overwrite = TRUE

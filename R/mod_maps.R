@@ -177,6 +177,14 @@ mod_maps_server <- function(id) {
 
   ## Zona dedicata alle computazioni preliminari, non reattive
   ## qui se possibile metterli su un "global.R" dato che sono identici per tutti
+  #### SNIPPET PER CREARE REGIONI
+  # region_polygons2019_poly<-maptools::unionSpatialPolygons(province_polygons2019, province_polygons2019$codice_regione)
+  # df<-data.frame(codice_regione=names(region_polygons2019_poly))
+  # rownames(df)<-df$codice_regione
+  # region_polygons2019 <- sp::SpatialPolygonsDataFrame(region_polygons2019_poly,df)
+
+
+
   dir.funct_ <- list(
     linear=function(x){ x+1-1 },
     log10Per=function(x){ log10(x+1) },
