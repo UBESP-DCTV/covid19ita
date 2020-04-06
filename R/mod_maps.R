@@ -277,10 +277,11 @@ mod_maps_server <- function(id) {
     palette =   paletteList.t$Person ,
     domain =  dt.filtered.init$totale_casi.normPop
   )
-  pp<-readRDS("../data-raw/province_polygons2019.rds")
+  #pp<-readRDS("data-raw/province_polygons2019.rds")
 
   callModule(id = id, function(input, output, session) {
     ns <- session$ns
+    leaflet_rendered_all<-F
 
     #outputOptions(output,  "mymap", suspendWhenHidden = FALSE)
     ## zona dedicata alle computazioni reattive del modulo, in
@@ -293,15 +294,18 @@ mod_maps_server <- function(id) {
         htmlwidgets::onRender(sprintf("function(el, x) {
            %s_covidGroupname='%s';
            %s_mapElement=this;
+           var count=0;
+            function %s_onLayerAddFunction(e){
+                 if(typeof(e.layer.options) !=='undefined' && e.layer.options.group== %s_covidGroupname ){
+                    count++;
+                    $('#%s-loader').hide();
+                    Shiny.onInputChange('%s-leaflet_rendered_all', true);
+                 }
+            }
 
-           // function %s_onLayerAddFunction(e){
-           //      console.log('dfd');
-           //      $('#%s-loader').hide();
-           // }
 
-           $('#%s-loader').hide();
            Shiny.onInputChange('%s-leaflet_rendered', true);
-           //this.on('layeradd', %s_onLayerAddFunction);
+           this.on('layeradd', %s_onLayerAddFunction);
 
            $(\".leaflet-control-layers-overlays > label:nth-child(2) > div:nth-child(1)\").append(\"&nbsp;&nbsp;<input   title='black label' id='%s_labelBlack' type='checkbox'   >\");
            $(\".leaflet-control-layers-overlays > label:nth-child(2) > div:nth-child(1)\").append(\"<input style='width: 100px;' title='change size of label' id='%s_labelsizeSlider' type='range' value='11' step='1' min='3' max='30'  >\");
@@ -349,6 +353,23 @@ mod_maps_server <- function(id) {
         leaflet::addTiles(urlTemplate = "https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png",
                           attribution = '&copy;<a href="https://carto.com/attributions">OSM CARTO</a>',
                           options =  leaflet::tileOptions(zIndex = 2, preferCanvas=TRUE, maxZoom = 19, subdomains = "abcd" ), group=basic.layerlist.list$baseGroups$osm.light)  %>%
+        leaflet::hideGroup( as.character(basic.layerlist.list$overlayGroups) ) %>%
+        leaflet::showGroup( c(basic.layerlist.list$overlayGroups$Casi_COVID19 ) )   %>%
+        # addMouseCoordinates() %>%
+        leaflet::addLayersControl(baseGroups    =  basic.layerlist$baseGroups,
+                                  overlayGroups = basic.layerlist$overlayGroups,
+                                  options =  leaflet::layersControlOptions(collapsed = F) )
+
+
+
+      )
+
+   # outputOptions(output,  "mymap", suspendWhenHidden = FALSE)
+
+
+
+    observeEvent(input$leaflet_rendered, {
+      leaflet::leafletProxy("mymap") %>%
         leaflet::addPolygons(data = pp, weight=1,
                              color="#FFFFFF",
                              fillColor=cm.init(dt.filtered.init$totale_casi.normPop),
@@ -362,23 +383,8 @@ mod_maps_server <- function(id) {
                                              id,
                                              basic.layerlist.list$overlayGroups$Casi_COVID19,
                                              pp$SIGLA),
-                             group=basic.layerlist.list$overlayGroups$Casi_COVID19 ) %>%
-        leaflet::hideGroup( as.character(basic.layerlist.list$overlayGroups) ) %>%
-        leaflet::showGroup( c(basic.layerlist.list$overlayGroups$Casi_COVID19 ) )   %>%
-        # addMouseCoordinates() %>%
-        leaflet::addLayersControl(baseGroups    =  basic.layerlist$baseGroups,
-                                  overlayGroups = basic.layerlist$overlayGroups,
-                                  options =  leaflet::layersControlOptions(collapsed = F) )
+                             group=basic.layerlist.list$overlayGroups$Casi_COVID19 )
 
-
-
-      )
-
-    #outputOptions(output,  "mymap", suspendWhenHidden = FALSE)
-
-
-
-    observeEvent(input$dateRangeChanged, {
 
     })
 
@@ -387,7 +393,7 @@ mod_maps_server <- function(id) {
     observe({
 
       #req(input$leaflet_rendered,input$calculus)
-      req(input$leaflet_rendered, input$calculus,
+      req(input$leaflet_rendered,input$leaflet_rendered_all,  input$calculus,
           input$date1, input$scale.fixed,
           input$palette )
 
@@ -473,11 +479,19 @@ mod_maps_server <- function(id) {
       #
       # } else {
         ## do cachebusting to reload tiles
+      cc<-paste0(collapse="','",  sigla2hex )
+      print(cc)
         shinyjs::runjs( sprintf("
-              //console.log(%s_layerobjects);
-              //%s_layerobjects.setParams({fake: Date.now()});
-              //console.log(%s_layerobjects);
-                     ", id, id, id) )
+              var colorMap = ['%s'];
+              var layers = %s_mapElement.layerManager.getLayerGroup(%s_covidGroupname).getLayers();
+              if(layers.length!=colorMap.length){
+                 alert('OPS problem');
+              } else {
+                for(var i=0; i < layers.length; i++) {
+                   layers[i].setStyle({'fillColor': colorMap[i] });
+                }
+              }
+                     ",   cc, id, id  ) )
 
  #                 }
 
