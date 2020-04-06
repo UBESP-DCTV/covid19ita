@@ -119,39 +119,45 @@ mod_maps_ui <- function(id){
       }", id, id))
     ),
     fluidRow(
-      column(3, style="font-weight:bold;",
-             dateInput(ns("date1"), NULL, value = data.ultima, min = data.prima,
-                       max = data.ultima, format = 'DD dd MM yyyy') ),
-      column(3, div(  selectInput(ns("variableName"), NULL,
-                                  choices = list(
-                                    "Total cases"="totale_casi",
-                                    "Daily cases"="delta",
-                                    "Total cases / 10 000 residents"="totale_casi.normPop",
-                                    "Daily cases / 10 000 residents"="delta.normPop" ) )
-      )
-      ),
-
-      #   column(1,  `data-toggle` ="tooltip" , `data-html` ="true" ,   `data-placement`="bottom" , title=tooltips$scale.fixed,
-      #           checkboxInput("scale.fixed", "F.S.", value = F )),
-      column(2,
-             div(style=" ",
-                 `data-toggle` ="tooltip" , `data-html` ="true" ,   `data-placement`="bottom" , title=tooltips$scale.fixed,
-                 checkboxInput( ns("scale.fixed"), label = "FixScale", value=T ) )
-      ),
-      column(2, title="Scales",  `data-toggle` ="tooltip" ,  `data-placement`="bottom" ,
-             selectInput(ns("scale.funct_"), NULL,  choices = functionList ) ),
-      column(2, title="Color Palette",   `data-toggle` ="tooltip" ,  `data-placement`="bottom" ,
-             shinyWidgets::pickerInput(ns("palette"), NULL,
-                                       choices = names(paletteList.t),
-                                       choicesOpt = list(content = paletteList.img) ) )
-    ),
-    fluidRow(
       box(  div( id=ns("loader"), alt="",
                  style="width:100%; position:absolute; text-align: center; z-index:9999999999;",
                  loader,
                  div( style='display: block; color:white;text-shadow:0px 0px 3px black;',
                       "Loading Geodata...", div(id=ns("loader-text")) ) ),
-             tags$input(style='width:100%%;',  type='range', id= ns("dateRange") ),
+
+
+
+            fluidRow(
+              column(4, style="font-weight:bold;",
+                     dateInput(ns("date1"), NULL, value = data.ultima, min = data.prima,
+                               max = data.ultima, format = 'DD dd MM yyyy') ),
+              column(3, div(  selectInput(ns("variableName"), NULL,
+                                          choices = list(
+                                            "Total cases / 10 000 residents"="totale_casi.normPop",
+                                            "Total cases"="totale_casi",
+                                            "Daily cases / 10 000 residents"="delta.normPop" ) ),
+                              "Daily cases"="delta"
+              )
+              ),
+              column(1,
+                     div(style=" ",
+                         `data-toggle` ="tooltip" , `data-html` ="true" ,   `data-placement`="bottom" , title=tooltips$scale.fixed,
+                         checkboxInput( ns("scale.fixed"), label = "FixScale", value=T ) )
+              ),
+              column(2, title="Scales",  `data-toggle` ="tooltip" ,  `data-placement`="bottom" ,
+                     selectInput(ns("scale.funct_"), NULL,  choices = functionList ) ),
+              column(2, title="Color Palette",   `data-toggle` ="tooltip" ,  `data-placement`="bottom" ,
+                     shinyWidgets::pickerInput(ns("palette"), NULL,
+                                               choices = names(paletteList.t),
+                                               choicesOpt = list(content = paletteList.img) ) )
+            ),
+
+
+
+
+
+             tags$input(style='width:100%;',  type='range', min='1', max=as.integer(data.ultima -  data.prima ) ,
+                        id= ns("dateRangeSlider") ),
             leaflet::leafletOutput(ns("mymap")) ,
         title = "Distribuzione geografica del numero di casi per provincia",
         footer = HTML("<div style='width:100% ; text-align:center; font-size:smaller;'>by F. Pirotti,  Dip.to TESAF /
@@ -182,6 +188,20 @@ mod_maps_server <- function(id) {
     logPer=function(x){ round(exp(x)-1, 0) },
     sqrt=function(x){ x^2 }
   )
+
+######## DUPICATA DA MODIFICARE IN GLOBALS SOMEWHAT
+  paletteList.t<-list(
+
+    Person=c("#cccccc",   "#ffffd9", "#edf8b1", "#c7e9b4", "#7fcdbb",
+             "#41b6c4", "#1d91c0", "#225ea8",  "#6e016b", "#990000", "#d7301f", "#FF0000" ),
+    Spectral=c("#cccccc",   rev( grDevices::rainbow(20)[1:12])),
+    YellowOrangeRed= RColorBrewer::brewer.pal(9,"YlOrRd"),
+    RedYellowBlue= RColorBrewer::brewer.pal(11,"RdYlBu"),
+    BlueYellowRed=rev(RColorBrewer::brewer.pal(11,"RdYlBu")),
+    RedWhiteGrey= rev(RColorBrewer::brewer.pal(11,"RdGy"))
+  )
+
+
   base.url<-"https://geolab02.vs-ix.net"
   remote.path<-"/var/www/html/covid19carto/"
   remote.base.url<-sprintf("%s/covid19carto/" , base.url)
@@ -263,7 +283,8 @@ mod_maps_server <- function(id) {
     dplyr::mutate(  delta     =c(0, diff(totale_casi)) ) %>%
     dplyr::select(
       .data$data,  .data$totale_casi, .data$delta, .data$lat, .data$long
-    )
+    ) %>%
+    dplyr::arrange(sigla_provincia)
 
   data_to_use <- merge(data_to_use, province_population2019)
 
@@ -279,7 +300,8 @@ mod_maps_server <- function(id) {
       .data$sigla_provincia,
       .data$totale_casi.normPop,
       .data$lat, .data$long
-    )
+    )%>%
+    dplyr::arrange(sigla_provincia)
 
   cm.init<-leaflet::colorNumeric(
     palette =   paletteList.t$Person ,
@@ -297,6 +319,8 @@ mod_maps_server <- function(id) {
     ## NON vanno inseriti (a differenza della controparte in input)
     ## all'interno della chiamata a `ns()`) , options=leaflet::leafletOptions(preferCanvas = T)
 
+
+    #### DRAW MAP ----------
     output$mymap <- leaflet::renderLeaflet(
       leaflet::leaflet(width="100%", height = 600  ) %>%
         htmlwidgets::onRender(sprintf("function(el, x) {
@@ -320,6 +344,11 @@ mod_maps_server <- function(id) {
            $(\".leaflet-control-layers-overlays > label:nth-child(2) > div:nth-child(1)\").append(\"&nbsp;&nbsp;<input   title='black label' id='%s_labelBlack' type='checkbox'   >\");
            $(\".leaflet-control-layers-overlays > label:nth-child(2) > div:nth-child(1)\").append(\"<input style='width: 100px;' title='change size of label' id='%s_labelsizeSlider' type='range' value='11' step='1' min='3' max='30'  >\");
            $(\".leaflet-control-layers-overlays > label:nth-child(1) > div:nth-child(1)\").append(\"<input style='width: 100px;' title='change transparency to layer' id='%s_opacitySlider' type='range' value='50' step='1'  >\");
+
+           $('#%s_dateRangeSlider').on('input', function(x){
+              Shiny.onInputChange('%s-dateRangeChanged', e.target.value );
+            });
+
 
            $('#%s_labelBlack').on('change', function(x){
               vv=this.checked;
@@ -347,12 +376,10 @@ mod_maps_server <- function(id) {
               Shiny.onInputChange('%s-currentWMSopacity', vv);
             });
 
-            $('#%s-dateRange').on('input', function(e){
-             //Shiny.onInputChange('%s-dateRangeChanged', e.target.value);
-            });
+
 
            }",  id, basic.layerlist.list$overlayGroups$Casi_COVID19 ,
-                id, id, id, id, id,   id, id, id,
+                id, id, id, id, id,   id, id, id, id,
                 id, id, id, id, id, id, id, id, id, id,
                 id,  id, id, id, id, id, id, id)) %>%
 
@@ -377,10 +404,10 @@ mod_maps_server <- function(id) {
    # outputOptions(output,  "mymap", suspendWhenHidden = FALSE)
 
 
-
+    #### DRAW POLYGONS FIRST RENDER ----------
     observeEvent(input$leaflet_rendered, {
 
-      fillColors<-cm.init(dt.filtered.init$totale_casi)
+      fillColors<-cm.init(dt.filtered.init[["totale_casi.normPop"]])
 
       for(i in 1:length(province_polygons2019)){
         leaflet::leafletProxy("mymap") %>%
@@ -401,11 +428,41 @@ mod_maps_server <- function(id) {
       }
 
 
+      if( !is.element(input[["variableName"]],c("delta", "totale_casi") ) )  label<-sprintf("%.2f", dt.filtered.init[["totale_casi.normPop"]] )
+      else label <- sprintf("%d",   dt.filtered.init[["totale_casi.normPop"]] )
+
+      label[label=="NA"]<-""
+
+      leaflet::leafletProxy("mymap") %>%
+
+      leaflet::addLabelOnlyMarkers(data = dt.filtered.init, lng = ~long, lat=~lat,
+                                     layerId = sprintf("%s%s", basic.layerlist.list$overlayGroups$Casi_COVID19labels,
+                                                       dt.filtered.init$sigla_provincia    ),
+                                     group =  basic.layerlist.list$overlayGroups$Casi_COVID19labels,
+
+                                     label = label ,
+                                     labelOptions = leaflet::labelOptions(zIndex = 100,
+                                                                          noHide = TRUE,
+                                                                          textOnly = T,
+                                                                          style= list(
+                                                                            "font-size" = "12px",
+                                                                            "font-weight" = "bold",
+                                                                            "color"="white",
+                                                                            "text-shadow"="0px 0px 3px black"
+                                                                          ),
+                                                                          opacity = 1
+                                     )
+        )
+
+
+
+
 
     })
 
 
 
+    #### DRAW RESPONSIVE ----------
     observe({
 
       req(input$leaflet_rendered,input$leaflet_rendered_all,
@@ -418,13 +475,13 @@ mod_maps_server <- function(id) {
 
 
       dt.filtered<- current_data()
-
-      # mapfilename<-sprintf(remote.mapfile.template,
-      #                      input$date1, input$scale.fixed,
-      #                      input$scale.funct_, input$variableName,  input$palette)
+      if( nrow(dt.filtered)<1 )
+      {
+        showNotification("No data found for selected day.",   duration = 15, type ="error")
+        return(NULL)
+      }
 
       fn<- dir.funct_[[ input[["scale.funct_"]] ]]
-
 
       cm<-current_palettFunction()
       sigla2hex<- stats::setNames(
@@ -432,15 +489,6 @@ mod_maps_server <- function(id) {
            fn(dt.filtered[[input$variableName]])
         ) ,
                 dt.filtered[["sigla_provincia"]]  )
-      # retMessage<-creaMap(sigla2hex , temp.mapfile  )
-      #
-      # if( is.list(retMessage) ){
-      #   showNotification( HTML(retMessage$message),   duration = NULL, type ="error")
-      #   shinyjs::runjs(sprintf("$('#%s-loader').hide();", id))
-      #   return(NULL)
-      # }
-      #
-      # print(retMessage)
 
       dt.label<-  dt.filtered[[input$variableName]]
 
@@ -468,38 +516,6 @@ mod_maps_server <- function(id) {
 
 
 
-      # if(is.null(temp.mapfile)){
-      #   pp<-readRDS("../data-raw/province_polygons2019.rds")
-      #   leaflet::leafletProxy("mymap") %>%
-      #       # leaflet::addWMSTiles(baseUrl = sprintf("%s/cgi-bin/mapserv?map=%s",
-      #       #                                    base.url, retMessage   ) ,
-      #       #                  options = leaflet::WMSTileOptions(zIndex = 4, format = "image/png",
-      #       #                                                    transparent = T , opacity=op,
-      #       #                                                    ## below a unique layerid depending on mapfilename.
-      #       #                                                    layerId =   basic.layerlist.list$overlayGroups$Casi_COVID19
-      #       #                                                    ),
-      #       #                  layers=basic.layerlist.list$overlayGroups$Casi_COVID19,
-      #       #                  group=basic.layerlist.list$overlayGroups$Casi_COVID19,
-      #       #                  attribution = "&copy <a title='COVID-19 Maps' href='mailto:francesco.pirotti@unipd.it;'>F. Pirotti</a><a href='www.cirgeo.unipd.it' target='_blank'>@CIRGEO</a>" )  %>%
-      #
-      #     leaflet::addPolygons(data = pp, weight=1,
-      #                          color="#FFFFFF",
-      #                          fillColor=cm(dt.filtered[[input$variableName]]),
-      #                          options=leaflet::pathOptions(interactive=F,
-      #                                                       className=sprintf("%s_%s__%s" ,
-      #                                                                         id,
-      #                                                                         basic.layerlist.list$overlayGroups$Casi_COVID19,
-      #                                                                         pp$SIGLA) ),
-      #                          opacity = 1, fillOpacity = 1,
-      #                          layerId=sprintf("%s_%s__%s" ,
-      #                                            id,
-      #                                            basic.layerlist.list$overlayGroups$Casi_COVID19,
-      #                                            pp$SIGLA),
-      #                          group=basic.layerlist.list$overlayGroups$Casi_COVID19 )
-      #
-      #             temp.mapfile<<-retMessage
-      #
-      # } else {
         ## do cachebusting to reload tiles
       cc<-paste0(collapse="','",  sigla2hex )
 
@@ -540,51 +556,6 @@ mod_maps_server <- function(id) {
     })
 
 
-    observe(  {
-      req(input$date1, NULL,  input$leaflet_rendered, input$variableName )
-
-      dt.filtered<- data_to_use %>%
-        dplyr::filter( as.Date(.data$data) == input[["date1"]])
-
-      if( nrow(dt.filtered)<1 )
-      {
-        showNotification("No data found for selected day.",   duration = 15, type ="error")
-        return(NULL)
-      }
-      dt.label<- unname(unlist(dt.filtered[,input$variableName]))
-      if( !is.element(input$variableName,c("delta", "totale_casi") ) )  label<-sprintf("%.2f",dt.label)
-      else label <- sprintf("%d",   dt.label)
-
-      label[label=="NA"]<-""
-
-
-
-      leaflet::leafletProxy("mymap") %>%
-
-      leaflet::addLabelOnlyMarkers(data = dt.filtered, lng = ~long, lat=~lat,
-                            layerId = sprintf("%s%s", basic.layerlist.list$overlayGroups$Casi_COVID19labels,
-                                              dt.filtered$codice_provincia    ),
-                            group =  basic.layerlist.list$overlayGroups$Casi_COVID19labels,
-
-                            label = label ,
-                             labelOptions = leaflet::labelOptions(zIndex = 10,
-                                                                 noHide = TRUE,
-                                                                 # direction = "bottom",
-                                                                 textOnly = T,
-                                                                 style= list(
-                                                                   "font-size" = "11px",
-                                                                   "font-weight" = "bold",
-                                                                   "color"="white",
-                                                                   "text-shadow"="0px 0px 3px black"
-                                                                 ),
-                                                                 #offset = c(0, -10),
-                                                                 opacity = 1
-                            )
-        )
-
-
-      })
-
 
 
     ### reactive functions
@@ -598,7 +569,8 @@ mod_maps_server <- function(id) {
           .data$sigla_provincia,
           .data[[ input$variableName ]],
           .data$lat, .data$long
-        )
+        ) %>%
+        dplyr::arrange(sigla_provincia)
     })
 
 
