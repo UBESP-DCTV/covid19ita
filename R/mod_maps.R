@@ -33,16 +33,12 @@ mod_maps_ui <- function(id){
     </g>
 </svg>'
   )
-  linear<-function(x){ x }
-  log10Per<-function(x){ log10(x+1) }
-  logPer<-function(x){ log(x+1) }
 
-  inv.funct_ <- list(
-    linear=function(x){ x } ,
-    log10Per=function(x){ round(10^(x)-1,0) } ,
-    logPer=function(x){ round(exp(x)-1, 0) },
-    sqrt=function(x){ x^2 }
-  )
+
+
+  functionList<- list( "Linear"="linear", "Log10"="log10Per" )
+  functionList.lut <- names(functionList)
+  names(functionList.lut) <- functionList
 
 
 
@@ -74,19 +70,17 @@ mod_maps_ui <- function(id){
     # cat(html, file = tf2 <- tempfile(fileext = ".html"))
     # browseURL(tf2)
   }
-  paletteList<- (names(paletteList.t))
 
-  functionList<- list( "Linear"="linear", "Log10"="log10Per" )
-  functionList.lut <- names(functionList)
-  names(functionList.lut) <- functionList
 
+  data.ultima<-max(dpc_covid19_ita_regioni$data)
+  data.prima<-min(dpc_covid19_ita_regioni$data)
 
   tooltips<-list(scale.fixed="<b style='font-weight:bold; color:red;'>
            Fixed Scale</b><br>If checked, this box will keep the scale constant to the range of the min and max of all values accross the time-span of analysis of whatever observation is plotted.
            If unchecked, the scale will have min and max values of the current day, and therefore change every time a different day is chosen.
            The former allows comparing accross time, but has lower color contrast as range will be larger.
            The latter allows more color contrast over small variations. ",
-                 calculus=" <b style='color:red;'>Total Cases</b>: total count of COVID-19 cases at selected day.<br><br>
+                 variableName=" <b style='color:red;'>Total Cases</b>: total count of COVID-19 cases at selected day.<br><br>
     <b style='color:red;'>Daily Increase:</b> Difference of cases with previous day.<br><br>
     <b style='color:red;'>Normalized daily Increase (not implemented)</b>: difference between chosen day's number of COVID-19 cases (T1) and previous day (T0), over the sum, i.e.
     (T0 - T1)/(T0 + T1) - ranges from -1 to 1, 0 means flat increase - this scale highlights initial cases and tends to 0 when new cases are a
@@ -126,8 +120,9 @@ mod_maps_ui <- function(id){
     ),
     fluidRow(
       column(3, style="font-weight:bold;",
-             dateInput(ns("date1"), NULL, value = max(dpc_covid19_ita_regioni$data), format = 'DD dd MM yyyy') ),
-      column(3, div(  selectInput(ns("calculus"), NULL,
+             dateInput(ns("date1"), NULL, value = data.ultima, min = data.prima,
+                       max = data.ultima, format = 'DD dd MM yyyy') ),
+      column(3, div(  selectInput(ns("variableName"), NULL,
                                   choices = list(
                                     "Total cases"="totale_casi",
                                     "Daily cases"="delta",
@@ -139,7 +134,7 @@ mod_maps_ui <- function(id){
       #   column(1,  `data-toggle` ="tooltip" , `data-html` ="true" ,   `data-placement`="bottom" , title=tooltips$scale.fixed,
       #           checkboxInput("scale.fixed", "F.S.", value = F )),
       column(2,
-             div(style="display: inline-block; margin-top: 12px; width:50px; ",
+             div(style=" ",
                  `data-toggle` ="tooltip" , `data-html` ="true" ,   `data-placement`="bottom" , title=tooltips$scale.fixed,
                  checkboxInput( ns("scale.fixed"), label = "FixScale", value=T ) )
       ),
@@ -147,9 +142,8 @@ mod_maps_ui <- function(id){
              selectInput(ns("scale.funct_"), NULL,  choices = functionList ) ),
       column(2, title="Color Palette",   `data-toggle` ="tooltip" ,  `data-placement`="bottom" ,
              shinyWidgets::pickerInput(ns("palette"), NULL,
-                                       choices = paletteList,
-                                       choicesOpt = list(content = paletteList.img
-                                       ) ) )
+                                       choices = names(paletteList.t),
+                                       choicesOpt = list(content = paletteList.img) ) )
     ),
     fluidRow(
       box(  div( id=ns("loader"), alt="",
@@ -176,13 +170,24 @@ mod_maps_server <- function(id) {
 
   ## Zona dedicata alle computazioni preliminari, non reattive
   ## qui se possibile metterli su un "global.R" dato che sono identici per tutti
-
+  dir.funct_ <- list(
+    linear=function(x){ x+1-1 },
+    log10Per=function(x){ log10(x+1) },
+    logPer=function(x){ log(x+1) },
+    sqrt=function(x){ sqrt(x) }
+  )
+  inv.funct_ <- list(
+    linear=function(x){ x } ,
+    log10Per=function(x){ round(10^(x)-1,0) } ,
+    logPer=function(x){ round(exp(x)-1, 0) },
+    sqrt=function(x){ x^2 }
+  )
   base.url<-"https://geolab02.vs-ix.net"
   remote.path<-"/var/www/html/covid19carto/"
   remote.base.url<-sprintf("%s/covid19carto/" , base.url)
   remote.mapfile.creator<-sprintf("%s/creamapfile.php" , remote.base.url)
   ### un mapfile per server WMS identificato da 5 variabili:
-  ### 1-data 2-scale.fixed 3-scale.funct_, 4-calculus (e.g. totale, giornaliero etcc) 5-colorscale
+  ### 1-data 2-scale.fixed 3-scale.funct_, 4-variableName (e.g. totale, giornaliero etcc) 5-colorscale
   remote.mapfile.template<-"mapfile%s_%s_%s_%s_%s.map"
 
   temp.mapfile<-NULL
@@ -264,9 +269,12 @@ mod_maps_server <- function(id) {
 
   data_to_use$totale_casi.normPop<-data_to_use$totale_casi/data_to_use$Residenti * 10000
   data_to_use$delta.normPop<-data_to_use$delta/data_to_use$Residenti * 10000
+
+  data.prima<- min(as.Date(data_to_use$data))
+  data.ultima<- max(as.Date(data_to_use$data))
   ## initial values for polygon loading
   dt.filtered.init <- data_to_use %>%
-    dplyr::filter( as.Date(.data$data) == as.Date(max(data_to_use$data))) %>%
+    dplyr::filter( as.Date(.data$data) ==  data.ultima)  %>%
     dplyr::select(
       .data$sigla_provincia,
       .data$totale_casi.normPop,
@@ -298,8 +306,10 @@ mod_maps_server <- function(id) {
             function %s_onLayerAddFunction(e){
                  if(typeof(e.layer.options) !=='undefined' && e.layer.options.group== %s_covidGroupname ){
                     count++;
-                    $('#%s-loader').hide();
-                    Shiny.onInputChange('%s-leaflet_rendered_all', true);
+                    if(count>105) {
+                      $('#%s-loader').hide();
+                      Shiny.onInputChange('%s-leaflet_rendered_all', true);
+                    }
                  }
             }
 
@@ -369,21 +379,27 @@ mod_maps_server <- function(id) {
 
 
     observeEvent(input$leaflet_rendered, {
-      leaflet::leafletProxy("mymap") %>%
-        leaflet::addPolygons(data = pp, weight=1,
-                             color="#FFFFFF",
-                             fillColor=cm.init(dt.filtered.init$totale_casi.normPop),
-                             options=leaflet::pathOptions(interactive=F,
-                                                          className=sprintf("%s_%s__%s" ,
-                                                                            id,
-                                                                            basic.layerlist.list$overlayGroups$Casi_COVID19,
-                                                                            pp$SIGLA) ),
-                             opacity = 1, fillOpacity = 0.5,
-                             layerId=sprintf("%s_%s__%s" ,
-                                             id,
-                                             basic.layerlist.list$overlayGroups$Casi_COVID19,
-                                             pp$SIGLA),
-                             group=basic.layerlist.list$overlayGroups$Casi_COVID19 )
+
+      fillColors<-cm.init(dt.filtered.init$totale_casi)
+
+      for(i in 1:length(province_polygons2019)){
+        leaflet::leafletProxy("mymap") %>%
+          leaflet::addPolygons(data = province_polygons2019[i,], weight=1,
+                               color="#FFFFFF",
+                               fillColor=fillColors[[i]],
+                               options=leaflet::pathOptions(interactive=F,
+                                                            className=sprintf("%s_%s__%s" ,
+                                                                              id,
+                                                                              basic.layerlist.list$overlayGroups$Casi_COVID19,
+                                                                              province_polygons2019$SIGLA[[i]]) ),
+                               opacity = 1, fillOpacity = 0.5,
+                               layerId=sprintf("%s_%s__%s" ,
+                                               id,
+                                               basic.layerlist.list$overlayGroups$Casi_COVID19,
+                                               province_polygons2019$SIGLA[[i]]),
+                               group=basic.layerlist.list$overlayGroups$Casi_COVID19 )
+      }
+
 
 
     })
@@ -392,23 +408,29 @@ mod_maps_server <- function(id) {
 
     observe({
 
-      #req(input$leaflet_rendered,input$calculus)
-      req(input$leaflet_rendered,input$leaflet_rendered_all,  input$calculus,
-          input$date1, input$scale.fixed,
-          input$palette )
+      req(input$leaflet_rendered,input$leaflet_rendered_all,
+          input$variableName,
+          input$date1,
+          input$palette,
+          (input[["scale.fixed"]]||(input[["scale.fixed"]]==F)) )
 
       ## trovo labels per ultima data
 
 
       dt.filtered<- current_data()
 
-      print("paletteList.t")
       # mapfilename<-sprintf(remote.mapfile.template,
       #                      input$date1, input$scale.fixed,
-      #                      input$scale.funct_, input$calculus,  input$palette)
+      #                      input$scale.funct_, input$variableName,  input$palette)
+
+      fn<- dir.funct_[[ input[["scale.funct_"]] ]]
+
 
       cm<-current_palettFunction()
-      sigla2hex<- stats::setNames( cm(dt.filtered[[input$calculus]]) ,
+      sigla2hex<- stats::setNames(
+        cm(
+           fn(dt.filtered[[input$variableName]])
+        ) ,
                 dt.filtered[["sigla_provincia"]]  )
       # retMessage<-creaMap(sigla2hex , temp.mapfile  )
       #
@@ -420,9 +442,9 @@ mod_maps_server <- function(id) {
       #
       # print(retMessage)
 
-      dt.label<-  dt.filtered[[input$calculus]]
+      dt.label<-  dt.filtered[[input$variableName]]
 
-      if( !is.element(input$calculus,c("delta", "totale_casi") ) )  label<-sprintf("%.2f",dt.label)
+      if( !is.element(input$variableName,c("delta", "totale_casi") ) )  label<-sprintf("%.2f",dt.label)
       else label <- sprintf("%d",   dt.label)
 
       label[label=="NA"]<-""
@@ -462,7 +484,7 @@ mod_maps_server <- function(id) {
       #
       #     leaflet::addPolygons(data = pp, weight=1,
       #                          color="#FFFFFF",
-      #                          fillColor=cm(dt.filtered[[input$calculus]]),
+      #                          fillColor=cm(dt.filtered[[input$variableName]]),
       #                          options=leaflet::pathOptions(interactive=F,
       #                                                       className=sprintf("%s_%s__%s" ,
       #                                                                         id,
@@ -480,8 +502,8 @@ mod_maps_server <- function(id) {
       # } else {
         ## do cachebusting to reload tiles
       cc<-paste0(collapse="','",  sigla2hex )
-      print(cc)
-        shinyjs::runjs( sprintf("
+
+      shinyjs::runjs( sprintf("
               var colorMap = ['%s'];
               var layers = %s_mapElement.layerManager.getLayerGroup(%s_covidGroupname).getLayers();
               if(layers.length!=colorMap.length){
@@ -519,7 +541,7 @@ mod_maps_server <- function(id) {
 
 
     observe(  {
-      req(input$date1, NULL,  input$leaflet_rendered, input$calculus )
+      req(input$date1, NULL,  input$leaflet_rendered, input$variableName )
 
       dt.filtered<- data_to_use %>%
         dplyr::filter( as.Date(.data$data) == input[["date1"]])
@@ -529,8 +551,8 @@ mod_maps_server <- function(id) {
         showNotification("No data found for selected day.",   duration = 15, type ="error")
         return(NULL)
       }
-      dt.label<- unname(unlist(dt.filtered[,input$calculus]))
-      if( !is.element(input$calculus,c("delta", "totale_casi") ) )  label<-sprintf("%.2f",dt.label)
+      dt.label<- unname(unlist(dt.filtered[,input$variableName]))
+      if( !is.element(input$variableName,c("delta", "totale_casi") ) )  label<-sprintf("%.2f",dt.label)
       else label <- sprintf("%d",   dt.label)
 
       label[label=="NA"]<-""
@@ -567,24 +589,62 @@ mod_maps_server <- function(id) {
 
     ### reactive functions
 
+    #### get data ----
     current_data <- reactive({
-      req(input$date1, input$calculus)
+      req(input$date1, input$variableName)
       data_to_use %>%
         dplyr::filter( as.Date(.data$data) == input$date1) %>%
         dplyr::select(
           .data$sigla_provincia,
-          .data[[ input$calculus ]],
+          .data[[ input$variableName ]],
           .data$lat, .data$long
         )
     })
 
+
+    #### palette and legend ----
     current_palettFunction <- reactive({
       dt<-current_data()
-      req(dt,  input[["palette"]], input[["calculus"]])
-      leaflet::colorNumeric(
+      req(dt,  input[["palette"]], input[["variableName"]], input[["scale.funct_"]])
+
+      fn<- dir.funct_[[ input[["scale.funct_"]] ]]
+
+      if(!input[["scale.fixed"]]) domain<-fn(dt[[ input[["variableName"]] ]])
+      else                        domain<-fn(data_to_use[[  input[["variableName"]] ]])
+
+      if(   is.null(domain)){
+        print('problema')
+        return(NULL)
+      }
+
+      pal<-leaflet::colorNumeric(
         palette =   paletteList.t[[  input[["palette"]] ]] ,
-        domain =  dt[[ input[["calculus"]] ]]
+        domain =  domain
       )
+
+      leaflet::leafletProxy("mymap") %>%
+        leaflet::addLegend( "bottomright", pal = pal, values = domain,
+                            title = sprintf("<div  data-toggle ='tooltip' style='font-size:small;
+                             white-space:nowrap; '>N. Cases&nbsp;&nbsp;<font style='color:red;
+                             font-weight:bold;
+                             cursor:pointer;' data-toggle ='tooltip' data-placement='left'
+                                             data-html ='true' title='%s' >&nbsp;(?)</font>
+                                             </div><script> $('[data-toggle=\"tooltip\"]').tooltip();</script>",
+                                            ifelse(input[["scale.fixed"]],
+                                                   sprintf("Period: %s to %s<br>(%d&nbsp;days)", data.prima,
+                                                           data.ultima,
+                                                           as.integer(data.ultima- data.prima) ),
+
+                                                   sprintf(" %s ", format(input$giorno, "%d&nbsp;%B") )
+                                                   ) ),
+                            layerId="Legend_Casi_COVID19",
+                            labFormat = leaflet::labelFormat(prefix = "", big.mark = " ",
+                                                    transform = inv.funct_[[input$scale.funct_]] ),
+                            opacity = 1 )
+
+      pal
+
+
     })
 
   })
