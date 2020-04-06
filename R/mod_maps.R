@@ -273,50 +273,23 @@ mod_maps_server <- function(id) {
     ## zona dedicata alle computazioni reattive del modulo, in
     ## particolare la definizione degli output (ricordarsi che tali nomi
     ## NON vanno inseriti (a differenza della controparte in input)
-    ## all'interno della chiamata a `ns()`)
+    ## all'interno della chiamata a `ns()`) , options=leaflet::leafletOptions(preferCanvas = T)
 
     output$mymap <- leaflet::renderLeaflet(
-      leaflet::leaflet(width="100%", height = 600   ) %>%
+      leaflet::leaflet(width="100%", height = 600  ) %>%
         htmlwidgets::onRender(sprintf("function(el, x) {
+           %s_covidGroupname='%s';
            %s_mapElement=this;
-           %s_layerobjects=[];
-
-
-            var loadHandler = function (event) {
-        //        const keys = Object.keys(%s_layerobjects);
-        //        for (var  key of keys) {
-        //          if(key !== event.sourceTarget.options.layerId){
-        //              var ii = %s_mapElement.currentLayersControl.removeLayer( event.sourceTarget );
-        //              console.log(ii);
-        //              %s_mapElement.removeLayer(%s_layerobjects[key]);
-        //              delete %s_layerobjects[key];
-        //              //console.log(%s_layerobjects);
-        //          }
-        //        }
-
-                $('#%s-loader').hide();
-                event.sourceTarget.off('add');
-
-            };
-
 
             function %s_onLayerAddFunction(e){
-            //  if( typeof(e.layer.options.layers)!=='undefined' && e.layer.options.layers=='%s'  ) {
-
-                var lo=%s_layerobjects;
-                %s_layerobjects.push(e.layer);
-                if(lo.length>100)  $('#%s-loader').hide();
-           //       e.layer.on('add', loadHandler);
-           //   }
+                 $('#%s-loader').hide();
             }
 
            Shiny.onInputChange('%s-leaflet_rendered', true);
            this.on('layeradd', %s_onLayerAddFunction);
 
-           $(\".leaflet-control-layers-overlays > label:nth-child(2) > div:nth-child(1)\").append(\"&nbsp;&nbsp;(<input   title='black label' id='%s_labelBlack' type='checkbox'   >B/W)\");
-
+           $(\".leaflet-control-layers-overlays > label:nth-child(2) > div:nth-child(1)\").append(\"&nbsp;&nbsp;<input   title='black label' id='%s_labelBlack' type='checkbox'   >\");
            $(\".leaflet-control-layers-overlays > label:nth-child(2) > div:nth-child(1)\").append(\"<input style='width: 100px;' title='change size of label' id='%s_labelsizeSlider' type='range' value='11' step='1' min='3' max='30'  >\");
-
            $(\".leaflet-control-layers-overlays > label:nth-child(1) > div:nth-child(1)\").append(\"<input style='width: 100px;' title='change transparency to layer' id='%s_opacitySlider' type='range' value='60' step='1'  >\");
 
            $('#%s_labelBlack').on('change', function(x){
@@ -339,22 +312,21 @@ mod_maps_server <- function(id) {
 
            $('#%s_opacitySlider').on('input', function(x){
               var oo = %s_mapElement;
-              var pp = oo.layerManager.getLayerGroup('COVID-19');
+              var pp = oo.layerManager.getLayerGroup(%s_covidGroupname);
               vv=$(this).val();
-              pp.setOpacity(vv/100);
+              pp.setStyle({'fillOpacity':vv/100, 'opacity':vv/100});
               Shiny.onInputChange('%s-currentWMSopacity', vv);
-              // oo.options.opacity=vv/100 ;
-              // $(oo._container).css({ 'opacity' : vv/100 });
             });
 
             $('#%s-dateRange').on('input', function(e){
              //Shiny.onInputChange('%s-dateRangeChanged', e.target.value);
             });
 
+           }",  id, basic.layerlist.list$overlayGroups$Casi_COVID19 ,
+                id, id, id, id, id,   id, id, id,
+                id, id, id, id, id, id, id, id, id, id,
+                id,  id, id, id, id, id, id, id)) %>%
 
-           }", id, id, id, id, id, id,   id, id, id,
-               id, basic.layerlist.list$overlayGroups$Casi_COVID19 ,
-               id, id, id, id, id, id, id, id, id, id,  id, id, id, id, id, id, id)) %>%
         leaflet::setView( 11, 43, 6)  %>%
         leaflet::addTiles(urlTemplate = "https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png",
                           attribution = '&copy;<a href="https://carto.com/attributions">OSM CARTO</a>',
@@ -456,13 +428,14 @@ mod_maps_server <- function(id) {
             #                  attribution = "&copy <a title='COVID-19 Maps' href='mailto:francesco.pirotti@unipd.it;'>F. Pirotti</a><a href='www.cirgeo.unipd.it' target='_blank'>@CIRGEO</a>" )  %>%
 
           leaflet::addPolygons(data = pp, weight=1,
-                               color=cm(dt.filtered[[input$calculus]]),
+                               color="#FFFFFF",
+                               fillColor=cm(dt.filtered[[input$calculus]]),
                                options=leaflet::pathOptions(interactive=F,
                                                             className=sprintf("%s_%s__%s" ,
                                                                               id,
                                                                               basic.layerlist.list$overlayGroups$Casi_COVID19,
                                                                               pp$SIGLA) ),
-                               opacity = 0.8, fillOpacity = 0.6,
+                               opacity = 1, fillOpacity = 1,
                                layerId=sprintf("%s_%s__%s" ,
                                                  id,
                                                  basic.layerlist.list$overlayGroups$Casi_COVID19,
