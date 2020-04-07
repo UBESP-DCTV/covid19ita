@@ -13,3 +13,5 @@ $run_dev.*
 ^codecov\.yml$
 ^\.covrignore$
 ^appveyor\.yml$
+^app\.R$
+^rsconnect$

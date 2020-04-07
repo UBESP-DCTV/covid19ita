@@ -64,7 +64,17 @@ Imports:
     lubridate (>= 1.7.4),
     mgcv,
     growthcurver,
-    scales
+    scales,
+    leaflet,
+    pkgload,
+    htmlwidgets,
+    RColorBrewer,
+    RJSONIO,
+    RCurl,
+    httr,
+    shinyjs,
+    shinyWidgets,
+    rgdal
 Suggests: 
     testthat (>= 2.1.0),
     covr (>= 3.5.0),
