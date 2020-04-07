@@ -1,3 +1,5 @@
+* translate 20200406 mortality veneto
+
 # covid19ita 0.32.3
 
 * translate 20200404 magagni

@@ -54,4 +54,5 @@ eng_app_server <- function(input, output, session) {
     eng_mod_focus_20200328_hosp_server("tot")
     eng_mod_focus_20200331_server("ven_pie")
     eng_mod_focus_20200404_magnani_server("mortality")
+    eng_mod_focus_20200406_mort_veneto_server("mort_veneto")
 }
