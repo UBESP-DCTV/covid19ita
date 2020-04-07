@@ -1,3 +1,5 @@
+* fix traslation to eng 
+
 # covid19ita 0.33.0
 
 * added geospatial module
