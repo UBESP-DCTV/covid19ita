@@ -1,3 +1,5 @@
+# covid19ita 0.33.0
+
 * added geospatial module
 * translate 20200406 mortality veneto
 
