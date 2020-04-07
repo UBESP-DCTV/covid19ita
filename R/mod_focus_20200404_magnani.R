@@ -141,10 +141,10 @@ mod_focus_20200404_magnani_ui <- function(id){
       p(HTML("
         variazione<sub>%</sub> =
           100 * (
-            morti<sub>2020</sub> –
-            morti<sub>2019</sub>
+            numero decessi<sub>2020</sub> –
+            numero decessi<sub>2019</sub>
           ) /
-          morti<sub>2019</sub>
+          numero decessi<sub>2019</sub>
       ")),
 
       p(HTML("

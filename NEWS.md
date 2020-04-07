@@ -1,4 +1,11 @@
+# covid19ita 0.32.3
+
 * translate 20200404 magagni
+
+# covid19ita 0.32.2
+
+* data update
+* minor fix to module mort veneto
 
 # covid19ita 0.32.1
 
