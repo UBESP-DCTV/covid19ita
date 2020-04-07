@@ -1,3 +1,5 @@
+# covid19ita 0.33.1
+
 * fix traslation to eng 
 
 # covid19ita 0.33.0
