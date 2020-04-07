@@ -20,6 +20,18 @@ usethis::use_package("purrr", type = "Suggests")
 usethis::use_package("readr", type = "Suggests")
 usethis::use_tibble()
 usethis::use_package("plotly")
+usethis::use_package("htmlwidgets")
+usethis::use_package("leaflet")
+usethis::use_package("RColorBrewer")
+usethis::use_package("RJSONIO")
+usethis::use_package("RCurl")
+usethis::use_package("httr")
+usethis::use_package("shinyjs")
+usethis::use_package("shinyWidgets")
+usethis::use_package("rgdal")
+
+## usethis::use_package("leafgl")  ## KO too slow re-rendering provinces - 2Mx4 vertices with colors  use devtools::install_github("fpirotti/leafgl") - forked to create animations
+
 
 ## Add modules ----
 ## Create a module infrastructure in R/
@@ -41,6 +53,7 @@ golem::add_module(name = "focus_20200327")
 golem::add_module(name = "focus_20200331")
 golem::add_module(name = "focus_20200404_magnani")
 golem::add_module(name = "focus_20200406_mort_veneto")
+golem::add_module(name = "maps")
 
 
 ## Add helper functions ----
