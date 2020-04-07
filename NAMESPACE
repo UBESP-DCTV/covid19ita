@@ -2,7 +2,10 @@
 
 export("%>%")
 export(accumulate_for_days)
+export(clean_ggplotly)
 export(download_dpc)
+export(mort_data_reg)
+export(mort_data_veneto)
 export(run_app)
 import(ggplot2)
 import(shiny)
