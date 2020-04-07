@@ -123,6 +123,8 @@ dashboard_sidebar <- function() {dashboardSidebar(sidebarMenu(
 
   menuItem("Indici principali", tabName = "impact", icon = icon("compass")),
 
+  menuItem("Mappe",  tabName = "geo_spatialTot", icon = icon("map-marked-alt") ),
+
   menuItem("Segnalazioni", icon = icon("exclamation-triangle"),
     href = "https://github.com/UBESP-DCTV/covid19ita/issues/"
   ),
@@ -273,7 +275,15 @@ dashboard_body <- function() {dashboardBody(
           a(href = "https://www.linkedin.com/in/nicolas-destro-b2a67212b/", target = "_blank", "LinkedIn")
         )
       ),
-
+      box(width = 12, title = HTML("<strong>Analisi Geospaziale e Rappresentazione Cartografica</strong>"),
+          p(
+            HTML("Prof. <strong>Francesco Pirotti</strong>, Ph.D.,
+            Dipartimento Territorio e Sistemi Agro-Forestali (TESAF)
+            CIRGEO - Centro Interdipartimentale di Ricerca di Geomatica."
+            ),
+            a(href = "https://www.linkedin.com/in/fpirotti", target = "_blank", "LinkedIn")
+          )
+      ),
             h2("Istruzioni per la navigazione"),
       box(width = 12, title = HTML("<strong>Organizzazione del sito</strong>"),
         HTML(
@@ -471,7 +481,14 @@ dashboard_body <- function() {dashboardBody(
   tabItem(tabName = "impact",
     h1("Indici principali"),
     mod_ind_ita_ui("20200315")
+  ),
+
+  tabItem(tabName = "geo_spatialTot",
+   # h1("Mappe 1"),
+    mod_maps_ui("geo_1")
   )
+
+
 
 ))}
 
