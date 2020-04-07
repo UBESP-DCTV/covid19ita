@@ -63,6 +63,7 @@ golem::add_utils("extract_ci_from_gg_txt")
 golem::add_fct("cumulate_for_days")
 golem::add_utils("pred_to_tbl")
 golem::add_fct("regional_poiss")
+golem::add_fct("raddopia")
 
 
 
@@ -80,6 +81,7 @@ devtools::document(roclets = c('rd', 'collate', 'namespace'))
 ## Add one line by test you want to create
 usethis::use_test("download_dpc")
 usethis::use_test("helper_dashboard")
+usethis::use_test("raddopia")
 
 # Documentation
 
