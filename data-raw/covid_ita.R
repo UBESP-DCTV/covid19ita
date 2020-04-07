@@ -58,8 +58,12 @@ if (!all(are_ok)) {
     "Valle d'Aosta"     	 ,               126883
   )
 
-  province_population2019 <- readRDS("data-raw/province_population2019.rds")
-  province_polygons2019<-readRDS("data-raw/province_polygons2019.rds")
+  province_population2019 <- readRDS(
+    here::here("data-raw", "province_population2019.rds")
+  )
+  province_polygons2019 <- readRDS(
+    here::here("data-raw", "province_polygons2019.rds")
+  )
   #region_polygons2019<-readRDS("data-raw/region_polygons2019.rds")
   #province_polygons2019<-rgdal::readOGR("../covid19carto/data/province4326vmp.shp")
   #saveRDS(province_polygons2019, "data-raw/province_polygons2019.rds")
@@ -110,7 +114,7 @@ if (!all(are_ok)) {
     region_population,
     province_population2019,
     province_polygons2019,
-    region_polygons2019,
+    # region_polygons2019,
     dictionary,
     internal = TRUE,
     overwrite = TRUE

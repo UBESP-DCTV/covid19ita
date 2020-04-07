@@ -4,8 +4,11 @@
 \alias{download_dpc}
 \title{Download dpc COVID-19 Italian data}
 \usage{
-download_dpc(level = c("italia", "regioni", "province"), dir = ".",
-  file_name = NULL)
+download_dpc(
+  level = c("italia", "regioni", "province"),
+  dir = ".",
+  file_name = NULL
+)
 }
 \arguments{
 \item{level}{(chr) one of "italia", "regioni", "province"}
