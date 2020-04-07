@@ -328,17 +328,101 @@ mod_maps_server <- function(id) {
     ## zona dedicata alle computazioni reattive del modulo, in
     ## particolare la definizione degli output (ricordarsi che tali nomi
     ## NON vanno inseriti (a differenza della controparte in input)
-    ## all'interno della chiamata a `ns()`)
-    output$foo <- renderText({
-      req(input[["n_min"]])
+    ## all'interno della chiamata a `ns()`) , options=leaflet::leafletOptions(preferCanvas = T)
 
 
-      glue::glue("doppio di n = {raddopia(input[['n_min']])}")
+    #### DRAW MAP ----------
+    output$mymap <- leaflet::renderLeaflet(
+      leaflet::leaflet(width="100%", height = 600  ) %>%
+        htmlwidgets::onRender(sprintf("function(el, x) {
+           %s_covidGroupname='%s';
+           %s_mapElement=this;
+           var count=0;
+            function %s_onLayerAddFunction(e){
+                 if(typeof(e.layer.options) !=='undefined' && e.layer.options.group== %s_covidGroupname ){
+                    count++;
+                    if(count>105) {
+                      count=0;
+                      $('#%s-loader').hide();
+                      Shiny.onInputChange('%s-leaflet_rendered_all', true);
+                    }
+                 }
+            }
+
+
+           Shiny.onInputChange('%s-leaflet_rendered', true);
+           this.on('layeradd', %s_onLayerAddFunction);
+
+           $(\".leaflet-control-layers-overlays > label:nth-child(2) > div:nth-child(1)\").append(\"&nbsp;&nbsp;<input   title='black label' id='%s_labelBlack' type='checkbox'   >\");
+           $(\".leaflet-control-layers-overlays > label:nth-child(2) > div:nth-child(1)\").append(\"<input style='width: 100px;' title='change size of label' id='%s_labelsizeSlider' type='range' value='11' step='1' min='3' max='30'  >\");
+           $(\".leaflet-control-layers-overlays > label:nth-child(1) > div:nth-child(1)\").append(\"<input style='width: 100px;' title='change transparency to layer' id='%s_opacitySlider' type='range' value='50' step='1'  >\");
+
+           $('#%s-dateRangeSlider').on('input', function(e){
+              Shiny.onInputChange('%s-dateRangeChanged', e.target.value );
+            });
+
+           $('#%s-dateRangeSlider').on('change', function(e){
+              Shiny.onInputChange('%s-dateRangeChangeFinished', e.target.value );
+            });
+
+           $('#%s_labelBlack').on('change', function(x){
+              vv=this.checked;
+              Shiny.onInputChange('%s-currentLabelBlack', vv);
+              if(vv){
+                 $('.leaflet-tooltip').css({ 'color' : 'black'  });
+                 $('.leaflet-tooltip').css({ 'text-shadow' : '0px 0px 3px white'  });
+              } else {
+                 $('.leaflet-tooltip').css({ 'color' : 'white'  });
+                 $('.leaflet-tooltip').css({ 'text-shadow' : '0px 0px 3px black'  });
+              }
+            });
+
+           $('#%s_labelsizeSlider').on('input', function(x){
+              vv=$(this).val();
+              Shiny.onInputChange('%s-currentLabelSize', vv);
+              $('.leaflet-tooltip').css({ 'font-size' : vv+'px'  });
+            });
+
+           $('#%s_opacitySlider').on('input', function(x){
+              var oo = %s_mapElement;
+              var pp = oo.layerManager.getLayerGroup(%s_covidGroupname);
+              vv=$(this).val();
+              pp.setStyle({'fillOpacity':vv/100, 'opacity':vv/100});
+              Shiny.onInputChange('%s-currentWMSopacity', vv);
+            });
+
+
+
+           }",  id, basic.layerlist.list$overlayGroups$Casi_COVID19 ,
+                id, id, id, id, id,   id, id, id, id,
+                id, id, id, id, id, id, id, id, id, id,
+                id,  id, id, id, id, id, id, id)) %>%
+
+        leaflet::setView( 11, 43, 6)  %>%
+        leaflet::addTiles(urlTemplate = "https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png",
+                          attribution = '&copy;<a href="https://carto.com/attributions">OSM CARTO</a>',
+                          options =  leaflet::tileOptions(zIndex = 1, preferCanvas=TRUE, maxZoom = 19, subdomains = "abcd" ), group=basic.layerlist.list$baseGroups$osm.bn)  %>%
+        leaflet::addTiles(urlTemplate = "https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png",
+                          attribution = '&copy;<a href="https://carto.com/attributions">OSM CARTO</a>',
+                          options =  leaflet::tileOptions(zIndex = 2, preferCanvas=TRUE, maxZoom = 19, subdomains = "abcd" ), group=basic.layerlist.list$baseGroups$osm.light)  %>%
+        leaflet::hideGroup( as.character(basic.layerlist.list$overlayGroups) ) %>%
+        leaflet::showGroup( c(basic.layerlist.list$overlayGroups$Casi_COVID19 ) )   %>%
+        # addMouseCoordinates() %>%
+        leaflet::addLayersControl(baseGroups    =  basic.layerlist$baseGroups,
+                                  overlayGroups = basic.layerlist$overlayGroups,
+                                  options =  leaflet::layersControlOptions(collapsed = F) )
+
+
+
+      )
+
+   # outputOptions(output,  "mymap", suspendWhenHidden = FALSE)
+
+    observeEvent(input$dateRangeChanged, {
+      updateDateInput(session, "date1", value= dates.list[[ as.integer(input[["dateRangeChanged"]]) ]] )
     })
 
-
-    output$baz <- renderPlotly({
-      req(input[["n_min"]])
+ #  observeEvent(input$info, {
 
 
 
@@ -426,11 +510,158 @@ mod_maps_server <- function(id) {
 
 
 
-    current_data <- reactive({
-      req(input[["n_min"]])
+    #### DRAW RESPONSIVE ----------
+    observe({
 
-      data_to_use %>%
-        dplyr::filter(.data$totale_casi >= input[["n_min"]])
+      req(input$leaflet_rendered,input$leaflet_rendered_all,
+          input$variableName,
+          input$date1,
+          input$palette,
+          (input[["scale.fixed"]]||(input[["scale.fixed"]]==F)) )
+
+      ## trovo labels per ultima data
+
+
+      dt.filtered<- current_data()
+      if( nrow(dt.filtered)<1 )
+      {
+        showNotification("No data found for selected day.",   duration = 15, type ="error")
+        return(NULL)
+      }
+
+      fn<- dir.funct_[[ input[["scale.funct_"]] ]]
+
+      cm<-current_palettFunction()
+
+
+      dt.label<-  dt.filtered[[input$variableName]]
+
+      if( !is.element(input$variableName,c("delta", "totale_casi") ) )  label<-sprintf("%.2f",dt.label)
+      else label <- sprintf("%d",   dt.label)
+
+      label[label=="NA"]<-""
+
+      # sigla2hex<- stats::setNames(
+      #   cm( fn(dt.filtered[[input$variableName]])  ) ,
+      #   dt.filtered[["sigla_provincia"]]  )
+      #
+      # sigla2label<- stats::setNames(
+      #   label ,
+      #   dt.filtered[["sigla_provincia"]]  )
+
+      jsonString<-sprintf("\"%s\":{ col:\"%s\", lab:\"%s\"}",
+                          dt.filtered[["sigla_provincia"]],
+                          cm( fn(dt.filtered[[input$variableName]])  ) ,
+                          label )
+
+      op<-isolate(input$currentWMSopacity )
+      labsize<-isolate(input$currentLabelSize )
+      labelBlackv<-isolate(input$currentLabelBlack )
+
+      labelBlack<-'white'
+      labelBlack2<-'black'
+      if(!is.null(labelBlackv) && labelBlackv) {
+        labelBlack<-'black'
+        labelBlack2<-'white'
+        }
+
+      if(is.null(op)) op<-0.6
+      else op<-as.integer(isolate(input$currentWMSopacity ))/100
+
+      if(is.null(labsize)) labsize<-11
+      else  labsize<-as.integer(isolate(input$currentLabelSize ))
+
+     #print(input[["dateRangeChanged"]])
+      # cc<-paste0(collapse="','",  sigla2hex )
+      # ll<-paste0(collapse="','",  label )
+
+      js<-sprintf("
+              var valueMap = {%s};
+              console.log(valueMap);
+              var layers = %s_mapElement.layerManager.getLayerGroup('%s').getLayers();
+              var labels = %s_mapElement.layerManager.getLayerGroup('%s').getLayers();
+              if(layers.length!= Object.keys(valueMap).length   ){
+                 alert(layers.length+' OPS problem');
+              } else {
+                for(var i=0; i < layers.length; i++) {
+                   layers[i].setStyle({'fillColor': valueMap[ layers[i].options.sigla ].col });
+                   labels[i].setTooltipContent(  valueMap[ layers[i].options.sigla ].lab  );
+                }
+              }
+                     ",   paste(collapse=",",jsonString),
+              id, basic.layerlist.list$overlayGroups$Casi_COVID19,
+              id ,  basic.layerlist.list$overlayGroups$Casi_COVID19labels
+      )
+      shinyjs::runjs( js )
+
+
+
+
+    })
+
+
+
+
+    ### reactive functions
+
+    #### get data ----
+    current_data <- reactive({
+      req(input$date1, input$variableName)
+      dt<-data_to_use %>%
+        dplyr::filter( as.Date(.data$data) == input$date1) %>%
+        dplyr::select(
+          .data$sigla_provincia,
+          .data[[ input[["variableName"]] ]],
+          .data$lat, .data$long
+        ) %>%
+        dplyr::arrange(sigla_provincia)
+
+      dt[ which(dt[[ input[["variableName"]] ]]<0), input[["variableName"]] ]<-0
+      dt
+    })
+
+
+    #### palette and legend ----
+    current_palettFunction <- reactive({
+      dt<-current_data()
+      req(dt,  input[["palette"]], input[["variableName"]], input[["scale.funct_"]])
+
+      fn<- dir.funct_[[ input[["scale.funct_"]] ]]
+
+      if(!input[["scale.fixed"]]) domain<-fn(dt[[ input[["variableName"]] ]])
+      else                        domain<-fn(data_to_use[[  input[["variableName"]] ]])
+
+      if(   is.null(domain)){
+        print('problema')
+        return(NULL)
+      }
+
+      pal<-leaflet::colorNumeric(
+        palette =   paletteList.t[[  input[["palette"]] ]] ,
+        domain =  domain
+      )
+
+      leaflet::leafletProxy("mymap") %>%
+        leaflet::addLegend( "bottomright", pal = pal, values = domain,
+                            # title = sprintf("<div   style='font-size:small;
+                            #  white-space:nowrap; '>N. Cases&nbsp;&nbsp;<font style='color:red;
+                            #  font-weight:bold;
+                            #  cursor:pointer;'   title='%s' >&nbsp;(?)</font>
+                            #                  </div>",
+                            #                 ifelse(input[["scale.fixed"]],
+                            #                        sprintf("Period: %s to %s<br>(%d&nbsp;days)", data.prima,
+                            #                                data.ultima,
+                            #                                as.integer(data.ultima- data.prima) ),
+                            #
+                            #                        sprintf(" %s ", format(input[['date1']], "%d&nbsp;%B") )
+                            #                        ) ),
+                            layerId="Legend_Casi_COVID19",
+                            labFormat = leaflet::labelFormat(prefix = "", big.mark = " ",
+                                                    transform = inv.funct_[[input$scale.funct_]] ),
+                            opacity = 1 )
+
+      pal
+
 
     })
 
