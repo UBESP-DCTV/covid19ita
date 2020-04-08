@@ -1,3 +1,5 @@
+# covid19ita 0.34.0
+
 * maps update
 * data update
 
