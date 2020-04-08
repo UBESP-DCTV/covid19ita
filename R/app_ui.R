@@ -36,8 +36,8 @@ dashboard_header <- function() {dashboardHeader(
 
   dropdownMenu(type = "messages",
     messageItem(
-      from = "In evidenza",
-      message = "2020-04-06 Mortality",
+      from = "Mappe",
+      message = "Aggiunta sezione mappa",
       icon = icon("search")
     ),
     messageItem(

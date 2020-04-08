@@ -159,12 +159,12 @@ mod_focus_20200406_mort_veneto_ui <- function(id){
     )),
 
     fluidRow(box(plotlyOutput(ns("fig_2_sex")),
-                 title = "Figura 2: Variazione percentuale per classi di sesso e provincia. Periodo 1-21 marzo 2019 vs. 1-21 marzo 2020.",
+                 title = "Figura 2: Variazione percentuale per sesso e provincia. Periodo 1-21 marzo 2019 vs. 1-21 marzo 2020.",
                  footer = "f: femminile; m: maschile; mf: globale",
                  width = 12,
     )),
 
-    fluidRow(box(width = 12, Title = "Tabella 2: Variazione percentuale per classi di sesso e provincia. Periodo 1-21 marzo 2019 vs. 1-21 marzo 2020.",
+    fluidRow(box(width = 12, Title = "Tabella 2: Variazione percentuale per sesso e provincia. Periodo 1-21 marzo 2019 vs. 1-21 marzo 2020.",
                  DT::DTOutput(ns("tab_2_sex"))
     )),
 
