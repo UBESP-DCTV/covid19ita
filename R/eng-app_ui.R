@@ -37,9 +37,9 @@ eng_dashboard_header <- function() {dashboardHeader(
   dropdownMenu(type = "messages",
 messageItem(
   from = "Highlights",
-  message = "2020-03-31 Comparative Ven-Pie",
+  message = "2020-04-05 Mortality",
   icon = icon("search")
-  ),
+               ),
 messageItem(
       from = "Data",
       message = glue::glue("Data updated ({last_data_update})"),
@@ -72,6 +72,9 @@ eng_dashboard_sidebar <- function() {dashboardSidebar(sidebarMenu(
   menuItem("Home", tabName = "home", icon = icon("home")),
 
   menuItem("Highlights", icon = icon("bullseye"),
+           menuSubItem("2020-04-05 Mortality", tabName = "20200405Mort",
+                       icon = icon("flag")
+           ),
            menuSubItem("2020-03-31 Comparative", tabName = "20200331Comp",
                        icon = icon("flag")
            ),
@@ -297,6 +300,10 @@ eng_dashboard_body <- function() {dashboardBody(
 
     )
 
+  ),
+  tabItem(tabName = "20200405Mort",
+          h2("Preliminary analysis of the overall mortality in Italy from the 1st of March to the 21 of March 2020."),
+          eng_mod_focus_20200404_magnani_ui("mortality")
   ),
   tabItem(tabName = "20200331Comp",
           h2("Comparative analysis between the Piemonte Region and Veneto Region of the epidemiological data relative to Covid-19 infection."),
