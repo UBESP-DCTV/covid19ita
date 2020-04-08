@@ -452,7 +452,10 @@ mod_maps_server <- function(id) {
                                     format(data.ultima, "%A %e %B %yyyy") ) ) ,
                        duration = NULL, type ="warning")
 
+      if( !is.element(input[["variableName"]],c("delta", "totale_casi") ) )  label<-sprintf("%.2f", dt.filtered.init[["totale_casi.normPop"]] )
+      else label <- sprintf("%d",   dt.filtered.init[["totale_casi.normPop"]] )
 
+      label[label=="NA"]<-""
 
 
       for(i in 1:length(province_polygons2019)){
@@ -460,12 +463,10 @@ mod_maps_server <- function(id) {
           leaflet::addPolygons(data = province_polygons2019[i,], weight=1,
                                color="#FFFFFF",
                                fillColor=fillColors[[i]],
-                               options=leaflet::pathOptions(interactive=F, sigla= province_polygons2019$SIGLA[[i]]
-                                                            # className=sprintf("%s_%s__%s" ,
-                                                            #                   id,
-                                                            #                   basic.layerlist.list$overlayGroups$Casi_COVID19,
-                                                            #                   province_polygons2019$SIGLA[[i]])
-                                                            ),
+                               highlightOptions = leaflet::highlightOptions(stroke = 3, color = '#000000', weight = NULL,
+                                                                   opacity = 1,    fillColor = '#EEEE00',
+                                                                   fillOpacity = 0.7, bringToFront = T ),
+                               options=leaflet::pathOptions(interactive=T, sigla= province_polygons2019$SIGLA[[i]] ),
                                opacity = 1, fillOpacity = 0.5,
                                layerId=sprintf("%s_%s__%s" ,
                                                id,
@@ -475,10 +476,7 @@ mod_maps_server <- function(id) {
       }
 
 
-      if( !is.element(input[["variableName"]],c("delta", "totale_casi") ) )  label<-sprintf("%.2f", dt.filtered.init[["totale_casi.normPop"]] )
-      else label <- sprintf("%d",   dt.filtered.init[["totale_casi.normPop"]] )
 
-      label[label=="NA"]<-""
 
       leaflet::leafletProxy("mymap") %>%
 
@@ -577,7 +575,6 @@ mod_maps_server <- function(id) {
 
       js<-sprintf("
               var valueMap = {%s};
-              console.log(valueMap);
               var layers = %s_mapElement.layerManager.getLayerGroup('%s').getLayers();
               var labels = %s_mapElement.layerManager.getLayerGroup('%s').getLayers();
               if(layers.length!= Object.keys(valueMap).length   ){
