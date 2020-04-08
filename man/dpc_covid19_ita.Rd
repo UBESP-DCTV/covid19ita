@@ -7,8 +7,7 @@
 \alias{dpc_covid19_ita_regioni}
 \alias{dpc_covid19_ita_province}
 \title{Italian COVID-19 data}
-\format{
-\code{\link[tibble]{tibble}}s with one row per day each
+\format{\code{\link[tibble]{tibble}}s with one row per day each
   levels of detail (regional adn provincial) and as many variables
   as provided by the original data (see the corresponding sections).
 
