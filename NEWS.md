@@ -1,3 +1,17 @@
+# covid19ita 0.34.0
+
+* maps update
+* data update
+
+# covid19ita 0.33.1
+
+* fix traslation to eng 
+
+# covid19ita 0.33.0
+
+* added geospatial module
+* translate 20200406 mortality veneto
+
 # covid19ita 0.32.3
 
 * translate 20200404 magagni

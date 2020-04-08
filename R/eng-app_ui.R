@@ -37,7 +37,7 @@ eng_dashboard_header <- function() {dashboardHeader(
   dropdownMenu(type = "messages",
 messageItem(
   from = "Highlights",
-  message = "2020-04-05 Mortality",
+  message = "2020-04-06 Mortality",
   icon = icon("search")
                ),
 messageItem(
@@ -72,6 +72,9 @@ eng_dashboard_sidebar <- function() {dashboardSidebar(sidebarMenu(
   menuItem("Home", tabName = "home", icon = icon("home")),
 
   menuItem("Highlights", icon = icon("bullseye"),
+           menuSubItem("2020-04-06 Veneto Mortality", tabName = "20200406MortVeneto",
+                       icon = icon("flag")
+           ),
            menuSubItem("2020-04-05 Mortality", tabName = "20200405Mort",
                        icon = icon("flag")
            ),
@@ -300,6 +303,10 @@ eng_dashboard_body <- function() {dashboardBody(
 
     )
 
+  ),
+  tabItem(tabName = "20200406MortVeneto",
+          h2("Preliminary analysis of the overall mortality in the Veneto Region from the 1st of March to the 21 of March 2020."),
+          eng_mod_focus_20200406_mort_veneto_ui("mort_veneto")
   ),
   tabItem(tabName = "20200405Mort",
           h2("Preliminary analysis of the overall mortality in Italy from the 1st of March to the 21 of March 2020."),

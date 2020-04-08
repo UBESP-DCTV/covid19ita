@@ -1,4 +1,4 @@
-#' focus_20200404_magnani UI Function
+#' focus_20200406_mort_veneto UI Function
 #'
 #' @description A shiny Module.
 #'
@@ -7,40 +7,11 @@
 #' @noRd
 #'
 #' @importFrom shiny NS tagList
-eng_mod_focus_20200404_magnani_ui <- function(id){
+eng_mod_focus_20200406_mort_veneto_ui <- function(id){
   ns <- NS(id)
   fluidPage(
     fluidRow(box(width = 12,
-      p(HTML("
-        Prof. <strong>Corrado Magnani</strong>
-        <br>
-        Department of Translational Medicine – Università del Piemonte Orientale
-      ")),
-    )),
-
-    fluidRow(box(width = 12,
-
-      p(HTML("
-      The National Institute of Statistics (Istat) made available on its
-      website (https://www.istat.it/it/archivio/240401) the mortality data
-      of 1084 Italian municipalities, with data updated to the 21st of
-      March 2020. 1.<sup>1</sup>
-      ")),
-
-      p(HTML("
-        The data collection includes 6.177.016 men and 6.496.805 women,
-        distributed according to residence. Representation is different
-        in the different regions (Table 1).
-      ")),
-    )),
-
-    fluidRow(box(width = 12,
-      DT::DTOutput(ns("tab_0_residenti")),
-      title = "Table 1: Residents in the 1084 Italian municipalities as of the 1st of January 2019."
-    )),
-
-    fluidRow(box(width = 12,
-      p(HTML("
+                 p(HTML("
         Overall mortality is a strong indicator as it has low
         susceptibility to errors or discrepancies in assessments
         and it accounts for both the mortality caused directly by
@@ -49,14 +20,14 @@ eng_mod_focus_20200404_magnani_ui <- function(id){
         from different pathologies in accessing the hospital services.
       ")),
 
-      p(HTML("
+                 p(HTML("
         Moreover, the overall mortality is not affected by diagnostic
         questions or difficulties in coding cause of death and is
         therefore a useful foundation on which we can build an
         accurate estimate of the effects of the COVID-19 epidemics.
       ")),
 
-      p(HTML("
+                 p(HTML("
         Data is made available by Istat in different tables, which
         can be accessed and downloaded from the official website.
         The tables allow an immediate reading and can also be used
@@ -66,7 +37,7 @@ eng_mod_focus_20200404_magnani_ui <- function(id){
         overall mortality by geographic area, sex, age and time period.
       ")),
 
-      p(HTML("
+                 p(HTML("
         These are some preliminary analyses that aim at sharing
         information during times of emergencies, that will be improved
         and explored further in the coming weeks. In particular the
@@ -76,27 +47,27 @@ eng_mod_focus_20200404_magnani_ui <- function(id){
         the trend and to improve the indices of the confidence intervals.
       ")),
 
-      p(HTML("
-        The analyses want to answer to the following questions:
+                 p(HTML("
+        These analyses want to answer to the following questions:
         <ul>
           <li> What is the entity of the observed mortality change
           if we compare the period from the 1st to the 21st of March
           2019 to the period from the 1st to the 21st of March 2020?
           <li> How the mortality change distributed by sex, age and
-          region of residency?
+          province of residency?
           <li> If we also consider previous years, starting from 2015,
           can we observe relevant change throughout the different years?
-          And again, what is the distribution by sex, age and region
+          And again, what is the distribution by sex, age and province
           of residency?
           <li> Starting from which week of the year is it possible
           to observe change of the overall mortality?
         </ul>
       ")),
 
-      p(HTML("
-        Note on aggregation and numerosity of data: some
-        variables were grouped into wider categories, as
-        indicated in the analyses results.
+                 p(HTML("
+         Note on aggregation and numerosity of data: some
+         variables were grouped into wider categories, as
+         indicated in the analyses results.
       "))
     )),
 
@@ -105,13 +76,13 @@ eng_mod_focus_20200404_magnani_ui <- function(id){
 
 
     fluidRow(box(width = 12,
-      h2(HTML("
+                 h2(HTML("
         How much did the overall mortality change from last year
         (1-21 March 2019 vs 1-21 March 2020)? How is the mortality
-        change distributed by sex, age, and region of residency?
+        change distributed by sex, age, and province of residency?
       ")),
 
-      p(HTML("
+                 p(HTML("
         The percentage change in mortality (1-21 March 2019 vs 1-21
         March 2020) was estimated by region, sex and age aggregated
         data. Data was categorized as in the table provided by Istat
@@ -119,11 +90,11 @@ eng_mod_focus_20200404_magnani_ui <- function(id){
         Age categories are: 65-74, 75-84, over 85.
       ")),
 
-      p(HTML("
+                 p(HTML("
         The percentage change is defined as:
       ")),
 
-      p(HTML("
+                 p(HTML("
         change<sub>%</sub> =
           100 * (
             deaths<sub>2020</sub> –
@@ -132,18 +103,20 @@ eng_mod_focus_20200404_magnani_ui <- function(id){
           deaths<sub>2019</sub>
       ")),
 
-      p(HTML("
+                 p(HTML("
         This index appears in the original table, computed for
         each municipality.  In order to reduce statistical variability
         given by random fluctuations, which is rather high in those
         municipalities with a low number of inhabitants, we computed
-        the percentage change  on a regional level. Total deaths,
-        number of municipalities included in the measurement for
-        each region and percentage change (from 2019 to 2020) are
+        the percentage change  on a regional level. Total deaths
+        by provincies and percentage change (from 2019 to 2020) are
         shown in the table.<sup>2</sup>
-      ")),
+      "))
+    )),
 
-      p(HTML("
+
+    fluidRow(box(width = 12,
+                 p(HTML("
         The analysis was also conducted separately by age class and
         sex, and results are presented in the following graphs
         (Figure 1 and Figure 2)
@@ -151,92 +124,83 @@ eng_mod_focus_20200404_magnani_ui <- function(id){
     )),
 
     fluidRow(box(plotlyOutput(ns("fig_1_age")),
-      title = "Figure 1: Change percentage by age and region. 1-21 March 2019 vs. 1-21 March 2020.",
-      width = 12
+                 title = "Figure 1: Change percentage by age and province. 1-21 March 2019 vs. 1-21 March 2020.",
+                 width = 12
     )),
 
     fluidRow(box(width = 12,
-      p(HTML("
-        All regions show increased mortality for the two
-        oldest age classes. Moreover, the majority of regions
-        also present an increased mortality between 65 and 74
-        years. For a correct reading of the percentage change
+                 p(HTML("
+        For a correct reading of the percentage change
         it is necessary to remember that number of total deaths
-        is very different from one region to another as the
-        sample size can change quite a lot. In some regions
+        is very different from one province to another as the
+        sample size can change quite a lot. In some provincies
         the mortality change seems quite important, but it is
         actually given by a small difference in terms of number
-        of deaths.
+        of deaths (Table 2).
       "))
     )),
 
-    fluidRow(box(width = 12, Title = "Table 2: Change percentage by class and regions. 1-21 March 2019 vs. 1-21 March 2020.",
-      DT::DTOutput(ns("tab_1_age"))
+    fluidRow(box(width = 12, Title = "Table 1: Change percentage by class and province. 1-21 March 2019 vs. 1-21 March 2020.",
+                 DT::DTOutput(ns("tab_1_age"))
     )),
 
     fluidRow(box(plotlyOutput(ns("fig_2_sex")),
-      title = "Figure 2: Change percentage by sex and regions. Periodo 1-21 March 2019 vs. 1-21 March 2020.",
-      footer = "f: female; m: male; mf: total",
-      width = 12,
+                 title = "Figure 2: Change percentage by sex and province. Periodo 1-21 March 2019 vs. 1-21 March 2020.",
+                 footer = "f: female; m: male; mf: total",
+                 width = 12,
     )),
 
-    fluidRow(box(width = 12, Title = "Table 3: Change percentage by sex and regions. 1-21 March 2019 vs. 1-21 March 2020.",
-      DT::DTOutput(ns("tab_2_sex"))
+    fluidRow(box(width = 12, Title = "Table 2: Change percentage by sex and province. 1-21 March 2019 vs. 1-21 March 2020.",
+                 DT::DTOutput(ns("tab_2_sex"))
     )),
 
 
     fluidRow(box(width = 12,
-      h2(HTML("
+                 h2(HTML("
         Considering the data on mortality starting from 2015,
         what is the entity of the change registered throughout
-        the years by sex, age and region of residency?
+        the years by age and province of residency?
       ")),
 
-      p(HTML("
+                 p(HTML("
         The data provided by Istat allows to analyse the mortality
         trend starting from 2015. Data can be found at
         https://www.istat.it/it/files//2020/03/dati-comunali-settimanali-ANPR-1.zip.
         Further analyses will be conducted in the coming weeks
         to better explore mortality between 2015 and 2020.
-        Anyhow, a descriptive analysis is still useful to notice
-        the low variability of the number of deaths between 2015 and 2019.
       ")),
 
-      p(HTML("
-        The graphs here below (Figure 3) show the number of total
-        deaths by region from 2015 to 2020. Regions were aggregated
-        in two groups in order to enhance the readability of the
-        graphs. The two groups are based on an Istat classification
-        that splits regions in “North Regions” and “South Central
-        Regions and Islands”.
+                 p(HTML("
+        The graph here below (Figure 3) shows the number of total
+        deaths by province from 2015 to 2020.
       "))
     )),
 
 
     fluidRow(box(plotlyOutput(ns("fig_3_year_all")),
-      title = "Figure 3: Number of deaths by regions in the period 1-21 March from 2015 to 2020.",
-      width = 12,
+                 title = "Figure 3: Number of deaths by province in the period 1-21 March from 2015 to 2020.",
+                 width = 12,
     )),
 
     fluidRow(box(width = 12,
-      p(HTML("
+                 p(HTML("
         The graphs here below (Figure 4) show how mortality
-        changed from 2015 to 2020 by region and age. Age
+        changed from 2015 to 2020 by province and age. Age
         classes were defined as follows: under 64 (putting
         together the classes 0-14 and 15-64 of the original
         table), 65-74, over 75.
       ")),
 
-      p(HTML("
+                 p(HTML("
         It is necessary to keep in mind that the graphs
         only show absolute numbers, hence differences
-        between regions are mainly due to different sample sizes.
+        between provinces are mainly due to different sample sizes.
       "))
     )),
 
     fluidRow(box(
       plotlyOutput(ns("fig_4_year_age")),
-      title = "Figure 4: Number of deaths by regions and age in the period 1-21 March from 2015 to 2020.",
+      title = "Figure 4: Number of deaths by province and age in the period 1-21 March from 2015 to 2020.",
       width = 12,
     )),
 
@@ -246,12 +210,14 @@ eng_mod_focus_20200404_magnani_ui <- function(id){
 
 
     fluidRow(box(width = 12,
-      h2(HTML("
+                 h2(HTML("
         In which week of the year is it possible to notice
         change in the overall mortality?
       ")),
 
-      p(HTML("
+                 p(HTML("
+        I grafici riportano sull’asse orizzontale
+        la data di inizio dei diversi periodi settimanali.
         Data presented in the table at
         https://www.istat.it/it/files//2020/03/dati-comunali-settimanali-ANPR-1.zip
         for the period of time that goes from the 1st of January
@@ -259,37 +225,24 @@ eng_mod_focus_20200404_magnani_ui <- function(id){
         The data in the table is divided into time slots of 7 days,
         except for the period from the 1st to the 10th of January;
         this period was therefore excluded from the analysis. The
-        following graphs (Figure 5 and 6) present the trend by age,
-        sex and region. As in the previous analyses, age is divided
-        into classes (same as before) and regions are divided into
-        two groups (same as before).
+        following graphs (Figure 5) present the trend by age
+        and province. The graphs report on the horizontal axis
+        the date that represents the beginning of each time slot.
       ")),
 
-      p(HTML("
-        In this study it is possible to notice increased mortality
-        starting from the week of the 1st of March, especially in those
-        regions that are most affected by the epidemics (especially the
-        Lombardy Region)
-      "))
 
-    )),
-
-    fluidRow(box(
-      plotlyOutput(ns("fig_5_week_sex")),
-      title = "Figure 5: Number of weekly deaths by sex and region from the 12th to the 21st of March 2020.",
-      width = 12,
     )),
 
     fluidRow(box(
       plotlyOutput(ns("fig_6_week_age")),
-      title = "Figure 6: Number of weekly deaths by region and age from the 12th to the 21st of March 2020.",
+      title = "Figure 5: Number of weekly deaths by age and province from the 12th to the 21st of March 2020.",
       width = 12,
     )),
 
 
 
     fluidRow(box(width = 12, title = "Notes",
-      p(HTML("
+                 p(HTML("
         <sup>1</sup> For further information on data collection
         see the Istat methodology.
         <br>
@@ -318,27 +271,28 @@ eng_mod_focus_20200404_magnani_ui <- function(id){
 
 
 
-#' focus_20200404_magnani Server Function
+#' focus_20200406_mort_veneto Server Function
 #'
 #' @noRd
-eng_mod_focus_20200404_magnani_server <- function(id) {
+eng_mod_focus_20200406_mort_veneto_server <- function(id) {
 
   # Data preparation ------------------------------------------------
+
 
   ## 1-2: variazione percentuale 2019-2020 --------------------------
 
   ### by age (fig 1)
-  gg_fig_1_age <- mort_data_reg_age %>%
-    ggmort("Age class") +
+  gg_fig_1_age <- mort_data_veneto_age %>%
+    ggmort("Age class", x = "provincia") +
     ggtitle("Overall mortality by age class",
-      subtitle = "1-21 March 2019 vs 2020"
+            subtitle = "1-21 March 2019 vs 2020"
     )
 
   ### by age (fig 2)
-  gg_fig_2_sex <- mort_data_reg_sex %>%
-    ggmort("Sex") +
+  gg_fig_2_sex <- mort_data_veneto_sex %>%
+    ggmort("Sex", x = "provincia") +
     ggtitle("Overall mortality by sex",
-      subtitle = "1-21 March 2019 vs 2020"
+            subtitle = "1-21 March 2019 vs 2020"
     )
 
 
@@ -346,28 +300,28 @@ eng_mod_focus_20200404_magnani_server <- function(id) {
 
   ## 3: mortalità prime tre settimane di marzo 2015-2020 ------------
 
-  data_year_marzo <- mort_data_comuni %>%
+  data_year_marzo_veneto <- mort_data_comuni %>%
     dplyr::filter(
       .data$settimana %in%
-        c("01/03-07/03", "08/03-14/03", "15/03-21/03")
+        c("01/03-07/03", "08/03-14/03", "15/03-21/03"),
+      .data$regione == "Veneto"
     )
 
 
   ### all (fig 3)
-  data_year_marzo_all <- data_year_marzo %>%
-    dplyr::group_by(.data$regione, .data$area, .data$year) %>%
+  data_year_marzo_veneto_all <- data_year_marzo_veneto %>%
+    dplyr::group_by(.data$provincia, .data$year) %>%
     dplyr::summarise(decessi = sum(.data$n_death))
 
-  gg_fig_3_year_all <- data_year_marzo_all %>%
+  gg_fig_3_year_all <- data_year_marzo_veneto_all %>%
     ggplot(aes(
       x = .data$year,
       y = .data$decessi,
-      colour = .data$regione
+      colour = .data$provincia
     )) +
     geom_point() +
     geom_smooth(se = FALSE) +
-    facet_wrap(~ .data$area, scales = "free_y") +
-    labs(y = "Numero decessi 1-20 marzo") +
+    labs(y = "Number of deaths 1-20 March") +
     theme(
       axis.text.x = element_text(angle = 60, hjust = 1),
       panel.background = element_blank()
@@ -375,22 +329,22 @@ eng_mod_focus_20200404_magnani_server <- function(id) {
 
 
   ### by age (fig 4)
-  data_year_marzo_age <- data_year_marzo  %>%
+  data_year_marzo_veneto_age <- data_year_marzo_veneto  %>%
     dplyr::group_by(
-      .data$area, .data$regione, .data$year, .data$classe_di_eta
+      .data$provincia, .data$year, .data$classe_di_eta
     ) %>%
     dplyr::summarise(decessi = sum(.data$n_death))
 
-  gg_fig_4_year_age <- data_year_marzo_age %>%
+  gg_fig_4_year_age <- data_year_marzo_veneto_age %>%
     ggplot(aes(
       x = .data$year,
       y = .data$decessi,
-      colour = .data$regione
+      colour = .data$provincia
     )) +
     geom_point() +
     geom_smooth(se = FALSE) +
-    facet_grid(.data$area ~ .data$classe_di_eta, scales = "free_y") +
-    labs(y = "Number of deaths 1-20 marzo") +
+    facet_wrap(.data$classe_di_eta ~. , scales = "free_y") +
+    labs(y = "Number of deaths 1-20 March") +
     theme(
       axis.text.x = element_text(angle = 60, hjust = 1),
       panel.background = element_blank()
@@ -400,9 +354,12 @@ eng_mod_focus_20200404_magnani_server <- function(id) {
 
 
   ## 4: prime settimane 2020 ----------------------------------------
-  data_inizio_2020 <- mort_data_comuni %>%
+  data_inizio_2020_veneto <- mort_data_comuni %>%
     dplyr::filter(
-      (.data$settimana != "01/01-11/01") & (.data$year == 2020)
+      .data$settimana != "01/01-11/01",
+      .data$year == 2020,
+      .data$regione == "Veneto"
+
     ) %>%
     dplyr::mutate(
       settimana = substr(.data$settimana, start = 1, stop = 5) %>%
@@ -410,77 +367,46 @@ eng_mod_focus_20200404_magnani_server <- function(id) {
     )
 
 
-  data_week_sex <- data_inizio_2020 %>%
-    dplyr::group_by(
-      .data$regione,
-      .data$area,
-      .data$settimana,
-      .data$sex
-    ) %>%
-    dplyr::summarise(decessi = sum(.data$n_death))
-
-  data_week_age <- data_inizio_2020 %>%
+  data_week_veneto <- data_inizio_2020_veneto %>%
     dplyr::filter(.data$sex == "totale") %>%
     dplyr::group_by(
-      .data$regione,
-      .data$area,
+      .data$provincia,
       .data$settimana,
-      .data$classe_di_eta,
+      .data$classe_di_eta
     ) %>%
-    dplyr::summarise(decessi = sum(.data$n_death))
+    dplyr::summarise(decessi = sum(.data$n_death)) # %>%
+    # dplyr::filter(.data$classe_di_eta == "75 anni e più")
 
-
-
-  ### by sex (fig 5)
-  gg_fig_5_week_sex <- data_week_sex %>%
-    ggplot(aes(
-      x = .data$settimana,
-      y = .data$decessi,
-      colour = .data$regione
-    )) +
-    geom_point() +
-    geom_smooth(se = FALSE) +
-    facet_grid(.data$area ~ .data$sex, scales = "free_y") +
-    labs(y = "Number of death 1-20 marzo") +
-    theme(
-      axis.text.x = element_text(angle = 60, hjust = 1),
-      panel.background = element_blank()
-    )
 
 
   ### bay age (fig 6)
-  gg_fig_6_week_age <- data_week_age %>%
+  gg_fig_6_week_age <- data_week_veneto %>%
     ggplot(aes(
       x = .data$settimana,
       y = .data$decessi,
-      colour = .data$regione
+      colour = .data$provincia
     )) +
     geom_point() +
     geom_smooth(se = FALSE) +
-    facet_grid(.data$area ~ .data$classe_di_eta, scales = "free_y") +
-    labs(y = "Number of death 1-20 marzo") +
+    facet_wrap(.data$classe_di_eta ~ ., scales = "free_y") +
+    labs(y = "Number of deaths 1-20 March") +
     theme(
       axis.text.x = element_text(angle = 60, hjust = 1),
       panel.background = element_blank()
     )
 
 
-
-# Output (reactive) objects ---------------------------------------
+  # Output (reactive) objects ---------------------------------------
 
   callModule(id = id, function(input, output, session) {
     ns <- session$ns
-
-    output$tab_0_residenti <- DT::renderDT({
-      residenti_anpr_1084
-    })
 
     output$fig_1_age <- renderPlotly({
       clean_ggplotly(gg_fig_1_age)
     })
 
     output$tab_1_age <- DT::renderDT({
-      mort_data_reg_age
+      mort_data_veneto_age
     })
 
     output$fig_2_sex <- renderPlotly({
@@ -488,7 +414,7 @@ eng_mod_focus_20200404_magnani_server <- function(id) {
     })
 
     output$tab_2_sex <- DT::renderDT({
-      mort_data_reg_sex
+      mort_data_veneto_sex
     })
 
     output$fig_3_year_all <- renderPlotly({
@@ -499,10 +425,6 @@ eng_mod_focus_20200404_magnani_server <- function(id) {
       clean_ggplotly(gg_fig_4_year_age)
     })
 
-    output$fig_5_week_sex <- renderPlotly({
-      clean_ggplotly(gg_fig_5_week_sex)
-    })
-
     output$fig_6_week_age <- renderPlotly({
       clean_ggplotly(gg_fig_6_week_age)
     })
@@ -511,8 +433,8 @@ eng_mod_focus_20200404_magnani_server <- function(id) {
 }
 
 ## To be copied in the UI
-# mod_focus_20200404_magnani_ui("magnani_1")
+# mod_focus_20200406_mort_veneto_ui("magnani_1")
 
 ## To be copied in the server
-# mod_focus_20200404_magnani_server("magnani_1")
+# mod_focus_20200406_mort_veneto_server("magnani_1")
 

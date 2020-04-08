@@ -4,9 +4,17 @@
 \alias{clean_ggplotly}
 \title{Clean version of ggplotly}
 \usage{
-clean_ggplotly(p = ggplot2::last_plot(), width = NULL, height = NULL,
-  tooltip = "all", dynamicTicks = FALSE, layerData = 1,
-  originalData = TRUE, source = "A", ...)
+clean_ggplotly(
+  p = ggplot2::last_plot(),
+  width = NULL,
+  height = NULL,
+  tooltip = "all",
+  dynamicTicks = FALSE,
+  layerData = 1,
+  originalData = TRUE,
+  source = "A",
+  ...
+)
 }
 \arguments{
 \item{p}{a ggplot object.}
