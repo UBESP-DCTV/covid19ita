@@ -354,8 +354,8 @@ mod_maps_server <- function(id) {
            this.on('layeradd', %s_onLayerAddFunction);
 
            $(\".leaflet-control-layers-overlays > label:nth-child(2) > div:nth-child(1)\").append(\"&nbsp;&nbsp;<input   title='black label' id='%s_labelBlack' type='checkbox'   >\");
-           $(\".leaflet-control-layers-overlays > label:nth-child(2) > div:nth-child(1)\").append(\"<input style='width: 100px;' title='change size of label' id='%s_labelsizeSlider' type='range' value='11' step='1' min='3' max='30'  >\");
-           $(\".leaflet-control-layers-overlays > label:nth-child(1) > div:nth-child(1)\").append(\"<input style='width: 100px;' title='change transparency to layer' id='%s_opacitySlider' type='range' value='50' step='1'  >\");
+       //    $(\".leaflet-control-layers-overlays > label:nth-child(2) > div:nth-child(1)\").append(\"<input style='width: 100px;' title='change size of label' id='%s_labelsizeSlider' type='range' value='11' step='1' min='3' max='30'  >\");
+        //   $(\".leaflet-control-layers-overlays > label:nth-child(1) > div:nth-child(1)\").append(\"<input style='width: 100px;' title='change transparency to layer' id='%s_opacitySlider' type='range' value='50' step='1'  >\");
 
            $('#%s-dateRangeSlider').on('input', function(e){
               Shiny.onInputChange('%s-dateRangeChanged', e.target.value );
@@ -365,23 +365,23 @@ mod_maps_server <- function(id) {
               Shiny.onInputChange('%s-dateRangeChangeFinished', e.target.value );
             });
 
-           $('#%s_labelBlack').on('change', function(x){
-              vv=this.checked;
-              Shiny.onInputChange('%s-currentLabelBlack', vv);
-              if(vv){
-                 $('.leaflet-tooltip').css({ 'color' : 'black'  });
-                 $('.leaflet-tooltip').css({ 'text-shadow' : '0px 0px 3px white'  });
-              } else {
-                 $('.leaflet-tooltip').css({ 'color' : 'white'  });
-                 $('.leaflet-tooltip').css({ 'text-shadow' : '0px 0px 3px black'  });
-              }
-            });
+        //   $('#%s_labelBlack').on('change', function(x){
+        //      vv=this.checked;
+        //      Shiny.onInputChange('%s-currentLabelBlack', vv);
+        //      if(vv){
+        //         $('.leaflet-tooltip').css({ 'color' : 'black'  });
+        //         $('.leaflet-tooltip').css({ 'text-shadow' : '0px 0px 3px white'  });
+        //      } else {
+        //         $('.leaflet-tooltip').css({ 'color' : 'white'  });
+        //         $('.leaflet-tooltip').css({ 'text-shadow' : '0px 0px 3px black'  });
+        //      }
+        //    });
 
-           $('#%s_labelsizeSlider').on('input', function(x){
-              vv=$(this).val();
-              Shiny.onInputChange('%s-currentLabelSize', vv);
-              $('.leaflet-tooltip').css({ 'font-size' : vv+'px'  });
-            });
+        //   $('#%s_labelsizeSlider').on('input', function(x){
+        //      vv=$(this).val();
+        //      Shiny.onInputChange('%s-currentLabelSize', vv);
+        //      $('.leaflet-tooltip').css({ 'font-size' : vv+'px'  });
+        //    });
 
            $('#%s_opacitySlider').on('input', function(x){
               var oo = %s_mapElement;
@@ -452,11 +452,11 @@ mod_maps_server <- function(id) {
                                     format(data.ultima, "%A %e %B %yyyy") ) ) ,
                        duration = NULL, type ="warning")
 
+
       if( !is.element(input[["variableName"]],c("delta", "totale_casi") ) )  label<-sprintf("%.2f", dt.filtered.init[["totale_casi.normPop"]] )
-      else label <- sprintf("%d",   dt.filtered.init[["totale_casi.normPop"]] )
+      else label <- sprintf("%.0f",   dt.filtered.init[["totale_casi.normPop"]] )
 
       label[label=="NA"]<-""
-
 
       for(i in 1:length(province_polygons2019)){
         leaflet::leafletProxy("mymap") %>%
@@ -468,6 +468,22 @@ mod_maps_server <- function(id) {
                                                                    fillOpacity = 0.7, bringToFront = T ),
                                options=leaflet::pathOptions(interactive=T, sigla= province_polygons2019$SIGLA[[i]] ),
                                opacity = 1, fillOpacity = 0.5,
+
+
+                               label = label ,
+                               # labelOptions = leaflet::labelOptions(zIndex = 100,
+                               #                                      noHide = TRUE,
+                               #                                      textOnly = T,
+                               #                                      style= list(
+                               #                                        "font-size" = "12px",
+                               #                                        "font-weight" = "bold",
+                               #                                        "color"="white",
+                               #                                        "text-shadow"="0px 0px 7px black"
+                               #                                      ),
+                               #                                      opacity = 1
+                               # ),
+
+
                                layerId=sprintf("%s_%s__%s" ,
                                                id,
                                                basic.layerlist.list$overlayGroups$Casi_COVID19,
@@ -478,27 +494,27 @@ mod_maps_server <- function(id) {
 
 
 
-      leaflet::leafletProxy("mymap") %>%
-
-      leaflet::addLabelOnlyMarkers(data = dt.filtered.init, lng = ~long, lat=~lat,
-                                     layerId = sprintf("%s%s", basic.layerlist.list$overlayGroups$Casi_COVID19labels,
-                                                       dt.filtered.init$sigla_provincia    ),
-                                     group =  basic.layerlist.list$overlayGroups$Casi_COVID19labels,
-
-                                     label = label ,
-                                     labelOptions = leaflet::labelOptions(zIndex = 100,
-                                                                          sigla= province_polygons2019$SIGLA[[i]],
-                                                                          noHide = TRUE,
-                                                                          textOnly = T,
-                                                                          style= list(
-                                                                            "font-size" = "12px",
-                                                                            "font-weight" = "bold",
-                                                                            "color"="white",
-                                                                            "text-shadow"="0px 0px 7px black"
-                                                                          ),
-                                                                          opacity = 1
-                                     )
-        )
+      # leaflet::leafletProxy("mymap") %>%
+      #
+      # leaflet::addLabelOnlyMarkers(data = dt.filtered.init, lng = ~long, lat=~lat,
+      #                                layerId = sprintf("%s%s", basic.layerlist.list$overlayGroups$Casi_COVID19labels,
+      #                                                  dt.filtered.init$sigla_provincia    ),
+      #                                group =  basic.layerlist.list$overlayGroups$Casi_COVID19labels,
+      #
+      #                                label = label ,
+      #                                labelOptions = leaflet::labelOptions(zIndex = 100,
+      #                                                                     sigla= province_polygons2019$SIGLA[[i]],
+      #                                                                     noHide = TRUE,
+      #                                                                     textOnly = T,
+      #                                                                     style= list(
+      #                                                                       "font-size" = "12px",
+      #                                                                       "font-weight" = "bold",
+      #                                                                       "color"="white",
+      #                                                                       "text-shadow"="0px 0px 7px black"
+      #                                                                     ),
+      #                                                                     opacity = 1
+      #                                )
+      #   )
 
 
 
@@ -575,14 +591,15 @@ mod_maps_server <- function(id) {
 
       js<-sprintf("
               var valueMap = {%s};
+              console.log('here')
               var layers = %s_mapElement.layerManager.getLayerGroup('%s').getLayers();
-              var labels = %s_mapElement.layerManager.getLayerGroup('%s').getLayers();
+             // var labels = %s_mapElement.layerManager.getLayerGroup('%s').getLayers();
               if(layers.length!= Object.keys(valueMap).length   ){
                  alert(layers.length+' OPS problem');
               } else {
                 for(var i=0; i < layers.length; i++) {
                    layers[i].setStyle({'fillColor': valueMap[ layers[i].options.sigla ].col });
-                   labels[i].setTooltipContent(  valueMap[ layers[i].options.sigla ].lab  );
+                   layers[i].setTooltipContent(  valueMap[ layers[i].options.sigla ].lab  );
                 }
               }
                      ",   paste(collapse=",",jsonString),
@@ -597,14 +614,10 @@ mod_maps_server <- function(id) {
     })
 
 
-
-
-    ### reactive functions
-
     #### get data ----
     current_data <- reactive({
       req(input$date1, input$variableName)
-      dt<-data_to_use %>%
+      data_to_use %>%
         dplyr::filter( as.Date(.data$data) == input$date1) %>%
         dplyr::select(
           .data$sigla_provincia,
@@ -613,8 +626,6 @@ mod_maps_server <- function(id) {
         ) %>%
         dplyr::arrange(sigla_provincia)
 
-      dt[ which(dt[[ input[["variableName"]] ]]<0), input[["variableName"]] ]<-0
-      dt
     })
 
 
