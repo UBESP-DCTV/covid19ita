@@ -7,15 +7,16 @@
 \alias{dpc_covid19_ita_regioni}
 \alias{dpc_covid19_ita_province}
 \title{Italian COVID-19 data}
-\format{\code{\link[tibble]{tibble}}s with one row per day each
+\format{
+\code{\link[tibble]{tibble}}s with one row per day each
   levels of detail (regional adn provincial) and as many variables
   as provided by the original data (see the corresponding sections).
 
-An object of class \code{spec_tbl_df} (inherits from \code{tbl_df}, \code{tbl}, \code{data.frame}) with 44 rows and 15 columns.
+An object of class \code{spec_tbl_df} (inherits from \code{tbl_df}, \code{tbl}, \code{data.frame}) with 45 rows and 15 columns.
 
-An object of class \code{spec_tbl_df} (inherits from \code{tbl_df}, \code{tbl}, \code{data.frame}) with 924 rows and 19 columns.
+An object of class \code{spec_tbl_df} (inherits from \code{tbl_df}, \code{tbl}, \code{data.frame}) with 945 rows and 19 columns.
 
-An object of class \code{spec_tbl_df} (inherits from \code{tbl_df}, \code{tbl}, \code{data.frame}) with 5632 rows and 12 columns.
+An object of class \code{spec_tbl_df} (inherits from \code{tbl_df}, \code{tbl}, \code{data.frame}) with 5760 rows and 12 columns.
 }
 \source{
 \url{https://github.com/pcm-dpc/COVID-19}
