@@ -1,3 +1,5 @@
+# covid19ita 0.35.1
+
 * fix internal data
 
 # covid19ita 0.35.0
