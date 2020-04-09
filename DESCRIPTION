@@ -31,6 +31,11 @@ Authors@R:
              role = "aut",
              email = "giulia.lorenzoni@unito.it",
              comment = c(ORCID = "0000-0003-1771-4686")),
+      person(given = "Francesco",
+             family = "Pirotti",
+             role = "aut",
+             email = "francesco.pirotti@unipd.it",
+             comment = c(ORCID = "0000-0002-4796-6406")),
       person(given = "UBEP",
              role = "cph"))
 Description: Monitoring platform for Covid-19 infection
@@ -73,8 +78,7 @@ Imports:
     RCurl,
     httr,
     shinyjs,
-    shinyWidgets,
-    rgdal
+    shinyWidgets
 Suggests: 
     testthat (>= 2.1.0),
     covr (>= 3.5.0),

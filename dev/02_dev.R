@@ -28,10 +28,6 @@ usethis::use_package("RCurl")
 usethis::use_package("httr")
 usethis::use_package("shinyjs")
 usethis::use_package("shinyWidgets")
-usethis::use_package("rgdal")
-
-## usethis::use_package("leafgl")  ## KO too slow re-rendering provinces - 2Mx4 vertices with colors  use devtools::install_github("fpirotti/leafgl") - forked to create animations
-
 
 ## Add modules ----
 ## Create a module infrastructure in R/
