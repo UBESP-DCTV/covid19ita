@@ -34,16 +34,11 @@ mod_maps_ui <- function(id){
 </svg>'
   )
 
-
-
   functionList<- list( "Linear"="linear", "Log10"="log10Per" )
   functionList.lut <- names(functionList)
   names(functionList.lut) <- functionList
 
-
-
   paletteList.t<-list(
-
     Person=c("#cccccc",   "#ffffd9", "#edf8b1", "#c7e9b4", "#7fcdbb",
              "#41b6c4", "#1d91c0", "#225ea8",  "#6e016b", "#990000", "#d7301f", "#FF0000" ),
     Spectral=c("#cccccc",   rev( grDevices::rainbow(20)[1:12])),
@@ -71,9 +66,9 @@ mod_maps_ui <- function(id){
     # browseURL(tf2)
   }
 
-
-  data.ultima<-as.Date(max(dpc_covid19_ita_province$data))
-  data.prima<-as.Date(min(dpc_covid19_ita_province$data))
+  date.list<-as.Date(unique(dpc_covid19_ita_province$data))
+  data.ultima<-max(date.list)
+   data.prima<-min(date.list)
 
   tooltips<-list(scale.fixed="<b style='font-weight:bold; color:red;'>
            Fixed Scale</b><br>If checked, the scale will not change, but keep to the full range
@@ -96,9 +91,49 @@ mod_maps_ui <- function(id){
     ## sfruttare i `box()` per quanto possibile, ed eventuali
     ## `fludRow()`
     shinyjs::useShinyjs(),
+
     tags$head(
+      includeScript(app_sys('app/www/wNumb.min.js')),
+      includeScript(app_sys('app/www/nouislider.min.js')),
+      includeCSS(app_sys('app/www/nouislider.min.css')),
+        tags$script(sprintf("
+  $(document).ready(function(){
+
+  function timestamp(str) {
+      return new Date(str).getTime();
+  }
+  var dateSlider = document.getElementById('%s-dateRangeSlider');
+
+  noUiSlider.create(dateSlider, {
+      range: {
+          min: 1,
+          max: %d
+      },
+      step:1,
+      start: [%d],
+      pips: {
+        mode: 'steps',
+        density: 2
+    }
+  });
+
+  dateSlider.noUiSlider.on('update', function(e){
+    Shiny.onInputChange('%s-dateRangeChanged', e[0]);
+  });
+
+  dateSlider.noUiSlider.on('change', function(e){
+    Shiny.onInputChange('%s-dateRangeChangeFinished',e[0] );
+  });
+});
+                    ", id, length(date.list),
+                            length(date.list),
+                          #  length(date.list),
+                            id, id ) ),
         tags$style(type="text/css",
                  sprintf("
+      .noUi-pips-horizontal{    top:-2px !important; height:0px !important; color:#0000 !important; }
+      .noUi-value-sub{ color:#0000 !important; }
+      .noUi-connects {background: #0006; }
       .datepicker { z-index:999999999999  !important; }
       .selectize-dropdown{   z-index:9999999999 !important;  }
       .dropdown-menu{   z-index:9999999999 !important;  }
@@ -118,7 +153,7 @@ mod_maps_ui <- function(id){
         margin: 0;
         background: darkgray;
         padding: 15px;
-      }", id, id))
+      }",  id, id))
     ),
     fluidRow(
       box(  div( id=ns("loader"), alt="",
@@ -152,15 +187,7 @@ mod_maps_ui <- function(id){
                                                choices = names(paletteList.t),
                                                choicesOpt = list(content = paletteList.img) ) )
             ),
-
-
-
-
-
-             tags$input(style='width:100%;',  type='range', min='1',
-                        max=as.integer(data.ultima -  data.prima )+1 ,
-                        value=as.integer(data.ultima -  data.prima )+1 ,
-                        id= ns("dateRangeSlider") ),
+            tags$div(     id= ns("dateRangeSlider")  ),
             leaflet::leafletOutput(ns("mymap")) ,
         title = HTML("Distribuzione geografica del numero di casi per provincia" ),
         footer = HTML(""),
@@ -288,7 +315,6 @@ mod_maps_server <- function(id) {
                  }
             }
 
-
            Shiny.onInputChange('%s-leaflet_rendered', true);
            this.on('layeradd', %s_onLayerAddFunction);
            this.on('baselayerchange', function(e){
@@ -301,35 +327,7 @@ mod_maps_server <- function(id) {
               Shiny.onInputChange('%s-layerRemoved', {name:e.name, ran:Math.random() } );
             });
 
-        //   $(\".leaflet-control-layers-overlays > label:nth-child(2) > div:nth-child(1)\").append(\"&nbsp;&nbsp;<input   title='black label' id='%s_labelBlack' type='checkbox'   >\");
-       //    $(\".leaflet-control-layers-overlays > label:nth-child(2) > div:nth-child(1)\").append(\"<input style='width: 100px;' title='change size of label' id='%s_labelsizeSlider' type='range' value='11' step='1' min='3' max='30'  >\");
            $(\".leaflet-control-layers-overlays > label:nth-child(1) > div:nth-child(1)\").append(\"<input style='width: 100px;' title='change transparency to layer' id='%s_opacitySlider' type='range' value='50' step='1'  >\");
-
-           $('#%s-dateRangeSlider').on('input', function(e){
-              Shiny.onInputChange('%s-dateRangeChanged', e.target.value );
-            });
-
-           $('#%s-dateRangeSlider').on('change', function(e){
-              Shiny.onInputChange('%s-dateRangeChangeFinished', e.target.value );
-            });
-
-        //   $('#%s_labelBlack').on('change', function(x){
-        //      vv=this.checked;
-        //      Shiny.onInputChange('%s-currentLabelBlack', vv);
-        //      if(vv){
-        //         $('.leaflet-tooltip').css({ 'color' : 'black'  });
-        //         $('.leaflet-tooltip').css({ 'text-shadow' : '0px 0px 3px white'  });
-        //      } else {
-        //         $('.leaflet-tooltip').css({ 'color' : 'white'  });
-        //         $('.leaflet-tooltip').css({ 'text-shadow' : '0px 0px 3px black'  });
-        //      }
-        //    });
-
-        //   $('#%s_labelsizeSlider').on('input', function(x){
-        //      vv=$(this).val();
-        //      Shiny.onInputChange('%s-currentLabelSize', vv);
-        //      $('.leaflet-tooltip').css({ 'font-size' : vv+'px'  });
-        //    });
 
            $('#%s_opacitySlider').on('input', function(x){
               var oo = %s_mapElement;
@@ -536,7 +534,7 @@ mod_maps_server <- function(id) {
 
       ## trovo labels per ultima data
 
-      print("triggered")
+      #print("triggered")
 
       dt.filtered<- current_data()
       if( nrow(dt.filtered)<1 )
