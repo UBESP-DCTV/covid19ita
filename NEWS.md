@@ -1,3 +1,5 @@
+* fix internal data
+
 # covid19ita 0.35.0
 
 * improve internal (fix #38)
