@@ -6,7 +6,7 @@
 \alias{covid19ita-package}
 \title{covid19ita: Covid-19 - Italy}
 \description{
-\if{html}{\figure{logo.png}{options: align='right'}}
+\if{html}{\figure{logo.png}{options: align='right' alt='logo' width='120'}}
 
 Monitoring platform for Covid-19 infection
     diffusion in Italy.
@@ -20,15 +20,15 @@ Useful links:
 
 }
 \author{
-\strong{Maintainer}: Corrado Lanera \email{corrado.lanera@unipd.it} (0000-0002-0520-7428)
+\strong{Maintainer}: Corrado Lanera \email{corrado.lanera@unipd.it} (\href{https://orcid.org/0000-0002-0520-7428}{ORCID})
 
 Authors:
 \itemize{
-  \item Dario Gregori \email{dario.gregori@unipd.it} (0000-0001-7906-0580)
-  \item Paola Berchialla \email{paola.berchialla@unito.it} (0000-0001-5835-5638)
-  \item Danila Azzolina \email{danila.azzolina@uniupo.it} (0000-0002-8185-5742)
+  \item Dario Gregori \email{dario.gregori@unipd.it} (\href{https://orcid.org/0000-0001-7906-0580}{ORCID})
+  \item Paola Berchialla \email{paola.berchialla@unito.it} (\href{https://orcid.org/0000-0001-5835-5638}{ORCID})
+  \item Danila Azzolina \email{danila.azzolina@uniupo.it} (\href{https://orcid.org/0000-0002-8185-5742}{ORCID})
   \item Ilaria Prosepe \email{ilaria.prosepe@unipd.it}
-  \item Giulia Lorenzoni \email{giulia.lorenzoni@unito.it} (0000-0003-1771-4686)
+  \item Giulia Lorenzoni \email{giulia.lorenzoni@unito.it} (\href{https://orcid.org/0000-0003-1771-4686}{ORCID})
 }
 
 Other contributors:

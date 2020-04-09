@@ -463,9 +463,12 @@ mod_maps_server <- function(id) {
           leaflet::addPolygons(data = province_polygons2019[i,], weight=1,
                                color="#FFFFFF",
                                fillColor=fillColors[[i]],
-                               highlightOptions = leaflet::highlightOptions(stroke = 3, color = '#000000', weight = NULL,
-                                                                   opacity = 1,    fillColor = '#EEEE00',
-                                                                   fillOpacity = 0.7, bringToFront = T ),
+                               highlightOptions = leaflet::highlightOptions(stroke = 3,
+                                                                            weight = NULL,
+                                                                   opacity = 0.6,
+                                                                   fillColor = '#EEEE00',
+                                                                   fillOpacity = 0.7
+                                                                   ),
                                options=leaflet::pathOptions(interactive=T, sigla= province_polygons2019$SIGLA[[i]] ),
                                opacity = 1, fillOpacity = 0.5,
 
