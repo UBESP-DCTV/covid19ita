@@ -40,16 +40,6 @@ mod_maps_ui <- function(id){
   functionList.lut <- names(functionList)
   names(functionList.lut) <- functionList
 
-  paletteList.t<-list(
-    Person=c("#cccccc",   "#ffffd9", "#edf8b1", "#c7e9b4", "#7fcdbb",
-             "#41b6c4", "#1d91c0", "#225ea8",  "#6e016b", "#990000", "#d7301f", "#FF0000" ),
-    Spectral=c("#cccccc",   rev( grDevices::rainbow(20)[1:12])),
-    YellowOrangeRed= RColorBrewer::brewer.pal(9,"YlOrRd"),
-    RedYellowBlue= RColorBrewer::brewer.pal(11,"RdYlBu"),
-    BlueYellowRed=rev(RColorBrewer::brewer.pal(11,"RdYlBu")),
-    RedWhiteGrey= rev(RColorBrewer::brewer.pal(11,"RdGy"))
-  )
-
   paletteList<- (names(paletteList.t))
 
   paletteList.img<-c()
@@ -227,17 +217,6 @@ mod_maps_server <- function(id) {
     sqrt=function(x){ x^2 }
   )
 
-######## DUPICATA DA MODIFICARE IN GLOBALS SOMEWHAT
-  paletteList.t<-list(
-
-    Person=c("#cccccc",   "#ffffd9", "#edf8b1", "#c7e9b4", "#7fcdbb",
-             "#41b6c4", "#1d91c0", "#225ea8",  "#6e016b", "#990000", "#d7301f", "#FF0000" ),
-    Spectral=c("#cccccc",   rev( grDevices::rainbow(20)[1:12])),
-    YellowOrangeRed= RColorBrewer::brewer.pal(9,"YlOrRd"),
-    RedYellowBlue= RColorBrewer::brewer.pal(11,"RdYlBu"),
-    BlueYellowRed=rev(RColorBrewer::brewer.pal(11,"RdYlBu")),
-    RedWhiteGrey= rev(RColorBrewer::brewer.pal(11,"RdGy"))
-  )
 
   basic.layerlist.list<-list(    baseGroups = list( osm.bn="Map Night",osm.light ="Map Light",
                                                     osm="None" ),
