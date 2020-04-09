@@ -309,6 +309,7 @@ mod_maps_server <- function(id) {
     dplyr::filter( as.Date(.data$data) ==  data.ultima)  %>%
     dplyr::select(
       .data$sigla_provincia,
+      .data$denominazione_provincia,
       .data$totale_casi.normPop,
       .data$lat, .data$long
     )%>%
@@ -453,8 +454,13 @@ mod_maps_server <- function(id) {
                        duration = NULL, type ="warning")
 
 
-      if( !is.element(input[["variableName"]],c("delta", "totale_casi") ) )  label<-sprintf("%.2f", dt.filtered.init[["totale_casi.normPop"]] )
-      else label <- sprintf("%.0f",   dt.filtered.init[["totale_casi.normPop"]] )
+      templ<- ifelse( !is.element(input[["variableName"]],c("delta", "totale_casi") ),
+              "%s (%s)<br>%.2f" ,  "%s (%s)<br>%.0f"  )
+
+      label <- sprintf(templ,
+                       dt.filtered.init[["denominazione_provincia"]],
+                       dt.filtered.init[["sigla_provincia"]],
+                       dt.filtered.init[["totale_casi.normPop"]] )
 
       label[label=="NA"]<-""
 
@@ -471,20 +477,18 @@ mod_maps_server <- function(id) {
                                                                    ),
                                options=leaflet::pathOptions(interactive=T, sigla= province_polygons2019$SIGLA[[i]] ),
                                opacity = 1, fillOpacity = 0.5,
-
-
                                label = label[[i]] ,
-                               # labelOptions = leaflet::labelOptions(zIndex = 100,
-                               #                                      noHide = TRUE,
-                               #                                      textOnly = T,
-                               #                                      style= list(
-                               #                                        "font-size" = "12px",
-                               #                                        "font-weight" = "bold",
-                               #                                        "color"="white",
-                               #                                        "text-shadow"="0px 0px 7px black"
-                               #                                      ),
-                               #                                      opacity = 1
-                               # ),
+                               labelOptions = leaflet::labelOptions(#zIndex = 100,
+                                                                    #noHide = TRUE,
+                                                                    #textOnly = T,
+                                                                    style= list(
+                                                                      "font-size" = "12px",
+                                                                      "font-weight" = "bold",
+                                                                      "color"="black",
+                                                                      "text-shadow"="0px 0px 7px black"
+                                                                    ),
+                                                                    opacity = 1
+                               ),
 
 
                                layerId=sprintf("%s_%s__%s" ,
@@ -528,7 +532,7 @@ mod_maps_server <- function(id) {
 
 
     #### DRAW RESPONSIVE ----------
-    observe({
+    observe(suspended=T, {
 
       req(input$leaflet_rendered,input$leaflet_rendered_all,
           input$variableName,
@@ -623,6 +627,7 @@ mod_maps_server <- function(id) {
       data_to_use %>%
         dplyr::filter( as.Date(.data$data) == input$date1) %>%
         dplyr::select(
+          .data$denominazione_provincia,
           .data$sigla_provincia,
           .data[[ input[["variableName"]] ]],
           .data$lat, .data$long
