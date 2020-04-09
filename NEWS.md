@@ -1,3 +1,5 @@
+* improve internal (fix #38)
+* update map section
 * data udate
 * extract home page from `app_ui.R` to `dashboard_home.R`
 * added CM and DF to home
