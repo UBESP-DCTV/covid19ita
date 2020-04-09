@@ -256,6 +256,23 @@ dashboard_body <- function() {dashboardBody(
           )
       ),
 
+      box(width = 12, title = HTML("<strong>Analisi della mortalità</strong>"),
+        p(
+          HTML("Prof. <strong>Corrado Magnani</strong>, Ph.D.,
+               Dipartimento di Medicina Traslazionale --- Università
+               del Piemonte Orientale, Novara."
+          ),
+          a(href = "https://www.linkedin.com/in/corrado-magnani-173a50108/", target = "_blank", "LinkedIn")
+        ),
+        p(
+          HTML("<strong>Daniela Ferrante</strong>, Ph.D.,
+               Dipartimento di Medicina Traslazionale --- Università
+               del Piemonte Orientale, Novara."
+          ),
+          a(href = "https://www.linkedin.com/in/daniela-ferrante-05507494/", target = "_blank", "LinkedIn")
+        )
+      ),
+
       box(width = 12, title = HTML("<strong>Comunicazione del Rischio</strong>"),
         p(
           HTML("<strong>Giulia Lorenzoni</strong>, Ph.D., Unità di
