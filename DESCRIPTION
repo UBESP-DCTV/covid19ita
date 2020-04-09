@@ -78,8 +78,7 @@ Imports:
     RCurl,
     httr,
     shinyjs,
-    shinyWidgets,
-    rgdal
+    shinyWidgets
 Suggests: 
     testthat (>= 2.1.0),
     covr (>= 3.5.0),
