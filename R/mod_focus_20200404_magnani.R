@@ -11,14 +11,6 @@ mod_focus_20200404_magnani_ui <- function(id){
   ns <- NS(id)
   fluidPage(
     fluidRow(box(width = 12,
-      p(HTML("
-        Prof. <strong>Corrado Magnani</strong>
-        <br>
-        Dipartimento di Medicina Traslazionale – Università del Piemonte Orientale
-      ")),
-    )),
-
-    fluidRow(box(width = 12,
 
       p(HTML("
         L'Istituto Nazionale di Statistica (Istat) ha messo a

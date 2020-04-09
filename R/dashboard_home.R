@@ -1,0 +1,211 @@
+#' Dashboard's HOME (sidebar)
+#'
+#' Helper function defining the sidebar of the dashboard's HOME page
+#'
+#' @import shiny
+#' @importFrom shinydashboard dashboardSidebar sidebarMenu menuItem
+#' @noRd
+dashboard_home_sidebar <- function() {
+  menuItem("Home", tabName = "home", icon = icon("home"))
+}
+
+
+
+
+#' Dashboard's HOME (body)
+#'
+#' Helper function defining the body of the dashboard's HOME page
+#'
+#' @import shiny
+#' @importFrom shinydashboard dashboardSidebar sidebarMenu menuItem
+#' @noRd
+dashboard_home_body <- function() {
+  tabItem(
+    tabName = "home",
+    fluidPage(
+      title = HTML("Progetto <strong>covid19ita</strong>"),
+
+      p('Nota: sito ottimizzato per l\'uso da PC, in caso di utilizzo da cellulare o tablet si consiglia di tenere il dispositivo in modalità "orizzontale".'),
+
+      # box(width = 12, solidHeader = TRUE,
+      #   mod_img_header_ui("logo_testa")
+      # ),
+
+      box(
+        width = 12,
+        p(
+          HTML("Il progetto <strong>covid19ita</strong> è stato sviluppato dall'"),
+          a(href = "https://ubesp.jimdofree.com/", target = "_blank", "Unità di Biostatistica, Epidemiologia, e Sanità Pubblica"),
+          " del ", a(href = "https://www.dctv.unipd.it/", target = "_blank", "Dipartimento di Scienze Cardio- Toraco- Vascolari e Sanità Pubblica"),
+          " dell'", a(href = "https://www.unipd.it/", target = "_blank", "Università degli Studi di Padova"), ",",
+          " in collaborazione con il ", a(href = "https://www.dscb.unito.it/do/gruppi.pl/Tree", target = "_blank", "Dipartimento di Scienze Cliniche e Biologiche"),
+          " dell'", a(href = "https://www.unito.it/", target = "_blank", "Università degli Studi di Torino"), ",",
+          " e del", a(href = "https://www.dimet.uniupo.it/", target = "_blank", "Dipartimento di Medicina Traslazionale"),
+          " dell'", a(href = "https://www.uniupo.it/", target = "_blank", "Università del Piemonte Orientale"), "."
+        )
+      ),
+
+      h2("Gruppo di lavoro"),
+      box(
+        width = 12, title = HTML("<strong>Coordinatore del progetto</strong>"),
+        p(
+          HTML("Prof. <strong>Dario Gregori</strong>, Ph.D., responsabile dell'Unità di
+            Biostatistica, Epidemiologia e Sanità Pubblica del Dipartimento
+            di Scienze Cardio- Toraco- Vascolari e Sanità Pubblica --
+            Università degli studi di Padova."),
+          a(href = "https://linkedin.com/in/dario-gregori-2720039/", target = "_blank", "LinkedIn")
+        )
+      ),
+
+      box(
+        width = 12, title = HTML("<strong>Sviluppo applicazione e R package</strong>"),
+        p(
+          HTML("<strong>Corrado Lanera</strong>, Ph.D., Unità di
+          Biostatistica, Epidemiologia e Sanità Pubblica del Dipartimento
+          di Scienze Cardio- Toraco- Vascolari e Sanità Pubblica --
+          Università degli studi di Padova. Responsabile del Laboratorio di Intelligenza Artificiale per le Scienze Mediche"),
+          a(href = "https://linkedin.com/in/corradolanera/", target = "_blank", "LinkedIn")
+        )
+      ),
+
+      box(
+        width = 12, title = HTML("<strong>Modellistica Epidemiologica</strong>"),
+        p(
+          HTML("Prof. <strong>Paola Berchialla</strong>, Ph.D., Dipartimento di Scienze
+            Cliniche e Biologiche -- Università degli Studi di Torino"),
+          a(href = "https://linkedin.com/in/paola-berchialla-36b44410/", target = "_blank", "LinkedIn")
+        ),
+        p(
+          HTML(
+            'Prof. <strong>Dolores Catelan</strong>, Ph.D., Dipartimento di
+            Statistica, Informatica, Applicazioni "G. Parenti" (DISIA),
+            Università degli Studi di Firenze'
+          ),
+          a(
+            href = "https://www.linkedin.com/in/dolores-catelan-43998b23/",
+            target = "_blank", "LinkedIn"
+          )
+        )
+      ),
+
+      box(
+        width = 12, title = HTML("<strong>Modelli Previsivi</strong>"),
+        p(
+          HTML("<strong>Danila Azzolina</strong>, Ph.D., Dipartimento di Medicina Traslazionale --
+          Università del Piemonte Orientale"),
+          a(href = "https://linkedin.com/in/danila-azzolina-862465166/", target = "_blank", "LinkedIn")
+        ),
+        p(
+          HTML("<strong>Ilaria Prosepe</strong>, MSc., Unità di
+           Biostatistica, Epidemiologia e Sanità Pubblica del Dipartimento
+           di Scienze Cardio- Toraco- Vascolari e Sanità Pubblica --
+           Università degli studi di Padova."),
+          a(href = "https://linkedin.com/in/ilaria-prosepe-1b52371a4/", target = "_blank", "LinkedIn")
+        )
+      ),
+
+      box(
+        width = 12, title = HTML("<strong>Modelli di Epidemiologia Ambientale e Inquinamento</strong>"),
+        p(
+          HTML(
+            'Prof. <strong>Annibale Biggeri</strong>, MD, MSPH, MSB,
+              Dipartimento di Statistica, Informatica, Applicazioni
+              "G. Parenti" (DISIA), Università degli Studi di Firenze'
+          ),
+          a(href = "https://linkedin.com/in/danila-azzolina-862465166/", target = "_blank", "LinkedIn")
+        ),
+        p(
+          HTML(
+            "Prof. <strong>Cristina Canova</strong>, Ph.D., Unità di
+           Biostatistica, Epidemiologia e Sanità Pubblica del Dipartimento
+           di Scienze Cardio- Toraco- Vascolari e Sanità Pubblica --
+           Università degli studi di Padova."
+          ),
+          a(href = "https://www.linkedin.com/in/cristina-canova-05448861/", target = "_blank", "LinkedIn")
+        ),
+        p(
+          HTML("<strong>Elisa Gallo</strong>, MSc., Unità di
+           Biostatistica, Epidemiologia e Sanità Pubblica del Dipartimento
+           di Scienze Cardio- Toraco- Vascolari e Sanità Pubblica --
+           Università degli studi di Padova."),
+          a(href = "https://www.linkedin.com/in/elisa-gallo-9b3933152/", target = "_blank", "LinkedIn")
+        ),
+        p(
+          HTML("<strong>Francesco Garzotto</strong>, MSc, Unità di
+           Biostatistica, Epidemiologia e Sanità Pubblica del Dipartimento
+           di Scienze Cardio- Toraco- Vascolari e Sanità Pubblica --
+           Università degli studi di Padova."),
+          a(href = "https://www.linkedin.com/in/francesco-garzotto-19907826/", target = "_blank", "LinkedIn")
+        )
+      ),
+
+      box(
+        width = 12, title = HTML("<strong>Analisi della mortalità</strong>"),
+        p(
+          HTML("Prof. <strong>Corrado Magnani</strong>, Ph.D.,
+               Dipartimento di Medicina Traslazionale --- Università
+               del Piemonte Orientale, Novara."),
+          a(href = "https://www.linkedin.com/in/corrado-magnani-173a50108/", target = "_blank", "LinkedIn")
+        ),
+        p(
+          HTML("<strong>Daniela Ferrante</strong>, Ph.D.,
+               Dipartimento di Medicina Traslazionale --- Università
+               del Piemonte Orientale, Novara."),
+          a(href = "https://www.linkedin.com/in/daniela-ferrante-05507494/", target = "_blank", "LinkedIn")
+        )
+      ),
+
+      box(
+        width = 12, title = HTML("<strong>Comunicazione del Rischio</strong>"),
+        p(
+          HTML("<strong>Giulia Lorenzoni</strong>, Ph.D., Unità di
+            Biostatistica, Epidemiologia e Sanità Pubblica del Dipartimento
+            di Scienze Cardio- Toraco- Vascolari e Sanità Pubblica --
+            Università degli studi di Padova. Responsabile del Laboratorio di Epidemiologia Clinica e Digital Health"),
+          a(href = "https://linkedin.com/in/giulia-lorenzoni-b382a6180", target = "_blank", "LinkedIn")
+        ),
+        p(
+          HTML(
+            "<strong>Nicolas Destro</strong>, MA, Unità di
+            Biostatistica, Epidemiologia e Sanità Pubblica del Dipartimento
+            di Scienze Cardio- Toraco- Vascolari e Sanità Pubblica --
+            Università degli studi di Padova."
+          ),
+          a(href = "https://www.linkedin.com/in/nicolas-destro-b2a67212b/", target = "_blank", "LinkedIn")
+        )
+      ),
+      box(
+        width = 12, title = HTML("<strong>Analisi Geospaziale e Rappresentazione Cartografica</strong>"),
+        p(
+          HTML("Prof. <strong>Francesco Pirotti</strong>, Ph.D.,
+            Dipartimento Territorio e Sistemi Agro-Forestali (TESAF)
+            CIRGEO - Centro Interdipartimentale di Ricerca di Geomatica."),
+          a(href = "https://www.linkedin.com/in/fpirotti", target = "_blank", "LinkedIn")
+        )
+      ),
+      h2("Istruzioni per la navigazione"),
+      box(
+        width = 12, title = HTML("<strong>Organizzazione del sito</strong>"),
+        HTML(
+          "<ol>
+            <li><strong>Home</strong>: Questa pagina.</li>
+            <li><strong>In evidenza</strong>: Considerazioni su temi specifici locali o regionali.</li>
+            <li><strong>Andamento epidemia</strong>: Serie temporali dinamiche e interattive.</li>
+            <li><strong>Indici principali</strong>: Principali indici di interesse locale, regionale o nazionale.</li>
+            <li><strong>Segnalazioni</strong>: link per segnalazioni tecniche relative all'applicazione.</li>
+            <li><strong>Fonti e informazioni</strong>: Descrizione fonti, licenze d'uso e software utilizzati per lo sviluppo.</li>
+            <li><strong>Metriche ultima giornata</strong>: Selezionando una regione (o 'Italia', default) vengono visualizzate le principali metriche dell'ultimo aggiornamento dati, che normalmente avviene alle ore 18 da parte della protezione civile.</li>
+          </ol>"
+        )
+      ),
+
+      box(
+        width = 12, title = HTML("<strong>Utilizzo dei grafici dinamici</strong>"),
+        p(HTML("La maggior parte dei grafici riportati nel sito sono dinamici in due modi distinti:")),
+        p(""),
+        p(HTML("1. <strong>rispetto alle informazioni riportate</strong>: all'interno del grafico è possibile <strong>visualizzare ulteriori dettagli</strong> passando il cursore o facendo click sui vari punti/curve riportate, è possibile <strong>zoommare</strong> su alcune zone di interesse tramite i pulsanti +/- in semi-trasparenza in alto a destra nel grafico (o selezionando l'area con il puntatore). Nel caso di informazioni multiple (per esempio più regioni o più misure) riportate nello stesso grafico, è possibile <strong>escludere alcune informazioni</strong> facendo click sulla relativa voce in legenda, o <strong>mantenere attiva una sola informazione di interesse</strong> tramite un doppio click. È inoltre possibile <strong>salvare ciascun grafico</strong>, in modo indipendente e così come visualizzato, selezionando l'icona semitrasparente della macchina fotografica. Tramite la pressione dell'icona a forma di casetta è possibile <strong>ripristinare la visione originale</strong> del grafico visualizzato.")),
+        p(HTML("2. <strong>rispetto a quali/quante informazioni elaborare e riportare</strong>: In caso compaiano delle celle sopra il grafico in cui poter selezionare <strong>regioni, province o misure, è possibile sia escluderne che aggiungerne</strong> di ulteriori (tra quelle disponibili selezionando il riquadro). Una volta selezionato o deselezionato quanto di interesse, i grafici si aggiorneranno moltiplicandosi o riducendosi, così come moltiplicando o riducento le infornmazioni contenute in ciascuno di essi.")),
+      ),
+    )
+  )
+}
