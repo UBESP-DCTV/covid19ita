@@ -7,6 +7,8 @@
 #' @noRd
 #'
 #' @importFrom shiny NS tagList
+#' @importFrom grDevices dev.off png
+#' @importFrom graphics image par
 #'
 #'
 mod_maps_ui <- function(id){
@@ -252,12 +254,12 @@ mod_maps_server <- function(id) {
   naples<-which(dpc_covid19_ita_province$denominazione_provincia=="Napoli")
   dpc_covid19_ita_province[naples, "sigla_provincia"]<-"NA"
   data_to_use <- dpc_covid19_ita_province %>%
-    dplyr::group_by(sigla_provincia) %>%
-    dplyr::mutate(  delta     =c(0, diff(totale_casi)) ) %>%
+    dplyr::group_by(.data$sigla_provincia) %>%
+    dplyr::mutate(  delta     =c(0, diff(.data$totale_casi)) ) %>%
     dplyr::select(
       .data$data,  .data$totale_casi, .data$delta, .data$lat, .data$long
     ) %>%
-    dplyr::arrange(sigla_provincia)
+    dplyr::arrange( .data$sigla_provincia)
 
   data_to_use <- merge(data_to_use, province_population2019)
 
@@ -277,7 +279,7 @@ mod_maps_server <- function(id) {
       .data$totale_casi.normPop,
       .data$lat, .data$long
     )%>%
-    dplyr::arrange(sigla_provincia)
+    dplyr::arrange(.data$sigla_provincia)
 
   cm.init<-leaflet::colorNumeric(
     palette =   paletteList.t$Person ,
@@ -629,7 +631,7 @@ mod_maps_server <- function(id) {
           .data[[ input[["variableName"]] ]],
           .data$lat, .data$long
         ) %>%
-        dplyr::arrange(sigla_provincia)
+        dplyr::arrange(.data$sigla_provincia)
 
     })
 
