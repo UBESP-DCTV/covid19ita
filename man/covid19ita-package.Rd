@@ -29,6 +29,7 @@ Authors:
   \item Danila Azzolina \email{danila.azzolina@uniupo.it} (\href{https://orcid.org/0000-0002-8185-5742}{ORCID})
   \item Ilaria Prosepe \email{ilaria.prosepe@unipd.it}
   \item Giulia Lorenzoni \email{giulia.lorenzoni@unito.it} (\href{https://orcid.org/0000-0003-1771-4686}{ORCID})
+  \item Francesco Pirotti \email{francesco.pirotti@unipd.it} (\href{https://orcid.org/0000-0002-4796-6406}{ORCID})
 }
 
 Other contributors:

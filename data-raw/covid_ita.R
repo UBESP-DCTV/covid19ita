@@ -104,6 +104,18 @@ if (!all(are_ok)) {
   province_polygons2019 <- readRDS(
     here::here("data-raw", "province_polygons2019.rds")
   )
+
+
+  paletteList.t<-list(
+    Person=c("#cccccc",   "#ffffd9", "#edf8b1", "#c7e9b4", "#7fcdbb",
+             "#41b6c4", "#1d91c0", "#225ea8",  "#6e016b", "#990000", "#d7301f", "#FF0000" ),
+    Spectral=c("#cccccc",   rev( grDevices::rainbow(20)[1:12])),
+    YellowOrangeRed= RColorBrewer::brewer.pal(9,"YlOrRd"),
+    RedYellowBlue= RColorBrewer::brewer.pal(11,"RdYlBu"),
+    BlueYellowRed=rev(RColorBrewer::brewer.pal(11,"RdYlBu")),
+    RedWhiteGrey= rev(RColorBrewer::brewer.pal(11,"RdGy"))
+  )
+
   #region_polygons2019<-readRDS("data-raw/region_polygons2019.rds")
   #province_polygons2019<-rgdal::readOGR("../covid19carto/data/province4326vmp.shp")
   #saveRDS(province_polygons2019, "data-raw/province_polygons2019.rds")
@@ -234,7 +246,9 @@ if (!all(are_ok)) {
 
   download.file(settimanale_url, tmp_sett, mode = 'wb')
 
-  comuni_settimana <- unzip(tmp_sett, "comuni_settimana.xlsx") %>%
+  comuni_settimana <- unzip(
+      tmp_sett, "comuni_settimana.xlsx", exdir = tempdir()
+    ) %>%
     readxl::read_xlsx() %>%
     janitor::clean_names() %>%
     dplyr::rename(
@@ -315,9 +329,8 @@ if (!all(are_ok)) {
     region_population,
     province_population2019,
     province_polygons2019,
-    # region_polygons2019,
+    paletteList.t,
     dictionary,
-
     comuni_settimana,
     residenti_anpr_1084,
     mort_data_reg_age,

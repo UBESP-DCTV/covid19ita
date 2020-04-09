@@ -3,14 +3,3 @@
 .RData
 .Ruserdata
 
-app.R
-
-data/dpc_covid19_ita_regioni.rda
-
-R/sysdata.rda
-
-DESCRIPTION
-
-data/dpc_covid19_ita_province.rda
-
-data/dpc_covid19_ita_andamento_nazionale.rda
