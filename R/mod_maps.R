@@ -356,7 +356,7 @@ mod_maps_server <- function(id) {
         leaflet::hideGroup( as.character(basic.layerlist.list$overlayGroups) ) %>%
         leaflet::showGroup( c(basic.layerlist.list$overlayGroups$Casi_COVID19 ) )   %>%
         leaflet::addLayersControl(baseGroups    =  basic.layerlist$baseGroups,
-                                  overlayGroups = basic.layerlist$overlayGroups,
+                                  overlayGroups = basic.layerlist$overlayGroups ,
                                   options =  leaflet::layersControlOptions(collapsed = F) )
 
 
