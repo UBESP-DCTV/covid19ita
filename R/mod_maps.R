@@ -145,7 +145,7 @@ mod_maps_ui <- function(id){
       }
       #%s-date1   {
         color: red !important;
-        max-width:240px;
+        max-width:200px;
         font-size: larger;
         margin: 0;
         background: darkgray;
@@ -160,7 +160,7 @@ mod_maps_ui <- function(id){
                       "Loading Geodata...", div(id=ns("loader-text")) ) ),
 
             fluidRow(
-              column(3, style="font-weight:bold; width:330px !important;",
+              column(3, style="font-weight:bold; color:#2d5900a1; width:330px !important;",
                     div(style="float:left;", dateInput(ns("date1"), NULL, value = data.ultima, min = data.prima,
                                max = data.ultima, format = 'DD dd MM yyyy') ),
                         iconTag, helpTag  ),
@@ -618,12 +618,18 @@ mod_maps_server <- function(id) {
         print('problema')
         return(NULL)
       }
-      domain[is.nan(domain)]<-0
+      domain[is.infinite(domain)]<-0
 
-      pal<- leaflet::colorNumeric(
+      pal<- tryCatch({
+        leaflet::colorNumeric(
           palette =   paletteList.t[[  input[["palette"]] ]] ,
           domain =  domain
         )
+      }, error=function(e) {
+        print(domain)
+      }, warning=function(w) {
+        print(w)
+      } )
 
 
       leaflet::leafletProxy("mymap") %>%
