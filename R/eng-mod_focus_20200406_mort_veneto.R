@@ -11,6 +11,24 @@ eng_mod_focus_20200406_mort_veneto_ui <- function(id){
   ns <- NS(id)
   fluidPage(
     fluidRow(box(width = 12,
+
+                 p(HTML("
+      The National Institute of Statistics (Istat) made available on its
+      website (https://www.istat.it/it/archivio/240401) the mortality data
+      of 1084 Italian municipalities, with data updated to the 21st of
+      March 2020. 1.<sup>1</sup>
+      ")),
+
+                p(HTML("
+        As it is possible to see on the Istat website,
+        the municipalities that take part in this
+        analysis are the ones that counted at least 10 deaths in the period
+        1 January 2020 to 28 March 2020 and that registered a rise in mortality
+        of at least 20 % in the first 21 or 28 days of March 2020.
+      "))
+    )),
+
+    fluidRow(box(width = 12,
                  p(HTML("
         Overall mortality is a strong indicator as it has low
         susceptibility to errors or discrepancies in assessments
@@ -19,6 +37,9 @@ eng_mod_focus_20200406_mort_veneto_ui <- function(id){
         way, as for example by difficulties for people who suffer
         from different pathologies in accessing the hospital services.
       ")),
+
+
+
 
                  p(HTML("
         Moreover, the overall mortality is not affected by diagnostic
@@ -85,7 +106,9 @@ eng_mod_focus_20200406_mort_veneto_ui <- function(id){
                  p(HTML("
         The percentage change in mortality (1-21 March 2019 vs 1-21
         March 2020) was estimated by region, sex and age aggregated
-        data. Data was categorized as in the table provided by Istat
+        data. In this case, aggregation by province only includes
+        the aforementioned municipalities made available by Istat.
+        Data was categorized as in the table provided by Istat
         (https://www.istat.it/it/files//2020/03/Tavola-sintetica-decessi.xlsx).
         Age categories are: 65-74, 75-84, over 85.
       ")),
@@ -136,7 +159,7 @@ eng_mod_focus_20200406_mort_veneto_ui <- function(id){
         sample size can change quite a lot. In some provincies
         the mortality change seems quite important, but it is
         actually given by a small difference in terms of number
-        of deaths (Table 2).
+        of deaths (Table 1).
       "))
     )),
 
@@ -171,6 +194,9 @@ eng_mod_focus_20200406_mort_veneto_ui <- function(id){
       ")),
 
                  p(HTML("
+        Deaths in all municipalities in the Istat database
+        belonging to the same province were summed together
+        in order to obtain the number of deaths by province.
         The graph here below (Figure 3) shows the number of total
         deaths by province from 2015 to 2020.
       "))
@@ -185,7 +211,10 @@ eng_mod_focus_20200406_mort_veneto_ui <- function(id){
     fluidRow(box(width = 12,
                  p(HTML("
         The graphs here below (Figure 4) show how mortality
-        changed from 2015 to 2020 by province and age. Age
+        changed from 2015 to 2020 by province and age.
+        Deaths in all municipalities in the Istat database
+        belonging to the same province were summed together
+        in order to obtain the number of deaths by province. Age
         classes were defined as follows: under 64 (putting
         together the classes 0-14 and 15-64 of the original
         table), 65-74, over 75.
@@ -216,12 +245,11 @@ eng_mod_focus_20200406_mort_veneto_ui <- function(id){
       ")),
 
                  p(HTML("
-        I grafici riportano sull’asse orizzontale
-        la data di inizio dei diversi periodi settimanali.
-        Data presented in the table at
+        Data regarding the 122 municipalities of the Veneto
+        Region, as presented in the table at
         https://www.istat.it/it/files//2020/03/dati-comunali-settimanali-ANPR-1.zip
         for the period of time that goes from the 1st of January
-        to the 21st of March can be helpful to answer this question.
+        to the 21st of March, can be helpful to answer this question.
         The data in the table is divided into time slots of 7 days,
         except for the period from the 1st to the 10th of January;
         this period was therefore excluded from the analysis. The

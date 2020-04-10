@@ -28,6 +28,14 @@ eng_mod_focus_20200404_magnani_ui <- function(id){
       ")),
 
       p(HTML("
+        As it is possible to see on the Istat website,
+        the municipalities that take part in this
+        analysis are the ones that counted at least 10 deaths in the period
+        1 January 2020 to 28 March 2020 and that registered a rise in mortality
+        of at least 20 % in the first 21 or 28 days of March 2020.
+      ")),
+
+      p(HTML("
         The data collection includes 6.177.016 men and 6.496.805 women,
         distributed according to residence. Representation is different
         in the different regions (Table 1).
@@ -114,7 +122,8 @@ eng_mod_focus_20200404_magnani_ui <- function(id){
       p(HTML("
         The percentage change in mortality (1-21 March 2019 vs 1-21
         March 2020) was estimated by region, sex and age aggregated
-        data. Data was categorized as in the table provided by Istat
+        data. Remember data only includes the municipalities provided
+        by Istat. Data was categorized as in the table provided by Istat
         (https://www.istat.it/it/files//2020/03/Tavola-sintetica-decessi.xlsx).
         Age categories are: 65-74, 75-84, over 85.
       ")),
@@ -203,6 +212,9 @@ eng_mod_focus_20200404_magnani_ui <- function(id){
       ")),
 
       p(HTML("
+        Deaths in all municipalities in the Istat database
+        belonging to the same region were summed together
+        in order to obtain the number of deaths by province.
         The graphs here below (Figure 3) show the number of total
         deaths by region from 2015 to 2020. Regions were aggregated
         in two groups in order to enhance the readability of the
@@ -269,7 +281,8 @@ eng_mod_focus_20200404_magnani_ui <- function(id){
         In this study it is possible to notice increased mortality
         starting from the week of the 1st of March, especially in those
         regions that are most affected by the epidemics (especially the
-        Lombardy Region)
+        Lombardy Region). Remind that the municipalities included in the
+        analysis are the ones made available by Istat.
       "))
 
     )),

@@ -305,11 +305,11 @@ eng_dashboard_body <- function() {dashboardBody(
 
   ),
   tabItem(tabName = "20200406MortVeneto",
-          h2("Preliminary analysis of the overall mortality in the Veneto Region from the 1st of March to the 21 of March 2020."),
+          h2("Preliminary analysis of the overall mortality in 122 municipalities of the Veneto Region from the 1st of March to the 21 of March 2020."),
           eng_mod_focus_20200406_mort_veneto_ui("mort_veneto")
   ),
   tabItem(tabName = "20200405Mort",
-          h2("Preliminary analysis of the overall mortality in Italy from the 1st of March to the 21 of March 2020."),
+          h2("Preliminary analysis of the overall mortality in 1084 italian municipalities from the 1st of March to the 21 of March 2020."),
           eng_mod_focus_20200404_magnani_ui("mortality")
   ),
   tabItem(tabName = "20200331Comp",

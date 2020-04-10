@@ -1,3 +1,5 @@
+* fix translation of 20200406 mort_veneto and 20200404 magnani
+
 # covid19ita 0.35.1
 
 * fix internal data
