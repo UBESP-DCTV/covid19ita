@@ -160,7 +160,7 @@ mod_maps_ui <- function(id){
                       "Loading Geodata...", div(id=ns("loader-text")) ) ),
 
             fluidRow(
-              column(3, style="font-weight:bold; min-width: 350px;",
+              column(3, style="font-weight:bold; min-width: 380px;",
                     div(style="float:left;", dateInput(ns("date1"), NULL, value = data.ultima, min = data.prima,
                                max = data.ultima, format = 'DD dd MM yyyy') ),
                         iconTag, helpTag  ),
