@@ -160,11 +160,11 @@ mod_maps_ui <- function(id){
                       "Loading Geodata...", div(id=ns("loader-text")) ) ),
 
             fluidRow(
-              column(3, style="font-weight:bold; min-width: 380px;",
+              column(3, style="font-weight:bold; width:330px !important;",
                     div(style="float:left;", dateInput(ns("date1"), NULL, value = data.ultima, min = data.prima,
                                max = data.ultima, format = 'DD dd MM yyyy') ),
                         iconTag, helpTag  ),
-              column(3, style=" min-width: 250px;", div( style=" min-width: 250px;", selectInput(ns("variableName"), NULL,
+              column(3, style=" min-width: 222px;", div( style=" min-width: 222px;", selectInput(ns("variableName"), NULL,
                                           choices = list(
                                             "Total cases / 10 000 residents"="totale_casi.normPop",
                                             "Total cases"="totale_casi",
