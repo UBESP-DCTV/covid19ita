@@ -1,3 +1,5 @@
+* fix text in 20200404_magnani and 20200406_mort_veneto (#44)
+
 # covid19ita 0.35.1
 
 * fix internal data
