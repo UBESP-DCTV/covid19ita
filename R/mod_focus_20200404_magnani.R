@@ -176,8 +176,8 @@ mod_focus_20200404_magnani_ui <- function(id){
 
     fluidRow(box(width = 12,
       p(HTML("
-        Esaminando i comuni selezionati dall'Istat, si può osservare che
-        tutte le regioni presentano, in tali comuni, un aumento di entità variabile
+        Aggregando per regione i dati dei comuni selezionati dall'Istat,
+        tutte le regioni presentano un aumento di entità variabile
         nelle due classi di età più avanzate e la maggioranza delle
         regioni presenta anche un aumento nella prima classe di età,
         da 65 a 74 anni. Nella lettura del valore di variazione
@@ -226,7 +226,7 @@ mod_focus_20200404_magnani_ui <- function(id){
       ")),
 
       p(HTML("
-        Il numero di decessi nei comuni relativi all'indagine Istat
+        I decessi nei comuni relativi all'indagine Istat
         sono stati sommati assieme al fine di ottenere un dato regionale.
         I grafici che seguono (figura 3) presentano il numero totale di
         morti nel periodo 2015-2020 per regione. Le regioni sono state
