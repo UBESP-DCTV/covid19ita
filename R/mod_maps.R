@@ -58,9 +58,9 @@ mod_maps_ui <- function(id){
     # browseURL(tf2)
   }
 
-  date.list<-as.Date(unique(dpc_covid19_ita_province$data))
-  data.ultima<-max(date.list)
-   data.prima<-min(date.list)
+  dates.list<-as.Date(unique(dpc_covid19_ita_province$data))
+  data.ultima<-max(dates.list)
+   data.prima<-min(dates.list)
 
   tooltips<-list(scale.fixed="<b style='font-weight:bold; color:red;'>
            Fixed Scale</b><br>If checked, the scale will not change, but keep to the full range
@@ -76,6 +76,17 @@ mod_maps_ui <- function(id){
                  scale.residents="Will normalize per residents in the area and scale x1000 (i.e. number every 1000 residents).",
                  scale.funct_="Scales can be linear or transformed to lognormal to improve visualization of asymmetric (skewed) frequency distributions."
   )
+
+  helpTag<-tags$i (  class='fa fa-info-circle' ,  style='cursor:pointer;font-size: 30px; margin-top: 3px;margin-left: 4px;',
+                     onclick=sprintf('Shiny.onInputChange("%s", Math.random())  ',
+                                     ns("getHelp"))  )
+  iconTag<-tags$i (  class='fa fa-play-circle-o' , title="", style='cursor:pointer;font-size: 30px; margin-left: 4px; margin-top: 3px;',
+                     onclick=sprintf('$(this).toggleClass("fa-play-circle-o fa-pause-circle-o");
+                       Shiny.onInputChange("%s", {rand:Math.random(), state:$(this).attr("class")=="fa fa-pause-circle-o"});  ',
+                                     ns("isPlaying"))  )
+  htmltools::htmlDependencies(iconTag) <- htmltools::htmlDependency("font-awesome",
+                                                                    "5.3.1", "www/shared/fontawesome", package = "shiny",
+                                                                    stylesheet = c("css/all.min.css", "css/v4-shims.min.css"))
   ## Da qui in poi inserire il contenuto lato UI del modulo, in
   ## particolare la definizione degli input (ricordarsi di inserire i
   ## relativi id all'interno di una chiamata a `ns(<input_id>)`)
@@ -85,7 +96,6 @@ mod_maps_ui <- function(id){
     shinyjs::useShinyjs(),
 
     tags$head(
-      includeScript(app_sys('app/www/wNumb.min.js')),
       includeScript(app_sys('app/www/nouislider.min.js')),
       includeCSS(app_sys('app/www/nouislider.min.css')),
         tags$script(sprintf("
@@ -95,14 +105,14 @@ mod_maps_ui <- function(id){
       return new Date(str).getTime();
   }
   var dateSlider = document.getElementById('%s-dateRangeSlider');
-
+  maxNdates= %d;
   noUiSlider.create(dateSlider, {
       range: {
           min: 1,
-          max: %d
+          max: maxNdates
       },
       step:1,
-      start: [%d],
+      start: [maxNdates],
       pips: {
         mode: 'steps',
         density: 2
@@ -113,13 +123,8 @@ mod_maps_ui <- function(id){
     Shiny.onInputChange('%s-dateRangeChanged', e[0]);
   });
 
-  dateSlider.noUiSlider.on('change', function(e){
-    Shiny.onInputChange('%s-dateRangeChangeFinished',e[0] );
-  });
 });
-                    ", id, length(date.list),
-                            length(date.list),
-                          #  length(date.list),
+                    ", id, length(dates.list),
                             id, id ) ),
         tags$style(type="text/css",
                  sprintf("
@@ -129,8 +134,7 @@ mod_maps_ui <- function(id){
       .datepicker { z-index:999999999999  !important; }
       .selectize-dropdown{   z-index:9999999999 !important;  }
       .dropdown-menu{   z-index:9999999999 !important;  }
-      #shiny-notification-panel{ border:black; position:fixed;  bottom:10px;  width:100%%;}
-      .shiny-notification-warning{  opacity: 0.97; color:black; border: 1px solid black;
+      #shiny-notification-%s-initialNotification{ border:black; right: 10px; position:fixed;  bottom:10px; width: 50vw !important; min-width:400px  !important;   opacity: 0.97; color:black; border: 1px solid black;
       text-shadow: 0px 0px 15px black; }
       #%s-mymap {
         height:calc(100vh - 200px) !important;
@@ -139,47 +143,45 @@ mod_maps_ui <- function(id){
         border: 1px solid black;
         border-radius: 8px;
       }
-      #%s-date1 input.form-control  {
+      #%s-date1   {
         color: red !important;
+        width:180px;
         font-size: larger;
         margin: 0;
         background: darkgray;
-        padding: 15px;
-      }",  id, id))
+      }",  id, id, id, id))
     ),
     fluidRow(
       box(  div( id=ns("loader"), alt="",
-                 style="width:100%; position:fixed; text-align: center; z-index:9999999999;",
+                 style="left: 10px; right: 10px; position:fixed; text-align: center; z-index:9999999999;",
                  loader,
                  div( style='display: block; color:white; font-weight:bold;
                       text-shadow:0px 0px 8px black;',
                       "Loading Geodata...", div(id=ns("loader-text")) ) ),
 
             fluidRow(
-              column(4, style="font-weight:bold;",
-                     dateInput(ns("date1"), NULL, value = data.ultima, min = data.prima,
+              column(3, style="font-weight:bold; color:#2d5900a1; width:300px !important;",
+                    div(style="float:left;", dateInput(ns("date1"), NULL, value = data.ultima, min = data.prima,
                                max = data.ultima, format = 'DD dd MM yyyy') ),
-              column(3, div(  selectInput(ns("variableName"), NULL,
+                        iconTag, helpTag  ),
+              column(3, style=" width: 250px;", selectInput(ns("variableName"), NULL,
                                           choices = list(
                                             "Total cases / 10 000 residents"="totale_casi.normPop",
                                             "Total cases"="totale_casi",
                                             "Daily cases / 10 000 residents"="delta.normPop",
-                                            "Daily cases"="delta" ) ),
-
-                   )
-              ),
-              column(1,
-                     div(style=" ",
-                         checkboxInput( ns("scale.fixed"), label = "FixScale", value=T ) )
-              ),
-              column(2, title="Scales",
-                     selectInput(ns("scale.funct_"), NULL,  choices = functionList ) ),
-              column(2, title="Color Palette",
+                                            "Daily cases"="delta" )  ) ),
+              column(3, title="Scales", style="width: 190px;",
+                     div(style="float:left; margin-right:5px;",
+                         selectInput(ns("scale.funct_"), NULL, width=100,
+                                     choices = functionList ) ) ,
+                         checkboxInput( ns("scale.fixed"), label = "Fixed", value=T ) ),
+              column(2, title="Color Palette", style="min-width: 225px;width: 232px;",
                      shinyWidgets::pickerInput(ns("palette"), NULL,
                                                choices = names(paletteList.t),
                                                choicesOpt = list(content = paletteList.img) ) )
             ),
-            tags$div(     id= ns("dateRangeSlider")  ),
+             tags$div(    id= ns("dateRangeSlider")  ),
+
             leaflet::leafletOutput(ns("mymap")) ,
         title = HTML("Distribuzione geografica del numero di casi per provincia" ),
         footer = HTML(""),
@@ -277,9 +279,9 @@ mod_maps_server <- function(id) {
     ## NON vanno inseriti (a differenza della controparte in input)
     ## all'interno della chiamata a `ns()`) , options=leaflet::leafletOptions(preferCanvas = T)
 
-
     #### DRAW MAP ----------
     output$mymap <- leaflet::renderLeaflet(
+
       leaflet::leaflet(width="100%", height = 600  ) %>%
         htmlwidgets::onRender(sprintf("function(el, x) {
            %s_covidGroupname='%s';
@@ -345,6 +347,11 @@ mod_maps_server <- function(id) {
     ### CHANGE DATE ----
     observeEvent(input$dateRangeChanged, {
       updateDateInput(session, "date1", value= dates.list[[ as.integer(input[["dateRangeChanged"]]) ]] )
+    })
+
+    ### HELP PANEL ----
+    observeEvent(input$getHelp, {
+      sn(NULL)
     })
 
     ###  FIX LABEL  ----
@@ -441,30 +448,10 @@ mod_maps_server <- function(id) {
 
     #### DRAW POLYGONS FIRST RENDER ----------
     observeEvent(input$leaflet_rendered, {
-      cm<-current_palettFunction()
+
+      sn()
+      #cm<-current_palettFunction()
       fillColors<-cm.init(dt.filtered.init[["totale_casi.normPop"]])
-
-
-
-      showNotification(HTML(sprintf("
-      Drag the <b>slider above the map panel</b> to dynamically change day and color
-      over the date range (currently from %s to %s). This will simulate a <b style='color:#0700e8;'>timelapse</b> of spatial distribution of COVID-19 positive cases over Italian provinces.<br>
-      You can <b>switch color palette</b>  and convert <b>from linear to logarithmic scales</b>
-      to improve visualization when frequency distribution of values is strongly asymmetric/skewed.
-      <br><b>FixedScale option</b>: if selected the scale will not change when changing date,
-      but keep to the full range calculated from all values of the chosen variable accross
-      the full time-span. If unchecked, the scale will change every time a different day is chosen according to the day's values.
-      <hr style='margin:3px; color:#666;'>
-      <div style='width:100%% ; font-size:10px; text-align:center; '><a href='mailto:francesco.pirotti@unipd.it;'> Francesco Pirotti PhD - </a>,
-                           <a href='https://www.cirgeo.unipd.it' target=_blank>TESAF</a> /
-                      <a href='https://www.cirgeo.unipd.it' target=_blank>
-                      CIRGEO</a></div>
-
-
-                            ",  format(data.prima , "%A %e %B %yyyy"),
-                                    format(data.ultima, "%A %e %B %yyyy") ) ) ,
-                       duration = NULL, type ="warning")
-
 
 
       for(i in 1:length(province_polygons2019)){
@@ -510,7 +497,7 @@ mod_maps_server <- function(id) {
       req(input$leaflet_rendered,input$leaflet_rendered_all,
           input$variableName,
           input$date1,
-          input$palette,
+          input$palette, dates.list,
           (input[["scale.fixed"]]||(input[["scale.fixed"]]==F)) )
 
       ## trovo labels per ultima data
@@ -518,14 +505,13 @@ mod_maps_server <- function(id) {
       #print("triggered")
 
       dt.filtered<- current_data()
-      if( nrow(dt.filtered)<1 )
+      if(is.null(dt.filtered) ||  nrow(dt.filtered)<1 )
       {
         showNotification("No data found for selected day.",   duration = 15, type ="error")
         return(NULL)
       }
 
       fn<- dir.funct_[[ input[["scale.funct_"]] ]]
-
       cm<-current_palettFunction()
 
      # print(input$isLabelFixed)
@@ -543,7 +529,6 @@ mod_maps_server <- function(id) {
 
         templ<- ifelse( !is.element(input[["variableName"]],c("delta", "totale_casi") ),
                         "%s (%s)<br>%.2f" ,  "%s (%s)<br>%.0f"  )
-
         label <- sprintf(templ,
                          dt.filtered[["denominazione_provincia"]],
                          dt.filtered[["sigla_provincia"]],
@@ -560,42 +545,44 @@ mod_maps_server <- function(id) {
                           label )
 
       op<-isolate(input$currentWMSopacity )
-      labsize<-isolate(input$currentLabelSize )
-      labelBlackv<-isolate(input$currentLabelBlack )
-
-      labelBlack<-'white'
-      labelBlack2<-'black'
-      if(!is.null(labelBlackv) && labelBlackv) {
-        labelBlack<-'black'
-        labelBlack2<-'white'
-        }
 
       if(is.null(op)) op<-0.6
       else op<-as.integer(isolate(input$currentWMSopacity ))/100
 
-      if(is.null(labsize)) labsize<-11
-      else  labsize<-as.integer(isolate(input$currentLabelSize ))
+      goSlider<-""
+      if(!is.null(input$isPlaying) && input$isPlaying$state){
+        goSlider<-sprintf("
+        var dateSlider = document.getElementById('%s-dateRangeSlider');
+        var nv=parseInt(dateSlider.noUiSlider.get());
+        nv++;
+        if(nv>%d) nv=1;
+        console.log(nv);
+        dateSlider.noUiSlider.setHandle(0, nv, true); ", id, length(dates.list))
+      } else {
+        goSlider<-" "
+
+      }
 
       js<-sprintf("
               var valueMap = {%s};
               var layers = %s_mapElement.layerManager.getLayerGroup('%s').getLayers();
 
-             //console.log(layers[0]);
-             // var labels = %s_mapElement.layerManager.getLayerGroup('%s').getLayers();
               if(layers.length!= Object.keys(valueMap).length   ){
                  alert(layers.length+' OPS problem');
               } else {
                 for(var i=0; i < layers.length; i++) {
                    layers[i].setStyle({  'fillColor': valueMap[ layers[i].options.sigla ].col });
                    layers[i].setTooltipContent(  valueMap[ layers[i].options.sigla ].lab  );
-                   layers[i].redraw();
                 }
               }
+              %s
                      ",   paste(collapse=",",jsonString),
               id, basic.layerlist.list$overlayGroups$Casi_COVID19,
-              id ,  basic.layerlist.list$overlayGroups$Casi_COVID19labels, op
+              sprintf(goSlider, id)
       )
       shinyjs::runjs( js )
+
+
     })
 
 
@@ -615,7 +602,7 @@ mod_maps_server <- function(id) {
     })
 
 
-    #### palette and legend ----
+    #### current_palettFunction ----
     current_palettFunction <- reactive({
       dt<-current_data()
       req(dt,  input[["palette"]], input[["variableName"]], input[["scale.funct_"]])
@@ -629,11 +616,19 @@ mod_maps_server <- function(id) {
         print('problema')
         return(NULL)
       }
+      domain[is.infinite(domain)]<-0
 
-      pal<-leaflet::colorNumeric(
-        palette =   paletteList.t[[  input[["palette"]] ]] ,
-        domain =  domain
-      )
+      pal<- tryCatch({
+        leaflet::colorNumeric(
+          palette =   paletteList.t[[  input[["palette"]] ]] ,
+          domain =  domain
+        )
+      }, error=function(e) {
+        print(domain)
+      }, warning=function(w) {
+        print(w)
+      } )
+
 
       leaflet::leafletProxy("mymap") %>%
         leaflet::addLegend( "bottomright", pal = pal, values = domain,
@@ -646,6 +641,30 @@ mod_maps_server <- function(id) {
 
 
     })
+
+
+
+
+    sn<-function(dur=5) {
+      showNotification(id=ns("initialNotification"), HTML(sprintf("
+      Drag the <b>slider above the map panel</b> to dynamically change day and color
+      over the date range (currently from %s to %s). This will simulate a <b style='color:#0700e8;'>timelapse</b> of spatial distribution of COVID-19 positive cases over Italian provinces.<br>
+      You can <b>switch color palette</b>  and convert <b>from linear to logarithmic scales</b>
+      to improve visualization when frequency distribution of values is strongly asymmetric/skewed.
+      <br><b>FixedScale option</b>: if selected the scale will not change when changing date,
+      but keep to the full range calculated from all values of the chosen variable accross
+      the full time-span. If unchecked, the scale will change every time a different day is chosen according to the day's values.
+      <hr style='margin:3px; color:#666;'>
+      <div style='width:100%% ; font-size:10px; text-align:center; '><a href='mailto:francesco.pirotti@unipd.it;'> Francesco Pirotti PhD - </a>,
+                           <a href='https://www.cirgeo.unipd.it' target=_blank>TESAF</a> /
+                      <a href='https://www.cirgeo.unipd.it' target=_blank>
+                      CIRGEO</a></div>
+
+
+                            ",  format(data.prima , "%A %e %B %YY"),
+                                                                format(data.ultima, "%A %e %B %YY") ) ) ,
+                     duration = dur, type ="warning")
+    }
 
   })
 

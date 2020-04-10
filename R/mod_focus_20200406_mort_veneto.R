@@ -11,6 +11,28 @@ mod_focus_20200406_mort_veneto_ui <- function(id){
   ns <- NS(id)
   fluidPage(
     fluidRow(box(width = 12,
+
+                 p(HTML("
+        L'Istituto Nazionale di Statistica (Istat) ha messo a
+        disposizione su proprio sito web
+        (https://www.istat.it/it/archivio/240401) i risultati della
+        rilevazione della mortalità effettuata in 1084 comuni italiani,
+        con dati aggiornati al 21 marzo 2020.<sup>1</sup> I comuni veneti
+        inclusi in questo archivio sono 122.
+      ")),
+
+                 p(HTML("
+        Come comunicato sul sito dell'Istat,
+        sono stati considerati i comuni che \"presentano almeno dieci
+        decessi da gennaio al 28 marzo 2020 (perché meno esposti a eccessive
+        variazioni  nei  dati  giornalieri)  e che hanno  fatto  registrare
+        un  aumento  dei morti pari o superiore al 20 percento nei primi
+        21 o 28 giorni di marzo 2020, rispetto al dato medio dello
+        stesso periodo degli anni 2015-2019\"
+      ")),
+
+    )),
+    fluidRow(box(width = 12,
                  p(HTML("
         La mortalità complessiva costituisce un indicatore estremamente
         rilevante perché è poco suscettibile ad errori o difformità di
@@ -95,7 +117,9 @@ mod_focus_20200406_mort_veneto_ui <- function(id){
         L’indicatore della variazione percentuale tra il numero di
         morti osservate nel periodo dal 1 al 21 marzo 2019 e nel
         corrispondente periodo del 2020 è stato calcolato a partire dai
-        dati aggregati per provincia, sesso e classe di età. Sono state
+        dati aggregati per provincia, sesso e classe di età. In questo caso
+        l'aggregazione per provincia comprende soltanto i comuni di cui Istat
+        ha messo a disposizione i dati.Sono state
         usate le categorizzazioni presenti nella tabella fornita
         dall’Istat
         (https://www.istat.it/it/files//2020/03/Tavola-sintetica-decessi.xlsx).
@@ -150,7 +174,7 @@ mod_focus_20200406_mort_veneto_ui <- function(id){
         che è molto diversa tra le province a causa della diversa
         numerosità del campione. In alcune province una variazione
         appare importante ma è causata da piccoli numeri di morti in
-        più o in meno (Tabella 2).
+        più o in meno (Tabella 1).
       "))
     )),
 
@@ -187,6 +211,8 @@ mod_focus_20200406_mort_veneto_ui <- function(id){
       ")),
 
                  p(HTML("
+        I decessi nei comuni relativi all'indagine Istat
+        sono stati sommati assieme al fine di ottenere un dato provinciale.
         Il grafico che segue (figura 3) presenta il numero totale di
         morti nel periodo 2015-2020 per provincia.
       "))
@@ -202,7 +228,9 @@ mod_focus_20200406_mort_veneto_ui <- function(id){
                  p(HTML("
         I grafici seguenti (figura 4) presentano il confronto della
         mortalità negli anni dal 2015 al 2020, per provincia e classe di
-        età. Le classi di età sono state definite sulla base dei
+        età. Il numero di decessi nei comuni relativi all'indagine Istat
+        sono stati sommati assieme al fine di ottenere un dato provinciale.
+        Le classi di età sono state definite sulla base dei
         raggruppamenti con cui sono presentati i dati originali,
         e precisamente: fino a 64 anni (ottenuto sommando le due classi
         presenti nella tabella originale 0-14 e 15-64), da 65 a 74, 75
@@ -212,7 +240,7 @@ mod_focus_20200406_mort_veneto_ui <- function(id){
                  p(HTML("
         Si ricorda che i grafici presentano i numeri assoluti e quindi
         le differenze tra le province riflettono in primo luogo la
-        dimensione provinciale del campione.
+        dimensione dei comuni coinvolti dall'indagine Istat per provincia.
       "))
     )),
 
@@ -236,7 +264,7 @@ mod_focus_20200406_mort_veneto_ui <- function(id){
 
                  p(HTML("
         Per contribuire alla risposta a questo quesito sono stati usati
-        i dati nella tabella
+        i dati relativi ai 122 comuni veneti riportati nella tabella
         https://www.istat.it/it/files//2020/03/dati-comunali-settimanali-ANPR-1.zip,
         limitatamente ai dati per il periodo 1 gennaio – 21 marzo 2020.
         Nella tabella tali dati sono presentati suddivisi a ritroso in
