@@ -246,7 +246,9 @@ if (!all(are_ok)) {
 
   download.file(settimanale_url, tmp_sett, mode = 'wb')
 
-  comuni_settimana <- unzip(tmp_sett, "comuni_settimana.xlsx") %>%
+  comuni_settimana <- unzip(
+      tmp_sett, "comuni_settimana.xlsx", exdir = tempdir()
+    ) %>%
     readxl::read_xlsx() %>%
     janitor::clean_names() %>%
     dplyr::rename(
