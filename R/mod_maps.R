@@ -143,12 +143,12 @@ mod_maps_ui <- function(id){
         border: 1px solid black;
         border-radius: 8px;
       }
-      #%s-date1 input.form-control  {
+      #%s-date1   {
         color: red !important;
+        max-width:240px;
         font-size: larger;
         margin: 0;
         background: darkgray;
-        padding: 15px;
       }",  id, id, id, id))
     ),
     fluidRow(
@@ -452,7 +452,7 @@ mod_maps_server <- function(id) {
     observeEvent(input$leaflet_rendered, {
 
       sn()
-      cm<-current_palettFunction()
+      #cm<-current_palettFunction()
       fillColors<-cm.init(dt.filtered.init[["totale_casi.normPop"]])
 
 
@@ -604,7 +604,7 @@ mod_maps_server <- function(id) {
     })
 
 
-    #### palette and legend ----
+    #### current_palettFunction ----
     current_palettFunction <- reactive({
       dt<-current_data()
       req(dt,  input[["palette"]], input[["variableName"]], input[["scale.funct_"]])
@@ -618,11 +618,13 @@ mod_maps_server <- function(id) {
         print('problema')
         return(NULL)
       }
+      domain[is.nan(domain)]<-0
 
-      pal<-leaflet::colorNumeric(
-        palette =   paletteList.t[[  input[["palette"]] ]] ,
-        domain =  domain
-      )
+      pal<- leaflet::colorNumeric(
+          palette =   paletteList.t[[  input[["palette"]] ]] ,
+          domain =  domain
+        )
+
 
       leaflet::leafletProxy("mymap") %>%
         leaflet::addLegend( "bottomright", pal = pal, values = domain,
