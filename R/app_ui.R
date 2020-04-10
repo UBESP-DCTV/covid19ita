@@ -705,11 +705,11 @@ dashboard_body <- function() {dashboardBody(
     dashboard_home_body(),
 
   tabItem(tabName = "20200406MortVeneto",
-          h2("Analisi preliminare della mortalità generale in Veneto durante il periodo da 1 a 21 Marzo 2020."),
+          h2("Analisi preliminare della mortalità generale in 122 comuni veneti durante il periodo da 1 a 21 Marzo 2020."),
           mod_focus_20200406_mort_veneto_ui("mort_veneto")
   ),
   tabItem(tabName = "20200405Mort",
-          h2("Analisi preliminare della mortalità generale in Italia durante il periodo da 1 a 21 Marzo 2020."),
+          h2("Analisi preliminare della mortalità generale in 1084 comuni italiani durante il periodo da 1 a 21 Marzo 2020."),
           mod_focus_20200404_magnani_ui("mortality")
   ),
   tabItem(tabName = "20200331Comp",
