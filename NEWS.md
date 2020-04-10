@@ -1,5 +1,11 @@
 * fix translation of 20200406 mort_veneto and 20200404 magnani
 
+# covid19ita 0.36.0
+
+* update data
+* added animation to maps
+* fix text in 20200404_magnani and 20200406_mort_veneto (#44)
+
 # covid19ita 0.35.1
 
 * fix internal data
