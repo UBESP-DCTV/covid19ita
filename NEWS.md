@@ -1,3 +1,5 @@
+# covid19ita 0.36.0
+
 * update data
 * added animation to maps
 * fix text in 20200404_magnani and 20200406_mort_veneto (#44)
