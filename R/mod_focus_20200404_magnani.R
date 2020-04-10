@@ -21,6 +21,16 @@ mod_focus_20200404_magnani_ui <- function(id){
       ")),
 
       p(HTML("
+        Come comunicato sul sito dell'Istat,
+        sono stati considerati i comuni che \"presentano almeno dieci
+        decessi da gennaio al 28 marzo 2020(perché meno esposti a eccessive
+        variazioni  nei  dati  giornalieri)  e che hanno  fatto  registrare
+        un  aumento  dei morti pari o superiore al 20 percento nei primi
+        21 o 28 giorni di marzo 2020, rispetto al dato medio dello
+        stesso periodo degli anni 2015-2019\"
+      ")),
+
+      p(HTML("
         In sintesi sono compresi nella rilevazione 1084 comuni che
         includono complessivamente 6.177.016 uomini e 6.496.805 donne,
         così distribuiti per regione di residenza. La rappresentazione
@@ -118,9 +128,10 @@ mod_focus_20200404_magnani_ui <- function(id){
         L’indicatore della variazione percentuale tra il numero di
         morti osservate nel periodo dal 1 al 21 marzo 2019 e nel
         corrispondente periodo del 2020 è stato calcolato a partire dai
-        dati aggregati per regione, sesso e classe di età. Sono state
-        usate le categorizzazioni presenti nella tabella fornita
-        dall’Istat
+        dati aggregati per regione, sesso e classe di età. In questo caso
+        l'aggregazione per regione comprende soltanto i comuni di cui Istat
+        ha messo a disposizione i dati. Sono state usate le categorizzazioni
+        presenti nella tabella fornita dall’Istat
         (https://www.istat.it/it/files//2020/03/Tavola-sintetica-decessi.xlsx).
         Le classi di età considerate sono: 65-74 anni, 75-84 anni,
         85 anni e oltre, già presenti nei dati.
@@ -165,7 +176,8 @@ mod_focus_20200404_magnani_ui <- function(id){
 
     fluidRow(box(width = 12,
       p(HTML("
-        Tutte le regioni presentano un aumento, di entità variabile,
+        Esaminando i comuni selezionati dall'Istat, si può osservare che
+        tutte le regioni presentano, in tali comuni, un aumento di entità variabile
         nelle due classi di età più avanzate e la maggioranza delle
         regioni presenta anche un aumento nella prima classe di età,
         da 65 a 74 anni. Nella lettura del valore di variazione
@@ -214,6 +226,8 @@ mod_focus_20200404_magnani_ui <- function(id){
       ")),
 
       p(HTML("
+        Il numero di decessi nei comuni relativi all'indagine Istat
+        sono stati sommati assieme al fine di ottenere un dato regionale.
         I grafici che seguono (figura 3) presentano il numero totale di
         morti nel periodo 2015-2020 per regione. Le regioni sono state
         aggregate in due gruppi per migliorare la leggibilità dei
@@ -232,7 +246,9 @@ mod_focus_20200404_magnani_ui <- function(id){
       p(HTML("
         I grafici seguenti (figura 4) presentano il confronto della
         mortalità negli anni dal 2015 al 2020, per regione e classe di
-        età. Le classi di età sono state definite sulla base dei
+        età. Il numero di decessi nei comuni relativi all'indagine Istat
+        sono stati sommati assieme al fine di ottenere un dato regionale.
+        Le classi di età sono state definite sulla base dei
         raggruppamenti con cui sono presentati i dati originali,
         e precisamente: fino a 64 anni (ottenuto sommando le due classi
         presenti nella tabella originale 0-14 e 15-64), da 65 a 74, 75
@@ -242,7 +258,7 @@ mod_focus_20200404_magnani_ui <- function(id){
       p(HTML("
         Si ricorda che i grafici presentano i numeri assoluti e quindi
         le differenze tra le regioni riflettono in primo luogo la
-        dimensione regionale del campione.
+        dimensione dei comuni coinvolti dall'indagine Istat per regione.
       "))
     )),
 
@@ -266,7 +282,7 @@ mod_focus_20200404_magnani_ui <- function(id){
 
       p(HTML("
         Per contribuire alla risposta a questo quesito sono stati usati
-        i dati nella tabella
+        i dati relativi ai 1084 comuni riportati nella tabella
         https://www.istat.it/it/files//2020/03/dati-comunali-settimanali-ANPR-1.zip,
         limitatamente ai dati per il periodo 1 gennaio – 21 marzo 2020.
         Nella tabella tali dati sono presentati suddivisi a ritroso in
@@ -283,10 +299,11 @@ mod_focus_20200404_magnani_ui <- function(id){
       ")),
 
       p(HTML("
-        Si osserva da queste analisi un aumento della mortalità
+        Si osserva da queste analisi che vi è un aumento della mortalità
         generale a partire dalla settimana del 1 marzo in particolare
         nelle regioni maggiormente interessate dall’epidemia, ed in
-        particolare in Lombardia.
+        particolare in Lombardia. Si ricorda che è stato incluso in
+        queste analisi il campione di comuni selezionato dall'Istat.
       "))
 
     )),
