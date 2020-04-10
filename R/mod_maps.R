@@ -145,7 +145,7 @@ mod_maps_ui <- function(id){
       }
       #%s-date1   {
         color: red !important;
-        max-width:200px;
+        width:180px;
         font-size: larger;
         margin: 0;
         background: darkgray;
@@ -164,20 +164,18 @@ mod_maps_ui <- function(id){
                     div(style="float:left;", dateInput(ns("date1"), NULL, value = data.ultima, min = data.prima,
                                max = data.ultima, format = 'DD dd MM yyyy') ),
                         iconTag, helpTag  ),
-              column(3, style=" min-width: 222px;", div( style=" min-width: 222px;", selectInput(ns("variableName"), NULL,
+              column(3, style=" width: 250px;", selectInput(ns("variableName"), NULL,
                                           choices = list(
                                             "Total cases / 10 000 residents"="totale_casi.normPop",
                                             "Total cases"="totale_casi",
                                             "Daily cases / 10 000 residents"="delta.normPop",
-                                            "Daily cases"="delta" ) ),
-                   )
-              ),
+                                            "Daily cases"="delta" )  ) ),
               column(3, title="Scales", style="width: 190px;",
                      div(style="float:left; margin-right:5px;",
                          selectInput(ns("scale.funct_"), NULL, width=100,
                                      choices = functionList ) ) ,
                          checkboxInput( ns("scale.fixed"), label = "Fixed", value=T ) ),
-              column(2, title="Color Palette", style="min-width: 225px;",
+              column(2, title="Color Palette", style="min-width: 225px;width: 232px;",
                      shinyWidgets::pickerInput(ns("palette"), NULL,
                                                choices = names(paletteList.t),
                                                choicesOpt = list(content = paletteList.img) ) )
