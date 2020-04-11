@@ -1,3 +1,5 @@
+# covid19ita 0.37.0
+
 * all script creating data extracted by topic, recreate data
   independently link `.rds` in `data-raw`. Defined `data-TEMPLATE.R`
   as a template to create script for internal and exported data,
