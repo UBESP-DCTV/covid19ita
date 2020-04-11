@@ -21,16 +21,22 @@ knitr::opts_chunk$set(
 [![AppVeyor build status](https://ci.appveyor.com/api/projects/status/github/UBESP-DCTV/covid19ita?branch=master&svg=true)](https://ci.appveyor.com/project/CorradoLanera/covid19ita)
 [![Travis Build Status](https://travis-ci.com/UBESP-DCTV/covid19ita.svg?branch=master)](https://travis-ci.com/UBESP-DCTV/covid19ita)
 [![Codecov test coverage](https://codecov.io/gh/UBESP-DCTV/covid19ita/branch/master/graph/badge.svg)](https://codecov.io/gh/UBESP-DCTV/covid19ita?branch=master)
-[![Lifecycle: experimental](https://img.shields.io/badge/lifecycle-experimental-orange.svg)](https://www.tidyverse.org/lifecycle/#experimental)
 <!-- badges: end -->
+
+Lo scopo del pacchetto `{covid19ita}` è quello di fornire una
+piattaforma per il monitoraggio della diffusione dell'infezione da
+CoViD-19 in Italia.
 
 The goal of `{covid19ita}` is to provide a platform for the monitoring
 of COVID-19 infection diffusion in Italy.
 
-## Installation
+## Installazione/Installation
 
-You can install the development version of `{covid19ita}` from
-[GitHub](https://github.com/) with:
+È possibile installare la versione di sviluppo di `{covid19ita}` dal
+sorgente su [GitHub](https://github.com/) tramite l'istruzione:
+
+You can install the development version of `{covid19ita}` from the 
+source on [GitHub](https://github.com/) with:
 
 ``` r
 # install.packages("remotes")
@@ -41,10 +47,21 @@ remotes::install_github("UBESP-DCTV/covid19ita")
 
 <img src='inst/app/www/covid19ita_screen.png' align="center"/>
 
-**Last app update**: `r file.mtime(here::here("DESCRIPTION"))`.
+**Ultimo aggiornamento/Last app update**:
+`r file.mtime(here::here("DESCRIPTION"))`.
 
-You can visit the `covid19ita` Shiny App running on the UBEP servers
-[here](https://r-ubesp.dctv.unipd.it/shiny/covid19ita/).
+> È possibile visitare la Shiny App `covid19ita` ospitata e operante sui
+server UBEP ([Unità di Biostatistica, Epidemiologia e Sanità
+Pubblica](https://ubesp.jimdofree.com/)) [**QUI (versione
+italiana)**](https://r-ubesp.dctv.unipd.it/shiny/covid19ita/)
+
+È inoltre possibile eseguire una versione dell'app locale sul proprio
+computer tramite:
+
+> You can visit the `covid19ita` Shiny App hosted and running on the UBEP
+([Unit of Biostatistics, Epidemiology, and Public
+Health](https://ubesp.jimdofree.com/)) servers [**HERE (English
+version)**](https://r-ubesp.dctv.unipd.it/shiny/covid19italy/).
 
 You can also run a local version of the app from your computer with:
 
@@ -55,12 +72,18 @@ run_app()
 
 ## Data
 
-The package provide R versions of the three [official Italian COVID-19
+Il pacchetto `{covid19ita}` contiene le versioni R delle tre [basi di
+dati ufficiali](https://github.com/pcm-dpc/COVID-19/) con dettaglio a
+livello nazionale, regionale e provinciale.
+
+The `{covid19ita}` package provide R versions of the three [official Italian COVID-19
 datasets](https://github.com/pcm-dpc/COVID-19/) at national, regional
 and provincial level of detail.
 
-**Last data update**: `r covid19ita:::last_data_update`.
+**Ultimo aggiornamento dati/Last data update**:
+`r covid19ita:::last_data_update`.
 
+È possibile accedere ai dati tramite:
 
 Access the data with:
 
@@ -70,6 +93,9 @@ data(dpc_covid19_ita_andamento_nazionale) # national level data
 data(dpc_covid19_ita_regioni)             # regional level data
 data(dpc_covid19_ita_andamento_province)  # provincial level data
 ```
+
+È possibile accedere anche alla documentazione dei dati in uno dei
+seguenti modi:
 
 You can access to the data documentation with any of:
 
@@ -81,21 +107,29 @@ You can access to the data documentation with any of:
 ?dpc_covid19_ita
 ```
 
-## Data attribution
+## Attribuzione dei dati/Data attribution
 
-**License**:
+**Licenza/License**:
 [CC-BY-4.0](https://creativecommons.org/licenses/by/4.0/deed.en) -
-[Visualizza
-licenza](https://github.com/pcm-dpc/COVID-19/blob/master/LICENSE)
+[Visualizza licenza/View
+license](https://github.com/pcm-dpc/COVID-19/blob/master/LICENSE)
 
-**Dataset author/editor**: [Dipartimento della Protezione Civile](http://www.protezionecivile.it/)
-
-**Data provided by**: [Ministero della Salute](http://www.salute.gov.it/)
-
-**Original data processing and management by**: [Dipartimento della
+**Autore dei dati/Dataset author/editor**: [Dipartimento della
 Protezione Civile](http://www.protezionecivile.it/)
 
-## Code of Conduct
-Please note that the 'covid19ita' project is released with a
+**Fornitore dei dati/Data provided by**: [Ministero della
+Salute](http://www.salute.gov.it/)
+
+**Dati originariamente gestiti e processati da/Original data processing
+and management by**: [Dipartimento della Protezione
+Civile](http://www.protezionecivile.it/)
+
+## Codice di condotta/Code of Conduct
+
+Il progetto `covid19ita` è sviluppato con un [Codice di condotta per chi
+contribuisce](CODE_OF_CONDUCT.md). Dando il tuo contributo a questo
+progetto, accetti di rispettarne i termini.
+
+Please note that the `covid19ita` project is released with a
 [Contributor Code of Conduct](CODE_OF_CONDUCT.md).
 By contributing to this project, you agree to abide by its terms.

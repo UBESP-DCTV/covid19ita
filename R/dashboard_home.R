@@ -35,8 +35,8 @@ dashboard_home_body <- function() {
         width = 12,
         p(
           HTML("Il progetto <strong>covid19ita</strong> \u00E8  stato sviluppato dall'"),
-          a(href = "https://ubesp.jimdofree.com/", target = "_blank", "Unit\u00E0  di Biostatistica, Epidemiologia, e Sani\u00E0 ? Pubblica"),
-          " del ", a(href = "https://www.dctv.unipd.it/", target = "_blank", "Dipartimento di Scienze Cardio- Toraco- Vascolari e Sanit\u00E0  Pubblica"),
+          a(href = "https://ubesp.jimdofree.com/", target = "_blank", "Unit\u00E0  di Biostatistica, Epidemiologia, e Sanit\u00E0 Pubblica"),
+          " del ", a(href = "https://www.dctv.unipd.it/", target = "_blank", "Dipartimento di Scienze Cardio- Toraco- Vascolari e Sanit\u00E0 Pubblica"),
           " dell'", a(href = "https://www.unipd.it/", target = "_blank", "Universit\u00E0  degli Studi di Padova"), ",",
           " in collaborazione con il ", a(href = "https://www.dscb.unito.it/do/gruppi.pl/Tree", target = "_blank", "Dipartimento di Scienze Cliniche e Biologiche"),
           " dell'", a(href = "https://www.unito.it/", target = "_blank", "Universit\u00E0  degli Studi di Torino"), ",",
