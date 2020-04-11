@@ -1,3 +1,5 @@
+* remove doubles from app_ui (fix #46)
+
 # covid19ita 0.36.0
 
 * update data
