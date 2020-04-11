@@ -44,7 +44,7 @@ mod_maps_ui <- function(id){
 
   paletteList.img<-c()
   for( pal in paletteList.t){
-    png(tf1 <- tempfile(fileext = ".png"), width = 160, height=20)
+    png(tf1 <- tempfile(fileext = ".png"), width = 100, height=20)
     op <- par(mar = rep(0, 4))
     image(1:length(pal), 1, as.matrix(1:length(pal)),
           col = pal,
@@ -87,6 +87,8 @@ mod_maps_ui <- function(id){
   htmltools::htmlDependencies(iconTag) <- htmltools::htmlDependency("font-awesome",
                                                                     "5.3.1", "www/shared/fontawesome", package = "shiny",
                                                                     stylesheet = c("css/all.min.css", "css/v4-shims.min.css"))
+
+  cssPrefix<-ns('noUi-')
   ## Da qui in poi inserire il contenuto lato UI del modulo, in
   ## particolare la definizione degli input (ricordarsi di inserire i
   ## relativi id all'interno di una chiamata a `ns(<input_id>)`)
@@ -105,7 +107,7 @@ mod_maps_ui <- function(id){
       return new Date(str).getTime();
   }
   var dateSlider = document.getElementById('%s-dateRangeSlider');
-  maxNdates= %d;
+  var maxNdates= %d;
   noUiSlider.create(dateSlider, {
       range: {
           min: 1,
@@ -128,9 +130,11 @@ mod_maps_ui <- function(id){
                             id, id ) ),
         tags$style(type="text/css",
                  sprintf("
-      .noUi-pips-horizontal{    top:-2px !important; height:0px !important; color:#0000 !important; }
-      .noUi-value-sub{ color:#0000 !important; }
+      .noUi-pips-horizontal{    top:-2px !important; height:0px !important;   }
       .noUi-connects {background: #0006; }
+      .noUi-target {background: #000; }
+      .noUi-value { display:none; }
+      .noUi-marker{ background:#fff !important;  }
       .datepicker { z-index:999999999999  !important; }
       .selectize-dropdown{   z-index:9999999999 !important;  }
       .dropdown-menu{   z-index:9999999999 !important;  }
@@ -160,11 +164,11 @@ mod_maps_ui <- function(id){
                       "Loading Geodata...", div(id=ns("loader-text")) ) ),
 
             fluidRow(
-              column(3, style="font-weight:bold; color:#2d5900a1; width:300px !important;",
-                    div(style="float:left;", dateInput(ns("date1"), NULL, value = data.ultima, min = data.prima,
+              column(3, style="font-weight:bold; color:#2d5900a1;  width:300px !important;",
+                    div( style="float:left; ", dateInput(ns("date1"), NULL, value = data.ultima, min = data.prima,
                                max = data.ultima, format = 'DD dd MM yyyy') ),
                         iconTag, helpTag  ),
-              column(3, style=" width: 250px;", selectInput(ns("variableName"), NULL,
+              column(3, style=" width: 270px;", selectInput(ns("variableName"), NULL,
                                           choices = list(
                                             "Total cases / 10 000 residents"="totale_casi.normPop",
                                             "Total cases"="totale_casi",
@@ -175,7 +179,7 @@ mod_maps_ui <- function(id){
                          selectInput(ns("scale.funct_"), NULL, width=100,
                                      choices = functionList ) ) ,
                          checkboxInput( ns("scale.fixed"), label = "Fixed", value=T ) ),
-              column(2, title="Color Palette", style="min-width: 225px;width: 232px;",
+              column(3, title="Color Palette", style="width: 180px;",
                      shinyWidgets::pickerInput(ns("palette"), NULL,
                                                choices = names(paletteList.t),
                                                choicesOpt = list(content = paletteList.img) ) )
@@ -456,7 +460,8 @@ mod_maps_server <- function(id) {
 
       for(i in 1:length(province_polygons2019)){
         leaflet::leafletProxy("mymap") %>%
-          leaflet::addPolygons(data = province_polygons2019[i,], weight=1,
+          leaflet::addPolygons(data = province_polygons2019[i,],
+                               weight=0.5,
                                color="#FFFFFF",
                                fillColor=fillColors[[i]],
                                highlightOptions = leaflet::highlightOptions(stroke = T,
