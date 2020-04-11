@@ -1,3 +1,7 @@
+
+* extracted home from `eng-app_ui.R` to `eng_dashboard_home.R`
+* fix translation of 20200406 mort_veneto and 20200404 magnani
+
 # covid19ita 0.36.0
 
 * update data
