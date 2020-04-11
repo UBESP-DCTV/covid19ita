@@ -1,4 +1,12 @@
-* substitute all UTF8 chars with ASCII encodings
+* all script creating data extracted by topic, recreate data
+  independently link `.rds` in `data-raw`. Defined `data-TEMPLATE.R`
+  as a template to create script for internal and exported data,
+  and `data-INTERNAL.R`, and `data-EXPORTED.R` to collect the proper
+  ones and save them properly. Maximum (ie xz lev 9) compression
+  is set for internal data (fix #36)
+* update spellcheck
+* substitute all UTF8 chars with ASCII encodings, this way CMD check
+  throw no errors, nor wornings, nor notes (fix #2)
 * remove doubles from app_ui (fix #46)
 * update affiliations eng
 * extracted home from `eng-app_ui.R` to `eng_dashboard_home.R`

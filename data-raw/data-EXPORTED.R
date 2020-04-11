@@ -1,0 +1,19 @@
+dpc_covid19_ita_andamento_nazionale <- readr::read_rds(
+  here::here("data-raw/dpc_covid19_ita_andamento_nazionale.rds")
+)
+dpc_covid19_ita_regioni <- readr::read_rds(
+  here::here("data-raw/dpc_covid19_ita_regioni.rds")
+)
+dpc_covid19_ita_province <- readr::read_rds(
+  here::here("data-raw/dpc_covid19_ita_province.rds")
+)
+
+
+
+usethis::use_data(
+  dpc_covid19_ita_andamento_nazionale,
+  dpc_covid19_ita_regioni,
+  dpc_covid19_ita_province,
+
+  overwrite = TRUE
+)

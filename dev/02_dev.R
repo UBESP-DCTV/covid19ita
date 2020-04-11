@@ -66,7 +66,7 @@ golem::add_fct("mort_data_comuni")
 golem::add_fct("mort_data_veneto")
 golem::add_utils("plot_mort_data")
 golem::add_fct("clean_ggplotly")
-
+golem::add_utils("write_raw_rds")
 
 
 ## Update package documentation and namespace
