@@ -35,6 +35,7 @@ della
 denominata
 denominazione
 dev
+DF
 di
 dinamico
 Dipartimento
@@ -50,7 +51,10 @@ fase
 FG
 forniti
 friuli
+geo
 gestione
+ggplot
+ggplotly
 github
 hospitalised
 Hospitalised
@@ -65,13 +69,16 @@ ita
 ita’
 italia
 italian
+js
 licenza
 Licenza
 lifecycle
 Lifecycle
 LinkedIn
+Magnani
 metathis
 Ministero
+mort
 nazionale
 Novara
 Ogni
@@ -80,6 +87,7 @@ pcm
 picco
 piemonte
 Piemonte
+plotly
 Plotly
 plottly
 Protezione
@@ -94,9 +102,13 @@ repo
 shinydashboard
 sintomatici
 sono
+standardd
+stratas
 su
 tamponi
 terapie
+tibble
+tooltip
 Trentino
 Trento
 ui

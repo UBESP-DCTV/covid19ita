@@ -14,7 +14,7 @@ eng_mod_focus_20200404_magnani_ui <- function(id){
       p(HTML("
         Prof. <strong>Corrado Magnani</strong>
         <br>
-        Department of Translational Medicine – Università del Piemonte Orientale
+        Department of Translational Medicine -- Universit\u00E0 del Piemonte Orientale
       ")),
     )),
 
@@ -135,7 +135,7 @@ eng_mod_focus_20200404_magnani_ui <- function(id){
       p(HTML("
         change<sub>%</sub> =
           100 * (
-            deaths<sub>2020</sub> –
+            deaths<sub>2020</sub> --
             deaths<sub>2019</sub>
           ) /
           deaths<sub>2019</sub>
@@ -219,8 +219,8 @@ eng_mod_focus_20200404_magnani_ui <- function(id){
         deaths by region from 2015 to 2020. Regions were aggregated
         in two groups in order to enhance the readability of the
         graphs. The two groups are based on an Istat classification
-        that splits regions in “North Regions” and “South Central
-        Regions and Islands”.
+        that splits regions in \"North Regions\" and \"South Central
+        Regions and Islands\".
       "))
     )),
 
@@ -357,7 +357,7 @@ eng_mod_focus_20200404_magnani_server <- function(id) {
 
 
 
-  ## 3: mortalità prime tre settimane di marzo 2015-2020 ------------
+  ## 3: mortalit\u00E0  prime tre settimane di marzo 2015-2020 ------------
 
   data_year_marzo <- mort_data_comuni %>%
     dplyr::filter(

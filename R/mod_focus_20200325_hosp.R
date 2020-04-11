@@ -14,30 +14,30 @@ mod_focus_20200325_hosp_ui <- function(id){
     fluidRow(
       box(width = 12,
         p(
-          "Obiettivo è quello di avere un'aggiornamento sul
+          "Obiettivo \u00E8  quello di avere un'aggiornamento sul
            possibile effetto delle politiche sanitarie implementate in
-           Veneto a contenimento dell’epidemia COVID-19."
+           Veneto a contenimento dell'epidemia COVID-19."
         ),
         p(
-          "Si è confrontato l'andamento prevedibile in base ai dati al
+          "Si \u00E8  confrontato l'andamento prevedibile in base ai dati al
           12 marzo con l'andamento effettivamente riscontrato in Veneto, per
           capire se parte o tutte delle azioni implementate abbiano avuto un
           effetto plausibile di rallentamento sull'evolversi dell'epidemia."
         ),
         p(
-          "La Figura 1 mostra che vi è stato un rallentamento dopo il
-          12 marzo, giorno in cui si è osservato un changepoint
+          "La Figura 1 mostra che vi \u00E8  stato un rallentamento dopo il
+          12 marzo, giorno in cui si \u00E8  osservato un changepoint
           nell'andamento epidemico."),
         p(HTML(
           "In base a questo confronto (curva stimata al 24 marzo e dati
-          osservati nei giorni seguenti) è stato possibile stimare alcune
+          osservati nei giorni seguenti) \u00E8  stato possibile stimare alcune
           grandezze:</br>
           <ol>
-            <li>Il numero di ospedalizzazioni che si sono evitate al 24 marzo in Veneto: 561 (95% C.I. 533 – 589) (Figura 2)</li>
-            <li>Il rallentamento dell’evolversi della epidemia rispetto al previsto:
+            <li>Il numero di ospedalizzazioni che si sono evitate al 24 marzo in Veneto: 561 (95% C.I. 533 -- 589) (Figura 2)</li>
+            <li>Il rallentamento dell'evolversi della epidemia rispetto al previsto:
               <ul>
-                <li>3.23 (95% C.I. 2.53 - 3.93 giorni “guadagnati” a parità di livelli di ospedalizzazione, complessivamente al 24 marzo (Figura 3)</li>
-                <li>Rallentamento dell’epidemia al 24 marzo pari a 64.84 ospedalizzazioni/giorno (95% C.I. 61.06 – 68.63) (Figura 4)</li>
+                <li>3.23 (95% C.I. 2.53 - 3.93 giorni \"guadagnati\" a pit\u00E0 di livelli di ospedalizzazione, complessivamente al 24 marzo (Figura 3)</li>
+                <li>Rallentamento dell'epidemia al 24 marzo pari a 64.84 ospedalizzazioni/giorno (95% C.I. 61.06 -- 68.63) (Figura 4)</li>
               </ul>
             </li>
           </ol>"
@@ -47,22 +47,22 @@ mod_focus_20200325_hosp_ui <- function(id){
 
     fluidRow(
       box(width = 12, plotlyOutput(ns("fig1")),
-        title = "Figure 1. Ospedalizzazioni stimate (curva rossa in grassetto, le curve rosse non in grassetto indicano i livelli di confidenza al 95%.) in base all’andamento della epidemia al 12 marzo. Andamento osservato (punti verdi) nei giorni successivi."
+        title = "Figure 1. Ospedalizzazioni stimate (curva rossa in grassetto, le curve rosse non in grassetto indicano i livelli di confidenza al 95%.) in base all'andamento della epidemia al 12 marzo. Andamento osservato (punti verdi) nei giorni successivi."
       )
     ),
     fluidRow(
       box(width = 12, plotlyOutput(ns("fig2")),
-        title = "Figure 2. Numero di ospedalizzazioni evitate in Veneto rispetto all’andamento previsto al giorno 12 marzo. L’area grigia indica l’intervallo di confidenza al 95%)."
+        title = "Figure 2. Numero di ospedalizzazioni evitate in Veneto rispetto all'andamento previsto al giorno 12 marzo. L'area grigia indica l'intervallo di confidenza al 95%)."
       )
     ),
     fluidRow(
       box(width = 12, plotlyOutput(ns("fig3")),
-        title = "Figure 3. Giorni di “ritardo”, stimati in base allo shift a destra della curva di crescita (stimato al 12 marzo vs. osservato). L’area grigia indica l’intervallo di confidenza al 95%)."
+        title = "Figure 3. Giorni di \"ritardo\", stimati in base allo shift a destra della curva di crescita (stimato al 12 marzo vs. osservato). L'area grigia indica l'intervallo di confidenza al 95%)."
       )
     ),
     fluidRow(
       box(width = 12, plotlyOutput(ns("fig4")),
-        title = "Figure 4. Rallentamento dell’osservato rispetto al previsto al 12 marzo. L’area grigia indica l’intervallo di confidenza al 95%)."
+        title = "Figure 4. Rallentamento dell'osservato rispetto al previsto al 12 marzo. L'area grigia indica l'intervallo di confidenza al 95%)."
       )
     ),
 
@@ -70,13 +70,13 @@ mod_focus_20200325_hosp_ui <- function(id){
     fluidRow(
       box(width = 12, title = "Dati tecnici sulla stima del Modello",
         p("
-          La stima del modello è stata effettuata sulla serie del numero
-          di ospedalizzazioni osservate fino al 12 marzo. Tale giorno è stato
+          La stima del modello \u00E8  stata effettuata sulla serie del numero
+          di ospedalizzazioni osservate fino al 12 marzo. Tale giorno \u00E8  stato
           identificato in base ad un BCPDM (Bayesian Changepoint
           Detection Method) (1). Il modello di regressione polinomiale si
-          basa su un’approssimazione locale della funzione di regressione
-          (smoothing pari a 0.7). L’andamento della curva stimata si
-          adatta allo shape tendenzialmente quadratico dell’andamento
+          basa su un'approssimazione locale della funzione di regressione
+          (smoothing pari a 0.7). L'andamento della curva stimata si
+          adatta allo shape tendenzialmente quadratico dell'andamento
           epidemico nelle prime fasi della diffusione.
         "),
         p("
@@ -95,7 +95,7 @@ mod_focus_20200325_hosp_ui <- function(id){
       box(width = 12, title = "Bibliografia",
         p(HTML("
           <ol>
-            <li>Barry D, Hartigan JA. A Bayesian Analysis for Change Point Problems. J Am Stat Assoc. 1993;88(421):309–19.</li>
+            <li>Barry D, Hartigan JA. A Bayesian Analysis for Change Point Problems. J Am Stat Assoc. 1993;88(421):309--19.</li>
             <li>Brandenburg A. Quadratic growth during the 2019 novel coronavirus epidemic. 2020.</li>
           </ol>
         "))

@@ -1,13 +1,14 @@
+* substitute all UTF8 chars with ASCII encodings
 * remove doubles from app_ui (fix #46)
 * update affiliations eng
 * extracted home from `eng-app_ui.R` to `eng_dashboard_home.R`
-* fix translation of 20200406 mort_veneto and 20200404 magnani
+* fix translation of 20200406 mort_veneto and 20200404 Magnani
 
 # covid19ita 0.36.0
 
 * update data
 * added animation to maps
-* fix text in 20200404_magnani and 20200406_mort_veneto (#44)
+* fix text in 20200404_Magnani and 20200406_mort_veneto (#44)
 
 # covid19ita 0.35.1
 
@@ -17,7 +18,7 @@
 
 * improve internal (fix #38)
 * update map section
-* data udate
+* data update
 * extract home page from `app_ui.R` to `dashboard_home.R`
 * added CM and DF to home
 
@@ -28,16 +29,16 @@
 
 # covid19ita 0.33.1
 
-* fix traslation to eng 
+* fix translation to eng 
 
 # covid19ita 0.33.0
 
-* added geospatial module
+* added geo-spatial module
 * translate 20200406 mortality veneto
 
 # covid19ita 0.32.3
 
-* translate 20200404 magagni
+* translate 20200404 Magnani
 
 # covid19ita 0.32.2
 
@@ -56,7 +57,7 @@
 
 # covid19ita 0.31.0
 
-* added helper `ggmort()` as helper for standar dmortality plot
+* added helper `ggmort()` as helper for standardd mortality plot
 * added `clean_ggplotly()` to render plotly with reduced number of
   buttons
 * added internal weekly mortality 2015-2020 data from 
@@ -91,7 +92,7 @@
 * translation comparative piemonte veneto (#35)
 * consistent colour and names for levels eng (#33)
 * death and tests labels switched (#34)
-* fix English moduls changes for data naming
+* fix English modules changes for data naming
 * fix today focus date
 
 # covid19ita 0.26.0

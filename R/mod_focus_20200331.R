@@ -26,7 +26,7 @@ mod_focus_20200331_ui <- function(id) {
         p("
           Le due regioni hanno adottato approcci diversi nell'utilizzo
           del tampone naso-faringeo; il Piemonte ha applicato da subito
-          le direttive del Consiglio Superiore di Sanità e nelle prime
+          le direttive del Consiglio Superiore di Sanit\u00E0  e nelle prime
           fasi dell'epidemia ha sottoposto a tampone solamente le
           persone che presentavano segni clinici da covid-19, ma che al
           contempo avessero i criteri epidemiologici (contatto con
@@ -40,9 +40,9 @@ mod_focus_20200331_ui <- function(id) {
         "),
 
         p("
-          In data 8 marzo 2020 è stata dichiarata la zona rossa estesa a
+          In data 8 marzo 2020 \u00E8  stata dichiarata la zona rossa estesa a
           tutta Italia con conseguente lock-down (progressivo) della
-          circolazione e delle attività.
+          circolazione e delle attivit\u00E0.
         "),
 
         p("
@@ -50,35 +50,35 @@ mod_focus_20200331_ui <- function(id) {
           continuato a vedere un numero inferiore di casi in Piemonte,
           le curve del numero di ospedalizzazioni delle due regioni,
           prese in esame, hanno subito una netta biforcazione a carico
-          della Regione Piemonte, in cui si è osservato un aumento
+          della Regione Piemonte, in cui si \u00E8  osservato un aumento
           significativo dei pazienti ospedalizzati (Figura 2), e
           parimenti anche le curve relative al ricorso alle terapie
           intensive (Figura 3) e il numero di decessi si sono
-          distanziate nelle due realtà (Figura 4).
+          distanziate nelle due realt\u00E0  (Figura 4).
         "),
 
         p("
           La separazione delle curve di ospedalizzazione delle due
           regioni attorno al 12 marzo (quando il Piemonte ha cominciato
-          a crescere più rapidamente del Veneto, pur avendo
-          apparentemente meno casi) potrebbe essere l’effetto di un
+          a crescere pi\u00F9  rapidamente del Veneto, pur avendo
+          apparentemente meno casi) potrebbe essere l'effetto di un
           ridotto numero di tamponi che ha reso il numero delle persone
-          individuate molto più basso rispetto a quello reale,
-          sovrastimando il dato di letalità (morti per la
+          individuate molto pi\u00F9  basso rispetto a quello reale,
+          sovrastimando il dato di letalit\u00E0  (morti per la
           malattia/numero totale di affetti dalla malattia). La politica
-          del Veneto di fare subito più tamponi, probabilmente
-          stimolata dalla individuazione del primo focolaio di Vo’
+          del Veneto di fare subito pi\u00F9  tamponi, probabilmente
+          stimolata dalla individuazione del primo focolaio di Vo'
           Euganeo, ha incrementato, per lo meno nella fase iniziale,
-          la possibilità di isolare i positivi, andando così a
-          proteggere le fasce di età più a rischio e riducendo la
+          la possibilit\u00E0  di isolare i positivi, andando cos\u00EC  a
+          proteggere le fasce di et\u00E0  pi\u00F9  a rischio e riducendo la
           circolazione del virus ancora prima del lock-down
           dell'8 marzo. Questa dinamica di separazione delle curve di
-          crescita delle due regioni si è riprodotta sui decessi con uno
+          crescita delle due regioni si \u00E8  riprodotta sui decessi con uno
           shift temporale di 5/6 giorni.
         "),
 
         p(HTML("
-          Nella fase attuale dell’epidemia questo molto probabilmente
+          Nella fase attuale dell'epidemia questo molto probabilmente
           comporta che:
           <br>
           <ol>
@@ -88,36 +88,36 @@ mod_focus_20200331_ui <- function(id) {
             <li> quando la situazione peggiora i pazienti si recano in
                  PS dove, se positivi, vengono ricoverati e possono
                  finalmente iniziare una terapia;
-            <li> tuttavia iniziano la terapia più tardivamente di quanto
+            <li> tuttavia iniziano la terapia pi\u00F9  tardivamente di quanto
                  forse necessario per prevenire la progressione verso la
-                 ARDS e, probabilmente, l’uso tardivo del tocilizumab ha
-                 meno possibilità di successo;
+                 ARDS e, probabilmente, l'uso tardivo del tocilizumab ha
+                 meno possibilit\u00E0  di successo;
             <li> con conseguente aumento dei decessi.
           </ol>
         ")),
 
         p("
           La nostra analisi suggerisce che per modificare questa
-          sequenza di eventi e ridurre la necessità di ricovero e
-          soprattutto ottimizzare il ricorso alla terapia intensiva, è
+          sequenza di eventi e ridurre la necessit\u00E0  di ricovero e
+          soprattutto ottimizzare il ricorso alla terapia intensiva, \u00E8
           necessario implementare il numero delle diagnosi domiciliari,
-          estendendo l’indicazione all’esecuzione del tampone ai
+          estendendo l'indicazione all'esecuzione del tampone ai
           pazienti pauci-sintomatici. Questo consentirebbe non solo di
           ridurre i contagi ma anche di avviare una terapia
           antiinfiammatoria e/o antivirale a domicilio sotto il
-          controllo di equipe di medici dedicati, con l’intento di
+          controllo di equipe di medici dedicati, con l'intento di
           prevenire o almeno di attenuare e ritardare la progressione
-          della malattia, ridimensionando la letalità di covid-19. A
+          della malattia, ridimensionando la letalit\u00E0  di covid-19. A
           nostro avviso la gestione integrata tra ospedale e territorio
           potrebbe essere un approccio vincente.
         "),
 
         p("
-          *Hanno contribuito all’Interpretazione dei dati Carmen Fava,
+          *Hanno contribuito all'Interpretazione dei dati Carmen Fava,
           Giuseppe Saglio (Dipartimento di Scienze Cliniche e
-          Biologiche, Università di Torino) e Andrea Ricotti
-          (Dipartimento di Scienze della Sanità Pubblica e Pediatriche,
-          Università di Torino
+          Biologiche, Universit\u00E0  di Torino) e Andrea Ricotti
+          (Dipartimento di Scienze della Sanit\u00E0  Pubblica e Pediatriche,
+          Universit\u00E0  di Torino
         ")
       )
     ),
