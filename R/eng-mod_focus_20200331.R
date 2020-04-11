@@ -38,7 +38,7 @@ eng_mod_focus_20200331_ui <- function(id) {
         "),
 
         p("
-          On the 8th on March the so-called “Red Zone” was extended to the
+          On the 8th on March the so-called \"Red Zone\" was extended to the
           whole country placing Italy on lockdown, which led to a progressive
           reduction of circulation and everyday activities.
         "),
@@ -65,7 +65,7 @@ eng_mod_focus_20200331_ui <- function(id) {
           (deaths for the disease/people with the disease).The health
           policies implemented by the Veneto Region paid off. The Region
           decided to test more, probably motivated by the first outbreak
-          in Vo’ Euganeo, increasing, at least at the beginning, the
+          in Vo' Euganeo, increasing, at least at the beginning, the
           chances of finding and isolating positive cases, hence
           protecting the most vulnerable age groups and reducing the
           spread of the virus even before the lockdown of the 8th of
@@ -108,9 +108,9 @@ eng_mod_focus_20200331_ui <- function(id) {
         p("
           *The following people contributed to the interpretation of data:
           Carmen Fava, Giuseppe Saglio (Department of Clinical and Biological
-          Sciences, Università di Torino) and Andrea Ricotti
+          Sciences, Universit\u00E0  di Torino) and Andrea Ricotti
           (Department of Public Health and Pedriatic Sciences,
-          Università di Torino
+          Universit\u00E0  di Torino
         ")
       )
     ),

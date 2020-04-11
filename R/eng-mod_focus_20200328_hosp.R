@@ -31,11 +31,11 @@ eng_mod_focus_20200328_hosp_ui <- function(id){
             "Thanks to the comparison between the predicted and actual
           values it was possible to estimate some quantities:</br>
           <ol>
-            <li>The number of avoided hospitalizations in the Veneto region as of the 27th of March: 800 (95% C.I. 755 – 845) (Figure 2)</li>
-            <li>Il rallentamento dell’evolversi della epidemia rispetto al previsto:
+            <li>The number of avoided hospitalizations in the Veneto region as of the 27th of March: 800 (95% C.I. 755 -- 845) (Figure 2)</li>
+            <li>Il rallentamento dell'evolversi della epidemia rispetto al previsto:
               <ul>
-                <li>3.64 (95% C.I. 3.12 - 4.16) days were “gained” in terms of hospitalizations as of the 24th of March (Figure 3)</li>
-                <li>Rallentamento dell’epidemia al 27 marzo pari a 97.91 ospedalizzazioni/giorno (95% C.I. 94.33 – 101.48) (Figura 4)</li>
+                <li>3.64 (95% C.I. 3.12 - 4.16) days were \"gained\" in terms of hospitalizations as of the 24th of March (Figure 3)</li>
+                <li>Rallentamento dell'epidemia al 27 marzo pari a 97.91 ospedalizzazioni/giorno (95% C.I. 94.33 -- 101.48) (Figura 4)</li>
               </ul>
             </li>
           </ol>"
@@ -92,7 +92,7 @@ eng_mod_focus_20200328_hosp_ui <- function(id){
       box(width = 12, title = "References",
           p(HTML("
           <ol>
-            <li>Barry D, Hartigan JA. A Bayesian Analysis for Change Point Problems. J Am Stat Assoc. 1993;88(421):309–19.</li>
+            <li>Barry D, Hartigan JA. A Bayesian Analysis for Change Point Problems. J Am Stat Assoc. 1993;88(421):309--19.</li>
             <li>Brandenburg A. Quadratic growth during the 2019 novel coronavirus epidemic. 2020.</li>
           </ol>
         "))

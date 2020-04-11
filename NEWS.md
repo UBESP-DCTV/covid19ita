@@ -1,3 +1,4 @@
+* substitute all UTF8 chars with ASCII encodings
 * remove doubles from app_ui (fix #46)
 * update affiliations eng
 * extracted home from `eng-app_ui.R` to `eng_dashboard_home.R`

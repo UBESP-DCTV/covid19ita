@@ -74,10 +74,10 @@ dashboard_sidebar <- function() {dashboardSidebar(sidebarMenu(
 
 
   menuItem("In evidenza", icon = icon("bullseye"),
-    menuSubItem("2020-04-06 Mortalità Veneto", tabName = "20200406MortVeneto",
+    menuSubItem("2020-04-06 Mortalit\u00E0  Veneto", tabName = "20200406MortVeneto",
                 icon = icon("flag")
     ),
-    menuSubItem("2020-04-05 Mortalità", tabName = "20200405Mort",
+    menuSubItem("2020-04-05 Mortalit\u00E0", tabName = "20200405Mort",
                 icon = icon("flag")
     ),
     menuSubItem("2020-03-31 Comparativa", tabName = "20200331Comp",
@@ -151,15 +151,15 @@ dashboard_body <- function() {dashboardBody(
     dashboard_home_body(),
 
   tabItem(tabName = "20200406MortVeneto",
-          h2("Analisi preliminare della mortalità generale in 122 comuni veneti durante il periodo da 1 a 21 Marzo 2020."),
+          h2("Analisi preliminare della mortalit\u00E0  generale in 122 comuni veneti durante il periodo da 1 a 21 Marzo 2020."),
           mod_focus_20200406_mort_veneto_ui("mort_veneto")
   ),
   tabItem(tabName = "20200405Mort",
-          h2("Analisi preliminare della mortalità generale in 1084 comuni italiani durante il periodo da 1 a 21 Marzo 2020."),
+          h2("Analisi preliminare della mortalit\u00E0  generale in 1084 comuni italiani durante il periodo da 1 a 21 Marzo 2020."),
           mod_focus_20200404_magnani_ui("mortality")
   ),
   tabItem(tabName = "20200331Comp",
-          h2("Analisi comparativa tra Regione Piemonte e Regione Veneto dei dati epidemiologici relativi all’infezione da Covid-19."),
+          h2("Analisi comparativa tra Regione Piemonte e Regione Veneto dei dati epidemiologici relativi all'infezione da Covid-19."),
           mod_focus_20200331_ui("ven_pie")
   ),
   tabItem(tabName = "20200328Tot_hosp",
@@ -208,7 +208,7 @@ dashboard_body <- function() {dashboardBody(
   tabItem(tabName = "national",
     h2("Eventi nazionali"),
     box(width = 12, title = "Istruzioni",
-      p("È possibile attivare/disattivare la visualizzazione di una o più misure dal grafico facendo click sulle corrispondenti voci in legenda. Doppio-click per attivare/disattivare la visualizzazione esclusiva della voce selezionata."),
+      p("\u00C8  possibile attivare/disattivare la visualizzazione di una o pi\u00F9  misure dal grafico facendo click sulle corrispondenti voci in legenda. Doppio-click per attivare/disattivare la visualizzazione esclusiva della voce selezionata."),
       p("Fare click sul pulsante autoscale (terzo) per espandere il grafico alla massima grandezza interamente visionabile."),
     ),
     mod_ts_ita_ui("ts_nat_cum", title = "Serie storiche degli eventi cumulati"),
@@ -219,10 +219,10 @@ dashboard_body <- function() {dashboardBody(
   tabItem(tabName = "regional",
     h2("Eventi regionali"),
     box(width = 12, title = "Istruzioni",
-      p("È possibile aggiungere o rimuovere la computazione dei grafici per una o più regione/misura selezionandola o deselezionandola dal corrispondente box."),
-      p("NOTA: la misurazione dei tamponi effettuati è selezionabile ma disattivata di default in quanto fuori scala rispetto alle altre misure."),
+      p("\u00C8  possibile aggiungere o rimuovere la computazione dei grafici per una o pi\u00F9  regione/misura selezionandola o deselezionandola dal corrispondente box."),
+      p("NOTA: la misurazione dei tamponi effettuati \u00E8  selezionabile ma disattivata di default in quanto fuori scala rispetto alle altre misure."),
       p(""),
-      p("È possibile attivare/disattivare la visualizzazione di una o più regioni/misure dal grafico facendo click sulle corrispondenti voci in legenda. Doppio-click per attivare/disattivare la visualizzazione esclusiva della voce selezionata."),
+      p("\u00C8  possibile attivare/disattivare la visualizzazione di una o pi\u00F9  regioni/misure dal grafico facendo click sulle corrispondenti voci in legenda. Doppio-click per attivare/disattivare la visualizzazione esclusiva della voce selezionata."),
       p("Fare click sul pulsante autoscale (terzo) per espandere il grafico alla massima grandezza interamente visionabile."),
     ),
 
@@ -257,8 +257,8 @@ dashboard_body <- function() {dashboardBody(
 
   tabItem(tabName = "provincial",
     h2("Eventi provinciali"),
-    p("È possibile aggiungere o rimuovere la computazione dei grafici per una o più regione selezionandola o deselezionandola dal corrispondente box."),
-    p("È possibile attivare/disattivare la visualizzazione di una o più regioni dal grafico facendo click sulle corrispondenti voci in legenda. Doppio-click per attivare/disattivare la visualizzazione esclusiva della voce selezionata."),
+    p("\u00C8  possibile aggiungere o rimuovere la computazione dei grafici per una o pi\u00F9  regione selezionandola o deselezionandola dal corrispondente box."),
+    p("\u00C8  possibile attivare/disattivare la visualizzazione di una o pi\u00F9  regioni dal grafico facendo click sulle corrispondenti voci in legenda. Doppio-click per attivare/disattivare la visualizzazione esclusiva della voce selezionata."),
     p("Fare click sul pulsante autoscale (terzo) per espandere il grafico alla massima grandezza interamente visionabile."),
 
     h3("Serie storiche"),
@@ -284,7 +284,7 @@ dashboard_body <- function() {dashboardBody(
       'Tali dati sono inizialmente gestiti, processati e messi a disposizione dalla ',
       a(href = "http://www.protezionecivile.it/web/guest/home", target = "_blank", "Presidenza del Consiglio dei Ministri - Dipartimento di Protezione Civile"),
       ' con licenza ', a(href = "https://creativecommons.org/licenses/by/4.0/deed.en", target = "_blank", "CC-BY-4.0"),
-      'così come forniti dal ', a(href = "", target = "_blank", "Ministero della Salute.")
+      'cos\u00EC  come forniti dal ', a(href = "", target = "_blank", "Ministero della Salute.")
     ),
 
     p('Di norma, i dati sono aggiornati alle ore 18:00 di ogni giorno.'),
@@ -296,7 +296,7 @@ dashboard_body <- function() {dashboardBody(
     ),
 
     h2("Software"),
-    p(HTML("L'applicazione <strong>covid19ita</strong> è stata sviluppata in R ver. 3.6.3 come un suo pacchetto di espansione. Il codice sorgente del pacchetto e dell'applicazione è liberamente disponibile disponibile su GitHub all'indirizzo "),
+    p(HTML("L'applicazione <strong>covid19ita</strong> \u00E8  stata sviluppata in R ver. 3.6.3 come un suo pacchetto di espansione. Il codice sorgente del pacchetto e dell'applicazione\u00E8 ? liberamente disponibile disponibile su GitHub all'indirizzo "),
       a(href = 'https://github.com/UBESP-DCTV/covid19ita/', target = '_blank', 'https://github.com/UBESP-DCTV/covid19ita/'), "."
     ),
 
@@ -308,7 +308,7 @@ dashboard_body <- function() {dashboardBody(
 
     h3('Nota per gli utilizzatori di R'),
     p(
-      'Oltre a questa stessa applicazione in sé (che può essere eseguita localmente installando il pacchetto {covid19ita} ed eseguendo l\'istruzione `run_app()`), ll pacchetto R {covid19ita}, disponibile su ',
+      'Oltre a questa stessa applicazione in s\u00E9  (che pu\u00F2  essere eseguita localmente installando il pacchetto {covid19ita} ed eseguendo l\'istruzione `run_app()`), ll pacchetto R {covid19ita}, disponibile su ',
       a(href = 'https://github.com/UBESP-DCTV/covid19ita/', target = '_blank', 'GitHub'),
       ' e sviluppato anch\'esso sotto licenza ',
       a(href = "https://creativecommons.org/licenses/by/4.0/deed.en", target = "_blank", "CC-BY-4.0"),

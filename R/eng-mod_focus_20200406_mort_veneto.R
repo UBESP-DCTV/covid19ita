@@ -120,7 +120,7 @@ eng_mod_focus_20200406_mort_veneto_ui <- function(id){
                  p(HTML("
         change<sub>%</sub> =
           100 * (
-            deaths<sub>2020</sub> –
+            deaths<sub>2020</sub> --
             deaths<sub>2019</sub>
           ) /
           deaths<sub>2019</sub>
@@ -326,7 +326,7 @@ eng_mod_focus_20200406_mort_veneto_server <- function(id) {
 
 
 
-  ## 3: mortalità prime tre settimane di marzo 2015-2020 ------------
+  ## 3: mortalit\u00E0  prime tre settimane di marzo 2015-2020 ------------
 
   data_year_marzo_veneto <- mort_data_comuni %>%
     dplyr::filter(
@@ -402,8 +402,7 @@ eng_mod_focus_20200406_mort_veneto_server <- function(id) {
       .data$settimana,
       .data$classe_di_eta
     ) %>%
-    dplyr::summarise(decessi = sum(.data$n_death)) # %>%
-    # dplyr::filter(.data$classe_di_eta == "75 anni e più")
+    dplyr::summarise(decessi = sum(.data$n_death))
 
 
 
