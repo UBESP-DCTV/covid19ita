@@ -1,3 +1,5 @@
+* `README` update (#4)
+
 # covid19ita 0.37.0
 
 * all script creating data extracted by topic, recreate data
