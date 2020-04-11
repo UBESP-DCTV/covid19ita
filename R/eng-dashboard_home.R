@@ -80,7 +80,7 @@ eng_dashboard_home_body <- function() {
 
         p(
           HTML(
-            'Prof. <strong>Dolores Catelan</strong>, Ph.D., Department of
+            'Prof. <strong>Dolores Catelan</strong>, PhD, Department of
             Statistics, Computer Sciences, Applications "G. Parenti" (DISIA),
             Università degli Studi di Firenze'
           ),
@@ -119,14 +119,14 @@ eng_dashboard_home_body <- function() {
         ),
         p(
           HTML(
-            'Prof. <strong>Cristina Canova</strong>, Ph.D., Unit of
+            'Prof. <strong>Cristina Canova</strong>, PhD, Unit of
            Biostatistics, Epidemiology and Public Health of the Department
            of Cardiac, Thoracic and Vascular Sciences and Public Health --
            Università degli studi di Padova.'
           ),
           a(href = "https://www.linkedin.com/in/cristina-canova-05448861/", target = "_blank", "LinkedIn")
         ),
-        p(HTML("<strong>Elisa Gallo</strong>, MS., Unit of
+        p(HTML("<strong>Elisa Gallo</strong>, MSc, Unit of
            Biostatistics, Epidemiology and Public Health of the Department
            of Cardiac, Thoracic and Vascular Sciences and Public Health --
            Università degli studi di Padova."),
@@ -137,6 +137,33 @@ eng_dashboard_home_body <- function() {
            of Cardiac, Thoracic and Vascular Sciences and Public Health --
            Università degli studi di Padova."),
           a(href = "https://www.linkedin.com/in/francesco-garzotto-19907826/", target = "_blank", "LinkedIn")
+        )
+      ),
+
+      box(
+        width = 12, title = HTML("<strong>Geospatial Analysis e Cartographic Representation</strong>"),
+        p(
+          HTML("Prof. <strong>Francesco Pirotti</strong>, PhD,
+            Department of Territory and Agro-Forestry Systems (TESAF)
+            CIRGEO - Interdepartmental Centre of Geomatics Research."
+          ),
+          a(href = "https://www.linkedin.com/in/fpirotti", target = "_blank", "LinkedIn")
+        )
+      ),
+
+      box(
+        width = 12, title = HTML("<strong>Analysis of mortality</strong>"),
+        p(
+          HTML("Prof. <strong>Corrado Magnani</strong>, PhD,
+               Department of Translational Medicine --
+          Università del Piemonte Orientale, Novara."),
+          a(href = "https://www.linkedin.com/in/corrado-magnani-173a50108/", target = "_blank", "LinkedIn")
+        ),
+        p(
+          HTML("<strong>Daniela Ferrante</strong>, PhD,
+               Department of Translational Medicine --
+          Università del Piemonte Orientale, Novara."),
+          a(href = "https://www.linkedin.com/in/daniela-ferrante-05507494/", target = "_blank", "LinkedIn")
         )
       ),
 
@@ -161,16 +188,6 @@ eng_dashboard_home_body <- function() {
         )
       ),
 
-      box(
-        width = 12, title = HTML("<strong>Geospatial Analysis e Cartographic Representation</strong>"),
-        p(
-          HTML("Prof. <strong>Francesco Pirotti</strong>, Ph.D.,
-            Department of Territory and Agro-Forestry Systems (TESAF)
-            CIRGEO - Interdepartmental Centre of Geomatics Research."
-          ),
-          a(href = "https://www.linkedin.com/in/fpirotti", target = "_blank", "LinkedIn")
-        )
-      ),
 
       h2("Navigation instructions"),
       box(
