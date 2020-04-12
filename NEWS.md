@@ -1,3 +1,6 @@
+# covid19ita 0.38.0
+
+* update data dpc
 * `README` update (#4)
 
 # covid19ita 0.37.0

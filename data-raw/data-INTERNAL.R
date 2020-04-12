@@ -9,6 +9,8 @@ read_data_raw <- function(name) {
 
 # DPC CoViD-19 Ita ------------------------------------------------
 
+## to update it:
+## source(here::here("data-raw", "data-dpc_covid19_ita.R"))
 ## data_dpc()
 dpc_covid19_ita_andamento_nazionale <- read_data_raw(
   "dpc_covid19_ita_andamento_nazionale"
@@ -65,6 +67,9 @@ mort_data_comuni <- read_data_raw("mort_data_comuni")
 ## data_dictionary()
 dictionary <- read_data_raw("dictionary")
 
+
+
+# Save/Update all -------------------------------------------------
 
 
 usethis::use_data(
