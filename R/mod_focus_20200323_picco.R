@@ -21,12 +21,12 @@ mod_focus_20200323_picco_ui <- function(id){
   fluidPage(
     box(width = 12, title = "Informazioni sulla lettura e uso dei grafici",
       p('Nuovi casi giornalieri positivi italiani e regionali (punti in colore) e stima previsiva ipotizzando un andamento logistico (punti in nero).'),
-      p('È possibile visualizzare le variazioni di previsione in funzione dei paramentri selezionati, a partire da quelli di migliore approssimazione.'),
+      p('\u00C8  possibile visualizzare le variazioni di previsione in funzione dei paramentri selezionati, a partire da quelli di migliore approssimazione.'),
       p('Variando i paramentri nazionali rispetto a quelli di migliore approssimazione (escursione ammessa entro l\'intervallo di confidenza al 99%), varieranno modificati, in proporzione, i corrispondenti parametri per le stime regionali.'),
       actionButton(ns("reset"), "Rispristino parametri iniziali")
     ),
     fluidRow(
-      box(width = 4, footer = "Capacità portante popolazione: massimo numero di casi positivi che possono essere presenti per un tempo indefinito.",
+      box(width = 4, footer = "Capacit\u00E0  portante popolazione: massimo numero di casi positivi che possono essere presenti per un tempo indefinito.",
         sliderInput(ns("k"), "Parametro k",
           min = round(pred_val$k - 2.576 * pred_val$k_se),
           max = round(pred_val$k + 2.576 * pred_val$k_se),

@@ -31,11 +31,11 @@ eng_mod_focus_20200325_hosp_ui <- function(id){
           "Thanks to the comparison between the predicted and actual
           values it was possible to estimate some quantities:</br>
           <ol>
-            <li>The number of avoided hospitalizations in the Veneto region as of the 24th of March: 561 (95% C.I. 533 – 589) (Figure 2)</li>
+            <li>The number of avoided hospitalizations in the Veneto region as of the 24th of March: 561 (95% C.I. 533 -- 589) (Figure 2)</li>
             <li>How much the epidemic slowed down compared to what was expected:
               <ul>
-                <li>3.23 (95% C.I. 2.53 - 3.93) days were “gained” in terms of hospitalizations as of the 24th of March (Figure 3)</li>
-                <li>the epidemic velocity registered a drop of 64.84 hospitalizations/day (95% C.I. 61.06 – 68.63) (Figure 4)</li>
+                <li>3.23 (95% C.I. 2.53 - 3.93) days were \"gained\" in terms of hospitalizations as of the 24th of March (Figure 3)</li>
+                <li>the epidemic velocity registered a drop of 64.84 hospitalizations/day (95% C.I. 61.06 -- 68.63) (Figure 4)</li>
               </ul>
             </li>
           </ol>"
@@ -92,7 +92,7 @@ eng_mod_focus_20200325_hosp_ui <- function(id){
       box(width = 12, title = "References",
         p(HTML("
           <ol>
-            <li>Barry D, Hartigan JA. A Bayesian Analysis for Change Point Problems. J Am Stat Assoc. 1993;88(421):309–19.</li>
+            <li>Barry D, Hartigan JA. A Bayesian Analysis for Change Point Problems. J Am Stat Assoc. 1993;88(421):309--19.</li>
             <li>Brandenburg A. Quadratic growth during the 2019 novel coronavirus epidemic. 2020.</li>
           </ol>
         "))

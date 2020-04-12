@@ -14,7 +14,7 @@ eng_mod_focus_20200404_magnani_ui <- function(id){
       p(HTML("
         Prof. <strong>Corrado Magnani</strong>
         <br>
-        Department of Translational Medicine – Università del Piemonte Orientale
+        Department of Translational Medicine -- Universit\u00E0 del Piemonte Orientale
       ")),
     )),
 
@@ -25,6 +25,14 @@ eng_mod_focus_20200404_magnani_ui <- function(id){
       website (https://www.istat.it/it/archivio/240401) the mortality data
       of 1084 Italian municipalities, with data updated to the 21st of
       March 2020. 1.<sup>1</sup>
+      ")),
+
+      p(HTML("
+        As it is possible to see on the Istat website,
+        the municipalities that take part in this
+        analysis are the ones that counted at least 10 deaths in the period
+        1 January 2020 to 28 March 2020 and that registered a rise in mortality
+        of at least 20 % in the first 21 or 28 days of March 2020.
       ")),
 
       p(HTML("
@@ -114,7 +122,8 @@ eng_mod_focus_20200404_magnani_ui <- function(id){
       p(HTML("
         The percentage change in mortality (1-21 March 2019 vs 1-21
         March 2020) was estimated by region, sex and age aggregated
-        data. Data was categorized as in the table provided by Istat
+        data. Remember data only includes the municipalities provided
+        by Istat. Data was categorized as in the table provided by Istat
         (https://www.istat.it/it/files//2020/03/Tavola-sintetica-decessi.xlsx).
         Age categories are: 65-74, 75-84, over 85.
       ")),
@@ -126,7 +135,7 @@ eng_mod_focus_20200404_magnani_ui <- function(id){
       p(HTML("
         change<sub>%</sub> =
           100 * (
-            deaths<sub>2020</sub> –
+            deaths<sub>2020</sub> --
             deaths<sub>2019</sub>
           ) /
           deaths<sub>2019</sub>
@@ -203,12 +212,15 @@ eng_mod_focus_20200404_magnani_ui <- function(id){
       ")),
 
       p(HTML("
+        Deaths in all municipalities in the Istat database
+        belonging to the same region were summed together
+        in order to obtain the number of deaths by province.
         The graphs here below (Figure 3) show the number of total
         deaths by region from 2015 to 2020. Regions were aggregated
         in two groups in order to enhance the readability of the
         graphs. The two groups are based on an Istat classification
-        that splits regions in “North Regions” and “South Central
-        Regions and Islands”.
+        that splits regions in \"North Regions\" and \"South Central
+        Regions and Islands\".
       "))
     )),
 
@@ -269,7 +281,8 @@ eng_mod_focus_20200404_magnani_ui <- function(id){
         In this study it is possible to notice increased mortality
         starting from the week of the 1st of March, especially in those
         regions that are most affected by the epidemics (especially the
-        Lombardy Region)
+        Lombardy Region). Remind that the municipalities included in the
+        analysis are the ones made available by Istat.
       "))
 
     )),
@@ -344,7 +357,7 @@ eng_mod_focus_20200404_magnani_server <- function(id) {
 
 
 
-  ## 3: mortalità prime tre settimane di marzo 2015-2020 ------------
+  ## 3: mortalit\u00E0  prime tre settimane di marzo 2015-2020 ------------
 
   data_year_marzo <- mort_data_comuni %>%
     dplyr::filter(

@@ -30,11 +30,11 @@ eng_mod_focus_20200318_friuli_ui <- function(id){
             "Thanks to the comparison between the predicted and actual
           values it was possible to estimate some quantities:</br>
           <ol>
-            <li>1.	The number of avoided cases in the Veneto region as of the 14th of March: 118 (95% C.I. 102 – 135) (Figure 2)</li>
+            <li>1.	The number of avoided cases in the Veneto region as of the 14th of March: 118 (95% C.I. 102 -- 135) (Figure 2)</li>
             <li>2.	How much the epidemic is slowing down compared to what was expected:
               <ul>
-                <li>a.	1.61 (95% C.I. 0.57 - 2.66) days were “gained” as of the 14th of March (Figure 3)</li>
-                <li>b.	the epidemic velocity registered a drop equal to 44 cases/day (95% C.I. 40 – 47) (Figure 4)</li>
+                <li>a.	1.61 (95% C.I. 0.57 - 2.66) days were \"gained\" as of the 14th of March (Figure 3)</li>
+                <li>b.	the epidemic velocity registered a drop equal to 44 cases/day (95% C.I. 40 -- 47) (Figure 4)</li>
               </ul>
             </li>
           </ol>"
@@ -87,7 +87,7 @@ eng_mod_focus_20200318_friuli_ui <- function(id){
       box(width = 12, title = "References",
           p(HTML("
           <ol>
-            <li>Barry D, Hartigan JA. A Bayesian Analysis for Change Point Problems. J Am Stat Assoc. 1993;88(421):309–19.</li>
+            <li>Barry D, Hartigan JA. A Bayesian Analysis for Change Point Problems. J Am Stat Assoc. 1993;88(421):309--19.</li>
             <li>Brandenburg A. Quadratic growth during the 2019 novel coronavirus epidemic. 2020.</li>
           </ol>
         "))

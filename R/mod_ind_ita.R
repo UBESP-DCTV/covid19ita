@@ -70,12 +70,12 @@ mod_ind_ita_ui <- function(id){
     ),
     box(plotlyOutput(ns("titamponi")),
       width = 12,
-      title = "Andamento (fit loess, span = 1.5, degree = 2) regionale della percentuale di popolazione che, rispettivamente, è ricoverata in terapia intensiva (asse verticale) e non è (alla data considerata) ospedalizzata nonostante sia stata soggetta a tampone (dato approssimato dal numero totale di tamponi effettuati sottratti dei pazienti ospedalizzati), fino al giorno indicato dallo slider. È possibile riprodurre l'intero andamento dinamicamente in automatico tramite il tasto play.",
+      title = "Andamento (fit loess, span = 1.5, degree = 2) regionale della percentuale di popolazione che, rispettivamente, \u00E8  ricoverata in terapia intensiva (asse verticale) e non \u00E8 (alla data considerata) ospedalizzata nonostante sia stata soggetta a tampone (dato approssimato dal numero totale di tamponi effettuati sottratti dei pazienti ospedalizzati), fino al giorno indicato dallo slider. \u00C8  possibile riprodurre l'intero andamento dinamicamente in automatico tramite il tasto play.",
       footer = "NOTE: Le curve riportano andamento cumulato giornaliero sull'asse orizzontale (quindi non potranno mai 'tornare indietro') ma netto giornaliero su quello verticale (quindi possono sia 'salire' che 'scendere'). Importante notare che le curve sono 'temporalmente lunghe' tutte lo stesso numero di giorni (ovvero, dal 24 febbraio, alla data indicata dallo slider). Correndo lungo le curve, i punti si susseguono temporalmente, e ciascuno rappresenta i dati osservati nel giorno corrispondente."
     ),
     box(DT::DTOutput(ns("dt_tamponi")),
       width = 12,
-      title = "Tabella andamento regionale della percentuale di popolazione che, rispettivamente, è ricoverata in terapia intensiva (intensiva_pesati) e non è (alla data considerata) ospedalizzata nonostante sia stata soggetta a tampone (tamp_asint_pesati)."
+      title = "Tabella andamento regionale della percentuale di popolazione che, rispettivamente, \u00E8  ricoverata in terapia intensiva (intensiva_pesati) e non \u00E8 (alla data considerata) ospedalizzata nonostante sia stata soggetta a tampone (tamp_asint_pesati)."
     )
 
 

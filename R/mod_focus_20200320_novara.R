@@ -26,13 +26,22 @@ mod_focus_20200320_novara_ui <- function(id){
     ),
     fluidRow(
       box(width = 12, plotlyOutput(ns("fig2")),
-          title = "Scenario 2. Il secondo scenario basa le stime previsive su un modello GAM (Generalized additive model) con una spline naturale per tener conto della non linearità. Si riportano inoltre le stima per il totale casi con i relativi intervalli di confidenza al 95%."
+          title =
+            "Scenario 2. Il secondo scenario basa le stime previsive su
+          un modello GAM (Generalized additive model) con una spline
+          naturale per tener conto della non linearit\u00E0. Si riportano
+          inoltre le stima per il totale casi con i relativi intervalli
+          di confidenza al 95%."
       ),
       box(width = 12, DT::DTOutput(ns("data2")))
     ),
     fluidRow(
       box(width = 12, plotlyOutput(ns("fig3")),
-          title = "Scenario 3. Il terzo scenario basa le stime previsive su un modello di poisson con un offset sulla popolazione residente con una spline naturale per tener conto della non linearità. Si riportano inoltre le stima per il totale casi con i relativi intervalli di confidenza al 95%."
+          title = "Scenario 3. Il terzo scenario basa le stime previsive
+          su un modello di poisson con un offset sulla popolazione
+          residente con una spline naturale per tener conto della non
+          linearit\u00E0. Si riportano inoltre le stima per il totale casi
+          con i relativi intervalli di confidenza al 95%."
       ),
       box(width = 12, DT::DTOutput(ns("data3")))
     )

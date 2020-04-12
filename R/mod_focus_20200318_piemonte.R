@@ -13,31 +13,31 @@ mod_focus_20200318_piemonte_ui <- function(id){
     fluidRow(
       box(width = 12,
           p(
-            "Obiettivo è quello di avere una first-look impression sul
+            "Obiettivo \u00E8  quello di avere una first-look impression sul
             possibile effetto delle politiche sanitarie implementate in
-            Piemonte a contenimento dell’ epidemia COVID-19."
+            Piemonte a contenimento dell' epidemia COVID-19."
           ),
           p(
-            "Si è confrontato l’andamento prevedibile in base ai dati al
-            9 marzo con l’andamento effettivamente riscontrato in
+            "Si \u00E8  confrontato l'andamento prevedibile in base ai dati al
+            9 marzo con l'andamento effettivamente riscontrato in
             Piemonte, per capire se parte o tutte delle
             azioni implementate abbiano avuto un effetto plausibile di
-            rallentamento sull’evolversi dell’epidemia."
+            rallentamento sull'evolversi dell'epidemia."
           ),
           p(
-            "La Figura 1 mostra che vi è stato un rallentamento dopo il
-            9 marzo, giorno in cui si è osservato un changepoint
-            nell’andamento epidemico."),
+            "La Figura 1 mostra che vi \u00E8  stato un rallentamento dopo il
+            9 marzo, giorno in cui si \u00E8  osservato un changepoint
+            nell'andamento epidemico."),
           p(HTML(
             "In base a questo confronto (curva stimata al 9 marzo e
-            dati osservati nei giorni seguenti) è stato possibile
+            dati osservati nei giorni seguenti) \u00E8  stato possibile
             stimare alcune grandezze:</br>
           <ol>
-            <li>1.	Il numero di casi positivi che si sono evitati al 15 marzo in Piemonte: 545 (95% C.I. 461 – 629) (Figura 2)</li>
-            <li>2.	Il rallentamento dell’evolversi della epidemia rispetto al previsto:
+            <li>1.	Il numero di casi positivi che si sono evitati al 15 marzo in Piemonte: 545 (95% C.I. 461 -- 629) (Figura 2)</li>
+            <li>2.	Il rallentamento dell'evolversi della epidemia rispetto al previsto:
               <ul>
-                <li>a.	a.	2.43 (95% C.I. 1.59 -3.27) giorni “guadagnati” a parità di livelli di casi positivi, complessivamente al 15 marzo (Figura 3)</li>
-                <li>b.	b.	Rallentamento dell’epidemia al 15 marzo pari a 95 casi/giorno (95% C.I. 84 – 106).</li>
+                <li>a.	a.	2.43 (95% C.I. 1.59 -3.27) giorni \"guadagnati\" a parit\u00E0 di livelli di casi positivi, complessivamente al 15 marzo (Figura 3)</li>
+                <li>b.	b.	Rallentamento dell'epidemia al 15 marzo pari a 95 casi/giorno (95% C.I. 84 -- 106).</li>
               </ul>
             </li>
           </ol>"
@@ -47,22 +47,22 @@ mod_focus_20200318_piemonte_ui <- function(id){
 
     fluidRow(
       box(width = 12, plotlyOutput(ns("fig1")),
-          title = "Figure 1. Casi stimati (curva azzurra in grassetto) in base all’andamento della epidemia al 9 marzo. Andamento osservato (punti rossi) nei giorni successivi."
+          title = "Figure 1. Casi stimati (curva azzurra in grassetto) in base all'andamento della epidemia al 9 marzo. Andamento osservato (punti rossi) nei giorni successivi."
       )
     ),
     fluidRow(
       box(width = 12, plotlyOutput(ns("fig2")),
-          title = "Figure 2. Numero di casi evitati in Piemonte rispetto all’andamento previsto al giorno 9 marzo. L’area grigia indica l’intervallo di confidenza al 95%)."
+          title = "Figure 2. Numero di casi evitati in Piemonte rispetto all'andamento previsto al giorno 9 marzo. L'area grigia indica l'intervallo di confidenza al 95%)."
       )
     ),
     fluidRow(
       box(width = 12, plotlyOutput(ns("fig3")),
-          title = "Figure 3. Giorni di “ritardo”, stimati in base allo shift a destra della curva di crescita (stimato al 9 marzo vs. osservato). L’area grigia indica l’intervallo di confidenza al 95%)."
+          title = "Figure 3. Giorni di \"ritardo\", stimati in base allo shift a destra della curva di crescita (stimato al 9 marzo vs. osservato). L'area grigia indica l'intervallo di confidenza al 95%)."
       )
     ),
     fluidRow(
       box(width = 12, plotlyOutput(ns("fig4")),
-          title = "Figure 4. Rallentamento dell’osservato rispetto al previsto al 9 marzo. L’area grigia indica l’intervallo di confidenza al 95%)."
+          title = "Figure 4. Rallentamento dell'osservato rispetto al previsto al 9 marzo. L'area grigia indica l'intervallo di confidenza al 95%)."
       )
     ),
 
@@ -70,14 +70,14 @@ mod_focus_20200318_piemonte_ui <- function(id){
     fluidRow(
       box(width = 12, title = "Dati tecnici sulla stima del Modello",
           p("
-          La stima del modello è stata effettuata sulla serie del numero
-          di casi osservati fino al 9 marzo. Tale giorno è stato
+          La stima del modello \u00E8  stata effettuata sulla serie del numero
+          di casi osservati fino al 9 marzo. Tale giorno \u00E8  stato
           identificato in base ad un BCPDM (Bayesian Changepoint
           Detection Method) (1). Il modello di regressione polinomiale
-          si basa su un’approssimazione locale della funzione di
-          regressione (smoothing pari a 1.5).  L’andamento della curva
+          si basa su un'approssimazione locale della funzione di
+          regressione (smoothing pari a 1.5).  L'andamento della curva
           stimata si adatta allo shape tendenzialmente quadratico
-          dell’andamento epidemico nelle prime fasi della diffusione.
+          dell'andamento epidemico nelle prime fasi della diffusione.
         "),
           p("
           Recenti studi hanno dimostrato che la curva dei contagi dai
@@ -91,7 +91,7 @@ mod_focus_20200318_piemonte_ui <- function(id){
       box(width = 12, title = "Bibliografia",
           p(HTML("
           <ol>
-            <li>Barry D, Hartigan JA. A Bayesian Analysis for Change Point Problems. J Am Stat Assoc. 1993;88(421):309–19.</li>
+            <li>Barry D, Hartigan JA. A Bayesian Analysis for Change Point Problems. J Am Stat Assoc. 1993;88(421):309--19.</li>
             <li>Brandenburg A. Quadratic growth during the 2019 novel coronavirus epidemic. 2020.</li>
           </ol>
         "))

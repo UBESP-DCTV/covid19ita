@@ -24,8 +24,8 @@ mort_data_reg <- function(type = c("sex", "age")) {
     dplyr::summarise_if(is.numeric, sum, na.rm = TRUE) %>%
     dplyr::mutate(
       nome_reg = stringr::str_replace_all(.data$nome_reg, c(
-        "Trentino-Alto Adige/Südtirol" = "Trentino A.A.",
-        "Valle d'Aosta/Vallée d'Aoste" = "Valle d'Aosta",
+        "Trentino-Alto Adige/S.dtirol" = "Trentino A.A.",
+        "Valle d'Aosta/Vall.e d'Aoste" = "Valle d'Aosta",
         "Friuli-Venezia Giulia" = "Friuli Venezia Giulia"
       ))
     )
