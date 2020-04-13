@@ -1,3 +1,5 @@
+* fix map section in eng
+
 # covid19ita 0.38.0
 
 * update data dpc

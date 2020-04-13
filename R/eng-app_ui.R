@@ -321,7 +321,7 @@ eng_dashboard_body <- function() {dashboardBody(
 
  tabItem(tabName = "geo_spatialTot",
          # h1("Mappe 1"),
-         mod_maps_ui("geo_1")
+         eng_mod_maps_ui("geo_1")
  )
 
   ))}
