@@ -2,7 +2,17 @@
 
 ## to update it:
 ## source(here::here("data-raw", "data-dpc_covid19_ita.R"))
-## data_dpc()
+##
+
+# data to update --------------------------------------------------
+
+data_dpc()
+
+
+
+# data to include -------------------------------------------------
+
+
 dpc_covid19_ita_andamento_nazionale <- readr::read_rds(
   here::here("data-raw/dpc_covid19_ita_andamento_nazionale.rds")
 )

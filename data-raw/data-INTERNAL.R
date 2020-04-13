@@ -1,3 +1,5 @@
+# setup ===========================================================
+
 read_data_raw <- function(name) {
   readr::read_rds(
     here::here("data-raw", paste0(name, ".rds"))
@@ -5,13 +7,19 @@ read_data_raw <- function(name) {
 }
 
 
+# data to update --------------------------------------------------
+source(here::here("data-raw", "data-dpc_covid19_ita.R"), local = TRUE)
+data_dpc()
+
+
+
+
+# data to include =================================================
+
 
 
 # DPC CoViD-19 Ita ------------------------------------------------
 
-## to update it:
-## source(here::here("data-raw", "data-dpc_covid19_ita.R"))
-## data_dpc()
 dpc_covid19_ita_andamento_nazionale <- read_data_raw(
   "dpc_covid19_ita_andamento_nazionale"
 )
