@@ -1,3 +1,5 @@
+# covid19ita 0.39.0
+
 * data update
 * fix map section in eng (#49)
 
