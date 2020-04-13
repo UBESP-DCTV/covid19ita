@@ -8,7 +8,7 @@ read_data_raw <- function(name) {
 
 
 # data to update --------------------------------------------------
-source(here::here("data-raw", "data-dpc_covid19_ita.R"), local = TRUE)
+source(here::here("data-raw", "data-dpc_covid19_ita.R"))
 data_dpc()
 
 
