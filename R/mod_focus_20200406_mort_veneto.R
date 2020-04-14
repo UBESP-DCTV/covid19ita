@@ -30,7 +30,7 @@ mod_focus_20200406_mort_veneto_ui <- function(id){
         21 o 28 giorni di marzo 2020, rispetto al dato medio dello
         stesso periodo degli anni 2015-2019\".
         Il criterio di selezione introdotto da ISTAT porta ad una sovrastima
-        dell’aumento di mortalit\u00E0, per cui i dati che presentiamo devono essere
+        dell'aumento di mortalit\u00E0  per cui i dati che presentiamo devono essere
         intesi come i valori massimi prevedibili.
       ")),
 
