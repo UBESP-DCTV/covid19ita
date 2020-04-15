@@ -1,3 +1,9 @@
+# covid19ita 0.41.0
+
+* included focus on "Tests and hospitalization"
+* data update
+* fix text in 20200404_magnani and 20200406_mort_veneto for ita and eng
+
 # covid19ita 0.40.0
 
 * data update

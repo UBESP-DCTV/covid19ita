@@ -55,7 +55,7 @@ app_server <- function(input, output, session) {
     mod_focus_20200331_server("ven_pie")
     mod_focus_20200404_magnani_server("mortality")
     mod_focus_20200406_mort_veneto_server("mort_veneto")
-
+    mod_focus_20200415_tamponi_server("tamp_hosp")
 
     ## Geo-spatial
     mod_maps_server("geo_1")

@@ -25,6 +25,9 @@ eng_mod_focus_20200406_mort_veneto_ui <- function(id){
         analysis are the ones that counted at least 10 deaths in the period
         1 January 2020 to 28 March 2020 and that registered a rise in mortality
         of at least 20 % in the first 21 or 28 days of March 2020.
+        The selection criteria introduced by ISTAT causes an
+        overestimate of mortality. For this reason the numbers we present
+        here must be seen as the highest forseeable values.
       "))
     )),
 
