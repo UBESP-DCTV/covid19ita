@@ -35,10 +35,10 @@ eng_dashboard_header <- function() {dashboardHeader(
 
   dropdownMenu(type = "messages",
 messageItem(
-  from = "Maps",
-  message = "New map section",
+  from = "Highlights",
+  message = "Impact of testing on hospitalizations",
   icon = icon("search")
-  ),
+),
 messageItem(
   from = "Data",
   message = glue::glue("Data updated ({last_data_update})"),
@@ -68,6 +68,11 @@ eng_dashboard_sidebar <- function() {dashboardSidebar(sidebarMenu(
   menuItem("Home", tabName = "home", icon = icon("home")),
 
   menuItem("Highlights", icon = icon("bullseye"),
+
+    menuSubItem(text = "2020-04-15 Effects of testing", tabName = "20200415TampHosp",
+             icon = icon("flag")
+    ),
+
     menuSubItem("2020-04-06 Veneto Mortality", tabName = "20200406MortVeneto",
                 icon = icon("flag")
     ),
@@ -144,6 +149,11 @@ eng_dashboard_body <- function() {dashboardBody(
   tags$head(includeScript(app_sys('app/www/google-analytics.js'))),
   tabItems(
     eng_dashboard_home_body(),
+
+ tabItem(tabName = "20200415TampHosp",
+      h2("Impact of testing on hospitalizations"),
+      eng_mod_focus_20200415_tamponi_ui("tamp_hosp")
+    ),
 
  tabItem(tabName = "20200406MortVeneto",
 

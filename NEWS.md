@@ -1,3 +1,5 @@
+* translated 20200415_tamponi (close #54)
+
 # covid19ita 0.41.0
 
 * included focus on "Tests and hospitalization"
