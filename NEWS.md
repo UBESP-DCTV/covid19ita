@@ -1,5 +1,9 @@
 * fix text in 20200404_magnani and 20200406_mort_veneto for ita and eng
 
+# covid19ita 0.40.0
+
+* data update
+
 # covid19ita 0.39.0
 
 * data update
