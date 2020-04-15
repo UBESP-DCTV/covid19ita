@@ -1,3 +1,4 @@
+* included focus on "Tests and hospitalization"
 * data update
 * fix text in 20200404_magnani and 20200406_mort_veneto for ita and eng
 

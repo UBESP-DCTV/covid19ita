@@ -50,6 +50,7 @@ golem::add_module(name = "focus_20200331")
 golem::add_module(name = "focus_20200404_magnani")
 golem::add_module(name = "focus_20200406_mort_veneto")
 golem::add_module(name = "maps")
+golem::add_module(name = "focus_20200415_tamponi")
 
 
 ## Add helper functions ----
