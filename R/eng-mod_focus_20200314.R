@@ -223,7 +223,7 @@ eng_mod_focus_20200314_server <- function(id, region = "Veneto") {
 
   seq_len_m <- seq_len(which.max(y_fit))
 
-  evaluate_inverse_1 = stats::approxfun(
+  evaluate_inverse_1 <- stats::approxfun(
     n_seq_regione[seq_len_m] ~ y_fit[seq_len_m]
   )
 

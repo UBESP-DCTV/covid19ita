@@ -118,7 +118,11 @@ usethis::use_spell_check()
   if (file.exists(".lintr")) { file.remove(".lintr") }
 
   # List current lints
-  lintr::lint_package() %>%
+  lintr::lint_package(
+    linters = list(
+      lintr::assignment_linter
+    )
+  ) %>%
     as.data.frame %>%
     group_by(linter) %>%
     tally(sort = TRUE) %$%
