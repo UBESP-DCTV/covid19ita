@@ -175,8 +175,8 @@ eng_mod_focus_20200331_server <- function(id) {
         dplyr::lag(.data$totale_casi, default = 0)
     ) %>%
     # DRY: Do not Repeat yourself function `regional_poiss()` added to
-    #      the internal (not exported, nor tested) functions, in
-    #      `R/utils_regional_poiss.R`
+    #      the internal (not exported, nor tested) functions,
+    #      in `R/utils_regional_poiss.R`
     tidyr::nest() %>%
     ## all in a single nest call to save CPU time :-)
     dplyr::mutate(
@@ -315,7 +315,7 @@ eng_mod_focus_20200331_server <- function(id) {
 }
 
 ## To be copied in the UI
-# mod_focus_20200331_ui("focus_20200331_ui_1")
+#> mod_focus_20200331_ui("focus_20200331_ui_1")
 
 ## To be copied in the server
-# callModule(mod_focus_20200331_server, "focus_20200331_ui_1")
+#> callModule(mod_focus_20200331_server, "focus_20200331_ui_1")

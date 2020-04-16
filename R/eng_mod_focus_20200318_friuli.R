@@ -108,8 +108,6 @@ eng_mod_focus_20200318_friuli_ui <- function(id) {
 #' @noRd
 eng_mod_focus_20200318_friuli_server <- function(id, region = "Friuli Venezia Giulia") {
 
-  # data_plot <- mtcars[1:2]
-
   regione <- dpc_covid19_ita_regioni %>%
     dplyr::filter(
       .data$denominazione_regione == region,
@@ -376,7 +374,7 @@ eng_mod_focus_20200318_friuli_server <- function(id, region = "Friuli Venezia Gi
 }
 
 ## To be copied in the UI
-# mod_focus_20200318_friuli_ui("focus_20200318_friuli_ui_1")
+#> mod_focus_20200318_friuli_ui("focus_20200318_friuli_ui_1")
 
 ## To be copied in the server
-# callModule(mod_focus_20200318_friuli_server, "focus_20200318_friuli_ui_1")
+#> callModule(mod_focus_20200318_friuli_server, "focus_20200318_friuli_ui_1")

@@ -537,7 +537,7 @@ eng_mod_focus_20200404_magnani_server <- function(id) {
 }
 
 ## To be copied in the UI
-# mod_focus_20200404_magnani_ui("magnani_1")
+#> mod_focus_20200404_magnani_ui("magnani_1")
 
 ## To be copied in the server
-# mod_focus_20200404_magnani_server("magnani_1")
+#> mod_focus_20200404_magnani_server("magnani_1")

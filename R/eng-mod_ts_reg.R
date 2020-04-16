@@ -134,7 +134,7 @@ eng_mod_ts_reg_server <- function(id, type = c("cum", "inc"), color_var = c("mea
 }
 
 ## To be copied in the UI
-# mod_ts_reg_ui("ts_reg_ui_1")
+#> mod_ts_reg_ui("ts_reg_ui_1")
 
 ## To be copied in the server
-# mod_ts_reg_server("ts_reg_ui_1")
+#> mod_ts_reg_server("ts_reg_ui_1")

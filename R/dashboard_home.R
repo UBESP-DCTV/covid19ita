@@ -27,10 +27,6 @@ dashboard_home_body <- function() {
 
       p('Nota: sito ottimizzato per l\'uso da PC, in caso di utilizzo da cellulare o tablet si consiglia di tenere il dispositivo in modalit\u00E0  "orizzontale".'),
 
-      # box(width = 12, solidHeader = TRUE,
-      #   mod_img_header_ui("logo_testa")
-      # ),
-
       box(
         width = 12,
         p(

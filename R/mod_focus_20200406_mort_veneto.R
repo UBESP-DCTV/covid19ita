@@ -489,7 +489,7 @@ mod_focus_20200406_mort_veneto_server <- function(id) {
 }
 
 ## To be copied in the UI
-# mod_focus_20200406_mort_veneto_ui("magnani_1")
+#> mod_focus_20200406_mort_veneto_ui("magnani_1")
 
 ## To be copied in the server
-# mod_focus_20200406_mort_veneto_server("magnani_1")
+#> mod_focus_20200406_mort_veneto_server("magnani_1")

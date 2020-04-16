@@ -33,7 +33,7 @@ mod_img_header_server <- function(id, img_name) {
 }
 
 ## To be copied in the UI
-# mod_img_header_ui("img_header_ui_1")
+#> mod_img_header_ui("img_header_ui_1")
 
 ## To be copied in the server
-# callModule(mod_img_header_server, "img_header_ui_1")
+#> callModule(mod_img_header_server, "img_header_ui_1")

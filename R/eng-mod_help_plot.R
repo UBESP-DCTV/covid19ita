@@ -29,7 +29,7 @@ eng_mod_help_plot_server <- function(id) {
 }
 
 ## To be copied in the UI
-# mod_help_plot_ui("help_plot_ui_1")
+#> mod_help_plot_ui("help_plot_ui_1")
 
 ## To be copied in the server
-# callModule(mod_help_plot_server, "help_plot_ui_1")
+#> callModule(mod_help_plot_server, "help_plot_ui_1")

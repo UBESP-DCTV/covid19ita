@@ -114,8 +114,6 @@ eng_mod_focus_20200325_hosp_ui <- function(id) {
 #' @noRd
 eng_mod_focus_20200325_hosp_server <- function(id, region = "Veneto") {
 
-  # data_plot <- mtcars[1:2]
-
   regione <- dpc_covid19_ita_regioni %>%
     dplyr::filter(
       .data$denominazione_regione == region,
@@ -346,7 +344,7 @@ eng_mod_focus_20200325_hosp_server <- function(id, region = "Veneto") {
 }
 
 ## To be copied in the UI
-# mod_focus_20200325_hosp_ui("focus_20200325_ui_1")
+#> mod_focus_20200325_hosp_ui("focus_20200325_ui_1")
 
 ## To be copied in the server
-# callModule(mod_focus_20200325_hosp_server, "focus_20200325_ui_1")
+#> callModule(mod_focus_20200325_hosp_server, "focus_20200325_ui_1")

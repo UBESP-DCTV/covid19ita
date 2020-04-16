@@ -291,9 +291,6 @@ col_1 <- function(...) {
 
 # UNCOMMENT AND USE
 #
-# usethis::use_package("markdown")
-# usethis::use_package("rmarkdown")
-#
 # To use this part of the UI
 #
 #' #' Include Content From a File

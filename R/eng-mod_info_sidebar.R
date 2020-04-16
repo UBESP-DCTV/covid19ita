@@ -106,7 +106,7 @@ eng_mod_info_sidebar_server <- function(id) {
 }
 
 ## To be copied in the UI
-# mod_info_sidebar_ui("info_sidebar_ui_1")
+#> mod_info_sidebar_ui("info_sidebar_ui_1")
 
 ## To be copied in the server
-# callModule(mod_info_sidebar_server, "info_sidebar_ui_1")
+#> callModule(mod_info_sidebar_server, "info_sidebar_ui_1")

@@ -241,7 +241,7 @@ mod_focus_20200323_picco_server <- function(id) {
 }
 
 ## To be copied in the UI
-# mod_focus_20200323_picco_ui("focus_20200323_picco_ui_1")
+#> mod_focus_20200323_picco_ui("focus_20200323_picco_ui_1")
 
 ## To be copied in the server
-# callModule(mod_focus_20200323_picco_server, "focus_20200323_picco_ui_1")
+#> callModule(mod_focus_20200323_picco_server, "focus_20200323_picco_ui_1")

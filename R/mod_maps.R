@@ -54,9 +54,6 @@ mod_maps_ui <- function(id) {
 
     txt <- RCurl::base64Encode(readBin(tf1, "raw", file.info(tf1)[1, "size"]), "txt")
     palette_list_img <- c(palette_list_img, sprintf('<img src="data:image/png;base64,%s">', txt))
-
-    # cat(html, file = tf2 <- tempfile(fileext = ".html"))
-    # browseURL(tf2)
   }
 
   dates_list <- as.Date(unique(dpc_covid19_ita_province$data))
@@ -103,8 +100,6 @@ mod_maps_ui <- function(id) {
   ## particolare la definizione degli input (ricordarsi di inserire i
   ## relativi id all'interno di una chiamata a `ns(<input_id>)`)
   fluidPage(
-    ## sfruttare i `box()` per quanto possibile, ed eventuali
-    ## `fludRow()`
     shinyjs::useShinyjs(),
 
     tags$head(
@@ -231,16 +226,6 @@ mod_maps_ui <- function(id) {
 #' @noRd
 mod_maps_server <- function(id) {
 
-  ## Zona dedicata alle computazioni preliminari, non reattive
-  ## qui se possibile metterli su un "global.R" dato che sono identici per tutti
-  #### SNIPPET PER CREARE REGIONI
-  # region_polygons2019_poly<-maptools::unionSpatialPolygons(province_polygons2019, province_polygons2019$codice_regione)
-  # df<-data.frame(codice_regione=names(region_polygons2019_poly))
-  # rownames(df)<-df$codice_regione
-  # region_polygons2019 <- sp::SpatialPolygonsDataFrame(region_polygons2019_poly,df)
-
-
-
   dir.funct_ <- list(
     linear = function(x) {
       x + 1 - 1
@@ -328,12 +313,6 @@ mod_maps_server <- function(id) {
     ns <- session$ns
     leaflet_rendered_all <- FALSE
     is_label_fixed <- FALSE
-
-    # outputOptions(output,  "mymap", suspendWhenHidden = FALSE)
-    ## zona dedicata alle computazioni reattive del modulo, in
-    ## particolare la definizione degli output (ricordarsi che tali nomi
-    ## NON vanno inseriti (a differenza della controparte in input)
-    ## all'interno della chiamata a `ns()`) , options=leaflet::leafletOptions(preferCanvas = T)
 
     #### DRAW MAP ----------
     output$mymap <- leaflet::renderLeaflet(
@@ -503,7 +482,6 @@ mod_maps_server <- function(id) {
     #### DRAW POLYGONS FIRST RENDER ----------
     observeEvent(input$leaflet_rendered, {
       sn()
-      # cm<-current_palett_function()
       fill_colors <- cm_init(dt_filtered_init[["totale_casi_norm_pop"]])
 
 
@@ -524,10 +502,7 @@ mod_maps_server <- function(id) {
             opacity = 1, fillOpacity = 0.5,
             label = "",
             labelOptions = leaflet::labelOptions(# zIndex = 100,
-              # noHide = TRUE,
-              # textOnly = TRUE,
-              # permanent = TRUE,
-              style = list(
+            style = list(
                 "font-size" = "12px",
                 "font-weight" = "bold",
                 "color" = "black",
@@ -563,9 +538,6 @@ mod_maps_server <- function(id) {
       )
 
       ## trovo labels per ultima data
-
-      # print("triggered")
-
       dt_filtered <- current_data()
       if (is.null(dt_filtered) || nrow(dt_filtered) < 1) {
         showNotification("No data found for selected day.", duration = 15, type = "error")
@@ -575,7 +547,6 @@ mod_maps_server <- function(id) {
       fn <- dir.funct_[[input[["scale.funct_"]]]]
       cm <- current_palett_function()
 
-      # print(input$is_label_fixed)
       if (!is.null(input$is_label_fixed) && input$is_label_fixed) {
         templ <- ifelse(!is.element(input[["variableName"]], c("delta", "totale_casi")),
           "%.2f", "%.0f"
@@ -747,7 +718,7 @@ mod_maps_server <- function(id) {
 }
 
 ## To be copied in the UI
-# mod_maps_ui("maps_1")
+#> mod_maps_ui("maps_1")
 
 ## To be copied in the server
-# mod_maps_server("maps_1")
+#> mod_maps_server("maps_1")

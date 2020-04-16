@@ -27,10 +27,6 @@ eng_dashboard_home_body <- function() {
 
       p("Note: the website is optimized for computer viewing; in case of mobile or tablet viewing landscape mode is recommended."),
 
-      # box(width = 12, solidHeader = TRUE,
-      #   mod_img_header_ui("logo_testa")
-      # ),
-
       box(
         width = 12,
         p(

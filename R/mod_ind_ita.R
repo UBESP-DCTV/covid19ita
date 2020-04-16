@@ -257,7 +257,7 @@ mod_ind_ita_server <- function(id) {
 }
 
 ## To be copied in the UI
-# mod_indicators_ui("indicators_ui_1")
+#> mod_indicators_ui("indicators_ui_1")
 
 ## To be copied in the server
-# callModule(mod_indicators_server, "indicators_ui_1")
+#> callModule(mod_indicators_server, "indicators_ui_1")

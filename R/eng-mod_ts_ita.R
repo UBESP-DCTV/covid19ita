@@ -97,7 +97,7 @@ eng_mod_ts_ita_server <- function(id, type = c("cum", "inc")) {
 }
 
 ## To be copied in the UI
-# mod_ts_ita_ui("time_series_ui_1")
+#> mod_ts_ita_ui("time_series_ui_1")
 
 ## To be copied in the server
-# mod_ts_ita_server("time_series_ui_1", type = )
+#> mod_ts_ita_server("time_series_ui_1", type = )
