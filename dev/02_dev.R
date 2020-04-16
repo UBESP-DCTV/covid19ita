@@ -114,18 +114,18 @@ excluded_files <- c(
 
 my_linters  <-  lintr::with_defaults(
   line_length_linter = lintr::line_length_linter(72),
-  lintr::T_and_F_symbol_linter,
+  T_and_F_symbol_linter = lintr::T_and_F_symbol_linter,
   closed_curly_linter = lintr::closed_curly_linter(
     allow_single_line = TRUE
   ),
-  lintr::extraction_operator_linter,
-  lintr::absolute_path_linter,
-  lintr::nonportable_path_linter,
-  lintr::semicolon_terminator_linter,
-  lintr::undesirable_function_linter,
-  lintr::undesirable_operator_linter,
-  lintr::unneeded_concatenation_linter,
-  object_usage_lintr = NULL
+  extraction_operator_linter = lintr::extraction_operator_linter,
+  absolute_path_linter = lintr::absolute_path_linter,
+  nonportable_path_linter = lintr::nonportable_path_linter,
+  semicolon_terminator_linter = lintr::semicolon_terminator_linter,
+  undesirable_function_linter = lintr::undesirable_function_linter,
+  undesirable_operator_linter = lintr::undesirable_operator_linter,
+  unneeded_concatenation_linter = lintr::unneeded_concatenation_linter,
+  object_usage_linter = NULL
 )
 
   ### Do not edit after this line ###
@@ -137,7 +137,10 @@ my_linters  <-  lintr::with_defaults(
   if (file.exists(".lintr")) { file.remove(".lintr") }
 
   # List current lints
-  lintr::lint_package(linters = my_linters) %>%
+  lintr::lint_package(
+      linters = my_linters,
+      exclusions = excluded_files
+    ) %>%
     as.data.frame %>%
     group_by(linter) %>%
     tally(sort = TRUE) %$%

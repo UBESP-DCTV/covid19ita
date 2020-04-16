@@ -1,9 +1,14 @@
-* activate GitHub Actions for CI
+* activate lintr in Travis-CI
+* fix lintr check (all but `extraction_operator_linter` (1408 problems),
+  `line_length_linter` (913 problems), and `cyclocomp_linter`
+  (2 problems in *_mod_maps.R)).
+* activate GitHub Actions for CI.
 * activate pkgdown, including a GitHub action to automatically deploy
   the documentation's WEB site.
-* update README including information on how to contribute (resolve #56)
-* translated 20200415_tamponi (close #54)
-* refactored 20200415_tamponi (#54)
+* update README including information on how to contribute
+  (resolve #56).
+* translated 20200415_tamponi (close #54).
+* refactored 20200415_tamponi (#54).
 
 # covid19ita 0.41.0
 

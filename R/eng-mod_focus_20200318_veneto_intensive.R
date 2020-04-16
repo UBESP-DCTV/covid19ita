@@ -119,7 +119,6 @@ eng_mod_0318_intensive_server <- function(id) {
     data_to_use <- reactive({
       req(input$n_days)
 
-      leading_nas <- rep(NA, input$n_days - 1)
 
       real <- c(
         db_full[["totale_casi_real"]],

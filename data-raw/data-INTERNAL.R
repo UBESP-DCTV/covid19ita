@@ -99,7 +99,7 @@ usethis::use_data(
   plottly_help_txt,
 
   # maps
-  paletteList.t,
+  palette_list_t,
 
 
   # mortalità

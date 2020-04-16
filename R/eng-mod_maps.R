@@ -226,7 +226,7 @@ eng_mod_maps_ui <- function(id) {
 #' @noRd
 eng_mod_maps_server <- function(id) {
 
-  dir.funct_ <- list(
+  dir_funct_ <- list(
     linear = function(x) {
       x + 1 - 1
     },
@@ -545,7 +545,7 @@ eng_mod_maps_server <- function(id) {
         return(NULL)
       }
 
-      fn <- dir.funct_[[input[["scale.funct_"]]]]
+      fn <- dir_funct_[[input[["scale.funct_"]]]]
       cm <- current_palett_function()
 
       if (!is.null(input$is_label_fixed) && input$is_label_fixed) {
@@ -644,7 +644,7 @@ eng_mod_maps_server <- function(id) {
       dt <- current_data()
       req(dt, input[["palette"]], input[["variableName"]], input[["scale.funct_"]])
 
-      fn <- dir.funct_[[input[["scale.funct_"]]]]
+      fn <- dir_funct_[[input[["scale.funct_"]]]]
 
       if (!input[["scale.fixed"]]) {
         domain <- fn(dt[[input[["variableName"]]]])
