@@ -1,3 +1,4 @@
+* activate GitHub Actions for CI
 * activate pkgdown, including a GitHub action to automatically deploy
   the documentation's WEB site.
 * update README including information on how to contribute (resolve #56)
