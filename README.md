@@ -31,6 +31,9 @@ maturing](https://img.shields.io/badge/lifecycle-maturing-blue.svg)](https://www
 
 [![Codecov test
 coverage](https://codecov.io/gh/UBESP-DCTV/covid19ita/branch/master/graph/badge.svg)](https://codecov.io/gh/UBESP-DCTV/covid19ita?branch=master)
+
+[![CII Best
+Practices](https://bestpractices.coreinfrastructure.org/projects/3892/badge)](https://bestpractices.coreinfrastructure.org/projects/3892)
 <!-- badges: end -->
 
 Lo scopo del pacchetto `{covid19ita}` è quello di fornire una
@@ -57,7 +60,7 @@ remotes::install_github("UBESP-DCTV/covid19ita")
 
 <img src='inst/app/www/covid19ita_screen.png' align="center"/>
 
-**Ultimo aggiornamento/Last app update**: 2020-04-16 23:29:55.
+**Ultimo aggiornamento/Last app update**: 2020-04-17 00:01:27.
 
 > È possibile visitare la Shiny App `covid19ita` ospitata e operante sui
 > server UBEP ([Unità di Biostatistica, Epidemiologia e Sanità

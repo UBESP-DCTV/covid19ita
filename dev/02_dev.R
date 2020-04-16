@@ -98,6 +98,8 @@ usethis::use_spell_check()
 ## Quality ----
 
 ## styler
+#
+## run this only once!!
 {# Create configuration file for lintr
   # Source this file in package root directory
   # List here files to exclude from lint checking, as a character vector
@@ -109,8 +111,6 @@ excluded_files <- c(
   list.files("pkgdown",   recursive = TRUE, full.names = TRUE),
   list.files("vignettes", recursive = TRUE, full.names = TRUE)
 )
-
-# styler::style_pkg(exclude_files = excluded_files)
 
 my_linters  <-  lintr::with_defaults(
   line_length_linter = lintr::line_length_linter(72),
@@ -159,6 +159,12 @@ my_linters  <-  lintr::with_defaults(
   # Clean up workspace
   remove(excluded_files)
 }
+
+## after setup of .lint file
+lintr::lint_package()
+
+# styler::style_pkg(exclude_files = excluded_files)
+
 
 # You're now set! ----
 # go to dev/03_deploy.R

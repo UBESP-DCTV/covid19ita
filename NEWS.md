@@ -1,3 +1,5 @@
+* added cii best practice badge
+* update data
 * activate lintr on Travis-CI and GitHub Actions
 * fix lintr check (all but `extraction_operator_linter` (1408 problems),
   `line_length_linter` (913 problems), and `cyclocomp_linter`
