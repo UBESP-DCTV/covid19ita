@@ -326,8 +326,8 @@ mod_maps_server <- function(id) {
 
   callModule(id = id, function(input, output, session) {
     ns <- session$ns
-    leaflet_rendered_all <- F
-    isLabelFixed <- F
+    leaflet_rendered_all <- FALSE
+    isLabelFixed <- FALSE
 
     # outputOptions(output,  "mymap", suspendWhenHidden = FALSE)
     ## zona dedicata alle computazioni reattive del modulo, in
@@ -400,7 +400,7 @@ mod_maps_server <- function(id) {
         leaflet::addLayersControl(
           baseGroups = basic.layerlist$baseGroups,
           overlayGroups = basic.layerlist$overlayGroups,
-          options = leaflet::layersControlOptions(collapsed = F)
+          options = leaflet::layersControlOptions(collapsed = FALSE)
         )
     )
 
@@ -514,11 +514,11 @@ mod_maps_server <- function(id) {
             color = "#FFFFFF",
             fillColor = fillColors[[i]],
             highlightOptions = leaflet::highlightOptions(
-              stroke = T,
+              stroke = TRUE,
               weight = 3
             ),
             options = leaflet::pathOptions(
-              interactive = T,
+              interactive = TRUE,
               sigla = province_polygons2019$SIGLA[[i]]
             ),
             opacity = 1, fillOpacity = 0.5,
@@ -559,7 +559,7 @@ mod_maps_server <- function(id) {
         input$variableName,
         input$date1,
         input$palette, dates.list,
-        (input[["scale.fixed"]] || (input[["scale.fixed"]] == F))
+        (input[["scale.fixed"]] || (input[["scale.fixed"]] == FALSE))
       )
 
       ## trovo labels per ultima data
