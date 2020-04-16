@@ -15,3 +15,6 @@ $run_dev.*
 ^appveyor\.yml$
 ^app\.R$
 ^rsconnect$
+^_pkgdown\.yml$
+^docs$
+^pkgdown$
