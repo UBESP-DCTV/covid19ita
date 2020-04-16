@@ -1,7 +1,8 @@
+`{covid19ita}`
+<img src='man/figures/logo-laims.jpg' align='right' height='120' /><img src='man/figures/logo-ubep.png' align='right' height='120' />
+================
 
 <!-- README.md is generated from README.Rmd. Please edit that file -->
-
-# `{covid19ita}` <img src='man/figures/logo-laims.jpg' align="right" height="120" /><img src='man/figures/logo-ubep.png' align="right" height="120" />
 
 <!-- badges: start -->
 
@@ -45,7 +46,7 @@ remotes::install_github("UBESP-DCTV/covid19ita")
 
 <img src='inst/app/www/covid19ita_screen.png' align="center"/>
 
-**Ultimo aggiornamento/Last app update**: 2020-04-16 14:45:38.
+**Ultimo aggiornamento/Last app update**: 2020-04-16 23:11:15.
 
 > È possibile visitare la Shiny App `covid19ita` ospitata e operante sui
 > server UBEP ([Unità di Biostatistica, Epidemiologia e Sanità
