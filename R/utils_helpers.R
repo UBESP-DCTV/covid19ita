@@ -17,7 +17,7 @@ measures <- function(
   lang <- match.arg(lang)
 
   res <- sort(switch(level,
-    national = ,
+    national =,
     regional = c(
       "ricoverati_con_sintomi", "terapia_intensiva",
       "totale_ospedalizzati", "isolamento_domiciliare",
