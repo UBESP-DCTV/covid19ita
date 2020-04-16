@@ -1,4 +1,5 @@
 * translated 20200415_tamponi (close #54)
+* refactored 20200415_tamponi (#54)
 
 # covid19ita 0.41.0
 
