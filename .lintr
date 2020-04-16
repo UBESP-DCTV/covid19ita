@@ -3,7 +3,7 @@ linters: with_defaults(
     closed_curly_linter = closed_curly_linter(
       allow_single_line = TRUE
     ),
-    # T_and_F_symbol_linter,
+    T_and_F_symbol_linter,
     # extraction_operator_linter,
     absolute_path_linter,
     nonportable_path_linter,
@@ -17,7 +17,6 @@ linters: with_defaults(
     object_name_linter = NULL, # 76
     object_usage_linter = NULL, # 73
     object_length_linter = NULL, # 29
-    paren_brace_linter = NULL, # 21
     dummy_linter = NULL
   )
 exclusions: list(

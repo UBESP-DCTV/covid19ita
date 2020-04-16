@@ -304,7 +304,7 @@ col_1 <- function(...) {
 #' #' @importFrom rmarkdown render
 #' #' @importFrom markdown markdownToHTML
 #' #' @importFrom htmltools HTML
-#' includeRMarkdown <- function(path){
+#' includeRMarkdown <- function(path) {
 #'
 #'   md <- tempfile(fileext = '.md')
 #'

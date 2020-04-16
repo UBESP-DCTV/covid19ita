@@ -112,7 +112,7 @@ mod_maps_ui <- function(id) {
       includeCSS(app_sys("app/www/nouislider.min.css")),
       tags$script(sprintf(
         "
-  $(document).ready(function(){
+  $(document).ready(function() {
 
   function timestamp(str) {
       return new Date(str).getTime();
@@ -132,7 +132,7 @@ mod_maps_ui <- function(id) {
     }
   });
 
-  dateSlider.noUiSlider.on('update', function(e){
+  dateSlider.noUiSlider.on('update', function(e) {
     Shiny.onInputChange('%s-dateRangeChanged', e[0]);
   });
 
@@ -343,8 +343,8 @@ mod_maps_server <- function(id) {
            %s_covidGroupname='%s';
            %s_mapElement=this;
            var count=0;
-            function %s_onLayerAddFunction(e){
-                 if(typeof(e.layer.options) !=='undefined' && e.layer.options.group== %s_covidGroupname ){
+            function %s_onLayerAddFunction(e) {
+                 if(typeof(e.layer.options) !=='undefined' && e.layer.options.group== %s_covidGroupname ) {
                     count++;
                     if(count>105) {
                       count=0;
@@ -356,19 +356,19 @@ mod_maps_server <- function(id) {
 
            Shiny.onInputChange('%s-leaflet_rendered', true);
            this.on('layeradd', %s_onLayerAddFunction);
-           this.on('baselayerchange', function(e){
+           this.on('baselayerchange', function(e) {
               Shiny.onInputChange('%s-baselayerChanged', e.name );
             });
-           this.on('overlayadd', function(e){
+           this.on('overlayadd', function(e) {
               Shiny.onInputChange('%s-layerAdded', {name:e.name, ran:Math.random() } );
             });
-            this.on('overlayremove', function(e){
+            this.on('overlayremove', function(e) {
               Shiny.onInputChange('%s-layerRemoved', {name:e.name, ran:Math.random() } );
             });
 
            $(\".leaflet-control-layers-overlays > label:nth-child(1) > div:nth-child(1)\").append(\"<input style='width: 100px;' title='change transparency to layer' id='%s_opacitySlider' type='range' value='50' step='1'  >\");
 
-           $('#%s_opacitySlider').on('input', function(x){
+           $('#%s_opacitySlider').on('input', function(x) {
               var oo = %s_mapElement;
               var pp = oo.layerManager.getLayerGroup(%s_covidGroupname);
               vv=$(this).val();
@@ -429,7 +429,7 @@ mod_maps_server <- function(id) {
                  var tt2=L.tooltip(tt.options);
                  tt2.options.direction='center';
                  tt2.options.style.color=layers[i].options.color;
-                 if(tt2.options.style.color=='black'){
+                 if(tt2.options.style.color=='black') {
                   tt2.options.style['text-shadow']='0px 0px 7px white';
                  } else {
                   tt2.options.style['text-shadow']='0px 0px 7px black';
@@ -635,7 +635,7 @@ mod_maps_server <- function(id) {
               var valueMap = {%s};
               var layers = %s_mapElement.layerManager.getLayerGroup('%s').getLayers();
 
-              if(layers.length!= Object.keys(valueMap).length   ){
+              if(layers.length!= Object.keys(valueMap).length   ) {
                  alert(layers.length+' OPS problem');
               } else {
                 for(var i=0; i < layers.length; i++) {
