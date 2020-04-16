@@ -1,3 +1,4 @@
+* update README including information on how to contribute (resolve #56)
 * translated 20200415_tamponi (close #54)
 * refactored 20200415_tamponi (#54)
 
