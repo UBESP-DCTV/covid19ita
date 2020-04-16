@@ -658,12 +658,10 @@ mod_maps_server <- function(id) {
       domain[is.infinite(domain)] <- 0
 
       pal <- tryCatch(
-        {
-          leaflet::colorNumeric(
-            palette = palette_list_t[[input[["palette"]]]],
-            domain = domain
-          )
-        },
+        leaflet::colorNumeric(
+          palette = palette_list_t[[input[["palette"]]]],
+          domain = domain
+        ),
         error = function(e) {
           print(domain)
         },

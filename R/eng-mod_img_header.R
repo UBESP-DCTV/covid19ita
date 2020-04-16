@@ -19,16 +19,13 @@ eng_mod_img_header_server <- function(id, img_name) {
   callModule(id = id, function(input, output, session) {
     ns <- session$ns
 
-    output$img <- renderImage(
-      {
+    output$img <- renderImage({
         list(
           src = app_sys(glue::glue("app/www/{img_name}")),
           contentType = "image/png",
           alt = stringr::str_remove(img_name, "\\.[^\\.]{3,}$")
         )
-      },
-      deleteFile = FALSE
-    )
+      }, deleteFile = FALSE)
   })
 }
 
