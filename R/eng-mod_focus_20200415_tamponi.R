@@ -7,29 +7,29 @@
 #' @noRd
 #'
 #' @importFrom shiny NS tagList
-mod_focus_20200415_tamponi_ui <- function(id){
+eng_mod_focus_20200415_tamponi_ui <- function(id){
   ns <- NS(id)
   fluidPage(
     fluidRow(
       box(
         p(HTML("
-          Per valutare il potenziale impatto dell'uso dei tamponi
-          abbiamo confrontato le regioni Veneto e Piemonte che hanno
-          seguito modelli diversi.</br>
+          The Veneto region and the Piemonte region followed two
+          different testing policies. In order to estimate the impact
+          of a more wide testing policy we compared these two regions. </br>
 
-          In particolare, abbiamo provato ad applicare al Piemonte il
-          modello Veneto.
+          In particular we tried to apply to the Piemonte region the
+          model embraced by the Veneto region.
         ")),
 
         p(HTML("
-          La Figura 1 mostra che sulla base dei totale casi Piemonte
-          e Veneto dovrebbero avere circa lo stesso numero di
-          ospedalizzazioni: nella seguente figura questo \u00E8 rappresentato
-          dalle due curve rossa e verde quasi sovrapposte.</br>
+          Figure 1 shows that, based on the number of confirmed cases,
+          the two regions should register more or less the same number
+          of hospitalizations: it the figure here below this is represented
+          by the green and the red curve, which are almost overlapping.   </br>
 
-          Eppure se visualizziamo sul grafico anche il dato reale degli
-          ospedalizzati, osserviamo che in Piemonte (circoletti rossi)
-          questo \u00E8 molto pi\u00F9 elevato che per il Veneto.
+          Still, if we take a look at the real data we can see that
+          the Piemonte region (red dots) actually registers a much
+          higher number of hospitalizations then the Veneto region.
         ")),
 
         width = 12
@@ -38,21 +38,22 @@ mod_focus_20200415_tamponi_ui <- function(id){
       box(
         plotlyOutput(ns("fig_1")),
         width = 12,
-        footer = "Figura 1: Modello Veneto applicato al Piemonte senza
-          tenere conto del dato relativo ai tamponi effettuati.
-          In Piemonte (curva rossa) il numero di ospedalizzazioni
-          attese secondo il modello dovrebbe essere simile a quello del
-          Veneto (curva verde), ma si discosta molto dato osservato
-          (circoletti rossi)"
+        footer = "Figure 1: The Veneto model applied to the Piemonte
+          region not accounting for the number of swabs performed.
+          In the Piemonte region (red curve) the expected number
+          of hospitalizations according to the model should
+          follow a trend very similar to the one shown by the
+          Veneto region. In reality, the observed trend is very
+          different form the expected one."
       ),
 
       box(
         p(HTML("
-          Se nel modello inseriamo anche il numero di tamponi effettuati
-          nel corso del tempo, come riportato in Figura 2, osserviamo
-          che il modello Veneto predice con una buona approssimazione
-          le ospedalizzazioni in Piemonte, andando spiegare quindi
-          la differenza osservata.
+          If we include in the model the number of swabs performed
+          throughout time, as shown in Figure 2, we can see that the
+          Veneto model can predict well the number of hospitalizations
+          in the Piemonte region, hence explaining the difference observed
+          in Figure 1.
         ")),
         width = 12
       ),
@@ -60,20 +61,19 @@ mod_focus_20200415_tamponi_ui <- function(id){
       box(
         plotlyOutput(ns("fig_2")),
         width = 12,
-        footer = "Figura 2: Modello Veneto applicato al Piemonte
-          considerando il dato relativo ai tamponi effettuati.
-          Il numero di ospedalizzazioni attese (curva rossa), tenendo
-          conto del numero di tamponi, approssima bene il dato reale
-          (circoletti rossi)."
+        footer = "Figure 2: The Veneto model applied to the Piemonte
+          region accounting for the number of swabs performed.
+          The expected number of hospitalizations (red curve), according
+          to the model that accounts for the number fo swabs performed,
+          is a good approximation of the actual data."
       ),
 
       box(
-        title = "Metodologia",
+        title = "Methodology",
         p(HTML("
-          Abbiamo utilizzato un modello di Poisson con una spline
-          naturale di grado 3 sui giorni e una interazione tamponi x
-          giorni. E' stato inserito come offset la popolazione
-          residente.
+          We used a Poisson model with a natural spline of degree 3
+          on the days and a swabs x days interaction. We used the
+          resident population as an offset.
         ")),
         width = 12
       )
@@ -84,7 +84,7 @@ mod_focus_20200415_tamponi_ui <- function(id){
 #' focus_20200415_tamponi Server Function
 #'
 #' @noRd
-mod_focus_20200415_tamponi_server <- function(id) {
+eng_mod_focus_20200415_tamponi_server <- function(id) {
 
   global_theme <- theme_bw() +
     theme(
@@ -141,9 +141,9 @@ mod_focus_20200415_tamponi_server <- function(id) {
     ) +
     labs(
       title = '',
-      y = 'Totale ospedalizzati',
-      x = 'Giorno',
-      colour = "Regione"
+      y = 'Total hospitalized',
+      x = 'Day',
+      colour = "Region"
     ) +
     global_theme
 
@@ -183,7 +183,7 @@ mod_focus_20200415_tamponi_server <- function(id) {
         colour = .data$denominazione_regione
       )
     )+
-    labs(title = '', y = 'Totale ospedalizzati', x = 'Giorno', col = "Regione") +
+    labs(title = '', y = 'Total hospitalized', x = 'Day', col = "Region") +
     global_theme
 
 
