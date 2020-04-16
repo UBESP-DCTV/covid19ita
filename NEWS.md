@@ -1,3 +1,5 @@
+* activate pkgdown, including a GitHub action to automatically deploy
+  the documentation's WEB site.
 * update README including information on how to contribute (resolve #56)
 * translated 20200415_tamponi (close #54)
 * refactored 20200415_tamponi (#54)
