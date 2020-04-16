@@ -46,7 +46,7 @@ mod_maps_ui <- function(id) {
   for (pal in paletteList.t) {
     png(tf1 <- tempfile(fileext = ".png"), width = 160, height = 20)
     op <- par(mar = rep(0, 4))
-    image(1:length(pal), 1, as.matrix(1:length(pal)),
+    image(seq_along(pal), 1, as.matrix(seq_along(pal)),
       col = pal,
       xlab = "", ylab = "", xaxt = "n", yaxt = "n",   bty = "n"
     )
@@ -507,7 +507,7 @@ mod_maps_server <- function(id) {
       fillColors <- cm.init(dt.filtered.init[["totale_casi.normPop"]])
 
 
-      for (i in 1:length(province_polygons2019)) {
+      for (i in seq_along(province_polygons2019)) {
         leaflet::leafletProxy("mymap") %>%
           leaflet::addPolygons(
             data = province_polygons2019[i, ], weight = 1,
