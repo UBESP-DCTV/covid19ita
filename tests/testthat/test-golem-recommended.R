@@ -18,14 +18,15 @@ test_that(
     skip_on_cran()
     skip_on_travis()
     skip_on_appveyor()
+
     x <- processx::process$new(
       "R",
       c(
         "-e",
-        "pkgload::load_all(here::here());run_app()"
+        "pkgload::load_all(here::here()); run_app()"
       )
     )
-    Sys.sleep(1)
+    Sys.sleep(3)
     expect_true(x$is_alive())
     x$kill()
   }

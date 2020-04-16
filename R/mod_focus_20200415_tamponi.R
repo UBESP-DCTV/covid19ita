@@ -96,23 +96,8 @@ mod_focus_20200415_tamponi_server <- function(id) {
       axis.line        = element_line(colour = "black")
     )
 
-  setup_region <- function(region) {
-    dpc_covid19_ita_regioni %>%
-      dplyr::filter(
-        .data$denominazione_regione == region
-      ) %>%
-      dplyr::mutate(
-        day = lubridate::ymd_hms(.data$data),
-        days = seq_along(.data$data),
-        pop = dplyr::filter(
-          region_population,
-          .data$denominazione_regione == region
-        )[["residenti"]]
-      )
-  }
-
-  piemonte <- setup_region("Piemonte")
-  veneto   <- setup_region("Veneto")
+  piemonte <- pull_region_w_pop("Piemonte")
+  veneto   <- pull_region_w_pop("Veneto")
 
 
 # fig 1 -----------------------------------------------------------
