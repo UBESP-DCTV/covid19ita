@@ -36,14 +36,14 @@ eng_mod_maps_ui <- function(id) {
 </svg>'
   )
 
-  functionList <- list("Linear" = "linear", "Log10" = "log10Per")
-  functionList.lut <- names(functionList)
-  names(functionList.lut) <- functionList
+  function_list <- list("Linear" = "linear", "Log10" = "log10Per")
+  function_list_lut <- names(function_list)
+  names(function_list_lut) <- function_list
 
-  paletteList <- (names(paletteList.t))
+  palette_list <- (names(palette_list_t))
 
-  paletteList.img <- NA_character_
-  for (pal in paletteList.t) {
+  palette_list_img <- NA_character_
+  for (pal in palette_list_t) {
     png(tf1 <- tempfile(fileext = ".png"), width = 160, height = 20)
     op <- par(mar = rep(0, 4))
     image(seq_along(pal), 1, as.matrix(seq_along(pal)),
@@ -53,15 +53,15 @@ eng_mod_maps_ui <- function(id) {
     dev.off()
 
     txt <- RCurl::base64Encode(readBin(tf1, "raw", file.info(tf1)[1, "size"]), "txt")
-    paletteList.img <- c(paletteList.img, sprintf('<img src="data:image/png;base64,%s">', txt))
+    palette_list_img <- c(palette_list_img, sprintf('<img src="data:image/png;base64,%s">', txt))
 
     # cat(html, file = tf2 <- tempfile(fileext = ".html"))
     # browseURL(tf2)
   }
 
-  dates.list <- as.Date(unique(dpc_covid19_ita_province$data))
-  data.ultima <- max(dates.list)
-  data.prima <- min(dates.list)
+  dates_list <- as.Date(unique(dpc_covid19_ita_province$data))
+  data_ultima <- max(dates_list)
+  data_prima <- min(dates_list)
 
   tooltips <- list(
     scale.fixed = "<b style='font-weight:bold; color:red;'>
@@ -79,14 +79,14 @@ eng_mod_maps_ui <- function(id) {
     scale.funct_ = "Scales can be linear or transformed to lognormal to improve visualization of asymmetric (skewed) frequency distributions."
   )
 
-  helpTag <- tags$i(
+  help_tag <- tags$i(
     class = "fa fa-info-circle", style = "cursor:pointer;font-size: 30px; margin-top: 3px;margin-left: 4px;",
     onclick = sprintf(
       'Shiny.onInputChange("%s", Math.random())  ',
       ns("getHelp")
     )
   )
-  iconTag <- tags$i(
+  icon_tag <- tags$i(
     class = "fa fa-play-circle-o", title = "", style = "cursor:pointer;font-size: 30px; margin-left: 4px; margin-top: 3px;",
     onclick = sprintf(
       '$(this).toggleClass("fa-play-circle-o fa-pause-circle-o");
@@ -94,7 +94,7 @@ eng_mod_maps_ui <- function(id) {
       ns("isPlaying")
     )
   )
-  htmltools::htmlDependencies(iconTag) <- htmltools::htmlDependency("font-awesome",
+  htmltools::htmlDependencies(icon_tag) <- htmltools::htmlDependency("font-awesome",
     "5.3.1", "www/shared/fontawesome",
     package = "shiny",
     stylesheet = c("css/all.min.css", "css/v4-shims.min.css")
@@ -137,7 +137,7 @@ eng_mod_maps_ui <- function(id) {
   });
 
 });
-                    ", id, length(dates.list),
+                    ", id, length(dates_list),
         id, id
       )),
       tags$style(
@@ -183,16 +183,16 @@ eng_mod_maps_ui <- function(id) {
         column(3,
           style = "font-weight:bold; color:#2d5900a1; width:300px !important;",
           div(style = "float:left;", dateInput(ns("date1"), NULL,
-            value = data.ultima, min = data.prima,
-            max = data.ultima, format = "DD dd MM yyyy"
+            value = data_ultima, min = data_prima,
+            max = data_ultima, format = "DD dd MM yyyy"
           )),
-          iconTag, helpTag
+          icon_tag, help_tag
         ),
         column(3, style = " width: 250px;", selectInput(ns("variableName"), NULL,
           choices = list(
-            "Total cases / 10 000 residents" = "totale_casi.normPop",
+            "Total cases / 10 000 residents" = "totale_casi_norm_pop",
             "Total cases" = "totale_casi",
-            "Daily cases / 10 000 residents" = "delta.normPop",
+            "Daily cases / 10 000 residents" = "delta_norm_pop",
             "Daily cases" = "delta"
           )
         )),
@@ -202,7 +202,7 @@ eng_mod_maps_ui <- function(id) {
             style = "float:left; margin-right:5px;",
             selectInput(ns("scale.funct_"), NULL,
               width = 100,
-              choices = functionList
+              choices = function_list
             )
           ),
           checkboxInput(ns("scale.fixed"), label = "Fixed", value = TRUE)
@@ -210,8 +210,8 @@ eng_mod_maps_ui <- function(id) {
         column(2,
           title = "Color Palette", style = "min-width: 225px;width: 232px;",
           shinyWidgets::pickerInput(ns("palette"), NULL,
-            choices = names(paletteList.t),
-            choicesOpt = list(content = paletteList.img)
+            choices = names(palette_list_t),
+            choicesOpt = list(content = palette_list_img)
           )
         )
       ),
@@ -255,7 +255,7 @@ eng_mod_maps_server <- function(id) {
       sqrt(x)
     }
   )
-  inv.funct_ <- list(
+  inv_funct_ <- list(
     linear = function(x) {
       x
     },
@@ -271,7 +271,7 @@ eng_mod_maps_server <- function(id) {
   )
 
 
-  basic.layerlist.list <- list(
+  basic_layerlist_list <- list(
     baseGroups = list(
       osm.bn = "Map Night", osm.light = "Map Light",
       osm = "None"
@@ -282,9 +282,9 @@ eng_mod_maps_server <- function(id) {
     )
   )
 
-  basic.layerlist <- list(
-    baseGroups = unname(unlist(basic.layerlist.list$baseGroups)),
-    overlayGroups = unname(unlist(basic.layerlist.list$overlayGroups))
+  basic_layerlist <- list(
+    baseGroups = unname(unlist(basic_layerlist_list$baseGroups)),
+    overlayGroups = unname(unlist(basic_layerlist_list$overlayGroups))
   )
 
   ## FIX che Napoli ha sigla "NA" sbaglio importazione
@@ -300,34 +300,34 @@ eng_mod_maps_server <- function(id) {
 
   data_to_use <- merge(data_to_use, province_population2019)
 
-  data_to_use$totale_casi.normPop <- data_to_use$totale_casi / data_to_use$Residenti * 10000
-  data_to_use$delta.normPop <- data_to_use$delta / data_to_use$Residenti * 10000
+  data_to_use$totale_casi_norm_pop <- data_to_use$totale_casi / data_to_use$Residenti * 10000
+  data_to_use$delta_norm_pop <- data_to_use$delta / data_to_use$Residenti * 10000
 
 
-  dates.list <- sort(unique(as.Date(dpc_covid19_ita_province$data)))
-  data.prima <- min(dates.list)
-  data.ultima <- max(dates.list)
+  dates_list <- sort(unique(as.Date(dpc_covid19_ita_province$data)))
+  data_prima <- min(dates_list)
+  data_ultima <- max(dates_list)
   ## initial values for polygon loading
-  dt.filtered.init <- data_to_use %>%
-    dplyr::filter(as.Date(.data$data) == data.ultima) %>%
+  dt_filtered_init <- data_to_use %>%
+    dplyr::filter(as.Date(.data$data) == data_ultima) %>%
     dplyr::select(
       .data$sigla_provincia,
       .data$denominazione_provincia,
-      .data$totale_casi.normPop,
+      .data$totale_casi_norm_pop,
       .data$lat, .data$long
     ) %>%
     dplyr::arrange(.data$sigla_provincia)
 
-  cm.init <- leaflet::colorNumeric(
-    palette = paletteList.t$Person,
-    domain = dt.filtered.init$totale_casi.normPop
+  cm_init <- leaflet::colorNumeric(
+    palette = palette_list_t$Person,
+    domain = dt_filtered_init$totale_casi_norm_pop
   )
 
 
   callModule(id = id, function(input, output, session) {
     ns <- session$ns
     leaflet_rendered_all <- FALSE
-    isLabelFixed <- FALSE
+    is_label_fixed <- FALSE
 
     # outputOptions(output,  "mymap", suspendWhenHidden = FALSE)
     ## zona dedicata alle computazioni reattive del modulo, in
@@ -378,7 +378,7 @@ eng_mod_maps_server <- function(id) {
 
 
 
-           }", id, basic.layerlist.list$overlayGroups$Casi_COVID19,
+           }", id, basic_layerlist_list$overlayGroups$Casi_COVID19,
           id, id, id, id, id, id, id, id, id,
           id, id, id, id, id, id, id, id, id, id,
           id, id, id, id, id, id, id, id
@@ -388,25 +388,25 @@ eng_mod_maps_server <- function(id) {
         leaflet::addTiles(
           urlTemplate = "https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png",
           attribution = '&copy;<a href="https://carto.com/attributions">OSM CARTO</a>',
-          options = leaflet::tileOptions(zIndex = 1, preferCanvas = TRUE, maxZoom = 19, subdomains = "abcd"), group = basic.layerlist.list$baseGroups$osm.bn
+          options = leaflet::tileOptions(zIndex = 1, preferCanvas = TRUE, maxZoom = 19, subdomains = "abcd"), group = basic_layerlist_list$baseGroups$osm.bn
         ) %>%
         leaflet::addTiles(
           urlTemplate = "https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png",
           attribution = '&copy;<a href="https://carto.com/attributions">OSM CARTO</a>',
-          options = leaflet::tileOptions(zIndex = 2, preferCanvas = TRUE, maxZoom = 19, subdomains = "abcd"), group = basic.layerlist.list$baseGroups$osm.light
+          options = leaflet::tileOptions(zIndex = 2, preferCanvas = TRUE, maxZoom = 19, subdomains = "abcd"), group = basic_layerlist_list$baseGroups$osm.light
         ) %>%
-        leaflet::hideGroup(as.character(basic.layerlist.list$overlayGroups)) %>%
-        leaflet::showGroup(c(basic.layerlist.list$overlayGroups$Casi_COVID19)) %>%
+        leaflet::hideGroup(as.character(basic_layerlist_list$overlayGroups)) %>%
+        leaflet::showGroup(c(basic_layerlist_list$overlayGroups$Casi_COVID19)) %>%
         leaflet::addLayersControl(
-          baseGroups = basic.layerlist$baseGroups,
-          overlayGroups = basic.layerlist$overlayGroups,
+          baseGroups = basic_layerlist$baseGroups,
+          overlayGroups = basic_layerlist$overlayGroups,
           options = leaflet::layersControlOptions(collapsed = FALSE)
         )
     )
 
     ### CHANGE DATE ----
     observeEvent(input$dateRangeChanged, {
-      updateDateInput(session, "date1", value = dates.list[[as.integer(input[["dateRangeChanged"]])]])
+      updateDateInput(session, "date1", value = dates_list[[as.integer(input[["dateRangeChanged"]])]])
     })
 
     ### HELP PANEL ----
@@ -416,7 +416,7 @@ eng_mod_maps_server <- function(id) {
 
     ###  FIX LABEL  ----
     observeEvent(input$layerAdded, {
-      req(input$layerAdded == basic.layerlist.list$overlayGroups$Casi_COVID19labels)
+      req(input$layerAdded == basic_layerlist_list$overlayGroups$Casi_COVID19labels)
 
       js <- sprintf("
               var layers = %s_mapElement.layerManager.getLayerGroup('%s').getLayers();
@@ -441,15 +441,15 @@ eng_mod_maps_server <- function(id) {
                  layers[i].openTooltip();
                  layers[i].off();
               }
-                 Shiny.onInputChange('%s-isLabelFixed', true);
-                     ", id, basic.layerlist.list$overlayGroups$Casi_COVID19, id)
+                 Shiny.onInputChange('%s-is_label_fixed', true);
+                     ", id, basic_layerlist_list$overlayGroups$Casi_COVID19, id)
       shinyjs::runjs(js)
     })
 
 
     ###  REMOVE FIXED LABEL  ----
     observeEvent(input$layerRemoved, {
-      req(input$layerAdded == basic.layerlist.list$overlayGroups$Casi_COVID19labels)
+      req(input$layerAdded == basic_layerlist_list$overlayGroups$Casi_COVID19labels)
 
       js <- sprintf("
               var layers = %s_mapElement.layerManager.getLayerGroup('%s').getLayers();
@@ -467,19 +467,19 @@ eng_mod_maps_server <- function(id) {
                  layers[i].closeTooltip();
               }
 
-                 Shiny.onInputChange('%s-isLabelFixed', false);
-                     ", id, basic.layerlist.list$overlayGroups$Casi_COVID19, id)
+                 Shiny.onInputChange('%s-is_label_fixed', false);
+                     ", id, basic_layerlist_list$overlayGroups$Casi_COVID19, id)
       shinyjs::runjs(js)
     })
     ###  CHANGE OUTLINE of polygons ----
     observeEvent(input$baselayerChanged, {
       print(input$baselayerChanged)
       col <- "white"
-      if (input$baselayerChanged == basic.layerlist.list$baseGroups$osm.light) {
+      if (input$baselayerChanged == basic_layerlist_list$baseGroups$osm.light) {
         col <- "black"
       }
 
-      if (!is.null(input$isLabelFixed) && input$isLabelFixed) {
+      if (!is.null(input$is_label_fixed) && input$is_label_fixed) {
         coltt <- col
       } else {
         coltt <- "black"
@@ -494,7 +494,7 @@ eng_mod_maps_server <- function(id) {
                  tt.options.color='%s';
 
               }
-                     ", id, basic.layerlist.list$overlayGroups$Casi_COVID19, col, coltt)
+                     ", id, basic_layerlist_list$overlayGroups$Casi_COVID19, col, coltt)
       shinyjs::runjs(js)
     })
 
@@ -503,8 +503,8 @@ eng_mod_maps_server <- function(id) {
     #### DRAW POLYGONS FIRST RENDER ----------
     observeEvent(input$leaflet_rendered, {
       sn()
-      # cm<-current_palettFunction()
-      fillColors <- cm.init(dt.filtered.init[["totale_casi.normPop"]])
+      # cm<-current_palett_function()
+      fill_colors <- cm_init(dt_filtered_init[["totale_casi_norm_pop"]])
 
 
       for (i in seq_along(province_polygons2019)) {
@@ -512,7 +512,7 @@ eng_mod_maps_server <- function(id) {
           leaflet::addPolygons(
             data = province_polygons2019[i, ], weight = 1,
             color = "#FFFFFF",
-            fillColor = fillColors[[i]],
+            fillColor = fill_colors[[i]],
             highlightOptions = leaflet::highlightOptions(
               stroke = TRUE,
               weight = 3
@@ -540,25 +540,25 @@ eng_mod_maps_server <- function(id) {
             layerId = sprintf(
               "%s_%s__%s",
               id,
-              basic.layerlist.list$overlayGroups$Casi_COVID19,
+              basic_layerlist_list$overlayGroups$Casi_COVID19,
               province_polygons2019$SIGLA[[i]]
             ),
-            group = basic.layerlist.list$overlayGroups$Casi_COVID19
+            group = basic_layerlist_list$overlayGroups$Casi_COVID19
           )
       }
 
-      drawResponsive$resume()
+      draw_responsive$resume()
     })
 
 
 
     #### DRAW RESPONSIVE ----------
-    drawResponsive <- observe(suspended = TRUE, {
+    draw_responsive <- observe(suspended = TRUE, {
       req(
         input$leaflet_rendered, input$leaflet_rendered_all,
         input$variableName,
         input$date1,
-        input$palette, dates.list,
+        input$palette, dates_list,
         (input[["scale.fixed"]] || (input[["scale.fixed"]] == FALSE))
       )
 
@@ -566,24 +566,24 @@ eng_mod_maps_server <- function(id) {
 
       # print("triggered")
 
-      dt.filtered <- current_data()
-      if (is.null(dt.filtered) || nrow(dt.filtered) < 1) {
+      dt_filtered <- current_data()
+      if (is.null(dt_filtered) || nrow(dt_filtered) < 1) {
         showNotification("No data found for selected day.", duration = 15, type = "error")
         return(NULL)
       }
 
       fn <- dir.funct_[[input[["scale.funct_"]]]]
-      cm <- current_palettFunction()
+      cm <- current_palett_function()
 
-      # print(input$isLabelFixed)
-      if (!is.null(input$isLabelFixed) && input$isLabelFixed) {
+      # print(input$is_label_fixed)
+      if (!is.null(input$is_label_fixed) && input$is_label_fixed) {
         templ <- ifelse(!is.element(input[["variableName"]], c("delta", "totale_casi")),
           "%.2f", "%.0f"
         )
 
         label <- sprintf(
           templ,
-          dt.filtered[[input[["variableName"]]]]
+          dt_filtered[[input[["variableName"]]]]
         )
 
         label[label == "NA"] <- ""
@@ -593,19 +593,19 @@ eng_mod_maps_server <- function(id) {
         )
         label <- sprintf(
           templ,
-          dt.filtered[["denominazione_provincia"]],
-          dt.filtered[["sigla_provincia"]],
-          dt.filtered[[input[["variableName"]]]]
+          dt_filtered[["denominazione_provincia"]],
+          dt_filtered[["sigla_provincia"]],
+          dt_filtered[[input[["variableName"]]]]
         )
 
         label[label == "NA"] <- ""
       }
 
 
-      jsonString <- sprintf(
+      json_string <- sprintf(
         "\"%s\":{ col:\"%s\", lab:\"%s\"}",
-        dt.filtered[["sigla_provincia"]],
-        cm(fn(dt.filtered[[input$variableName]])),
+        dt_filtered[["sigla_provincia"]],
+        cm(fn(dt_filtered[[input$variableName]])),
         label
       )
 
@@ -617,17 +617,17 @@ eng_mod_maps_server <- function(id) {
         op <- as.integer(isolate(input$currentWMSopacity)) / 100
       }
 
-      goSlider <- ""
+      go_slider <- ""
       if (!is.null(input$isPlaying) && input$isPlaying$state) {
-        goSlider <- sprintf("
+        go_slider <- sprintf("
         var dateSlider = document.getElementById('%s-dateRangeSlider');
         var nv=parseInt(dateSlider.noUiSlider.get());
         nv++;
         if(nv>%d) nv=1;
         console.log(nv);
-        dateSlider.noUiSlider.setHandle(0, nv, true); ", id, length(dates.list))
+        dateSlider.noUiSlider.setHandle(0, nv, true); ", id, length(dates_list))
       } else {
-        goSlider <- " "
+        go_slider <- " "
       }
 
       js <- sprintf(
@@ -644,9 +644,9 @@ eng_mod_maps_server <- function(id) {
                 }
               }
               %s
-                     ", paste(collapse = ",", jsonString),
-        id, basic.layerlist.list$overlayGroups$Casi_COVID19,
-        sprintf(goSlider, id)
+                     ", paste(collapse = ",", json_string),
+        id, basic_layerlist_list$overlayGroups$Casi_COVID19,
+        sprintf(go_slider, id)
       )
       shinyjs::runjs(js)
     })
@@ -667,8 +667,8 @@ eng_mod_maps_server <- function(id) {
     })
 
 
-    #### current_palettFunction ----
-    current_palettFunction <- reactive({
+    #### current_palett_function ----
+    current_palett_function <- reactive({
       dt <- current_data()
       req(dt, input[["palette"]], input[["variableName"]], input[["scale.funct_"]])
 
@@ -689,7 +689,7 @@ eng_mod_maps_server <- function(id) {
       pal <- tryCatch(
         {
           leaflet::colorNumeric(
-            palette = paletteList.t[[input[["palette"]]]],
+            palette = palette_list_t[[input[["palette"]]]],
             domain = domain
           )
         },
@@ -708,7 +708,7 @@ eng_mod_maps_server <- function(id) {
           layerId = "Legend_Casi_COVID19",
           labFormat = leaflet::labelFormat(
             prefix = "", big.mark = " ",
-            transform = inv.funct_[[input$scale.funct_]]
+            transform = inv_funct_[[input$scale.funct_]]
           ),
           opacity = 1
         )
@@ -737,8 +737,8 @@ eng_mod_maps_server <- function(id) {
                       CIRGEO</a></div>
 
 
-                            ", format(data.prima, "%A %e %B %YY"),
-          format(data.ultima, "%A %e %B %YY")
+                            ", format(data_prima, "%A %e %B %YY"),
+          format(data_ultima, "%A %e %B %YY")
         )),
         duration = dur, type = "warning"
       )

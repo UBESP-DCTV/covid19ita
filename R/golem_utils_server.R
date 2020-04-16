@@ -29,6 +29,7 @@ drop_nulls <- function(x) {
 #'
 #' @examples
 #' NULL %||% 1
+# nolint start
 "%||%" <- function(x, y) {
   if (is.null(x)) {
     y
@@ -36,6 +37,7 @@ drop_nulls <- function(x) {
     x
   }
 }
+# nolint end
 
 #' If x is `NA`, return y, otherwise return x
 #'
@@ -45,6 +47,7 @@ drop_nulls <- function(x) {
 #'
 #' @examples
 #' NA %||% 1
+# nolint start
 "%|NA|%" <- function(x, y) {
   if (is.na(x)) {
     y
@@ -52,6 +55,7 @@ drop_nulls <- function(x) {
     x
   }
 }
+# nolint end
 
 #' Typing reactiveValues is too long
 #'

@@ -124,7 +124,8 @@ my_linters  <-  lintr::with_defaults(
   lintr::semicolon_terminator_linter,
   lintr::undesirable_function_linter,
   lintr::undesirable_operator_linter,
-  lintr::unneeded_concatenation_linter
+  lintr::unneeded_concatenation_linter,
+  object_usage_lintr = NULL
 )
 
   ### Do not edit after this line ###

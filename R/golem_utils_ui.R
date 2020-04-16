@@ -115,6 +115,7 @@ named_to_li <- function(list, class = NULL) {
 #' @examples
 #' a <- shiny::tags$p(src = "plop", "pouet")
 #' tagRemoveAttributes(a, "src")
+# nolint start
 tagRemoveAttributes <- function(tag, ...) {
   attrs <- as.character(list(...))
   for (i in seq_along(attrs)) {
@@ -122,6 +123,7 @@ tagRemoveAttributes <- function(tag, ...) {
   }
   tag
 }
+# nolint end
 
 #' Hide or display a tag
 #'

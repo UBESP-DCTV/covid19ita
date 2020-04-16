@@ -14,9 +14,6 @@ linters: with_defaults(
     extraction_operator_linter = NULL, # 1409
     line_length_linter = NULL, # 933
     commented_code_linter = NULL, # 116
-    object_name_linter = NULL, # 76
-    object_usage_linter = NULL, # 73
-    object_length_linter = NULL, # 29
     dummy_linter = NULL
   )
 exclusions: list(

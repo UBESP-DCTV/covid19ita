@@ -23,12 +23,12 @@ mod_info_sidebar_ui <- function(id) {
       selected = "Italia"
     ),
 
-    fluidRow(valueBoxOutput(ns("totalTest"))),
-    fluidRow(valueBoxOutput(ns("totalCases"))),
-    fluidRow(valueBoxOutput(ns("currentPositives"))),
-    fluidRow(valueBoxOutput(ns("intensiveCare"))),
-    fluidRow(valueBoxOutput(ns("totalDeath"))),
-    fluidRow(valueBoxOutput(ns("totalRecovered")))
+    fluidRow(valueBoxOutput(ns("total_test"))),
+    fluidRow(valueBoxOutput(ns("total_cases"))),
+    fluidRow(valueBoxOutput(ns("current_positives"))),
+    fluidRow(valueBoxOutput(ns("intensive_care"))),
+    fluidRow(valueBoxOutput(ns("total_death"))),
+    fluidRow(valueBoxOutput(ns("total_recovered")))
   )
 }
 
@@ -54,7 +54,7 @@ mod_info_sidebar_server <- function(id) {
     })
 
 
-    output$totalTest <- renderValueBox({
+    output$total_test <- renderValueBox({
       valueBox(
         subtitle = "Tamponi effettuati", icon = icon("info-circle"),
         color = "aqua", # fill = TRUE,
@@ -62,7 +62,7 @@ mod_info_sidebar_server <- function(id) {
       )
     })
 
-    output$totalCases <- renderValueBox({
+    output$total_cases <- renderValueBox({
       valueBox(
         subtitle = "Contagiati accertati totali", icon = icon("info-circle"),
         color = "purple", # fill = TRUE,
@@ -70,7 +70,7 @@ mod_info_sidebar_server <- function(id) {
       )
     })
 
-    output$currentPositives <- renderValueBox({
+    output$current_positives <- renderValueBox({
       valueBox(
         subtitle = "Attualmente positivi", icon = icon("info-circle"),
         color = "orange", # fill = TRUE,
@@ -78,7 +78,7 @@ mod_info_sidebar_server <- function(id) {
       )
     })
 
-    output$intensiveCare <- renderValueBox({
+    output$intensive_care <- renderValueBox({
       valueBox(
         subtitle = "In terapia intensiva", icon = icon("info-circle"),
         color = "fuchsia",
@@ -86,7 +86,7 @@ mod_info_sidebar_server <- function(id) {
       )
     })
 
-    output$totalDeath <- renderValueBox({
+    output$total_death <- renderValueBox({
       valueBox(
         subtitle = "Decessi totali", icon = icon("info-circle"),
         color = "red",
@@ -94,7 +94,7 @@ mod_info_sidebar_server <- function(id) {
       )
     })
 
-    output$totalRecovered <- renderValueBox({
+    output$total_recovered <- renderValueBox({
       valueBox(
         subtitle = "Guariti totali", icon = icon("info-circle"),
         color = "green",
