@@ -523,7 +523,7 @@ eng_mod_maps_server <- function(id) {
             ),
             opacity = 1, fillOpacity = 0.5,
             label = "",
-            labelOptions = leaflet::labelOptions( # zIndex = 100,
+            labelOptions = leaflet::labelOptions(# zIndex = 100,
               # noHide = TRUE,
               # textOnly = T,
               # permanent = T,

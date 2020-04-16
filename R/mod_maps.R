@@ -523,10 +523,10 @@ mod_maps_server <- function(id) {
             ),
             opacity = 1, fillOpacity = 0.5,
             label = "",
-            labelOptions = leaflet::labelOptions( # zIndex = 100,
+            labelOptions = leaflet::labelOptions(# zIndex = 100,
               # noHide = TRUE,
-              # textOnly = T,
-              # permanent = T,
+              # textOnly = TRUE,
+              # permanent = TRUE,
               style = list(
                 "font-size" = "12px",
                 "font-weight" = "bold",
@@ -553,7 +553,7 @@ mod_maps_server <- function(id) {
 
 
     #### DRAW RESPONSIVE ----------
-    drawResponsive <- observe(suspended = T, {
+    drawResponsive <- observe(suspended = TRUE, {
       req(
         input$leaflet_rendered, input$leaflet_rendered_all,
         input$variableName,
