@@ -31,6 +31,5 @@ usethis::use_data(
   dpc_covid19_ita_andamento_nazionale,
   dpc_covid19_ita_regioni,
   dpc_covid19_ita_province,
-
   overwrite = TRUE
 )

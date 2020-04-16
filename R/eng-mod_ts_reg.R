@@ -7,23 +7,25 @@
 #' @noRd
 #'
 #' @importFrom shiny NS tagList
-eng_mod_ts_reg_ui <- function(id){
+eng_mod_ts_reg_ui <- function(id) {
   ns <- NS(id)
 
   fluidPage(
     fluidRow(
-      column(6,
-        shiny::selectInput(ns("whichRegion"),  "Select regions",
-          choices  = regions(),
+      column(
+        6,
+        shiny::selectInput(ns("whichRegion"), "Select regions",
+          choices = regions(),
           selectize = TRUE,
           selected = "Veneto",
           multiple = TRUE,
           width = "100%"
         )
       ),
-      column(6,
+      column(
+        6,
         shiny::selectInput(ns("whichMeasure"), "Select measures",
-          choices  = measures("regional", lang = "eng"),
+          choices = measures("regional", lang = "eng"),
           selectize = TRUE,
           selected = setdiff(measures("regional"), "tamponi"),
           multiple = TRUE,
@@ -40,11 +42,10 @@ eng_mod_ts_reg_ui <- function(id){
 #'
 #' @noRd
 eng_mod_ts_reg_server <- function(id, type = c("cum", "inc"), color_var = c("measure", "region")) {
-
   type <- match.arg(type)
   color_var <- switch(match.arg(color_var),
     measure = "Measure",
-    region  = "denominazione_regione"
+    region = "denominazione_regione"
   )
   facet_var <- c("Measure", "denominazione_regione")[color_var != c("Measure", "denominazione_regione")]
 
@@ -52,7 +53,7 @@ eng_mod_ts_reg_server <- function(id, type = c("cum", "inc"), color_var = c("mea
   color_name <- color_var %>%
     switch(
       Measure = "Misura",
-      denominazione_regione  = "Region"
+      denominazione_regione = "Region"
     )
 
 
@@ -72,19 +73,18 @@ eng_mod_ts_reg_server <- function(id, type = c("cum", "inc"), color_var = c("mea
     })
 
     data_to_plot <- reactive({
-
       data_tmp <- dplyr::filter(dpc_data, .data$denominazione_regione %in% which_region()) %>%
-      tidyr::pivot_longer(which_measure(),
-        names_to = "Measure",
-        values_to = "N"
-      ) %>%
-      dplyr::mutate(
-        Measure = factor(.data$Measure,
-          levels = measures("regional"),
-          labels = measures("regional") %>%
-            measure_to_labels(lang = "ita")
-      )
-      )
+        tidyr::pivot_longer(which_measure(),
+          names_to = "Measure",
+          values_to = "N"
+        ) %>%
+        dplyr::mutate(
+          Measure = factor(.data$Measure,
+            levels = measures("regional"),
+            labels = measures("regional") %>%
+              measure_to_labels(lang = "ita")
+          )
+        )
 
       if (type == "inc") {
         data_tmp <- data_tmp %>%
@@ -103,11 +103,11 @@ eng_mod_ts_reg_server <- function(id, type = c("cum", "inc"), color_var = c("mea
 
 
     output$ts_plot <- renderPlotly({
-
       gg <- data_to_plot() %>%
-        ggplot(aes(x = .data$data, y = .data$N, colour = .data[[{{color_var}}]])) +
-        geom_line() + geom_point() +
-        facet_wrap(~.data[[{{facet_var}}]], scales = "free_y") +
+        ggplot(aes(x = .data$data, y = .data$N, colour = .data[[{{ color_var }}]])) +
+        geom_line() +
+        geom_point() +
+        facet_wrap(~ .data[[{{ facet_var }}]], scales = "free_y") +
         xlab("Date") +
         ylab(y_lab()) +
         scale_x_date(date_breaks = "1 day", date_labels = "%b %d") +
@@ -119,18 +119,17 @@ eng_mod_ts_reg_server <- function(id, type = c("cum", "inc"), color_var = c("mea
 
       if (input$y_log) {
         gg <- gg + scale_y_continuous(
-          trans = 'log2',
+          trans = "log2",
           breaks = scales::trans_breaks("log2", function(x) 2^x),
           labels = scales::trans_format("log2", scales::math_format(2^.data[[".x"]]))
         ) +
-          ylab(paste0(y_lab()," - log2"))
+          ylab(paste0(y_lab(), " - log2"))
       }
 
       ggplotly(gg) %>%
         config(modeBarButtonsToRemove = c("zoomIn2d", "zoomOut2d", "pan2d", "select2d", "lasso2d")) %>%
         config(displaylogo = FALSE)
     })
-
   })
 }
 

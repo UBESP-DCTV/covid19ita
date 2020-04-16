@@ -11,9 +11,8 @@ provinces <- function() {
 }
 
 measures <- function(
-  level = c("national", "regional", "provincial"),
-  lang = c("ita", "eng")
-) {
+                     level = c("national", "regional", "provincial"),
+                     lang = c("ita", "eng")) {
   level <- match.arg(level)
   lang <- match.arg(lang)
 
@@ -29,7 +28,7 @@ measures <- function(
   ))
 
   res <- if (lang == "eng") {
-    res  %>%
+    res %>%
       purrr::set_names(dictionary[res])
   } else {
     res %>% purrr::set_names()
@@ -43,16 +42,16 @@ measures <- function(
 }
 
 measure_to_labels <- function(x, lang = c("ita", "eng")) {
- lang <- match.arg(lang)
- stopifnot(is.character(x))
+  lang <- match.arg(lang)
+  stopifnot(is.character(x))
 
- stopifnot(all(x %in% names(dictionary)))
+  stopifnot(all(x %in% names(dictionary)))
 
 
- if (lang == "eng") {
-   x <- dictionary[x]
- }
+  if (lang == "eng") {
+    x <- dictionary[x]
+  }
 
- stringr::str_replace_all(x, "_", " ") %>%
-   stringr::str_to_title()
+  stringr::str_replace_all(x, "_", " ") %>%
+    stringr::str_to_title()
 }

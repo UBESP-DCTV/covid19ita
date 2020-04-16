@@ -7,27 +7,29 @@
 #' @noRd
 #'
 #' @importFrom shiny NS tagList
-eng_mod_focus_20200318_piemonte_ui <- function(id){
+eng_mod_focus_20200318_piemonte_ui <- function(id) {
   ns <- NS(id)
   tagList(
     fluidRow(
-      box(width = 12,
-          p(
-            "This works aimes at giving a first impression of
+      box(
+        width = 12,
+        p(
+          "This works aimes at giving a first impression of
            the possible effect of the health policies implemented by the
            Piemonte region in order to contain the spread of COVID-19."
-          ),
-          p(
-            "In order to understand whether the containing measures helped
+        ),
+        p(
+          "In order to understand whether the containing measures helped
           slow down the spread of COVID-19, a predictive model based on the
           data collected until the 9rd of March was compared to what was
           actually observed."
-          ),
-          p(
-            "Figure 1 shows that there was a slowdown after the 9th of
-          March: this day represents an epidemic change-point."),
-          p(HTML(
-            "Thanks to the comparison between the predicted and actual
+        ),
+        p(
+          "Figure 1 shows that there was a slowdown after the 9th of
+          March: this day represents an epidemic change-point."
+        ),
+        p(HTML(
+          "Thanks to the comparison between the predicted and actual
           values it was possible to estimate some quantities:</br>
           <ol>
             <li>1.	The number of avoided cases in the Piemonte region as of the 15th of March: 545 (95% C.I. 461 -- 629) (Figure 2)</li>
@@ -38,35 +40,40 @@ eng_mod_focus_20200318_piemonte_ui <- function(id){
               </ul>
             </li>
           </ol>"
-          ))
+        ))
       )
     ),
 
     fluidRow(
-      box(width = 12, plotlyOutput(ns("fig1")),
-          title = "Figure 1. Estimated cases (bold green curve) based on course of the epidemic as registered until the 9th of March. Actual values (red dots) observed in the following days."
+      box(
+        width = 12, plotlyOutput(ns("fig1")),
+        title = "Figure 1. Estimated cases (bold green curve) based on course of the epidemic as registered until the 9th of March. Actual values (red dots) observed in the following days."
       )
     ),
     fluidRow(
-      box(width = 12, plotlyOutput(ns("fig2")),
-          title = "Figure 2. Avoided cases in the Piemonte region compared to what was expected from the data gathered until the 9th of March. The grey area indicates the 95% confidence interval."
+      box(
+        width = 12, plotlyOutput(ns("fig2")),
+        title = "Figure 2. Avoided cases in the Piemonte region compared to what was expected from the data gathered until the 9th of March. The grey area indicates the 95% confidence interval."
       )
     ),
     fluidRow(
-      box(width = 12, plotlyOutput(ns("fig3")),
-          title = "Figure 3. Gained days, estimated by looking at the shift to the right of the curve (predicted vs observed). The grey area indicates the 95% confidence interval."
+      box(
+        width = 12, plotlyOutput(ns("fig3")),
+        title = "Figure 3. Gained days, estimated by looking at the shift to the right of the curve (predicted vs observed). The grey area indicates the 95% confidence interval."
       )
     ),
     fluidRow(
-      box(width = 12, plotlyOutput(ns("fig4")),
-          title = "Figure 4. Slowdown of the epidemic velocity (predicted vs observed). The grey area indicates the 95% confidence interval."
+      box(
+        width = 12, plotlyOutput(ns("fig4")),
+        title = "Figure 4. Slowdown of the epidemic velocity (predicted vs observed). The grey area indicates the 95% confidence interval."
       )
     ),
 
 
     fluidRow(
-      box(width = 12, title = "Technical details regarding the estimation of the model",
-          p("
+      box(
+        width = 12, title = "Technical details regarding the estimation of the model",
+        p("
           The estimation of the model was based on the number series of the cases that
           were observed until the 9th of March. This day represents a
           change-point in terms of growth of the epidemics. This change in the
@@ -76,7 +83,7 @@ eng_mod_focus_20200318_piemonte_ui <- function(id){
           equal to 1.5). The shape of the curve fits the quadratic trend
           of the early stage of the outbreak.
         "),
-          p("
+        p("
           Recent studies showed that the curve of cases could be of a quadratic
           nature rather than exponential, especially in the early stage of the outbreak
           (2).
@@ -84,8 +91,9 @@ eng_mod_focus_20200318_piemonte_ui <- function(id){
       )
     ),
     fluidRow(
-      box(width = 12, title = "References",
-          p(HTML("
+      box(
+        width = 12, title = "References",
+        p(HTML("
           <ol>
             <li>Barry D, Hartigan JA. A Bayesian Analysis for Change Point Problems. J Am Stat Assoc. 1993;88(421):309--19.</li>
             <li>Brandenburg A. Quadratic growth during the 2019 novel coronavirus epidemic. 2020.</li>
@@ -100,12 +108,10 @@ eng_mod_focus_20200318_piemonte_ui <- function(id){
 #'
 #' @noRd
 eng_mod_focus_20200318_piemonte_server <- function(id,
-  region = "Piemonte",
-  min_date = lubridate::ymd('2020-03-01'),
-  max_date = lubridate::ymd('2020-03-15'),
-  max_train_date = lubridate::ymd('2020-03-09')
-){
-
+                                                   region = "Piemonte",
+                                                   min_date = lubridate::ymd("2020-03-01"),
+                                                   max_date = lubridate::ymd("2020-03-15"),
+                                                   max_train_date = lubridate::ymd("2020-03-09")) {
   regione <- dpc_covid19_ita_regioni %>%
     dplyr::filter(
       .data$denominazione_regione == region,
@@ -116,18 +122,18 @@ eng_mod_focus_20200318_piemonte_server <- function(id,
       day = lubridate::ymd_hms(.data$data),
       time_point = ifelse(.data$day <= max_train_date,
         yes = 0,
-        no  = ifelse(.data$day > max_train_date, yes = 1, no = 2 )
+        no = ifelse(.data$day > max_train_date, yes = 1, no = 2)
       )
     )
 
   n_seq_regione <- seq_len(nrow(regione))
 
   db_true <- tibble::tibble(
-    day         = regione[["day"]],
+    day = regione[["day"]],
     totale_casi = regione[["totale_casi"]],
-    lower       = NA_real_,
-    upper       = NA_real_,
-    series      = 'Osservato'
+    lower = NA_real_,
+    upper = NA_real_,
+    series = "Osservato"
   )
 
   train <- regione %>%
@@ -154,21 +160,21 @@ eng_mod_focus_20200318_piemonte_server <- function(id,
   ci_ray <- stats::qt(0.975, y_loess[["df"]]) * y_loess[["se.fit"]]
 
   db_loess <- tibble::tibble(
-    day         = prediction[["day"]],
+    day = prediction[["day"]],
     totale_casi = y_loess[["fit"]],
-    lower       = y_loess[["fit"]] - ci_ray,
-    upper       = y_loess[["fit"]] + ci_ray,
-    series      = 'Predetto'
+    lower = y_loess[["fit"]] - ci_ray,
+    upper = y_loess[["fit"]] + ci_ray,
+    series = "Predetto"
   )
 
   global_theme <- theme_bw() +
     theme(
       legend.title = element_blank(),
-      panel.border     = element_blank(),
+      panel.border = element_blank(),
       panel.grid.major = element_blank(),
       panel.grid.minor = element_blank(),
-      axis.text.x      = element_text(angle = 60, vjust = 0.5),
-      axis.line        = element_line(colour = "black")
+      axis.text.x = element_text(angle = 60, vjust = 0.5),
+      axis.line = element_line(colour = "black")
     )
 
 
@@ -177,10 +183,11 @@ eng_mod_focus_20200318_piemonte_server <- function(id,
 
   gg_fig_1 <- db_loess %>%
     ggplot(aes(x = .data$day, y = .data$totale_casi, colour = .data$series)) +
-    geom_smooth() + geom_point(data = db_true) +
+    geom_smooth() +
+    geom_point(data = db_true) +
     geom_line(data = db_loess, aes(x = .data$day, y = .data$lower)) +
     geom_line(data = db_loess, aes(x = .data$day, y = .data$upper)) +
-    labs(title = "", x="Day", y = "Cases") +
+    labs(title = "", x = "Day", y = "Cases") +
     scale_x_datetime(date_breaks = "1 day", date_labels = "%d %b") +
     global_theme
 
@@ -202,7 +209,8 @@ eng_mod_focus_20200318_piemonte_server <- function(id,
 
   gg_fig_2 <- dt_fig_2 %>%
     ggplot(aes(x = .data$day, .data$difference)) +
-    stat_smooth() + geom_point() +
+    stat_smooth() +
+    geom_point() +
     labs(
       title = "",
       x = "Day",
@@ -214,7 +222,7 @@ eng_mod_focus_20200318_piemonte_server <- function(id,
 
   ci_txt_f2 <- extract_ci_from_gg_txt(gg_fig_2)
 
-    gg_fig_2 <- gg_fig_2 +
+  gg_fig_2 <- gg_fig_2 +
     geom_text(
       x = gg_fig_2$data$day[7],
       y = ci_txt_f2[["est"]],
@@ -235,12 +243,13 @@ eng_mod_focus_20200318_piemonte_server <- function(id,
     dplyr::mutate(
       day_pred = .data$totale_casi_true %>%
         purrr::map_dbl(evaluate_inverse_1),
-      daygain  = dplyr::row_number() - .data$day_pred
+      daygain = dplyr::row_number() - .data$day_pred
     )
 
   gg_fig_3 <- dt_fig_3 %>%
     ggplot(aes(x = .data$day, y = .data$daygain)) +
-    stat_smooth() + geom_point() +
+    stat_smooth() +
+    geom_point() +
     labs(
       title = "",
       x = "Day",
@@ -272,22 +281,24 @@ eng_mod_focus_20200318_piemonte_server <- function(id,
     dplyr::mutate(days = dplyr::row_number())
 
   fit_full <- stats::loess(totale_casi_true ~ days,
-                           data    = dt_fig_4,
-                           control = stats::loess.control(surface = "direct")
+    data = dt_fig_4,
+    control = stats::loess.control(surface = "direct")
   )
   y_pred_full <- stats::predict(fit_full, dt_fig_4[["days"]])
 
   dt_fig_4 <- dt_fig_4 %>%
     dplyr::mutate(
-      dY = c(NA_real_,
-             diff(dt_fig_4$totale_casi_pred) - diff(y_pred_full)
+      dY = c(
+        NA_real_,
+        diff(dt_fig_4$totale_casi_pred) - diff(y_pred_full)
       )
     )
 
 
   gg_fig_4 <- dt_fig_4 %>%
     ggplot(aes(x = .data$day, y = .data$dY)) +
-    stat_smooth() + geom_point() +
+    stat_smooth() +
+    geom_point() +
     labs(
       title = "",
       x = "Data",
@@ -331,7 +342,6 @@ eng_mod_focus_20200318_piemonte_server <- function(id,
     output$fig4 <- renderPlotly({
       ggplotly(gg_fig_4)
     })
-
   })
 }
 
@@ -340,4 +350,3 @@ eng_mod_focus_20200318_piemonte_server <- function(id,
 
 ## To be copied in the server
 # callModule(mod_focus_20200318_piemonte_server, "focus_20200318_piemonte_ui_1")
-

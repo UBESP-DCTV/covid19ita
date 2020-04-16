@@ -221,8 +221,7 @@ dashboard_home_body <- function() {
                l'icona semitrasparente della macchina fotografica.
                Tramite la pressione dell'icona a forma di casetta \u00E8
                possibile <strong>ripristinare la visione
-               originale</strong> del grafico visualizzato."
-        )),
+               originale</strong> del grafico visualizzato.")),
         p(HTML(
           "2. <strong>rispetto a quali/quante informazioni elaborare e
           riportare</strong>: In caso compaiano delle celle sopra il

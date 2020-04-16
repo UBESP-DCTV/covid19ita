@@ -8,27 +8,25 @@
 #' @importFrom shiny shinyApp
 #' @importFrom golem with_golem_options
 run_app <- function(
-  ...,
-  language = c("ita", "eng")
-) {
+                    ...,
+                    language = c("ita", "eng")) {
   language <- match.arg(language)
 
   if (language == "ita") {
-	with_golem_options(
+    with_golem_options(
       app = shinyApp(
-	    ui = app_ui,
-	    server = app_server
-	  ),
-	  golem_opts = list(...)
-	)
+        ui = app_ui,
+        server = app_server
+      ),
+      golem_opts = list(...)
+    )
   } else {
-	with_golem_options(
+    with_golem_options(
       app = shinyApp(
-	    ui = eng_app_ui,
-	    server = eng_app_server
-	  ),
-	  golem_opts = list(...)
-	)
-
+        ui = eng_app_ui,
+        server = eng_app_server
+      ),
+      golem_opts = list(...)
+    )
   }
 }

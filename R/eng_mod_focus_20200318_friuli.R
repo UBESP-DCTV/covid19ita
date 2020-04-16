@@ -7,27 +7,28 @@
 #' @noRd
 #'
 #' @importFrom shiny NS tagList
-eng_mod_focus_20200318_friuli_ui <- function(id){
+eng_mod_focus_20200318_friuli_ui <- function(id) {
   ns <- NS(id)
 
   tagList(
     fluidRow(
-      box(width = 12,
-          p("This works aimes at giving a first impression of the
+      box(
+        width = 12,
+        p("This works aimes at giving a first impression of the
            possible effect of the health policies implemented by the Friuli
-           Venezia Giulia region in order to contain the spread of COVID-19."
-            ),
-            p(
-              "In order to understand whether the containing measures helped
+           Venezia Giulia region in order to contain the spread of COVID-19."),
+        p(
+          "In order to understand whether the containing measures helped
           slow down the spread of COVID-19, a predictive model based on the
           data collected until the 10th of March was compared to what was
           actually observed."
-          ),
-          p(
-            "Figure 1 shows that there was a slowdown after the 10th of
-          March: this day represents an epidemic change-point."),
-          p(HTML(
-            "Thanks to the comparison between the predicted and actual
+        ),
+        p(
+          "Figure 1 shows that there was a slowdown after the 10th of
+          March: this day represents an epidemic change-point."
+        ),
+        p(HTML(
+          "Thanks to the comparison between the predicted and actual
           values it was possible to estimate some quantities:</br>
           <ol>
             <li>1.	The number of avoided cases in the Veneto region as of the 14th of March: 118 (95% C.I. 102 -- 135) (Figure 2)</li>
@@ -43,30 +44,35 @@ eng_mod_focus_20200318_friuli_ui <- function(id){
     ),
 
     fluidRow(
-      box(width = 12, plotlyOutput(ns("fig1")),
-          title = "Figure 1. Estimated cases (bold green curve) based on course of the epidemic as registered until the 10th of March. Actual values (red dots) observed in the following day."
+      box(
+        width = 12, plotlyOutput(ns("fig1")),
+        title = "Figure 1. Estimated cases (bold green curve) based on course of the epidemic as registered until the 10th of March. Actual values (red dots) observed in the following day."
       )
     ),
     fluidRow(
-      box(width = 12, plotlyOutput(ns("fig2")),
-          title = "Figure 2. Avoided cases in the Friuli Venezia Giulia region compared to what was expected from the data gathered until the 10th of March. The grey area indicates the 95% confidence interval."
+      box(
+        width = 12, plotlyOutput(ns("fig2")),
+        title = "Figure 2. Avoided cases in the Friuli Venezia Giulia region compared to what was expected from the data gathered until the 10th of March. The grey area indicates the 95% confidence interval."
       )
     ),
     fluidRow(
-      box(width = 12, plotlyOutput(ns("fig3")),
-          title = "Figure 3. Gained days, estimated by looking at the shift to the right of the curve (predicted vs observed). The grey area indicates the 95% confidence interval."
-              ),
+      box(
+        width = 12, plotlyOutput(ns("fig3")),
+        title = "Figure 3. Gained days, estimated by looking at the shift to the right of the curve (predicted vs observed). The grey area indicates the 95% confidence interval."
+      ),
     ),
     fluidRow(
-      box(width = 12, plotlyOutput(ns("fig4")),
-          title = "Figure 4. Slowdown of the epidemic velocity (predicted vs observed). The grey area indicates the 95% confidence interval."
+      box(
+        width = 12, plotlyOutput(ns("fig4")),
+        title = "Figure 4. Slowdown of the epidemic velocity (predicted vs observed). The grey area indicates the 95% confidence interval."
       )
     ),
 
 
     fluidRow(
-      box(width = 12, title = "Technical details regarding the estimation of the model",
-          p("
+      box(
+        width = 12, title = "Technical details regarding the estimation of the model",
+        p("
           The estimation of the model was based on the number series of the cases that
           were observed until the 10th of March. This day represents a
           change-point in terms of growth of the epidemics. This change in the
@@ -76,7 +82,7 @@ eng_mod_focus_20200318_friuli_ui <- function(id){
           equal to 1.5). The shape of the curve fits the quadratic trend
           of the early stage of the outbreak.
         "),
-          p("
+        p("
           Recent studies showed that the curve of cases could be of a quadratic
           nature rather than exponential, especially in the early stage of the outbreak
           (2).
@@ -84,8 +90,9 @@ eng_mod_focus_20200318_friuli_ui <- function(id){
       )
     ),
     fluidRow(
-      box(width = 12, title = "References",
-          p(HTML("
+      box(
+        width = 12, title = "References",
+        p(HTML("
           <ol>
             <li>Barry D, Hartigan JA. A Bayesian Analysis for Change Point Problems. J Am Stat Assoc. 1993;88(421):309--19.</li>
             <li>Brandenburg A. Quadratic growth during the 2019 novel coronavirus epidemic. 2020.</li>
@@ -99,22 +106,22 @@ eng_mod_focus_20200318_friuli_ui <- function(id){
 #' focus_20200318_friuli Server Function
 #'
 #' @noRd
-eng_mod_focus_20200318_friuli_server <- function(id, region = "Friuli Venezia Giulia"){
+eng_mod_focus_20200318_friuli_server <- function(id, region = "Friuli Venezia Giulia") {
 
   # data_plot <- mtcars[1:2]
 
   regione <- dpc_covid19_ita_regioni %>%
     dplyr::filter(
       .data$denominazione_regione == region,
-      (.data$data <= lubridate::ymd('2020-03-14'))
+      (.data$data <= lubridate::ymd("2020-03-14"))
     ) %>%
     dplyr::mutate(
       day = lubridate::ymd_hms(.data$data),
       time_point = ifelse(
-        (.data$day >= lubridate::ymd('2020-03-06')) &
-        (.data$day <= lubridate::ymd('2020-03-10')),
+        (.data$day >= lubridate::ymd("2020-03-06")) &
+          (.data$day <= lubridate::ymd("2020-03-10")),
         yes = 0,
-        no  = ifelse(.data$day > lubridate::ymd('2020-03-10'),
+        no = ifelse(.data$day > lubridate::ymd("2020-03-10"),
           yes = 1,
           no  = 2
         )
@@ -129,30 +136,30 @@ eng_mod_focus_20200318_friuli_server <- function(id, region = "Friuli Venezia Gi
     dplyr::mutate(days = dplyr::row_number())
 
   train_2 <- regione %>%
-    dplyr::filter(.data$day <= lubridate::ymd('2020-03-06')) %>%
+    dplyr::filter(.data$day <= lubridate::ymd("2020-03-06")) %>%
     dplyr::arrange(.data$data) %>%
     dplyr::mutate(days = dplyr::row_number())
 
   prediction <- regione %>%
     dplyr::filter(
-      (.data$time_point != 2) & (.data$day <= lubridate::ymd('2020-03-14'))
+      (.data$time_point != 2) & (.data$day <= lubridate::ymd("2020-03-14"))
     ) %>%
     dplyr::arrange(.data$data) %>%
     dplyr::mutate(days = dplyr::row_number())
 
 
   prediction_2 <- regione %>%
-    dplyr::filter(.data$day <= lubridate::ymd('2020-03-07')) %>%
+    dplyr::filter(.data$day <= lubridate::ymd("2020-03-07")) %>%
     dplyr::arrange(.data$data) %>%
     dplyr::mutate(days = dplyr::row_number())
 
 
   db_true <- tibble::tibble(
-    day         = regione[["day"]],
+    day = regione[["day"]],
     totale_casi = regione[["totale_casi"]],
-    lower       = NA_real_,
-    upper       = NA_real_,
-    series      = 'Osservato'
+    lower = NA_real_,
+    upper = NA_real_,
+    series = "Osservato"
   )
 
   #------------- fit loess ------------------
@@ -167,15 +174,16 @@ eng_mod_focus_20200318_friuli_server <- function(id, region = "Friuli Venezia Gi
   y_fit <- y_loess[["fit"]]
 
   db_loess <- tibble::tibble(
-    day         = prediction[["day"]],
+    day = prediction[["day"]],
     totale_casi = y_fit,
-    series      = 'Predetto'
+    series = "Predetto"
   )
 
   fit2_loess <- stats::loess(totale_casi ~ days,
     data = train_2,
     span = 1.5,
-    control = stats::loess.control(surface = "direct"))
+    control = stats::loess.control(surface = "direct")
+  )
 
   y2_loess <- stats::predict(fit2_loess, prediction_2[["days"]],
     se = TRUE
@@ -183,19 +191,19 @@ eng_mod_focus_20200318_friuli_server <- function(id, region = "Friuli Venezia Gi
   y2_fit <- y2_loess[["fit"]]
 
   db2_loess <- tibble::tibble(
-    day         = prediction_2[["day"]],
+    day = prediction_2[["day"]],
     totale_casi = y2_fit,
-    series = 'Predetto'
+    series = "Predetto"
   )
 
   global_theme <- theme_bw() +
     theme(
       legend.title = element_blank(),
-      panel.border     = element_blank(),
+      panel.border = element_blank(),
       panel.grid.major = element_blank(),
       panel.grid.minor = element_blank(),
-      axis.text.x      = element_text(angle = 60, vjust = 0.5),
-      axis.line        = element_line(colour = "black")
+      axis.text.x = element_text(angle = 60, vjust = 0.5),
+      axis.line = element_line(colour = "black")
     )
 
 
@@ -204,7 +212,8 @@ eng_mod_focus_20200318_friuli_server <- function(id, region = "Friuli Venezia Gi
 
   gg_fig_1 <- db_loess %>%
     ggplot(aes(x = .data$day, y = .data$totale_casi, colour = .data$series)) +
-    geom_smooth() + geom_point(data = db_true) +
+    geom_smooth() +
+    geom_point(data = db_true) +
     geom_smooth(data = db2_loess) +
     labs(title = "", x = "Day", y = "Cases") +
     scale_x_datetime(date_breaks = "1 day", date_labels = "%d %b") +
@@ -220,9 +229,9 @@ eng_mod_focus_20200318_friuli_server <- function(id, region = "Friuli Venezia Gi
 
   dt_fig_2 <- db3_full_loess %>%
     dplyr::left_join(db_true,
-       by = "day",
-       suffix = c("_pred", "_true")
-  ) %>%
+      by = "day",
+      suffix = c("_pred", "_true")
+    ) %>%
     dplyr::mutate(
       difference = .data$totale_casi_pred - .data$totale_casi_true
     )
@@ -230,7 +239,8 @@ eng_mod_focus_20200318_friuli_server <- function(id, region = "Friuli Venezia Gi
 
   gg_fig_2 <- dt_fig_2 %>%
     ggplot(aes(x = .data$day, .data$difference)) +
-    stat_smooth() + geom_point() +
+    stat_smooth() +
+    geom_point() +
     labs(
       title = "",
       x = "Day",
@@ -263,12 +273,13 @@ eng_mod_focus_20200318_friuli_server <- function(id, region = "Friuli Venezia Gi
     dplyr::mutate(
       day_pred = .data$totale_casi_true %>%
         purrr::map_dbl(evaluate_inverse_1),
-      daygain  = dplyr::row_number() - .data$day_pred
+      daygain = dplyr::row_number() - .data$day_pred
     )
 
   gg_fig_3 <- dt_fig_3 %>%
     ggplot(aes(x = .data$day, y = .data$daygain)) +
-    stat_smooth() + geom_point() +
+    stat_smooth() +
+    geom_point() +
     labs(
       title = "",
       x = "Day",
@@ -300,22 +311,24 @@ eng_mod_focus_20200318_friuli_server <- function(id, region = "Friuli Venezia Gi
     dplyr::mutate(days = dplyr::row_number())
 
   fit_full <- stats::loess(totale_casi_true ~ days,
-    data    = dt_fig_4,
+    data = dt_fig_4,
     control = stats::loess.control(surface = "direct")
   )
   y_pred_full <- stats::predict(fit_full, dt_fig_4[["days"]])
 
   dt_fig_4 <- dt_fig_4 %>%
     dplyr::mutate(
-      dY = c(NA_real_,
-             diff(dt_fig_4$totale_casi_pred) - diff(y_pred_full)
+      dY = c(
+        NA_real_,
+        diff(dt_fig_4$totale_casi_pred) - diff(y_pred_full)
       )
     )
 
 
   gg_fig_4 <- dt_fig_4 %>%
     ggplot(aes(x = .data$day, y = .data$dY)) +
-    stat_smooth() + geom_point() +
+    stat_smooth() +
+    geom_point() +
     labs(
       title = "",
       x = "Data",
@@ -359,7 +372,6 @@ eng_mod_focus_20200318_friuli_server <- function(id, region = "Friuli Venezia Gi
     output$fig4 <- renderPlotly({
       ggplotly(gg_fig_4)
     })
-
   })
 }
 
@@ -368,4 +380,3 @@ eng_mod_focus_20200318_friuli_server <- function(id, region = "Friuli Venezia Gi
 
 ## To be copied in the server
 # callModule(mod_focus_20200318_friuli_server, "focus_20200318_friuli_ui_1")
-

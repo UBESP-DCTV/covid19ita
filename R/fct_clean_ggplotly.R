@@ -12,16 +12,15 @@
 #'
 #' @export
 clean_ggplotly <- function(
-  p = ggplot2::last_plot(),
-  width = NULL,
-  height = NULL,
-  tooltip = "all",
-  dynamicTicks = FALSE,
-  layerData = 1,
-  originalData = TRUE,
-  source = "A",
-  ...
-) {
+                           p = ggplot2::last_plot(),
+                           width = NULL,
+                           height = NULL,
+                           tooltip = "all",
+                           dynamicTicks = FALSE,
+                           layerData = 1,
+                           originalData = TRUE,
+                           source = "A",
+                           ...) {
   plotly::ggplotly(
     p = p,
     width = width,
@@ -39,5 +38,4 @@ clean_ggplotly <- function(
         "zoomIn2d", "zoomOut2d", "pan2d", "select2d", "lasso2d"
       )
     )
-
 }

@@ -7,12 +7,13 @@
 #' @noRd
 #'
 #' @importFrom shiny NS tagList
-mod_focus_20200325_hosp_ui <- function(id){
+mod_focus_20200325_hosp_ui <- function(id) {
   ns <- NS(id)
 
   tagList(
     fluidRow(
-      box(width = 12,
+      box(
+        width = 12,
         p(
           "Obiettivo \u00E8  quello di avere un'aggiornamento sul
            possibile effetto delle politiche sanitarie implementate in
@@ -27,7 +28,8 @@ mod_focus_20200325_hosp_ui <- function(id){
         p(
           "La Figura 1 mostra che vi \u00E8  stato un rallentamento dopo il
           12 marzo, giorno in cui si \u00E8  osservato un changepoint
-          nell'andamento epidemico."),
+          nell'andamento epidemico."
+        ),
         p(HTML(
           "In base a questo confronto (curva stimata al 24 marzo e dati
           osservati nei giorni seguenti) \u00E8  stato possibile stimare alcune
@@ -46,29 +48,34 @@ mod_focus_20200325_hosp_ui <- function(id){
     ),
 
     fluidRow(
-      box(width = 12, plotlyOutput(ns("fig1")),
+      box(
+        width = 12, plotlyOutput(ns("fig1")),
         title = "Figure 1. Ospedalizzazioni stimate (curva rossa in grassetto, le curve rosse non in grassetto indicano i livelli di confidenza al 95%.) in base all'andamento della epidemia al 12 marzo. Andamento osservato (punti verdi) nei giorni successivi."
       )
     ),
     fluidRow(
-      box(width = 12, plotlyOutput(ns("fig2")),
+      box(
+        width = 12, plotlyOutput(ns("fig2")),
         title = "Figure 2. Numero di ospedalizzazioni evitate in Veneto rispetto all'andamento previsto al giorno 12 marzo. L'area grigia indica l'intervallo di confidenza al 95%)."
       )
     ),
     fluidRow(
-      box(width = 12, plotlyOutput(ns("fig3")),
+      box(
+        width = 12, plotlyOutput(ns("fig3")),
         title = "Figure 3. Giorni di \"ritardo\", stimati in base allo shift a destra della curva di crescita (stimato al 12 marzo vs. osservato). L'area grigia indica l'intervallo di confidenza al 95%)."
       )
     ),
     fluidRow(
-      box(width = 12, plotlyOutput(ns("fig4")),
+      box(
+        width = 12, plotlyOutput(ns("fig4")),
         title = "Figure 4. Rallentamento dell'osservato rispetto al previsto al 12 marzo. L'area grigia indica l'intervallo di confidenza al 95%)."
       )
     ),
 
 
     fluidRow(
-      box(width = 12, title = "Dati tecnici sulla stima del Modello",
+      box(
+        width = 12, title = "Dati tecnici sulla stima del Modello",
         p("
           La stima del modello \u00E8  stata effettuata sulla serie del numero
           di ospedalizzazioni osservate fino al 12 marzo. Tale giorno \u00E8  stato
@@ -92,7 +99,8 @@ mod_focus_20200325_hosp_ui <- function(id){
       )
     ),
     fluidRow(
-      box(width = 12, title = "Bibliografia",
+      box(
+        width = 12, title = "Bibliografia",
         p(HTML("
           <ol>
             <li>Barry D, Hartigan JA. A Bayesian Analysis for Change Point Problems. J Am Stat Assoc. 1993;88(421):309--19.</li>
@@ -114,11 +122,11 @@ mod_focus_20200325_hosp_server <- function(id, region = "Veneto") {
   regione <- dpc_covid19_ita_regioni %>%
     dplyr::filter(
       .data$denominazione_regione == region,
-      (.data$data <= lubridate::ymd('2020-03-24'))
+      (.data$data <= lubridate::ymd("2020-03-24"))
     ) %>%
     dplyr::mutate(
       day = lubridate::ymd_hms(.data$data),
-      time_point = ifelse(.data$day <= lubridate::ymd('2020-03-13'),
+      time_point = ifelse(.data$day <= lubridate::ymd("2020-03-13"),
         yes = 0,
         no  = 1
       )
@@ -146,39 +154,40 @@ mod_focus_20200325_hosp_server <- function(id, region = "Veneto") {
   y_fit <- y_loess[["fit"]]
 
   db_pred_loess <- tibble::tibble(
-    day         = regione[["day"]],
+    day = regione[["day"]],
     ricoverati_con_sintomi = y_fit,
-    lower       = y_fit -
-                  stats::qt(0.975, y_loess[["df"]]) * y_loess[["se.fit"]],
-    upper       = y_fit +
-                  stats::qt(0.975, y_loess[["df"]]) * y_loess[["se.fit"]],
-    series      = 'Previsione'
+    lower = y_fit -
+      stats::qt(0.975, y_loess[["df"]]) * y_loess[["se.fit"]],
+    upper = y_fit +
+      stats::qt(0.975, y_loess[["df"]]) * y_loess[["se.fit"]],
+    series = "Previsione"
   )
 
   db_true_loess <- tibble::tibble(
-    day         = regione[["day"]],
+    day = regione[["day"]],
     ricoverati_con_sintomi = regione[["ricoverati_con_sintomi"]],
-    lower       = NA_real_,
-    upper       = NA_real_,
-    series      = 'Osservato'
+    lower = NA_real_,
+    upper = NA_real_,
+    series = "Osservato"
   )
 
 
   global_theme <- theme_bw() +
     theme(
       legend.title = element_blank(),
-      panel.border     = element_blank(),
+      panel.border = element_blank(),
       panel.grid.major = element_blank(),
       panel.grid.minor = element_blank(),
-      axis.text.x      = element_text(angle = 60, vjust = 0.5),
-      axis.line        = element_line(colour = "black")
+      axis.text.x = element_text(angle = 60, vjust = 0.5),
+      axis.line = element_line(colour = "black")
     )
 
   ## FIG 1
 
   gg_fig_1 <- db_pred_loess %>%
     ggplot(aes(x = .data$day, y = .data$ricoverati_con_sintomi, colour = .data$series)) +
-    geom_smooth() + geom_point(data = db_true_loess) +
+    geom_smooth() +
+    geom_point(data = db_true_loess) +
     geom_line(aes(x = .data$day, y = .data$lower)) +
     geom_line(aes(x = .data$day, y = .data$upper)) +
     labs(title = "", x = "Giorno", y = "Totale ospedalizzazioni") +
@@ -203,7 +212,8 @@ mod_focus_20200325_hosp_server <- function(id, region = "Veneto") {
 
   gg_fig_2 <- dt_fig_2 %>%
     ggplot(aes(x = .data$day, .data$difference)) +
-    stat_smooth() + geom_point() +
+    stat_smooth() +
+    geom_point() +
     labs(
       title = "",
       x = "Giorno",
@@ -238,13 +248,14 @@ mod_focus_20200325_hosp_server <- function(id, region = "Veneto") {
     dplyr::mutate(
       day_pred = .data$ricoverati_con_sintomi_true %>%
         purrr::map_dbl(evaluate_inverse_1),
-      daygain  = dplyr::row_number() - .data$day_pred
+      daygain = dplyr::row_number() - .data$day_pred
     )
 
 
   gg_fig_3 <- dt_fig_3 %>%
     ggplot(aes(x = .data$day, y = .data$daygain)) +
-    stat_smooth() + geom_point() +
+    stat_smooth() +
+    geom_point() +
     labs(
       title = "",
       x = "Giorno",
@@ -273,26 +284,28 @@ mod_focus_20200325_hosp_server <- function(id, region = "Veneto") {
 
 
   fit_full <- stats::loess(ricoverati_con_sintomi_true ~ n_seq_regione,
-    data    = dt_fig_3,
+    data = dt_fig_3,
     control = stats::loess.control(surface = "direct")
   )
   y_pred_full <- stats::predict(fit_full, n_seq_regione)
 
   dt_fig_4 <- dt_fig_3 %>%
     dplyr::mutate(
-      dY = c(NA_real_,
-             diff(dt_fig_3$ricoverati_con_sintomi_pred) - diff(y_pred_full)
+      dY = c(
+        NA_real_,
+        diff(dt_fig_3$ricoverati_con_sintomi_pred) - diff(y_pred_full)
       )
     )
 
 
   gg_fig_4 <- dt_fig_4 %>%
     ggplot(aes(x = .data$day, y = .data$dY)) +
-    stat_smooth() + geom_point() +
+    stat_smooth() +
+    geom_point() +
     labs(
       title = "",
-       x = "Data",
-       y = "Variazione nelle nuove ospedalizzazioni"
+      x = "Data",
+      y = "Variazione nelle nuove ospedalizzazioni"
     ) +
     scale_x_datetime(date_breaks = "1 day", date_labels = "%d %b") +
     scale_y_continuous(breaks = seq(-50, 50, 10)) +
@@ -305,7 +318,7 @@ mod_focus_20200325_hosp_server <- function(id, region = "Veneto") {
       x = gg_fig_4$data$day[11],
       y = ci_txt_f4[["est"]],
       label = ci_txt_f4[["label"]]
-  )
+    )
 
 
 
@@ -332,7 +345,6 @@ mod_focus_20200325_hosp_server <- function(id, region = "Veneto") {
     output$fig4 <- renderPlotly({
       ggplotly(gg_fig_4)
     })
-
   })
 }
 
@@ -341,4 +353,3 @@ mod_focus_20200325_hosp_server <- function(id, region = "Veneto") {
 
 ## To be copied in the server
 # callModule(mod_focus_20200325_hosp_server, "focus_20200325_ui_1")
-

@@ -12,7 +12,6 @@
 #' @examples
 #' covid19ita:::pull_region_w_pop("veneto")
 pull_region_w_pop <- function(region) {
-
   dpc_covid19_ita_regioni %>%
     dplyr::filter(
       .data$denominazione_regione == region
@@ -25,5 +24,4 @@ pull_region_w_pop <- function(region) {
         .data$denominazione_regione == region
       )[["residenti"]]
     )
-
 }

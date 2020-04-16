@@ -13,7 +13,8 @@ mod_focus_20200331_ui <- function(id) {
   # User interface: WEB side
   fluidPage(
     fluidRow(
-      box(width = 12,
+      box(
+        width = 12,
 
         p("
           Sono stati analizzati i dati relativi al numero di casi
@@ -125,23 +126,27 @@ mod_focus_20200331_ui <- function(id) {
     fluidRow(
       ## qui i nomi dei plot vanno inclusi dentro `ns(<id>)`,
       ## lato server invece saranno messi solo come `output$<id>`
-      box(width = 12, plotlyOutput(ns("fig1")),
-          footer = "Figure 1. Andamento del totale casi con la sovrapposizione del numero di tamponi giornaliero (linea tratteggiata) in Piemonte ed in Veneto."
+      box(
+        width = 12, plotlyOutput(ns("fig1")),
+        footer = "Figure 1. Andamento del totale casi con la sovrapposizione del numero di tamponi giornaliero (linea tratteggiata) in Piemonte ed in Veneto."
       )
     ),
     fluidRow(
-      box(width = 12, plotlyOutput(ns("fig2")),
-          footer = "Figure 2. Andamento del numero di ospedalizzati (totale ospedalizzati) in Piemonte ed in Veneto."
+      box(
+        width = 12, plotlyOutput(ns("fig2")),
+        footer = "Figure 2. Andamento del numero di ospedalizzati (totale ospedalizzati) in Piemonte ed in Veneto."
       )
     ),
     fluidRow(
-      box(width = 12, plotlyOutput(ns("fig3")),
-          footer = "Figure 3. Andamento del numero dei ricoveri in terapia intensiva in Piemonte ed in Veneto."
+      box(
+        width = 12, plotlyOutput(ns("fig3")),
+        footer = "Figure 3. Andamento del numero dei ricoveri in terapia intensiva in Piemonte ed in Veneto."
       )
     ),
     fluidRow(
-      box(width = 12, plotlyOutput(ns("fig4")),
-          footer = "Figure 4. Andamento del totale decessi in Piemonte ed in Veneto."
+      box(
+        width = 12, plotlyOutput(ns("fig4")),
+        footer = "Figure 4. Andamento del totale decessi in Piemonte ed in Veneto."
       )
     )
   )
@@ -159,10 +164,10 @@ mod_focus_20200331_server <- function(id) {
 
   db <- dpc_covid19_ita_regioni %>%
     dplyr::filter(
-      .data$denominazione_regione %in% c('Piemonte', 'Veneto')
+      .data$denominazione_regione %in% c("Piemonte", "Veneto")
     ) %>%
     dplyr::mutate(
-      day  = lubridate::ymd_hms(.data$data),
+      day = lubridate::ymd_hms(.data$data),
       days = seq_along(.data$data)
     ) %>%
     # region_population is an internal data (see `data-raw/covid_ita.R`)
@@ -172,9 +177,9 @@ mod_focus_20200331_server <- function(id) {
     dplyr::arrange(.data$day) %>%
     dplyr::mutate(
       tamponi_day = .data$tamponi -
-                    dplyr::lag(.data$tamponi, default = 0),
+        dplyr::lag(.data$tamponi, default = 0),
       casi_day = .data$totale_casi -
-                 dplyr::lag(.data$totale_casi, default = 0)
+        dplyr::lag(.data$totale_casi, default = 0)
     ) %>%
     # DRY: Do not Repeat yourself function `regional_poiss()` added to
     #      the internal (not exported, nor tested) functions, in
@@ -186,22 +191,22 @@ mod_focus_20200331_server <- function(id) {
       hosp_poiss = .data$data %>%
         purrr::map(regional_poiss, response = "totale_ospedalizzati"),
       hosp_cases = .data$hosp_poiss %>%
-        purrr::map(stats::predict, type = 'response'),
+        purrr::map(stats::predict, type = "response"),
 
       # ICU
       icu_poiss = .data$data %>%
         purrr::map(regional_poiss, response = "terapia_intensiva"),
       icu_cases = .data$icu_poiss %>%
-        purrr::map(stats::predict, type = 'response'),
+        purrr::map(stats::predict, type = "response"),
 
       # Death
       death_poiss = .data$data %>%
         purrr::map(regional_poiss, response = "deceduti"),
       death_cases = .data$death_poiss %>%
-        purrr::map(stats::predict, type = 'response')
+        purrr::map(stats::predict, type = "response")
     ) %>%
     ## non mi pare servano, inutile lasciarli ridondanti
-    dplyr::select(- dplyr::ends_with("poiss")) %>%
+    dplyr::select(-dplyr::ends_with("poiss")) %>%
     tidyr::unnest(
       cols = c(.data$data, dplyr::ends_with("cases"))
     )
@@ -209,11 +214,11 @@ mod_focus_20200331_server <- function(id) {
   global_theme <- theme_bw() +
     theme(
       legend.title = element_blank(),
-      panel.border     = element_blank(),
+      panel.border = element_blank(),
       panel.grid.major = element_blank(),
       panel.grid.minor = element_blank(),
-      axis.text.x      = element_text(angle = 60, vjust = 0.5),
-      axis.line        = element_line(colour = "black")
+      axis.text.x = element_text(angle = 60, vjust = 0.5),
+      axis.line = element_line(colour = "black")
     )
 
 
@@ -224,12 +229,13 @@ mod_focus_20200331_server <- function(id) {
       y = .data$totale_casi,
       col = .data$denominazione_regione
     )) +
-    geom_point() + geom_smooth() +
+    geom_point() +
+    geom_smooth() +
     geom_line(
       aes(y = .data$tamponi_day),
-      linetype = 'dashed'
+      linetype = "dashed"
     ) +
-    labs(y = 'Totale casi') +
+    labs(y = "Totale casi") +
     global_theme
 
 
@@ -243,7 +249,7 @@ mod_focus_20200331_server <- function(id) {
     )) +
     geom_point() +
     geom_line(aes(y = .data$hosp_cases)) +
-    labs(x = 'Giorno', y = 'Totale ospedalizzati') +
+    labs(x = "Giorno", y = "Totale ospedalizzati") +
     global_theme
 
 
@@ -253,10 +259,10 @@ mod_focus_20200331_server <- function(id) {
       x = .data$day,
       y = .data$terapia_intensiva,
       colour = .data$denominazione_regione
-    ))+
+    )) +
     geom_point() +
     geom_line(aes(y = .data$icu_cases)) +
-    labs(x = 'Giorno', y = 'Totale ricoveri in terapia intensiva') +
+    labs(x = "Giorno", y = "Totale ricoveri in terapia intensiva") +
     global_theme
 
 
@@ -269,51 +275,50 @@ mod_focus_20200331_server <- function(id) {
     )) +
     geom_point() +
     geom_line(aes(y = .data$death_cases)) +
-    labs(x = 'Giorno', y = 'Totale decessi') +
+    labs(x = "Giorno", y = "Totale decessi") +
     global_theme
 
 
 
 
-    callModule(id = id, function(input, output, session) {
-      ns <- session$ns
-      ## interactive code
+  callModule(id = id, function(input, output, session) {
+    ns <- session$ns
+    ## interactive code
 
-      ## The only interactive code here are the plots
+    ## The only interactive code here are the plots
 
-      output$fig1 <- renderPlotly({
-        ggplotly(gg_fig_1) %>%
-          config(modeBarButtonsToRemove = c(
-            "zoomIn2d", "zoomOut2d", "pan2d", "select2d", "lasso2d")
-          ) %>%
-          config(displaylogo = FALSE)
-      })
-
-      output$fig2 <- renderPlotly({
-        ggplotly(gg_fig_2) %>%
-          config(modeBarButtonsToRemove = c(
-            "zoomIn2d", "zoomOut2d", "pan2d", "select2d", "lasso2d")
-          ) %>%
-          config(displaylogo = FALSE)
-      })
-
-      output$fig3 <- renderPlotly({
-        ggplotly(gg_fig_3) %>%
-          config(modeBarButtonsToRemove = c(
-            "zoomIn2d", "zoomOut2d", "pan2d", "select2d", "lasso2d")
-          ) %>%
-          config(displaylogo = FALSE)
-      })
-
-      output$fig4 <- renderPlotly({
-        ggplotly(gg_fig_4) %>%
-          config(modeBarButtonsToRemove = c(
-            "zoomIn2d", "zoomOut2d", "pan2d", "select2d", "lasso2d")
-          ) %>%
-          config(displaylogo = FALSE)
-      })
-
+    output$fig1 <- renderPlotly({
+      ggplotly(gg_fig_1) %>%
+        config(modeBarButtonsToRemove = c(
+          "zoomIn2d", "zoomOut2d", "pan2d", "select2d", "lasso2d"
+        )) %>%
+        config(displaylogo = FALSE)
     })
+
+    output$fig2 <- renderPlotly({
+      ggplotly(gg_fig_2) %>%
+        config(modeBarButtonsToRemove = c(
+          "zoomIn2d", "zoomOut2d", "pan2d", "select2d", "lasso2d"
+        )) %>%
+        config(displaylogo = FALSE)
+    })
+
+    output$fig3 <- renderPlotly({
+      ggplotly(gg_fig_3) %>%
+        config(modeBarButtonsToRemove = c(
+          "zoomIn2d", "zoomOut2d", "pan2d", "select2d", "lasso2d"
+        )) %>%
+        config(displaylogo = FALSE)
+    })
+
+    output$fig4 <- renderPlotly({
+      ggplotly(gg_fig_4) %>%
+        config(modeBarButtonsToRemove = c(
+          "zoomIn2d", "zoomOut2d", "pan2d", "select2d", "lasso2d"
+        )) %>%
+        config(displaylogo = FALSE)
+    })
+  })
 }
 
 ## To be copied in the UI
@@ -321,4 +326,3 @@ mod_focus_20200331_server <- function(id) {
 
 ## To be copied in the server
 # callModule(mod_focus_20200331_server, "focus_20200331_ui_1")
-

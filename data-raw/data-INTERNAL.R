@@ -25,7 +25,7 @@ dpc_covid19_ita_andamento_nazionale <- read_data_raw(
 )
 dpc_covid19_ita_regioni <- read_data_raw("dpc_covid19_ita_regioni")
 dpc_covid19_ita_province <- read_data_raw("dpc_covid19_ita_province")
-last_data_update <-read_data_raw("last_data_update")
+last_data_update <- read_data_raw("last_data_update")
 
 
 
@@ -116,8 +116,6 @@ usethis::use_data(
 
   # dictionary
   dictionary,
-
-
   internal = TRUE,
   overwrite = TRUE
 )

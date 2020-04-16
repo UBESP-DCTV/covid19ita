@@ -37,7 +37,6 @@ data_TEMPLATE <- function() {
     "template_dataset_1",
     "template_dataset_2"
   ))
-
 }
 
 

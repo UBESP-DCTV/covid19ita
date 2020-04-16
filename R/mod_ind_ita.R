@@ -7,11 +7,10 @@
 #' @noRd
 #'
 #' @importFrom shiny NS tagList
-mod_ind_ita_ui <- function(id){
+mod_ind_ita_ui <- function(id) {
   ns <- NS(id)
 
   fluidPage(
-
     h2(HTML("<strong>Decessi</strong>")),
     fluidRow(
       box(plotlyOutput(ns("dsp")),
@@ -25,12 +24,12 @@ mod_ind_ita_ui <- function(id){
 
     h2(HTML("<strong>Guariti</strong>")),
     box(plotlyOutput(ns("dgso")),
-        width = 12, title = "Dimessi guariti su ospedalizzati"
+      width = 12, title = "Dimessi guariti su ospedalizzati"
     ),
 
     h2(HTML("<strong>Isolamento domiciliare</strong>")),
     box(plotlyOutput(ns("idso")),
-        width = 12, title = "Isolamento domiciliare su ospedalizzati"
+      width = 12, title = "Isolamento domiciliare su ospedalizzati"
     ),
 
 
@@ -52,14 +51,16 @@ mod_ind_ita_ui <- function(id){
 
     h2(HTML("Terapie intensive")),
     fluidRow(
-      selectInput(width = "45%", ns("whichRegion"),
+      selectInput(
+        width = "45%", ns("whichRegion"),
         label = "Selezionare le regioni da visualizzare",
         choices = regions(),
         selectize = TRUE,
         selected = c("Lombardia", "Veneto", "Emilia Romagna"),
         multiple = TRUE
       ),
-      sliderInput(width = "45%", ns("lastDate"),
+      sliderInput(
+        width = "45%", ns("lastDate"),
         label = "Selezionare l'ultima data da considerare per la stima del modello",
         value = max(dpc_covid19_ita_regioni$data),
         min = min(dpc_covid19_ita_regioni$data) + lubridate::days(6),
@@ -77,8 +78,6 @@ mod_ind_ita_ui <- function(id){
       width = 12,
       title = "Tabella andamento regionale della percentuale di popolazione che, rispettivamente, \u00E8  ricoverata in terapia intensiva (intensiva_pesati) e non \u00E8 (alla data considerata) ospedalizzata nonostante sia stata soggetta a tampone (tamp_asint_pesati)."
     )
-
-
   )
 }
 
@@ -94,8 +93,6 @@ mod_ind_ita_ui <- function(id){
 #' @import ggplot2
 #' @noRd
 mod_ind_ita_server <- function(id) {
-
-
   data_to_use <- dpc_covid19_ita_andamento_nazionale %>%
     dplyr::mutate(zona = .data$stato) %>%
     dplyr::group_by(.data$zona) %>%
@@ -103,8 +100,8 @@ mod_ind_ita_server <- function(id) {
       data = .data$data,
 
       ## Ex casi
-      dsp  = .data$deceduti / .data$totale_casi,
-      dso  = .data$deceduti / .data$totale_ospedalizzati,
+      dsp = .data$deceduti / .data$totale_casi,
+      dso = .data$deceduti / .data$totale_ospedalizzati,
       dgso = .data$dimessi_guariti / .data$totale_ospedalizzati,
 
       ## Isolamento domiciliare
@@ -123,22 +120,21 @@ mod_ind_ita_server <- function(id) {
     dplyr::ungroup()
 
   gg_ind_plot <- function(y) {
-
     data_to_use %>%
-      ggplot(aes(x = .data$data, y = .data[[ {{y}} ]], colour = .data$zona)) +
-      geom_point() + geom_line() +
+      ggplot(aes(x = .data$data, y = .data[[{{ y }}]], colour = .data$zona)) +
+      geom_point() +
+      geom_line() +
       labs(title = "", x = "Giorno", y = "Proporzione") +
       scale_x_datetime(date_breaks = "2 days", date_labels = "%d %b") +
       theme_bw() +
       theme(
-        panel.border     = element_blank(),
+        panel.border = element_blank(),
         panel.grid.major = element_blank(),
         panel.grid.minor = element_blank(),
-        axis.text.x      = element_text(angle = 60, hjust = 1, vjust = 0.5),
-        axis.line        = element_line(colour = "black"),
+        axis.text.x = element_text(angle = 60, hjust = 1, vjust = 0.5),
+        axis.line = element_line(colour = "black"),
         legend.position = "none"
       )
-
   }
 
 
@@ -148,19 +144,19 @@ mod_ind_ita_server <- function(id) {
     dplyr::group_by(.data$denominazione_regione) %>%
     dplyr::mutate(
       tamponi_no_sintomi = .data$tamponi -
-                           .data$ricoverati_con_sintomi -
-                           .data$terapia_intensiva,
+        .data$ricoverati_con_sintomi -
+        .data$terapia_intensiva,
       tamp_asint_pesati = 100 * (
-        .data$tamponi_no_sintomi/.data$residenti
+        .data$tamponi_no_sintomi / .data$residenti
       ),
-      intensiva_pesati  = 100 * (
-        .data$terapia_intensiva/.data$residenti
+      intensiva_pesati = 100 * (
+        .data$terapia_intensiva / .data$residenti
       )
     ) %>%
     dplyr::ungroup()
 
 
-  callModule(id = id, function(input, output, session){
+  callModule(id = id, function(input, output, session) {
     ns <- session$ns
 
     ## Ex casi
@@ -186,20 +182,17 @@ mod_ind_ita_server <- function(id) {
     ## Incrementi proporzionali
     output$cpt <- renderPlotly({
       ggplotly(gg_ind_plot("cpt") +
-        ylab("% (rispetto il giorno precedente)")
-      )
+        ylab("% (rispetto il giorno precedente)"))
     })
 
     output$ddt <- renderPlotly({
       ggplotly(gg_ind_plot("ddt") +
-        ylab("% (rispetto il giorno precedente)")
-      )
+        ylab("% (rispetto il giorno precedente)"))
     })
 
     output$tit <- renderPlotly({
       ggplotly(gg_ind_plot("tit") +
-        ylab("% (rispetto il giorno precedente)")
-      )
+        ylab("% (rispetto il giorno precedente)"))
     })
 
 
@@ -218,7 +211,6 @@ mod_ind_ita_server <- function(id) {
 
 
     output$titamponi <- renderPlotly({
-
       gg_titamponi <- data_to_use() %>%
         ggplot(aes(
           x = .data$tamp_asint_pesati,
@@ -261,7 +253,6 @@ mod_ind_ita_server <- function(id) {
         dplyr::mutate(data = as.Date(.data$data)) %>%
         dplyr::mutate_if(is.numeric, round, digits = 5)
     })
-
   })
 }
 
@@ -270,4 +261,3 @@ mod_ind_ita_server <- function(id) {
 
 ## To be copied in the server
 # callModule(mod_indicators_server, "indicators_ui_1")
-

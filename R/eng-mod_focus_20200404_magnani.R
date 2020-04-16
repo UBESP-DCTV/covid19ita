@@ -7,10 +7,11 @@
 #' @noRd
 #'
 #' @importFrom shiny NS tagList
-eng_mod_focus_20200404_magnani_ui <- function(id){
+eng_mod_focus_20200404_magnani_ui <- function(id) {
   ns <- NS(id)
   fluidPage(
-    fluidRow(box(width = 12,
+    fluidRow(box(
+      width = 12,
       p(HTML("
         Prof. <strong>Corrado Magnani</strong>
         <br>
@@ -18,7 +19,8 @@ eng_mod_focus_20200404_magnani_ui <- function(id){
       ")),
     )),
 
-    fluidRow(box(width = 12,
+    fluidRow(box(
+      width = 12,
 
       p(HTML("
       The National Institute of Statistics (Istat) made available on its
@@ -45,12 +47,14 @@ eng_mod_focus_20200404_magnani_ui <- function(id){
       ")),
     )),
 
-    fluidRow(box(width = 12,
+    fluidRow(box(
+      width = 12,
       DT::DTOutput(ns("tab_0_residenti")),
       title = "Table 1: Residents in the 1084 Italian municipalities as of the 1st of January 2019."
     )),
 
-    fluidRow(box(width = 12,
+    fluidRow(box(
+      width = 12,
       p(HTML("
         Overall mortality is a strong indicator as it has low
         susceptibility to errors or discrepancies in assessments
@@ -115,7 +119,8 @@ eng_mod_focus_20200404_magnani_ui <- function(id){
 
 
 
-    fluidRow(box(width = 12,
+    fluidRow(box(
+      width = 12,
       h2(HTML("
         How much did the overall mortality change from last year
         (1-21 March 2019 vs 1-21 March 2020)? How is the mortality
@@ -167,7 +172,8 @@ eng_mod_focus_20200404_magnani_ui <- function(id){
       width = 12
     )),
 
-    fluidRow(box(width = 12,
+    fluidRow(box(
+      width = 12,
       p(HTML("
         All regions show increased mortality for the two
         oldest age classes. Moreover, the majority of regions
@@ -182,7 +188,8 @@ eng_mod_focus_20200404_magnani_ui <- function(id){
       "))
     )),
 
-    fluidRow(box(width = 12, Title = "Table 2: Change percentage by class and regions. 1-21 March 2019 vs. 1-21 March 2020.",
+    fluidRow(box(
+      width = 12, Title = "Table 2: Change percentage by class and regions. 1-21 March 2019 vs. 1-21 March 2020.",
       DT::DTOutput(ns("tab_1_age"))
     )),
 
@@ -192,12 +199,14 @@ eng_mod_focus_20200404_magnani_ui <- function(id){
       width = 12,
     )),
 
-    fluidRow(box(width = 12, Title = "Table 3: Change percentage by sex and regions. 1-21 March 2019 vs. 1-21 March 2020.",
+    fluidRow(box(
+      width = 12, Title = "Table 3: Change percentage by sex and regions. 1-21 March 2019 vs. 1-21 March 2020.",
       DT::DTOutput(ns("tab_2_sex"))
     )),
 
 
-    fluidRow(box(width = 12,
+    fluidRow(box(
+      width = 12,
       h2(HTML("
         Considering the data on mortality starting from 2015,
         what is the entity of the change registered throughout
@@ -233,7 +242,8 @@ eng_mod_focus_20200404_magnani_ui <- function(id){
       width = 12,
     )),
 
-    fluidRow(box(width = 12,
+    fluidRow(box(
+      width = 12,
       p(HTML("
         The graphs here below (Figure 4) show how mortality
         changed from 2015 to 2020 by region and age. Age
@@ -260,7 +270,8 @@ eng_mod_focus_20200404_magnani_ui <- function(id){
 
 
 
-    fluidRow(box(width = 12,
+    fluidRow(box(
+      width = 12,
       h2(HTML("
         In which week of the year is it possible to notice
         change in the overall mortality?
@@ -287,7 +298,6 @@ eng_mod_focus_20200404_magnani_ui <- function(id){
         Lombardy Region). Remind that the municipalities included in the
         analysis are the ones made available by Istat.
       "))
-
     )),
 
     fluidRow(box(
@@ -304,7 +314,8 @@ eng_mod_focus_20200404_magnani_ui <- function(id){
 
 
 
-    fluidRow(box(width = 12, title = "Notes",
+    fluidRow(box(
+      width = 12, title = "Notes",
       p(HTML("
         <sup>1</sup> For further information on data collection
         see the Istat methodology.
@@ -391,7 +402,7 @@ eng_mod_focus_20200404_magnani_server <- function(id) {
 
 
   ### by age (fig 4)
-  data_year_marzo_age <- data_year_marzo  %>%
+  data_year_marzo_age <- data_year_marzo %>%
     dplyr::group_by(
       .data$area, .data$regione, .data$year, .data$classe_di_eta
     ) %>%
@@ -482,7 +493,7 @@ eng_mod_focus_20200404_magnani_server <- function(id) {
 
 
 
-# Output (reactive) objects ---------------------------------------
+  # Output (reactive) objects ---------------------------------------
 
   callModule(id = id, function(input, output, session) {
     ns <- session$ns
@@ -522,7 +533,6 @@ eng_mod_focus_20200404_magnani_server <- function(id) {
     output$fig_6_week_age <- renderPlotly({
       clean_ggplotly(gg_fig_6_week_age)
     })
-
   })
 }
 
@@ -531,4 +541,3 @@ eng_mod_focus_20200404_magnani_server <- function(id) {
 
 ## To be copied in the server
 # mod_focus_20200404_magnani_server("magnani_1")
-

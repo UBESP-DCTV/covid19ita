@@ -7,11 +7,10 @@
 #' @noRd
 #'
 #' @importFrom shiny NS tagList
-eng_mod_ind_ita_ui <- function(id){
+eng_mod_ind_ita_ui <- function(id) {
   ns <- NS(id)
 
   fluidPage(
-
     h2(HTML("<strong>Deaths</strong>")),
     fluidRow(
       box(plotlyOutput(ns("dsp")),
@@ -25,12 +24,12 @@ eng_mod_ind_ita_ui <- function(id){
 
     h2(HTML("<strong>Recovered</strong>")),
     box(plotlyOutput(ns("dgso")),
-        width = 12, title = "Recovered over hospitalized"
+      width = 12, title = "Recovered over hospitalized"
     ),
 
     h2(HTML("<strong>Self Isolation</strong>")),
     box(plotlyOutput(ns("idso")),
-        width = 12, title = "Home confined over hospitalized"
+      width = 12, title = "Home confined over hospitalized"
     ),
 
 
@@ -52,33 +51,33 @@ eng_mod_ind_ita_ui <- function(id){
 
     h2(HTML("Intensive care")),
     fluidRow(
-      selectInput(width = "45%", ns("whichRegion"),
-                  label = "Select regions",
-                  choices = regions(),
-                  selectize = TRUE,
-                  selected = c("Lombardia", "Veneto", "Emilia Romagna"),
-                  multiple = TRUE
+      selectInput(
+        width = "45%", ns("whichRegion"),
+        label = "Select regions",
+        choices = regions(),
+        selectize = TRUE,
+        selected = c("Lombardia", "Veneto", "Emilia Romagna"),
+        multiple = TRUE
       ),
-      sliderInput(width = "45%", ns("lastDate"),
-                  label = "Select the last day that you want to take into consideration for the estimation of the model",
-                  value = max(dpc_covid19_ita_regioni$data),
-                  min = min(dpc_covid19_ita_regioni$data) + lubridate::days(6),
-                  max = max(dpc_covid19_ita_regioni$data),
-                  step = lubridate::days(1),
-                  animate = animationOptions(interval = 1100)
+      sliderInput(
+        width = "45%", ns("lastDate"),
+        label = "Select the last day that you want to take into consideration for the estimation of the model",
+        value = max(dpc_covid19_ita_regioni$data),
+        min = min(dpc_covid19_ita_regioni$data) + lubridate::days(6),
+        max = max(dpc_covid19_ita_regioni$data),
+        step = lubridate::days(1),
+        animate = animationOptions(interval = 1100)
       )
     ),
     box(plotlyOutput(ns("titamponi")),
-        width = 12,
-        title = "Regional percentage (fit loess, span = 1.5, degree = 2) of population that, respectively, has been admitted to the ICU (vertical axis) and has not been (as of today) hospitalized though being tested (this data was approximated by the total number of tests minus hospitalized patients), up to the day chosen in the slider. It is possible to see the entire evolution automatically by clicking play.",
-        footer = "REMARKS: The curves show the daily cumulative events on the horizontal axis (hence it is never possible to 'go back in time') and daily net on the vertical axis (hence we can both 'move up' and 'move down'). It is important to notice that the curves are 'temporally long': they all have the same number of days (i.e., from the 24th of February, up to the date chosen in the slider) and, moving along the curves, each point represents the data that was observed on the corresponding day."
+      width = 12,
+      title = "Regional percentage (fit loess, span = 1.5, degree = 2) of population that, respectively, has been admitted to the ICU (vertical axis) and has not been (as of today) hospitalized though being tested (this data was approximated by the total number of tests minus hospitalized patients), up to the day chosen in the slider. It is possible to see the entire evolution automatically by clicking play.",
+      footer = "REMARKS: The curves show the daily cumulative events on the horizontal axis (hence it is never possible to 'go back in time') and daily net on the vertical axis (hence we can both 'move up' and 'move down'). It is important to notice that the curves are 'temporally long': they all have the same number of days (i.e., from the 24th of February, up to the date chosen in the slider) and, moving along the curves, each point represents the data that was observed on the corresponding day."
     ),
     box(DT::DTOutput(ns("dt_tamponi")),
-        width = 12,
-        title = "Table: regional evolution of bed occupancy with respect to the asymptomatic tests (weighted on the population)"
+      width = 12,
+      title = "Table: regional evolution of bed occupancy with respect to the asymptomatic tests (weighted on the population)"
     )
-
-
   )
 }
 
@@ -94,8 +93,6 @@ eng_mod_ind_ita_ui <- function(id){
 #' @import ggplot2
 #' @noRd
 eng_mod_ind_ita_server <- function(id) {
-
-
   data_to_use <- dpc_covid19_ita_andamento_nazionale %>%
     dplyr::mutate(zona = .data$stato) %>%
     dplyr::group_by(.data$zona) %>%
@@ -103,8 +100,8 @@ eng_mod_ind_ita_server <- function(id) {
       data = .data$data,
 
       ## Ex casi
-      dsp  = .data$deceduti / .data$totale_casi,
-      dso  = .data$deceduti / .data$totale_ospedalizzati,
+      dsp = .data$deceduti / .data$totale_casi,
+      dso = .data$deceduti / .data$totale_ospedalizzati,
       dgso = .data$dimessi_guariti / .data$totale_ospedalizzati,
 
       ## Isolamento domiciliare
@@ -123,22 +120,21 @@ eng_mod_ind_ita_server <- function(id) {
     dplyr::ungroup()
 
   gg_ind_plot <- function(y) {
-
     data_to_use %>%
-      ggplot(aes(x = .data$data, y = .data[[ {{y}} ]], colour = .data$zona)) +
-      geom_point() + geom_line() +
+      ggplot(aes(x = .data$data, y = .data[[{{ y }}]], colour = .data$zona)) +
+      geom_point() +
+      geom_line() +
       labs(title = "", x = "Day", y = "Percentage") +
       scale_x_datetime(date_breaks = "2 days", date_labels = "%d %b") +
       theme_bw() +
       theme(
-        panel.border     = element_blank(),
+        panel.border = element_blank(),
         panel.grid.major = element_blank(),
         panel.grid.minor = element_blank(),
-        axis.text.x      = element_text(angle = 60, hjust = 1, vjust = 0.5),
-        axis.line        = element_line(colour = "black"),
+        axis.text.x = element_text(angle = 60, hjust = 1, vjust = 0.5),
+        axis.line = element_line(colour = "black"),
         legend.position = "none"
       )
-
   }
 
   ## dati per tamponi
@@ -150,16 +146,16 @@ eng_mod_ind_ita_server <- function(id) {
         .data$ricoverati_con_sintomi -
         .data$terapia_intensiva,
       tamp_asint_pesati = 100 * (
-        .data$tamponi_no_sintomi/.data$residenti
+        .data$tamponi_no_sintomi / .data$residenti
       ),
-      intensiva_pesati  = 100 * (
-        .data$terapia_intensiva/.data$residenti
+      intensiva_pesati = 100 * (
+        .data$terapia_intensiva / .data$residenti
       )
     ) %>%
     dplyr::ungroup()
 
 
-  callModule(id = id, function(input, output, session){
+  callModule(id = id, function(input, output, session) {
     ns <- session$ns
 
     ## Ex casi
@@ -185,20 +181,17 @@ eng_mod_ind_ita_server <- function(id) {
     ## Incrementi proporzionali
     output$cpt <- renderPlotly({
       ggplotly(gg_ind_plot("cpt") +
-        ylab("% (with respect to the previous day)")
-      )
+        ylab("% (with respect to the previous day)"))
     })
 
     output$ddt <- renderPlotly({
       ggplotly(gg_ind_plot("ddt") +
-        ylab("% (with respect to the previous day)")
-      )
+        ylab("% (with respect to the previous day)"))
     })
 
     output$tit <- renderPlotly({
       ggplotly(gg_ind_plot("tit") +
-        ylab("% (with respect to the previous day)")
-      )
+        ylab("% (with respect to the previous day)"))
     })
 
 
@@ -217,7 +210,6 @@ eng_mod_ind_ita_server <- function(id) {
 
 
     output$titamponi <- renderPlotly({
-
       gg_titamponi <- data_to_use() %>%
         ggplot(aes(
           x = .data$tamp_asint_pesati,
@@ -260,7 +252,6 @@ eng_mod_ind_ita_server <- function(id) {
         dplyr::mutate(data = as.Date(.data$data)) %>%
         dplyr::mutate_if(is.numeric, round, digits = 5)
     })
-
   })
 }
 
@@ -269,4 +260,3 @@ eng_mod_ind_ita_server <- function(id) {
 
 ## To be copied in the server
 # callModule(mod_indicators_server, "indicators_ui_1")
-

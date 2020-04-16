@@ -26,7 +26,7 @@ data_dpc <- function() {
   are_ok <- purrr::map2_lgl(
     .x = data_levels,
     .y = data_levels,
-    ~ download_dpc(.x,  dir = dest_dir, file_name = paste0(.y, ".csv"))
+    ~ download_dpc(.x, dir = dest_dir, file_name = paste0(.y, ".csv"))
   )
 
   if (!all(are_ok)) {
@@ -43,8 +43,8 @@ data_dpc <- function() {
     purrr::map(readr::read_csv)
 
   dpc_covid19_ita_andamento_nazionale <- covid_ita[["italia"]]
-  dpc_covid19_ita_regioni             <- covid_ita[["regioni"]]
-  dpc_covid19_ita_province            <- covid_ita[["province"]]
+  dpc_covid19_ita_regioni <- covid_ita[["regioni"]]
+  dpc_covid19_ita_province <- covid_ita[["province"]]
 
   last_data_update <- lubridate::now()
 
@@ -66,4 +66,3 @@ data_dpc()
 ## After executed the function (ie creating/updating the data) remember
 ## to update `data-INTERNAL.R`, and `data-EXPORTED.R` accordingly to
 ## store them in the correct place into the package's data.
-

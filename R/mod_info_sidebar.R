@@ -50,52 +50,57 @@ mod_info_sidebar_server <- function(id) {
         dpc_covid19_ita_regioni %>%
           dplyr::filter(.data$denominazione_regione == who())
       ) %>%
-      dplyr::filter(.data$data == max(.data$data))
+        dplyr::filter(.data$data == max(.data$data))
     })
 
 
     output$totalTest <- renderValueBox({
-      valueBox(subtitle = "Tamponi effettuati", icon = icon("info-circle"),
-        color = "aqua",# fill = TRUE,
+      valueBox(
+        subtitle = "Tamponi effettuati", icon = icon("info-circle"),
+        color = "aqua", # fill = TRUE,
         value = data_to_use()[["tamponi"]]
       )
     })
 
     output$totalCases <- renderValueBox({
-      valueBox(subtitle = "Contagiati accertati totali", icon = icon("info-circle"),
-        color = "purple",# fill = TRUE,
+      valueBox(
+        subtitle = "Contagiati accertati totali", icon = icon("info-circle"),
+        color = "purple", # fill = TRUE,
         value = data_to_use()[["totale_casi"]]
       )
     })
 
     output$currentPositives <- renderValueBox({
-      valueBox(subtitle = "Attualmente positivi", icon = icon("info-circle"),
-        color = "orange",# fill = TRUE,
+      valueBox(
+        subtitle = "Attualmente positivi", icon = icon("info-circle"),
+        color = "orange", # fill = TRUE,
         value = data_to_use()[["totale_positivi"]]
       )
     })
 
     output$intensiveCare <- renderValueBox({
-      valueBox(subtitle = "In terapia intensiva", icon = icon("info-circle"),
+      valueBox(
+        subtitle = "In terapia intensiva", icon = icon("info-circle"),
         color = "fuchsia",
         value = data_to_use()[["terapia_intensiva"]]
       )
     })
 
     output$totalDeath <- renderValueBox({
-      valueBox(subtitle = "Decessi totali", icon = icon("info-circle"),
+      valueBox(
+        subtitle = "Decessi totali", icon = icon("info-circle"),
         color = "red",
         value = data_to_use()[["deceduti"]]
       )
     })
 
     output$totalRecovered <- renderValueBox({
-      valueBox(subtitle = "Guariti totali", icon = icon("info-circle"),
+      valueBox(
+        subtitle = "Guariti totali", icon = icon("info-circle"),
         color = "green",
         value = data_to_use()[["dimessi_guariti"]]
       )
     })
-
   })
 }
 
@@ -104,4 +109,3 @@ mod_info_sidebar_server <- function(id) {
 
 ## To be copied in the server
 # callModule(mod_info_sidebar_server, "info_sidebar_ui_1")
-
