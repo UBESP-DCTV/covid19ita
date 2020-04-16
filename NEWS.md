@@ -1,3 +1,5 @@
+# covid19ita 0.42.0
+
 * added cii best practice badge
 * update data
 * activate lintr on Travis-CI and GitHub Actions
