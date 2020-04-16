@@ -7,7 +7,7 @@
 #' @noRd
 #'
 #' @importFrom shiny NS tagList
-mod_focus_20200331_ui <- function(id) {
+mod_0331_ui <- function(id) {
   ns <- NS(id)
 
   # User interface: WEB side
@@ -156,7 +156,7 @@ mod_focus_20200331_ui <- function(id) {
 #'
 #' @importFrom plotly ggplotly config
 #' @noRd
-mod_focus_20200331_server <- function(id) {
+mod_0331_server <- function(id) {
   ## non interactive codes
 
 
@@ -322,7 +322,7 @@ mod_focus_20200331_server <- function(id) {
 }
 
 ## To be copied in the UI
-#> mod_focus_20200331_ui("focus_20200331_ui_1")
+#> mod_0331_ui("focus_20200331_ui_1")
 
 ## To be copied in the server
-#> callModule(mod_focus_20200331_server, "focus_20200331_ui_1")
+#> callModule(mod_0331_server, "focus_20200331_ui_1")

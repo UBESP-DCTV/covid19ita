@@ -7,7 +7,7 @@
 #' @noRd
 #'
 #' @importFrom shiny NS tagList
-eng_mod_focus_20200323_picco_ui <- function(id) {
+eng_mod_0323_picco_ui <- function(id) {
   ns <- NS(id)
 
   obs_t <- dpc_covid19_ita_andamento_nazionale[["data"]]
@@ -73,7 +73,7 @@ eng_mod_focus_20200323_picco_ui <- function(id) {
 #' focus_20200323_picco Server Function
 #'
 #' @noRd
-eng_mod_focus_20200323_picco_server <- function(id) {
+eng_mod_0323_picco_server <- function(id) {
 
   # national setup
   #
@@ -241,7 +241,7 @@ eng_mod_focus_20200323_picco_server <- function(id) {
 }
 
 ## To be copied in the UI
-#> mod_focus_20200323_picco_ui("focus_20200323_picco_ui_1")
+#> mod_0323_picco_ui("focus_20200323_picco_ui_1")
 
 ## To be copied in the server
-#> callModule(mod_focus_20200323_picco_server, "focus_20200323_picco_ui_1")
+#> callModule(mod_0323_picco_server, "focus_20200323_picco_ui_1")

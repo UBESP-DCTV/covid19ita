@@ -9,7 +9,7 @@ eng_app_ui <- function(request) {
   tagList(
 
     # Leave this function for adding external resources
-    golem_add_external_resources(),
+    eng_golem_add_resource(),
 
     dashboardPage(
       title = " COVID-19 - Italy ",
@@ -175,77 +175,77 @@ eng_dashboard_body <- function() {
       tabItem(
         tabName = "20200415TampHosp",
         h2("Impact of testing on hospitalizations"),
-        eng_mod_focus_20200415_tamponi_ui("tamp_hosp")
+        eng_mod_0415_tamponi_ui("tamp_hosp")
       ),
 
       tabItem(
         tabName = "20200406MortVeneto",
 
         h2("Preliminary analysis of the overall mortality in 122 municipalities of the Veneto Region from the 1st of March to the 21 of March 2020."),
-        eng_mod_focus_20200406_mort_veneto_ui("mort_veneto")
+        eng_mod_0406_mort_ve_ui("mort_veneto")
       ),
       tabItem(
         tabName = "20200405Mort",
         h2("Preliminary analysis of the overall mortality in 1084 italian municipalities from the 1st of March to the 21 of March 2020."),
-        eng_mod_focus_20200404_magnani_ui("mortality")
+        eng_mod_0404_magnani_ui("mortality")
       ),
       tabItem(
         tabName = "20200331Comp",
         h2("Comparative analysis between the Piemonte Region and Veneto Region of the epidemiological data relative to Covid-19 infection."),
-        eng_mod_focus_20200331_ui("ven_pie")
+        eng_mod_0331_ui("ven_pie")
       ),
       tabItem(
         tabName = "20200328Tot_hosp",
         h2("Possible effect on hospitalizations of the health policies implemented by the Veneto region"),
-        eng_mod_focus_20200328_hosp_ui("tot")
+        eng_mod_0328_hosp_ui("tot")
       ),
       tabItem(
         tabName = "20200325Hosp",
         h2("Possible effect on hospitalizations of the health policies implemented by the Veneto region"),
-        eng_mod_focus_20200325_hosp_ui("hosp")
+        eng_mod_0325_hosp_ui("hosp")
       ),
       tabItem(
         tabName = "20200323Picco",
         h2("Impact of statistical uncertainty on COVID-19 predictions"),
-        eng_mod_focus_20200323_picco_ui("picco")
+        eng_mod_0323_picco_ui("picco")
       ),
       tabItem(
         tabName = "20200321Alessandria",
         h2("Expected number of total cases in Alessandria"),
-        eng_mod_focus_20200320_novara_ui("da_alessandria")
+        eng_mod_0320_novara_ui("da_alessandria")
       ),
       tabItem(
         tabName = "20200321Vercelli",
         h2("Expected number of total cases in Vercelli"),
-        eng_mod_focus_20200320_novara_ui("da_vercelli")
+        eng_mod_0320_novara_ui("da_vercelli")
       ),
 
       tabItem(
         tabName = "20200320Novara",
         h2("Expected number of total cases in Novara"),
-        eng_mod_focus_20200320_novara_ui("da_novara")
+        eng_mod_0320_novara_ui("da_novara")
       ),
 
       tabItem(
         tabName = "20200319Veneto",
         h2("Possible effect on ICU admissions of the health policies implemented by the Veneto region"),
-        eng_mod_focus_20200318_veneto_intensive_ui("21")
+        eng_mod_0318_intensive_ui("21")
       ),
 
       tabItem(
         tabName = "20200318Piemonte",
         h2("Possible effect of the health policies implemented by the Piemonte region"),
-        eng_mod_focus_20200318_piemonte_ui("20200318_piemonte")
+        eng_mod_0318_piemonte_ui("20200318_piemonte")
       ),
       tabItem(
         tabName = "20200318Fvg",
         h2("Possible effect of the health policies implemented by the Friuli Venezia Giulia region"),
-        eng_mod_focus_20200318_friuli_ui("20200318_fvg")
+        eng_mod_0318_friuli_ui("20200318_fvg")
       ),
       tabItem(
         tabName = "20200314Veneto",
         h1("Possible effect of the health policies implemented by the Veneto region"),
-        eng_mod_focus_20200314_ui("dapb")
+        eng_mod_0314_ui("dapb")
       ),
 
       tabItem(
@@ -398,7 +398,7 @@ eng_dashboard_body <- function() {
 #' @import shiny
 #' @importFrom golem add_resource_path activate_js favicon bundle_resources
 #' @noRd
-eng_golem_add_external_resources <- function() {
+eng_golem_add_resource <- function() {
   add_resource_path(
     "www", app_sys("app/www")
   )

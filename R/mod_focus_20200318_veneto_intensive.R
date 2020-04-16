@@ -7,7 +7,7 @@
 #' @noRd
 #'
 #' @importFrom shiny NS tagList
-mod_focus_20200318_veneto_intensive_ui <- function(id) {
+mod_0318_intensive_ui <- function(id) {
   ns <- NS(id)
   fluidRow(
     box(
@@ -39,7 +39,7 @@ mod_focus_20200318_veneto_intensive_ui <- function(id) {
 #' focus_20200318_veneto_intensive Server Function
 #'
 #' @noRd
-mod_focus_20200318_veneto_intensive_server <- function(id) {
+mod_0318_intensive_server <- function(id) {
   regione <- dpc_covid19_ita_regioni %>%
     dplyr::filter(.data$denominazione_regione == "Veneto") %>%
     dplyr::mutate(
@@ -183,7 +183,7 @@ mod_focus_20200318_veneto_intensive_server <- function(id) {
 }
 
 ## To be copied in the UI
-#> mod_focus_20200318_veneto_intensive_ui("focus_20200318_veneto_intensive_ui_1")
+#> mod_0318_intensive_ui("focus_20200318_veneto_intensive_ui_1")
 
 ## To be copied in the server
-#> callModule(mod_focus_20200318_veneto_intensive_server, "focus_20200318_veneto_intensive_ui_1")
+#> callModule(mod_0318_intensive_server, "focus_20200318_veneto_intensive_ui_1")

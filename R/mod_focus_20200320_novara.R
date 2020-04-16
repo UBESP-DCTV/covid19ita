@@ -7,7 +7,7 @@
 #' @noRd
 #'
 #' @importFrom shiny NS tagList
-mod_focus_20200320_novara_ui <- function(id) {
+mod_0320_novara_ui <- function(id) {
   ns <- NS(id)
   tagList(
     fluidRow(
@@ -54,7 +54,7 @@ mod_focus_20200320_novara_ui <- function(id) {
 #' focus_20200320_novara Server Function
 #'
 #' @noRd
-mod_focus_20200320_novara_server <- function(
+mod_0320_novara_server <- function(
                                              id,
                                              loc = c("Novara", "Vercelli", "Alessandria"),
                                              pop = 104284 # Novara
@@ -183,7 +183,7 @@ mod_focus_20200320_novara_server <- function(
 }
 
 ## To be copied in the UI
-#> mod_focus_20200320_novara_ui("focus_20200320_novara_ui_1")
+#> mod_0320_novara_ui("focus_20200320_novara_ui_1")
 
 ## To be copied in the server
-#> callModule(mod_focus_20200320_novara_server, "focus_20200320_novara_ui_1")
+#> callModule(mod_0320_novara_server, "focus_20200320_novara_ui_1")

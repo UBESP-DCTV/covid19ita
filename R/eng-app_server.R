@@ -36,26 +36,26 @@ eng_app_server <- function(input, output, session) {
 
 
   ## In evidenza
-  eng_mod_focus_20200314_server("dapb")
-  eng_mod_focus_20200318_friuli_server("20200318_fvg")
-  eng_mod_focus_20200318_piemonte_server("20200318_piemonte")
-  eng_mod_focus_20200318_veneto_intensive_server("21")
-  eng_mod_focus_20200320_novara_server("da_novara")
-  eng_mod_focus_20200320_novara_server("da_vercelli",
+  eng_mod_0314_server("dapb")
+  eng_mod_0318_friuli_server("20200318_fvg")
+  eng_mod_0318_piemonte_server("20200318_piemonte")
+  eng_mod_0318_intensive_server("21")
+  eng_mod_0320_novara_server("da_novara")
+  eng_mod_0320_novara_server("da_vercelli",
     loc = "Vercelli",
     pop = 174904
   )
-  eng_mod_focus_20200320_novara_server("da_alessandria",
+  eng_mod_0320_novara_server("da_alessandria",
     loc = "Alessandria",
     pop = 428826
   )
-  eng_mod_focus_20200323_picco_server("picco")
-  eng_mod_focus_20200325_hosp_server("hosp")
-  eng_mod_focus_20200328_hosp_server("tot")
-  eng_mod_focus_20200331_server("ven_pie")
-  eng_mod_focus_20200404_magnani_server("mortality")
-  eng_mod_focus_20200406_mort_veneto_server("mort_veneto")
-  eng_mod_focus_20200415_tamponi_server("tamp_hosp")
+  eng_mod_0323_picco_server("picco")
+  eng_mod_0325_hosp_server("hosp")
+  eng_mod_0328_hosp_server("tot")
+  eng_mod_0331_server("ven_pie")
+  eng_mod_0404_magnani_server("mortality")
+  eng_mod_0406_mort_ve_server("mort_veneto")
+  eng_mod_0415_tamponi_server("tamp_hosp")
 
 
   ## Geo-spatial

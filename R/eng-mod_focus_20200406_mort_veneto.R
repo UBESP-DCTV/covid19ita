@@ -7,7 +7,7 @@
 #' @noRd
 #'
 #' @importFrom shiny NS tagList
-eng_mod_focus_20200406_mort_veneto_ui <- function(id) {
+eng_mod_0406_mort_ve_ui <- function(id) {
   ns <- NS(id)
   fluidPage(
     fluidRow(box(
@@ -314,7 +314,7 @@ eng_mod_focus_20200406_mort_veneto_ui <- function(id) {
 #' focus_20200406_mort_veneto Server Function
 #'
 #' @noRd
-eng_mod_focus_20200406_mort_veneto_server <- function(id) {
+eng_mod_0406_mort_ve_server <- function(id) {
 
   # Data preparation ------------------------------------------------
 
@@ -470,7 +470,7 @@ eng_mod_focus_20200406_mort_veneto_server <- function(id) {
 }
 
 ## To be copied in the UI
-#> mod_focus_20200406_mort_veneto_ui("magnani_1")
+#> mod_0406_mort_veneto_ui("magnani_1")
 
 ## To be copied in the server
-#> mod_focus_20200406_mort_veneto_server("magnani_1")
+#> mod_0406_mort_veneto_server("magnani_1")

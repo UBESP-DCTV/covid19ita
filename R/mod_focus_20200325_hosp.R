@@ -7,7 +7,7 @@
 #' @noRd
 #'
 #' @importFrom shiny NS tagList
-mod_focus_20200325_hosp_ui <- function(id) {
+mod_0325_hosp_ui <- function(id) {
   ns <- NS(id)
 
   tagList(
@@ -115,7 +115,7 @@ mod_focus_20200325_hosp_ui <- function(id) {
 #' focus_20200325_hosp Server Function
 #'
 #' @noRd
-mod_focus_20200325_hosp_server <- function(id, region = "Veneto") {
+mod_0325_hosp_server <- function(id, region = "Veneto") {
 
   regione <- dpc_covid19_ita_regioni %>%
     dplyr::filter(
@@ -347,7 +347,7 @@ mod_focus_20200325_hosp_server <- function(id, region = "Veneto") {
 }
 
 ## To be copied in the UI
-#> mod_focus_20200325_hosp_ui("focus_20200325_ui_1")
+#> mod_0325_hosp_ui("focus_20200325_ui_1")
 
 ## To be copied in the server
-#> callModule(mod_focus_20200325_hosp_server, "focus_20200325_ui_1")
+#> callModule(mod_0325_hosp_server, "focus_20200325_ui_1")

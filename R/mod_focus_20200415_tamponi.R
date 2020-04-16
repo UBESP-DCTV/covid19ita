@@ -7,7 +7,7 @@
 #' @noRd
 #'
 #' @importFrom shiny NS tagList
-mod_focus_20200415_tamponi_ui <- function(id) {
+mod_0415_tamponi_ui <- function(id) {
   ns <- NS(id)
   fluidPage(
     fluidRow(
@@ -83,7 +83,7 @@ mod_focus_20200415_tamponi_ui <- function(id) {
 #' focus_20200415_tamponi Server Function
 #'
 #' @noRd
-mod_focus_20200415_tamponi_server <- function(id) {
+mod_0415_tamponi_server <- function(id) {
   global_theme <- theme_bw() +
     theme(
       legend.title = element_blank(),
@@ -204,7 +204,7 @@ mod_focus_20200415_tamponi_server <- function(id) {
 }
 
 ## To be copied in the UI
-#> mod_focus_20200415_tamponi_ui("focus_20200415_tamponi_ui_1")
+#> mod_0415_tamponi_ui("focus_20200415_tamponi_ui_1")
 
 ## To be copied in the server
-#> callModule(mod_focus_20200415_tamponi_server, "focus_20200415_tamponi_ui_1")
+#> callModule(mod_0415_tamponi_server, "focus_20200415_tamponi_ui_1")

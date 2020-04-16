@@ -9,7 +9,7 @@ app_ui <- function(request) {
   tagList(
 
     # Leave this function for adding external resources
-    golem_add_external_resources(),
+    golem_add_resource(),
 
     dashboardPage(
       title = " COVID-19 - Italia ",
@@ -180,72 +180,72 @@ dashboard_body <- function() {
       tabItem(
         tabName = "20200415TampHosp",
         h2("Impatto dei tamponi sulle ospedalizzazioni"),
-        mod_focus_20200415_tamponi_ui("tamp_hosp")
+        mod_0415_tamponi_ui("tamp_hosp")
       ),
       tabItem(
         tabName = "20200406MortVeneto",
         h2("Analisi preliminare della mortalit\u00E0  generale in 122 comuni veneti durante il periodo da 1 a 21 Marzo 2020."),
-        mod_focus_20200406_mort_veneto_ui("mort_veneto")
+        mod_0406_mort_veneto_ui("mort_veneto")
       ),
       tabItem(
         tabName = "20200405Mort",
         h2("Analisi preliminare della mortalit\u00E0  generale in 1084 comuni italiani durante il periodo da 1 a 21 Marzo 2020."),
-        mod_focus_20200404_magnani_ui("mortality")
+        mod_0404_magnani_ui("mortality")
       ),
       tabItem(
         tabName = "20200331Comp",
         h2("Analisi comparativa tra Regione Piemonte e Regione Veneto dei dati epidemiologici relativi all'infezione da Covid-19."),
-        mod_focus_20200331_ui("ven_pie")
+        mod_0331_ui("ven_pie")
       ),
       tabItem(
         tabName = "20200328Tot_hosp",
         h2("Possibile effetto sulle ospedalizzazioni delle politiche sanitarie in Veneto"),
-        mod_focus_20200328_hosp_ui("tot")
+        mod_0328_hosp_ui("tot")
       ),
       tabItem(
         tabName = "20200325Hosp",
         h2("Possibile effetto sulle ospedalizzazioni delle politiche sanitarie in Veneto"),
-        mod_focus_20200325_hosp_ui("hosp")
+        mod_0325_hosp_ui("hosp")
       ),
       tabItem(
         tabName = "20200323Picco",
         h2("Impatto dell'incertezza statistica sulle previsioni dell'andamento del COVID-19"),
-        mod_focus_20200323_picco_ui("picco")
+        mod_0323_picco_ui("picco")
       ),
       tabItem(
         tabName = "20200321Alessandria",
         h2("Stime previsive sul totale casi ad Alessandria"),
-        mod_focus_20200320_novara_ui("da_alessandria")
+        mod_0320_novara_ui("da_alessandria")
       ),
       tabItem(
         tabName = "20200321Vercelli",
         h2("Stime previsive sul totale casi a Vercelli"),
-        mod_focus_20200320_novara_ui("da_vercelli")
+        mod_0320_novara_ui("da_vercelli")
       ),
       tabItem(
         tabName = "20200320Novara",
         h2("Stime previsive sul totale casi a Novara"),
-        mod_focus_20200320_novara_ui("da_novara")
+        mod_0320_novara_ui("da_novara")
       ),
       tabItem(
         tabName = "20200319Veneto",
         h2("Possibile impatto delle politiche sanitarie sull'occupazione dei posti letto nelle terapie intensive in Veneto"),
-        mod_focus_20200318_veneto_intensive_ui("21")
+        mod_0318_intensive_ui("21")
       ),
       tabItem(
         tabName = "20200318Piemonte",
         h2("Possibile effetto delle politiche sanitarie in Piemonte"),
-        mod_focus_20200318_piemonte_ui("20200318_piemonte")
+        mod_0318_piemonte_ui("20200318_piemonte")
       ),
       tabItem(
         tabName = "20200318Fvg",
         h2("Possibile effetto delle politiche sanitarie in Friuli Venezia Giulia"),
-        mod_focus_20200318_friuli_ui("20200318_fvg")
+        mod_0318_friuli_ui("20200318_fvg")
       ),
       tabItem(
         tabName = "20200314Veneto",
         h2("Possibile effetto delle politiche sanitarie in Veneto"),
-        mod_focus_20200314_ui("dapb")
+        mod_0314_ui("dapb")
       ),
 
 
@@ -400,7 +400,7 @@ dashboard_body <- function() {
 #' @import shiny
 #' @importFrom golem add_resource_path activate_js favicon bundle_resources
 #' @noRd
-golem_add_external_resources <- function() {
+golem_add_resource <- function() {
   add_resource_path(
     "www", app_sys("app/www")
   )

@@ -7,7 +7,7 @@
 #' @noRd
 #'
 #' @importFrom shiny NS tagList
-mod_focus_20200318_piemonte_ui <- function(id) {
+mod_0318_piemonte_ui <- function(id) {
   ns <- NS(id)
   tagList(
     fluidRow(
@@ -111,7 +111,7 @@ mod_focus_20200318_piemonte_ui <- function(id) {
 #' focus_20200318_piemonte Server Function
 #'
 #' @noRd
-mod_focus_20200318_piemonte_server <- function(id,
+mod_0318_piemonte_server <- function(id,
                                                region = "Piemonte",
                                                min_date = lubridate::ymd("2020-03-01"),
                                                max_date = lubridate::ymd("2020-03-15"),
@@ -349,7 +349,7 @@ mod_focus_20200318_piemonte_server <- function(id,
 }
 
 ## To be copied in the UI
-#> mod_focus_20200318_piemonte_ui("focus_20200318_piemonte_ui_1")
+#> mod_0318_piemonte_ui("focus_20200318_piemonte_ui_1")
 
 ## To be copied in the server
-#> callModule(mod_focus_20200318_piemonte_server, "focus_20200318_piemonte_ui_1")
+#> callModule(mod_0318_piemonte_server, "focus_20200318_piemonte_ui_1")

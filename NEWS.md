@@ -260,9 +260,9 @@
 
 # covid19ita 0.14.0
 
-* small change to eng_mod_focus_20200318 (#7)
+* small change to eng_mod_0318 (#7)
 * rectified a mistake
-* translated eng_mod_focus_20200318_friuli and updated text in eng_app_ui(#6)
+* translated eng_mod_0318_friuli and updated text in eng_app_ui(#6)
 * added message header
 * added button to switch language
 * data update
@@ -280,9 +280,9 @@
 # covid19ita 0.13.0
 
 * data update
-* small change to eng_mod_focus_20200318_piemonte (#7)
+* small change to eng_mod_0318_piemonte (#7)
 * small modifications to the translation (#4)
-* translated eng_mod_focus_20200318_piemonte and updated text in eng_app_ui(#7)
+* translated eng_mod_0318_piemonte and updated text in eng_app_ui(#7)
 * small modifications to the translation (#4)
 * added (ita) module for focus on Piemonte (20200318)
 
@@ -294,8 +294,8 @@
 # covid19ita 0.12.0
 
 * data update
-* small modification to file eng-mod_focus_20200314 (#4)
-* completed translation of eng-mod_focus_20200114 and eng-mode_helped. Added eng_plottly_help_txt to covid_ita     (#4)
+* small modification to file eng-mod_0314 (#4)
+* completed translation of eng-mod_0114 and eng-mode_helped. Added eng_plottly_help_txt to covid_ita     (#4)
 * completed translation of eng-mod_info_sidebar (#4)
 * completed translation of eng-app_ui and eng-run_dev (#4)
 

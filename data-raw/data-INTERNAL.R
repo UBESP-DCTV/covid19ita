@@ -48,7 +48,7 @@ plottly_help_txt <- read_data_raw("plottly_help_txt")
 # maps ------------------------------------------------------------
 
 ## data_maps()
-paletteList.t <- read_data_raw("paletteList.t")
+palette_list_t <- read_data_raw("palette_list_t")
 
 
 # mortalità -------------------------------------------------------
