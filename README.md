@@ -9,10 +9,12 @@
 maturing](https://img.shields.io/badge/lifecycle-maturing-blue.svg)](https://www.tidyverse.org/lifecycle/#maturing)
 [![CRAN
 status](https://www.r-pkg.org/badges/version/covid19ita)](https://CRAN.R-project.org/package=covid19ita)
-[![AppVeyor build
-status](https://ci.appveyor.com/api/projects/status/github/UBESP-DCTV/covid19ita?branch=master&svg=true)](https://ci.appveyor.com/project/CorradoLanera/covid19ita)
+[![R build
+status](https://github.com/UBESP-DCTV/covid19ita/workflows/R-CMD-check/badge.svg)](https://github.com/UBESP-DCTV/covid19ita/actions)
 [![Travis Build
 Status](https://travis-ci.com/UBESP-DCTV/covid19ita.svg?branch=master)](https://travis-ci.com/UBESP-DCTV/covid19ita)
+[![AppVeyor build
+status](https://ci.appveyor.com/api/projects/status/github/UBESP-DCTV/covid19ita?branch=master&svg=true)](https://ci.appveyor.com/project/CorradoLanera/covid19ita)
 [![Codecov test
 coverage](https://codecov.io/gh/UBESP-DCTV/covid19ita/branch/master/graph/badge.svg)](https://codecov.io/gh/UBESP-DCTV/covid19ita?branch=master)
 <!-- badges: end -->
@@ -41,7 +43,7 @@ remotes::install_github("UBESP-DCTV/covid19ita")
 
 <img src='inst/app/www/covid19ita_screen.png' align="center"/>
 
-**Ultimo aggiornamento/Last app update**: 2020-04-15 21:36:23.
+**Ultimo aggiornamento/Last app update**: 2020-04-16 14:45:38.
 
 > È possibile visitare la Shiny App `covid19ita` ospitata e operante sui
 > server UBEP ([Unità di Biostatistica, Epidemiologia e Sanità
