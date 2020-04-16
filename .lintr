@@ -1,0 +1,59 @@
+linters: with_defaults(
+    line_length_linter = NULL, # 623
+    infix_spaces_linter = NULL, # 313
+    spaces_inside_linter = NULL, # 213
+    single_quotes_linter = NULL, # 212
+    paren_brace_linter = NULL, # 123
+    commented_code_linter = NULL, # 116
+    trailing_whitespace_linter = NULL, # 78
+    object_name_linter = NULL, # 76
+    object_usage_linter = NULL, # 73
+    commas_linter = NULL, # 68
+    trailing_blank_lines_linter = NULL, # 60
+    object_length_linter = NULL, # 29
+    spaces_left_parentheses_linter = NULL, # 26
+    open_curly_linter = NULL, # 25
+    no_tab_linter = NULL, # 12
+    assignment_linter = NULL, # 6
+    seq_linter = NULL, # 6
+    closed_curly_linter = NULL, # 4
+    function_left_parentheses_linter = NULL, # 4
+    cyclocomp_linter = NULL, # 2
+    dummy_linter = NULL
+  )
+exclusions: list(
+    "data/dpc_covid19_ita_andamento_nazionale.rda",
+    "data/dpc_covid19_ita_province.rda",
+    "data/dpc_covid19_ita_regioni.rda",
+    "man/accumulate_for_days.Rd",
+    "man/clean_ggplotly.Rd",
+    "man/covid19ita-package.Rd",
+    "man/download_dpc.Rd",
+    "man/dpc_covid19_ita.Rd",
+    "man/figures/lifecycle-archived.svg",
+    "man/figures/lifecycle-defunct.svg",
+    "man/figures/lifecycle-deprecated.svg",
+    "man/figures/lifecycle-experimental.svg",
+    "man/figures/lifecycle-maturing.svg",
+    "man/figures/lifecycle-questioning.svg",
+    "man/figures/lifecycle-retired.svg",
+    "man/figures/lifecycle-soft-deprecated.svg",
+    "man/figures/lifecycle-stable.svg",
+    "man/figures/logo-laims.jpg",
+    "man/figures/logo-ubep.png",
+    "man/mort_data_reg.Rd",
+    "man/mort_data_veneto.Rd",
+    "man/pipe.Rd",
+    "man/pull_region_w_pop.Rd",
+    "man/run_app.Rd",
+    "man/write_raw_rds.Rd",
+    "pkgdown/favicon/apple-touch-icon-120x120.png",
+    "pkgdown/favicon/apple-touch-icon-152x152.png",
+    "pkgdown/favicon/apple-touch-icon-180x180.png",
+    "pkgdown/favicon/apple-touch-icon-60x60.png",
+    "pkgdown/favicon/apple-touch-icon-76x76.png",
+    "pkgdown/favicon/apple-touch-icon.png",
+    "pkgdown/favicon/favicon-16x16.png",
+    "pkgdown/favicon/favicon-32x32.png",
+    "pkgdown/favicon/favicon.ico"
+  )
