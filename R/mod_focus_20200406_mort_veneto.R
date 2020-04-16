@@ -7,12 +7,13 @@
 #' @noRd
 #'
 #' @importFrom shiny NS tagList
-mod_focus_20200406_mort_veneto_ui <- function(id){
+mod_0406_mort_veneto_ui <- function(id) {
   ns <- NS(id)
   fluidPage(
-    fluidRow(box(width = 12,
+    fluidRow(box(
+      width = 12,
 
-                 p(HTML("
+      p(HTML("
         L'Istituto Nazionale di Statistica (Istat) ha messo a
         disposizione su proprio sito web
         (https://www.istat.it/it/archivio/240401) i risultati della
@@ -21,7 +22,7 @@ mod_focus_20200406_mort_veneto_ui <- function(id){
         inclusi in questo archivio sono 122.
       ")),
 
-                 p(HTML("
+      p(HTML("
         Come comunicato sul sito dell'Istat,
         sono stati considerati i comuni che \"presentano almeno dieci
         decessi da gennaio al 28 marzo 2020 (perch\u00E9  meno esposti a eccessive
@@ -33,10 +34,10 @@ mod_focus_20200406_mort_veneto_ui <- function(id){
         dell'aumento di mortalit\u00E0  per cui i dati che presentiamo devono essere
         intesi come i valori massimi prevedibili.
       ")),
-
     )),
-    fluidRow(box(width = 12,
-                 p(HTML("
+    fluidRow(box(
+      width = 12,
+      p(HTML("
         La mortalit\u00E0  complessiva costituisce un indicatore estremamente
         rilevante perch\u00E9  \u00E8 poco suscettibile ad errori o difformit\u00E0 di
         valutazione e tiene conto sia della mortalit\u00E0  direttamente
@@ -45,7 +46,7 @@ mod_focus_20200406_mort_veneto_ui <- function(id){
         ai servizi ospedalieri per persone affette da altre patologie.
       ")),
 
-                 p(HTML("
+      p(HTML("
         La mortalit\u00E0  complessiva inoltre non risente di quesiti
         diagnostici o di difficolt\u00E0  nella codifica delle cause di morte
         e quindi \u00E8  una utile base su cui andr\u00E0 costruita la valutazione
@@ -53,7 +54,7 @@ mod_focus_20200406_mort_veneto_ui <- function(id){
         atto.
       ")),
 
-                 p(HTML("
+      p(HTML("
         I dati sono forniti da Istat in diverse tabelle, accessibili e
         scaricabili dal sito istituzionale, che consentono una immediata
         lettura e che possono anche essere utilizzate per la
@@ -64,7 +65,7 @@ mod_focus_20200406_mort_veneto_ui <- function(id){
         geografica, sesso, classe di et\u00E0  e periodo.
       ")),
 
-                 p(HTML("
+      p(HTML("
         Si tratta di analisi preliminari, finalizzate alla condivisione
         di informazioni in un momento di emergenza, che saranno
         migliorate ed approfondite nel prossimo periodo. In particolare
@@ -75,7 +76,7 @@ mod_focus_20200406_mort_veneto_ui <- function(id){
         dei relativi intervalli di confidenza.
       ")),
 
-                 p(HTML("
+      p(HTML("
         Le analisi sono state condotte per rispondere ai seguenti
         quesiti:
         <ul>
@@ -95,7 +96,7 @@ mod_focus_20200406_mort_veneto_ui <- function(id){
         </ul>
       ")),
 
-                 p(HTML("
+      p(HTML("
         In relazione all'aggregazione dei dati nelle tabelle fornite da
         Istat e alla numerosit\u00E0  dei dati osservati alcune variabili
         sono state raggruppate in categorie pi\u00F9  ampie, come indicato
@@ -107,8 +108,9 @@ mod_focus_20200406_mort_veneto_ui <- function(id){
 
 
 
-    fluidRow(box(width = 12,
-                 h2(HTML("
+    fluidRow(box(
+      width = 12,
+      h2(HTML("
         Di quale entit\u00E0  \u00E8  la variazione di mortalit\u00E0 osservata
         confrontando il periodo tra il 1 e il 21 marzo 2019 con il
         periodo tra il 1 e il 21 marzo 2020? La variazione osservata
@@ -116,7 +118,7 @@ mod_focus_20200406_mort_veneto_ui <- function(id){
         alla provincia di residenza?
       ")),
 
-                 p(HTML("
+      p(HTML("
         L'indicatore della variazione percentuale tra il numero di
         morti osservate nel periodo dal 1 al 21 marzo 2019 e nel
         corrispondente periodo del 2020 \u00E8  stato calcolato a partire dai
@@ -130,11 +132,11 @@ mod_focus_20200406_mort_veneto_ui <- function(id){
         85 anni e oltre, gi\u00E0  presenti nei dati.
       ")),
 
-                 p(HTML("
+      p(HTML("
         L'indice di variazione percentuale \u00E8 calcolato come:
       ")),
 
-                 p(HTML("
+      p(HTML("
         variazione<sub>%</sub> =
           100 * (
             numero decessi<sub>2020</sub> --
@@ -143,7 +145,7 @@ mod_focus_20200406_mort_veneto_ui <- function(id){
           numero decessi<sub>2019</sub>
       ")),
 
-                 p(HTML("
+      p(HTML("
         L'indice \u00E8 presente nella tabella dei dati originali calcolato a
         livello comunale. In queste analisi \u00E8  stato calcolato con
         aggregazione provinciale, per ridurre la variabilit\u00E0  conseguente
@@ -157,8 +159,9 @@ mod_focus_20200406_mort_veneto_ui <- function(id){
     )),
 
 
-    fluidRow(box(width = 12,
-                 p(HTML("
+    fluidRow(box(
+      width = 12,
+      p(HTML("
         L'analisi \u00E8 stata condotta anche separatamente per classe di
         et\u00E0, e per sesso, i risultati sono presentati nei grafici
         seguenti (figura 1 e figura 2):
@@ -166,12 +169,13 @@ mod_focus_20200406_mort_veneto_ui <- function(id){
     )),
 
     fluidRow(box(plotlyOutput(ns("fig_1_age")),
-                 title = "Figura 1: Variazione percentuale per classi di et\u00E0  e provincia. Periodo 1-21 marzo 2019 vs. 1-21 marzo 2020.",
-                 width = 12
+      title = "Figura 1: Variazione percentuale per classi di et\u00E0  e provincia. Periodo 1-21 marzo 2019 vs. 1-21 marzo 2020.",
+      width = 12
     )),
 
-    fluidRow(box(width = 12,
-                 p(HTML("
+    fluidRow(box(
+      width = 12,
+      p(HTML("
         Nella lettura del valore di variazione
         percentuale occorre tenere conto della numerosit\u00E0  delle morti,
         che \u00E8  molto diversa tra le province a causa della diversa
@@ -181,29 +185,32 @@ mod_focus_20200406_mort_veneto_ui <- function(id){
       "))
     )),
 
-    fluidRow(box(width = 12, Title = "Tabella 1: Variazione percentuale per classi di et\u00E0  e provincia. Periodo 1-21 marzo 2019 vs. 1-21 marzo 2020.",
-                 DT::DTOutput(ns("tab_1_age"))
+    fluidRow(box(
+      width = 12, Title = "Tabella 1: Variazione percentuale per classi di et\u00E0  e provincia. Periodo 1-21 marzo 2019 vs. 1-21 marzo 2020.",
+      DT::DTOutput(ns("tab_1_age"))
     )),
 
     fluidRow(box(plotlyOutput(ns("fig_2_sex")),
-                 title = "Figura 2: Variazione percentuale per sesso e provincia. Periodo 1-21 marzo 2019 vs. 1-21 marzo 2020.",
-                 footer = "f: femminile; m: maschile; mf: globale",
-                 width = 12,
+      title = "Figura 2: Variazione percentuale per sesso e provincia. Periodo 1-21 marzo 2019 vs. 1-21 marzo 2020.",
+      footer = "f: femminile; m: maschile; mf: globale",
+      width = 12,
     )),
 
-    fluidRow(box(width = 12, Title = "Tabella 2: Variazione percentuale per sesso e provincia. Periodo 1-21 marzo 2019 vs. 1-21 marzo 2020.",
-                 DT::DTOutput(ns("tab_2_sex"))
+    fluidRow(box(
+      width = 12, Title = "Tabella 2: Variazione percentuale per sesso e provincia. Periodo 1-21 marzo 2019 vs. 1-21 marzo 2020.",
+      DT::DTOutput(ns("tab_2_sex"))
     )),
 
 
-    fluidRow(box(width = 12,
-                 h2(HTML("
+    fluidRow(box(
+      width = 12,
+      h2(HTML("
         Estendendo la valutazione agli anni precedenti, partendo dal
         2015, esistono variazioni tra i diversi anni e di quale entit\u00E0,
         sempre considerando, classe di et\u00E0  e provincia di residenza?
       ")),
 
-                 p(HTML("
+      p(HTML("
         La base dati messa a disposizione consente di valutare
         l'andamento della mortalit\u00E0 negli anni precedenti, a partire
         dal 2015. Sono stati usati i dati presentati nella tabella
@@ -213,7 +220,7 @@ mod_focus_20200406_mort_veneto_ui <- function(id){
         2015-2020 anche con metodi di modellizzazione.
       ")),
 
-                 p(HTML("
+      p(HTML("
         I decessi nei comuni relativi all'indagine Istat
         sono stati sommati assieme al fine di ottenere un dato provinciale.
         Il grafico che segue (figura 3) presenta il numero totale di
@@ -223,12 +230,13 @@ mod_focus_20200406_mort_veneto_ui <- function(id){
 
 
     fluidRow(box(plotlyOutput(ns("fig_3_year_all")),
-                 title = "Figura 3: Numero di decessi per provincia nel periodo 1-21 marzo dal 2015 al 2020.",
-                 width = 12,
+      title = "Figura 3: Numero di decessi per provincia nel periodo 1-21 marzo dal 2015 al 2020.",
+      width = 12,
     )),
 
-    fluidRow(box(width = 12,
-                 p(HTML("
+    fluidRow(box(
+      width = 12,
+      p(HTML("
         I grafici seguenti (figura 4) presentano il confronto della
         mortalit\u00E0 negli anni dal 2015 al 2020, per provincia e classe di
         et\u00E0. Il numero di decessi nei comuni relativi all'indagine Istat
@@ -240,7 +248,7 @@ mod_focus_20200406_mort_veneto_ui <- function(id){
         e oltre.
       ")),
 
-                 p(HTML("
+      p(HTML("
         Si ricorda che i grafici presentano i numeri assoluti e quindi
         le differenze tra le province riflettono in primo luogo la
         dimensione dei comuni coinvolti dall'indagine Istat per provincia.
@@ -258,14 +266,15 @@ mod_focus_20200406_mort_veneto_ui <- function(id){
 
 
 
-    fluidRow(box(width = 12,
-                 h2(HTML("
+    fluidRow(box(
+      width = 12,
+      h2(HTML("
         In quale settimana di rilevazione (considerando il periodo dal
         1 gennaio 2020 al 21 marzo 2020) \u00E8  osservabile una variazione
         della mortalit\u00E0 complessiva?
       ")),
 
-                 p(HTML("
+      p(HTML("
         Per contribuire alla risposta a questo quesito sono stati usati
         i dati relativi ai 122 comuni veneti riportati nella tabella
         https://www.istat.it/it/files//2020/03/dati-comunali-settimanali-ANPR-1.zip,
@@ -280,8 +289,6 @@ mod_focus_20200406_mort_veneto_ui <- function(id){
         I grafici riportano sull'asse orizzontale
         la data di inizio dei diversi periodi settimanali.
       ")),
-
-
     )),
 
     fluidRow(box(
@@ -292,8 +299,9 @@ mod_focus_20200406_mort_veneto_ui <- function(id){
 
 
 
-    fluidRow(box(width = 12, title = "Notes",
-                 p(HTML("
+    fluidRow(box(
+      width = 12, title = "Notes",
+      p(HTML("
         <sup>1</sup> Per maggiori informazioni sulla rilevazione si
         rimanda alla metodologia descritta da Istat.
         <br>
@@ -325,7 +333,7 @@ mod_focus_20200406_mort_veneto_ui <- function(id){
 #' focus_20200406_mort_veneto Server Function
 #'
 #' @noRd
-mod_focus_20200406_mort_veneto_server <- function(id) {
+mod_0406_mort_veneto_server <- function(id) {
 
   # Data preparation ------------------------------------------------
 
@@ -336,14 +344,14 @@ mod_focus_20200406_mort_veneto_server <- function(id) {
   gg_fig_1_age <- mort_data_veneto_age %>%
     ggmort("Classe di et\u00E0", x = "provincia") +
     ggtitle("Mortalit\u00E0 totale per classe di et\u00E0",
-            subtitle = "Confronto 1-21 marzo 2019 vs 2020"
+      subtitle = "Confronto 1-21 marzo 2019 vs 2020"
     )
 
   ### by age (fig 2)
   gg_fig_2_sex <- mort_data_veneto_sex %>%
     ggmort("Sesso", x = "provincia") +
     ggtitle("Mortalit\u00E0 totale per sesso",
-            subtitle = "Confronto 1-21 marzo 2019 vs 2020"
+      subtitle = "Confronto 1-21 marzo 2019 vs 2020"
     )
 
 
@@ -380,7 +388,7 @@ mod_focus_20200406_mort_veneto_server <- function(id) {
 
 
   ### by age (fig 4)
-  data_year_marzo_veneto_age <- data_year_marzo_veneto  %>%
+  data_year_marzo_veneto_age <- data_year_marzo_veneto %>%
     dplyr::group_by(
       .data$provincia, .data$year, .data$classe_di_eta
     ) %>%
@@ -394,7 +402,7 @@ mod_focus_20200406_mort_veneto_server <- function(id) {
     )) +
     geom_point() +
     geom_smooth(se = FALSE) +
-    facet_wrap(.data$classe_di_eta ~. , scales = "free_y") +
+    facet_wrap(.data$classe_di_eta ~ ., scales = "free_y") +
     labs(y = "Numero decessi 1-20 marzo") +
     theme(
       axis.text.x = element_text(angle = 60, hjust = 1),
@@ -410,7 +418,6 @@ mod_focus_20200406_mort_veneto_server <- function(id) {
       .data$settimana != "01/01-11/01",
       .data$year == 2020,
       .data$regione == "Veneto"
-
     ) %>%
     dplyr::mutate(
       settimana = substr(.data$settimana, start = 1, stop = 5) %>%
@@ -478,13 +485,11 @@ mod_focus_20200406_mort_veneto_server <- function(id) {
     output$fig_6_week_age <- renderPlotly({
       clean_ggplotly(gg_fig_6_week_age)
     })
-
   })
 }
 
 ## To be copied in the UI
-# mod_focus_20200406_mort_veneto_ui("magnani_1")
+#> mod_0406_mort_veneto_ui("magnani_1")
 
 ## To be copied in the server
-# mod_focus_20200406_mort_veneto_server("magnani_1")
-
+#> mod_0406_mort_veneto_server("magnani_1")

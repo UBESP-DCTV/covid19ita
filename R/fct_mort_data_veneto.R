@@ -13,8 +13,8 @@ mort_data_veneto <- function(type = c("sex", "age")) {
   type <- match.arg(type)
 
   ref_data <- switch(type,
-                     "sex" = decessi_genere,
-                     "age" = decessi_eta
+    "sex" = decessi_genere,
+    "age" = decessi_eta
   )
 
   data_prov <- ref_data %>%
@@ -31,8 +31,8 @@ mort_data_veneto <- function(type = c("sex", "age")) {
 
   dplyr::bind_rows(data_prov, data_veneto) %>%
     tidyr::pivot_longer(-"provincia",
-                        names_to = c("type", "strata", "year"),
-                        names_sep = "_"
+      names_to = c("type", "strata", "year"),
+      names_sep = "_"
     ) %>%
     tidyr::pivot_wider(
       names_from = .data$year,
@@ -41,9 +41,9 @@ mort_data_veneto <- function(type = c("sex", "age")) {
     dplyr::select(-.data$type) %>%
     dplyr::mutate(
       variation = (100 *
-                     (
-                       .data[["2020"]] - .data[["2019"]]
-                     ) / .data[["2019"]]
+        (
+          .data[["2020"]] - .data[["2019"]]
+        ) / .data[["2019"]]
       ) %>% round(2)
     )
 }

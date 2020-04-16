@@ -28,6 +28,6 @@ provincial = province) download data from the official Italian
 }
 \examples{
 \dontrun{
-  download_dpc("italia")
+download_dpc("italia")
 }
 }

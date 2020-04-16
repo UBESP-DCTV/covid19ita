@@ -27,7 +27,8 @@ data_plotly_help <- function() {
       - keep only one level (double click)</br>
       - multiple details (tab)</br>
       - export images (camera)</br>
-  ")
+  "
+  )
   ui_done("eng_plottly_help_txt ready")
 
   plottly_help_txt <- shiny::HTML(
@@ -37,7 +38,8 @@ data_plotly_help <- function() {
       - isolare un livello (doppio click)</br>
       - dettagli multipli (doppia linguetta)</br>
       - esportazione (macchina foto)</br>
-  ")
+  "
+  )
   ui_done("plottly_help_txt ready")
 
 
@@ -51,7 +53,6 @@ data_plotly_help <- function() {
     "eng_plottly_help_txt",
     "plottly_help_txt"
   ))
-
 }
 
 

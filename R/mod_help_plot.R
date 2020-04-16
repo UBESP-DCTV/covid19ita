@@ -7,7 +7,7 @@
 #' @noRd
 #'
 #' @importFrom shiny NS tagList
-mod_help_plot_ui <- function(id){
+mod_help_plot_ui <- function(id) {
   ns <- NS(id)
   actionButton(ns("show"), "Uso grafici interattivi", icon("question"))
 }
@@ -16,7 +16,7 @@ mod_help_plot_ui <- function(id){
 #'
 #' @noRd
 mod_help_plot_server <- function(id) {
-  callModule(id = id, function(input, output, session){
+  callModule(id = id, function(input, output, session) {
     ns <- session$ns
 
     observeEvent(input$show, {
@@ -25,13 +25,11 @@ mod_help_plot_server <- function(id) {
         type = "message"
       )
     })
-
   })
 }
 
 ## To be copied in the UI
-# mod_help_plot_ui("help_plot_ui_1")
+#> mod_help_plot_ui("help_plot_ui_1")
 
 ## To be copied in the server
-# callModule(mod_help_plot_server, "help_plot_ui_1")
-
+#> callModule(mod_help_plot_server, "help_plot_ui_1")

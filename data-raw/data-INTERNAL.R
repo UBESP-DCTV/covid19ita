@@ -25,7 +25,7 @@ dpc_covid19_ita_andamento_nazionale <- read_data_raw(
 )
 dpc_covid19_ita_regioni <- read_data_raw("dpc_covid19_ita_regioni")
 dpc_covid19_ita_province <- read_data_raw("dpc_covid19_ita_province")
-last_data_update <-read_data_raw("last_data_update")
+last_data_update <- read_data_raw("last_data_update")
 
 
 
@@ -48,7 +48,7 @@ plottly_help_txt <- read_data_raw("plottly_help_txt")
 # maps ------------------------------------------------------------
 
 ## data_maps()
-paletteList.t <- read_data_raw("paletteList.t")
+palette_list_t <- read_data_raw("palette_list_t")
 
 
 # mortalità -------------------------------------------------------
@@ -99,7 +99,7 @@ usethis::use_data(
   plottly_help_txt,
 
   # maps
-  paletteList.t,
+  palette_list_t,
 
 
   # mortalità
@@ -116,8 +116,6 @@ usethis::use_data(
 
   # dictionary
   dictionary,
-
-
   internal = TRUE,
   overwrite = TRUE
 )

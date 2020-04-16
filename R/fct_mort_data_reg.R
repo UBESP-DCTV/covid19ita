@@ -53,5 +53,4 @@ mort_data_reg <- function(type = c("sex", "age")) {
       ) %>% round(2)
     ) %>%
     dplyr::rename(regione = .data$nome_reg)
-
 }

@@ -13,5 +13,4 @@ test_that("accumulate_for_days works", {
     accumulate_for_days(c(NA, 2, 3), 3),
     c(0, 2, 5, 5, 3)
   )
-
 })

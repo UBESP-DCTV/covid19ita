@@ -46,7 +46,6 @@ data_dictionary <- function() {
   write_raw_rds(c(
     "dictionary"
   ))
-
 }
 
 
