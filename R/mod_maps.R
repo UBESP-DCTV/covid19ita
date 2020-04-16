@@ -42,7 +42,7 @@ mod_maps_ui <- function(id) {
 
   paletteList <- (names(paletteList.t))
 
-  paletteList.img <- c()
+  paletteList.img <- NA_character_
   for (pal in paletteList.t) {
     png(tf1 <- tempfile(fileext = ".png"), width = 160, height = 20)
     op <- par(mar = rep(0, 4))

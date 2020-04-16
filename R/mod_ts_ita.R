@@ -51,7 +51,7 @@ mod_ts_ita_server <- function(id, type = c("cum", "inc")) {
   y_lab <- "N"
 
   if (type == "inc") {
-    groups <- c("Measure")
+    groups <- "Measure"
 
     ts_data_to_plot <- ts_data_to_plot %>%
       dplyr::group_by_at(groups) %>%
