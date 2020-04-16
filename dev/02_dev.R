@@ -68,6 +68,7 @@ golem::add_fct("mort_data_veneto")
 golem::add_utils("plot_mort_data")
 golem::add_fct("clean_ggplotly")
 golem::add_utils("write_raw_rds")
+golem::add_fct("pull_region_w_pop")
 
 
 ## Update package documentation and namespace
@@ -93,6 +94,77 @@ usethis::use_spell_check()
 ## Vignette ----
 # usethis::use_vignette("covid19ita")
 # devtools::build_vignettes()
+
+## Quality ----
+
+## styler
+#
+## run this only once!!
+{# Create configuration file for lintr
+  # Source this file in package root directory
+  # List here files to exclude from lint checking, as a character vector
+excluded_files <- c(
+  list.files("data",      recursive = TRUE, full.names = TRUE),
+  list.files("docs",      recursive = TRUE, full.names = TRUE),
+  list.files("inst/doc",  recursive = TRUE, full.names = TRUE),
+  list.files("man",       recursive = TRUE, full.names = TRUE),
+  list.files("pkgdown",   recursive = TRUE, full.names = TRUE),
+  list.files("vignettes", recursive = TRUE, full.names = TRUE)
+)
+
+my_linters  <-  lintr::with_defaults(
+  line_length_linter = lintr::line_length_linter(72),
+  T_and_F_symbol_linter = lintr::T_and_F_symbol_linter,
+  closed_curly_linter = lintr::closed_curly_linter(
+    allow_single_line = TRUE
+  ),
+  extraction_operator_linter = lintr::extraction_operator_linter,
+  absolute_path_linter = lintr::absolute_path_linter,
+  nonportable_path_linter = lintr::nonportable_path_linter,
+  semicolon_terminator_linter = lintr::semicolon_terminator_linter,
+  undesirable_function_linter = lintr::undesirable_function_linter,
+  undesirable_operator_linter = lintr::undesirable_operator_linter,
+  unneeded_concatenation_linter = lintr::unneeded_concatenation_linter,
+  object_usage_linter = NULL
+)
+
+  ### Do not edit after this line ###
+
+  library(magrittr)
+  library(dplyr)
+
+  # Make sure we start fresh
+  if (file.exists(".lintr")) { file.remove(".lintr") }
+
+  # List current lints
+  lintr::lint_package(
+      linters = my_linters,
+      exclusions = excluded_files
+    ) %>%
+    as.data.frame %>%
+    group_by(linter) %>%
+    tally(sort = TRUE) %$%
+    sprintf(
+      "linters: with_defaults(\n    %s\n    dummy_linter = NULL\n  )\n",
+      paste0(linter, " = NULL, # ", n, collapse = "\n    ")
+    ) %>%
+    cat(file = ".lintr")
+
+  sprintf(
+    "exclusions: list(\n    %s\n  )\n",
+    paste0('"', excluded_files, '"', collapse = ",\n    ")
+  ) %>%
+    cat(file = ".lintr", append = TRUE)
+
+  # Clean up workspace
+  remove(excluded_files)
+}
+
+## after setup of .lint file
+lintr::lint_package()
+
+# styler::style_pkg(exclude_files = excluded_files)
+
 
 # You're now set! ----
 # go to dev/03_deploy.R

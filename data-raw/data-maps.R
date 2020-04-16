@@ -20,23 +20,18 @@ data_maps <- function() {
 
   # Code to prepare the data ----------------------------------------
 
-  paletteList.t <- list(
+  palette_list_t <- list(
     Person = c(
       "#cccccc", "#ffffd9", "#edf8b1", "#c7e9b4", "#7fcdbb", "#41b6c4",
-      "#1d91c0", "#225ea8",  "#6e016b", "#990000", "#d7301f", "#FF0000"
+      "#1d91c0", "#225ea8", "#6e016b", "#990000", "#d7301f", "#FF0000"
     ),
-    Spectral = c("#cccccc", rev( grDevices::rainbow(20)[1:12])),
-    YellowOrangeRed = RColorBrewer::brewer.pal(9,"YlOrRd"),
-    RedYellowBlue = RColorBrewer::brewer.pal(11,"RdYlBu"),
-    BlueYellowRed = rev(RColorBrewer::brewer.pal(11,"RdYlBu")),
-    RedWhiteGrey = rev(RColorBrewer::brewer.pal(11,"RdGy"))
+    Spectral = c("#cccccc", rev(grDevices::rainbow(20)[1:12])),
+    YellowOrangeRed = RColorBrewer::brewer.pal(9, "YlOrRd"),
+    RedYellowBlue = RColorBrewer::brewer.pal(11, "RdYlBu"),
+    BlueYellowRed = rev(RColorBrewer::brewer.pal(11, "RdYlBu")),
+    RedWhiteGrey = rev(RColorBrewer::brewer.pal(11, "RdGy"))
   )
-
-  #region_polygons2019<-readRDS("data-raw/region_polygons2019.rds")
-  #province_polygons2019<-rgdal::readOGR("../covid19carto/data/province4326vmp.shp")
-  #saveRDS(province_polygons2019, "data-raw/province_polygons2019.rds")
-  #raster::shapefile(region_polygons2019, "../covid19carto/data/regionemerged.shp", overwrite=TRUE)
-  ui_done("paletteList.t ready")
+  ui_done("palette_list_t ready")
 
 
 
@@ -45,9 +40,8 @@ data_maps <- function() {
 
   ## Must be the names of the datasets!
   write_raw_rds(c(
-    "paletteList.t"
+    "palette_list_t"
   ))
-
 }
 
 
@@ -58,4 +52,4 @@ data_maps()
 ## to update `data-INTERNAL.R`, and `data-EXPORTED.R` accordingly to
 ## store them in the correct place into the package's data.
 ##
-## paletteList.t <- read_data_raw("paletteList.t")
+#> palette_list_t <- read_data_raw("palette_list_t")

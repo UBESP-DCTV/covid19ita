@@ -8,16 +8,17 @@
 #'
 #' @importFrom shiny NS tagList titlePanel fluidRow h1 h2 h3
 #' @importFrom plotly plotlyOutput
-eng_mod_ts_ita_ui <- function(id, title, width = 12){
+eng_mod_ts_ita_ui <- function(id, title, width = 12) {
   ns <- NS(id)
   fluidPage(
     fluidRow(shiny::checkboxInput(ns("y_log"), "Logarithmic scale")),
-  fluidRow(
-    box(title = title, width = width,
-      plotlyOutput(ns("ts_plot"))
+    fluidRow(
+      box(
+        title = title, width = width,
+        plotlyOutput(ns("ts_plot"))
+      )
     )
   )
- )
 }
 
 #' ts_ita Server Function
@@ -35,7 +36,7 @@ eng_mod_ts_ita_server <- function(id, type = c("cum", "inc")) {
   exclude_from_pivoting <- "data"
 
   ts_data_to_plot <- dpc_data[var_of_interest] %>%
-    tidyr::pivot_longer( -{{exclude_from_pivoting}},
+    tidyr::pivot_longer(-{{ exclude_from_pivoting }},
       names_to = "Measure",
       values_to = "N"
     ) %>%
@@ -44,13 +45,13 @@ eng_mod_ts_ita_server <- function(id, type = c("cum", "inc")) {
         levels = measures("national"),
         labels = measures("national") %>%
           measure_to_labels(lang = "eng")
-    )
+      )
     )
 
   y_lab <- "N"
 
   if (type == "inc") {
-    groups <- c("Measure")
+    groups <- "Measure"
 
     ts_data_to_plot <- ts_data_to_plot %>%
       dplyr::group_by_at(groups) %>%
@@ -66,8 +67,10 @@ eng_mod_ts_ita_server <- function(id, type = c("cum", "inc")) {
     ggplot(
       aes(x = .data$data, y = .data$N, colour = .data$Measure)
     ) +
-    geom_line() + geom_point() +
-    xlab("Date") + ylab(y_lab) +
+    geom_line() +
+    geom_point() +
+    xlab("Date") +
+    ylab(y_lab) +
     scale_x_date(date_breaks = "1 day", date_labels = "%b %d") +
     scale_colour_discrete(name = "Misura") +
     theme(
@@ -79,11 +82,11 @@ eng_mod_ts_ita_server <- function(id, type = c("cum", "inc")) {
     output$ts_plot <- renderPlotly({
       if (input$y_log) {
         gg <- gg + scale_y_continuous(
-          trans = 'log2',
+          trans = "log2",
           breaks = scales::trans_breaks("log2", function(x) 2^x),
           labels = scales::trans_format("log2", scales::math_format(2^.data[[".x"]]))
         ) +
-          ylab(paste0(y_lab," - log2"))
+          ylab(paste0(y_lab, " - log2"))
       }
 
       ggplotly(gg) %>%
@@ -94,8 +97,7 @@ eng_mod_ts_ita_server <- function(id, type = c("cum", "inc")) {
 }
 
 ## To be copied in the UI
-# mod_ts_ita_ui("time_series_ui_1")
+#> mod_ts_ita_ui("time_series_ui_1")
 
 ## To be copied in the server
-# mod_ts_ita_server("time_series_ui_1", type = )
-
+#> mod_ts_ita_server("time_series_ui_1", type = )

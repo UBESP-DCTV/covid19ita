@@ -1,7 +1,15 @@
 # R for travis: see documentation at https://docs.travis-ci.com/user/languages/r
 
 language: R
+warnings_are_errors: true
 cache: packages
+
+env:
+  global:
+    - R_CHECK_ARGS="--no-manual --as-cran"
+
+r_github_packages:
+  - jimhester/lintr
 
 r:
  - devel
@@ -16,6 +24,10 @@ matrix:
  exclude:
   - r: devel
     os: osx
+
+after_script:
+  - R CMD INSTALL $PKG_TARBALL
+  - Rscript -e 'lintr::lint_package()'
 
 after_success:
  - Rscript -e 'covr::codecov()'

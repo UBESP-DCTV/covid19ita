@@ -11,14 +11,18 @@ provinces <- function() {
 }
 
 measures <- function(
-  level = c("national", "regional", "provincial"),
-  lang = c("ita", "eng")
-) {
+                     level = c("national", "regional", "provincial"),
+                     lang = c("ita", "eng")) {
   level <- match.arg(level)
   lang <- match.arg(lang)
 
   res <- sort(switch(level,
-    national = ,
+    national = c(
+      "ricoverati_con_sintomi", "terapia_intensiva",
+      "totale_ospedalizzati", "isolamento_domiciliare",
+      "totale_positivi", "variazione_totale_positivi", "nuovi_positivi",
+      "dimessi_guariti", "deceduti", "totale_casi", "tamponi"
+    ),
     regional = c(
       "ricoverati_con_sintomi", "terapia_intensiva",
       "totale_ospedalizzati", "isolamento_domiciliare",
@@ -29,7 +33,7 @@ measures <- function(
   ))
 
   res <- if (lang == "eng") {
-    res  %>%
+    res %>%
       purrr::set_names(dictionary[res])
   } else {
     res %>% purrr::set_names()
@@ -43,16 +47,16 @@ measures <- function(
 }
 
 measure_to_labels <- function(x, lang = c("ita", "eng")) {
- lang <- match.arg(lang)
- stopifnot(is.character(x))
+  lang <- match.arg(lang)
+  stopifnot(is.character(x))
 
- stopifnot(all(x %in% names(dictionary)))
+  stopifnot(all(x %in% names(dictionary)))
 
 
- if (lang == "eng") {
-   x <- dictionary[x]
- }
+  if (lang == "eng") {
+    x <- dictionary[x]
+  }
 
- stringr::str_replace_all(x, "_", " ") %>%
-   stringr::str_to_title()
+  stringr::str_replace_all(x, "_", " ") %>%
+    stringr::str_to_title()
 }

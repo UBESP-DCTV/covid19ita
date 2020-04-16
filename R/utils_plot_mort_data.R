@@ -1,5 +1,4 @@
 ggmort <- function(data, legend_title, x = c("regione", "provincia")) {
-
   x <- match.arg(x)
 
   ggplot(data, aes(

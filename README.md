@@ -1,20 +1,39 @@
+`{covid19ita}`
+<img src='man/figures/logo-laims.jpg' align='right' height='120' /><img src='man/figures/logo-ubep.png' align='right' height='120' />
+================
+
+  - [Installazione/Installation](#installazioneinstallation)
+  - [Shiny App](#shiny-app)
+  - [Data](#data)
+  - [Attribuzione dei dati/Data
+    attribution](#attribuzione-dei-datidata-attribution)
+  - [Richiesta di funzionalità/Feature
+    request](#richiesta-di-funzionalitàfeature-request)
+  - [Bug reports](#bug-reports)
+  - [Codice di condotta/Code of
+    Conduct](#codice-di-condottacode-of-conduct)
 
 <!-- README.md is generated from README.Rmd. Please edit that file -->
 
-# `{covid19ita}` <img src='man/figures/logo.png' align="right" height="120" />
-
 <!-- badges: start -->
 
-[![Lifecycle:
-maturing](https://img.shields.io/badge/lifecycle-maturing-blue.svg)](https://www.tidyverse.org/lifecycle/#maturing)
-[![CRAN
-status](https://www.r-pkg.org/badges/version/covid19ita)](https://CRAN.R-project.org/package=covid19ita)
-[![AppVeyor build
-status](https://ci.appveyor.com/api/projects/status/github/UBESP-DCTV/covid19ita?branch=master&svg=true)](https://ci.appveyor.com/project/CorradoLanera/covid19ita)
+[![R build
+status](https://github.com/UBESP-DCTV/covid19ita/workflows/R-CMD-check/badge.svg)](https://github.com/UBESP-DCTV/covid19ita/actions)
 [![Travis Build
 Status](https://travis-ci.com/UBESP-DCTV/covid19ita.svg?branch=master)](https://travis-ci.com/UBESP-DCTV/covid19ita)
+[![AppVeyor build
+status](https://ci.appveyor.com/api/projects/status/github/UBESP-DCTV/covid19ita?branch=master&svg=true)](https://ci.appveyor.com/project/CorradoLanera/covid19ita)
+
+[![CRAN
+status](https://www.r-pkg.org/badges/version/covid19ita)](https://CRAN.R-project.org/package=covid19ita)
+[![Lifecycle:
+maturing](https://img.shields.io/badge/lifecycle-maturing-blue.svg)](https://www.tidyverse.org/lifecycle/#maturing)
+
 [![Codecov test
 coverage](https://codecov.io/gh/UBESP-DCTV/covid19ita/branch/master/graph/badge.svg)](https://codecov.io/gh/UBESP-DCTV/covid19ita?branch=master)
+
+[![CII Best
+Practices](https://bestpractices.coreinfrastructure.org/projects/3892/badge)](https://bestpractices.coreinfrastructure.org/projects/3892)
 <!-- badges: end -->
 
 Lo scopo del pacchetto `{covid19ita}` è quello di fornire una
@@ -41,7 +60,7 @@ remotes::install_github("UBESP-DCTV/covid19ita")
 
 <img src='inst/app/www/covid19ita_screen.png' align="center"/>
 
-**Ultimo aggiornamento/Last app update**: 2020-04-11 20:08:58.
+**Ultimo aggiornamento/Last app update**: 2020-04-17 00:01:27.
 
 > È possibile visitare la Shiny App `covid19ita` ospitata e operante sui
 > server UBEP ([Unità di Biostatistica, Epidemiologia e Sanità
@@ -73,7 +92,7 @@ The `{covid19ita}` package provide R versions of the three [official
 Italian COVID-19 datasets](https://github.com/pcm-dpc/COVID-19/) at
 national, regional and provincial level of detail.
 
-**Ultimo aggiornamento dati/Last data update**: 2020-03-29 18:45:14.
+**Ultimo aggiornamento dati/Last data update**: 2020-04-13 18:15:48.
 
 È possibile accedere ai dati tramite:
 
@@ -115,6 +134,34 @@ Salute](http://www.salute.gov.it/)
 **Dati originariamente gestiti e processati da/Original data processing
 and management by**: [Dipartimento della Protezione
 Civile](http://www.protezionecivile.it/)
+
+## Richiesta di funzionalità/Feature request
+
+Per richiedere funzionalità aggiuntive è possibile aprire un
+[issue](https://github.com/UBESP-DCTV/covid19ita/issues).
+
+If you need some more features, please open an
+[issue](https://github.com/UBESP-DCTV/covid19ita/issues).
+
+## Bug reports
+
+Nel caso in cui si incontrasse un bug nelle funzioni del pacchetto, per
+favore si riporti un [reprex](https://github.com/tidyverse/reprex)
+all’interno di un
+[issue](https://github.com/UBESP-DCTV/covid19ita/issues).
+
+If you encounter a bug in the package’s functions, please file a
+[reprex](https://github.com/tidyverse/reprex) (minimal reproducible
+example) in a [issue](https://github.com/UBESP-DCTV/covid19ita/issues).
+
+Se si incontra un bug nell’applicazione, aprire un
+[issue](https://github.com/UBESP-DCTV/covid19ita/issues) descrivendo: -
+Passaggi per riprodurre/vedere il problema - Descrizione del problema
+dettagliata - Descrizione di cosa ci si sarebbe aspettato
+
+If you encounter a bug in the app, please describe: - The steps to
+reproduce/visualize the problem - The problem in detail - The behavior
+you expected
 
 ## Codice di condotta/Code of Conduct
 

@@ -1,6 +1,4 @@
 predict_to_tbl <- function(pred, data) {
-
-
   ci_ray <- if ("df" %in% names(pred)) {
     stats::qt(0.975, pred[["df"]]) * pred[["se.fit"]]
   } else {
@@ -8,14 +6,14 @@ predict_to_tbl <- function(pred, data) {
   }
 
   tibble::tibble(
-    day         = c(
+    day = c(
       data[["day"]],
       max(data[["day"]]) + lubridate::days(1:3)
     ),
     totale_casi = pred[["fit"]],
-    lower       = pred[["fit"]] - ci_ray,
-    upper       = pred[["fit"]] + ci_ray,
-    series      = 'Predetto'
+    lower = pred[["fit"]] - ci_ray,
+    upper = pred[["fit"]] + ci_ray,
+    series = "Predetto"
   )
 }
 

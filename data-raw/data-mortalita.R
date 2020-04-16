@@ -30,7 +30,7 @@ data_mortalita <- function() {
 
   tmp <- tempfile(fileext = ".xlsx")
 
-  download.file(decessi_url, tmp, mode = 'wb')
+  download.file(decessi_url, tmp, mode = "wb")
 
 
   decessi_genere <- tmp %>%
@@ -139,10 +139,11 @@ data_mortalita <- function() {
 
   tmp_sett <- tempfile(fileext = ".zip")
 
-  download.file(settimanale_url, tmp_sett, mode = 'wb')
+  download.file(settimanale_url, tmp_sett, mode = "wb")
 
   comuni_settimana <- unzip(
-    tmp_sett, "comuni_settimana.xlsx", exdir = tempdir()
+    tmp_sett, "comuni_settimana.xlsx",
+    exdir = tempdir()
   ) %>%
     readxl::read_xlsx() %>%
     janitor::clean_names() %>%
@@ -178,16 +179,16 @@ data_mortalita <- function() {
     dplyr::select(-.data$reg, -.data$prov, -.data$cod_provcom) %>%
     dplyr::mutate(
       area = dplyr::if_else(.data$regione %in% nord,
-                            true  = "nord",
-                            false = "sud, centro, isole"
+        true = "nord",
+        false = "sud, centro, isole"
       )
     ) %>%
     tidyr::pivot_longer(.data$maschi_2015:.data$totale_2020,
-                        names_to = c("sex", "year"),
-                        names_ptypes = list(sex = character(), year = integer()),
-                        names_sep = "_",
-                        values_to = "n_death",
-                        values_ptypes = list(n_death = integer())
+      names_to = c("sex", "year"),
+      names_ptypes = list(sex = character(), year = integer()),
+      names_sep = "_",
+      values_to = "n_death",
+      values_ptypes = list(n_death = integer())
     ) %>%
     dplyr::mutate(
       classe_di_eta = .data$classe_di_eta %>%
@@ -214,7 +215,6 @@ data_mortalita <- function() {
     "comuni_settimana",
     "mort_data_comuni"
   ))
-
 }
 
 

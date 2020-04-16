@@ -14,13 +14,12 @@
 #'
 #' @examples
 #' \dontrun{
-#'   download_dpc("italia")
+#' download_dpc("italia")
 #' }
 download_dpc <- function(
-    level = c("italia", "regioni", "province"),
-    dir = ".",
-    file_name = NULL
-) {
+                         level = c("italia", "regioni", "province"),
+                         dir = ".",
+                         file_name = NULL) {
   level <- match.arg(level)
 
   if (level == "italia") {

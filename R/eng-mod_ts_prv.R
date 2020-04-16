@@ -7,14 +7,15 @@
 #' @noRd
 #'
 #' @importFrom shiny NS tagList
-eng_mod_ts_prv_ui <- function(id){
+eng_mod_ts_prv_ui <- function(id) {
   ns <- NS(id)
 
   fluidPage(
     fluidRow(
-      column(12,
-        shiny::selectInput(ns("whichProvince"),  "Select provinces",
-          choices  = provinces(),
+      column(
+        12,
+        shiny::selectInput(ns("whichProvince"), "Select provinces",
+          choices = provinces(),
           selectize = TRUE,
           selected = c(
             "Belluno", "Padova", "Rovigo", "Treviso", "Venezia",
@@ -34,7 +35,6 @@ eng_mod_ts_prv_ui <- function(id){
 #'
 #' @noRd
 eng_mod_ts_prv_server <- function(id, type = c("cum", "inc")) {
-
   type <- match.arg(type)
 
   dpc_data <- dpc_covid19_ita_province %>%
@@ -49,7 +49,6 @@ eng_mod_ts_prv_server <- function(id, type = c("cum", "inc")) {
     })
 
     data_to_plot <- reactive({
-
       data_tmp <- dpc_data %>%
         dplyr::filter(.data$denominazione_provincia %in% which_province())
 
@@ -59,7 +58,7 @@ eng_mod_ts_prv_server <- function(id, type = c("cum", "inc")) {
           dplyr::arrange(.data$data) %>%
           dplyr::mutate(
             totale_casi = .data$totale_casi -
-                          dplyr::lag(.data$totale_casi, default = 0)
+              dplyr::lag(.data$totale_casi, default = 0)
           )
       }
 
@@ -72,14 +71,14 @@ eng_mod_ts_prv_server <- function(id, type = c("cum", "inc")) {
 
 
     output$ts_plot <- renderPlotly({
-
       gg <- data_to_plot() %>%
         ggplot(aes(
           x = .data$data,
           y = .data$totale_casi,
           colour = .data$denominazione_provincia
         )) +
-        geom_line() + geom_point() +
+        geom_line() +
+        geom_point() +
         xlab("Date") +
         ylab(y_lab()) +
         scale_x_date(date_breaks = "1 day", date_labels = "%b %d") +
@@ -89,23 +88,22 @@ eng_mod_ts_prv_server <- function(id, type = c("cum", "inc")) {
         )
       if (input$y_log) {
         gg <- gg + scale_y_continuous(
-          trans = 'log2',
+          trans = "log2",
           breaks = scales::trans_breaks("log2", function(x) 2^x),
           labels = scales::trans_format("log2", scales::math_format(2^.data[[".x"]]))
         ) +
-          ylab(paste0(y_lab()," - log2"))
+          ylab(paste0(y_lab(), " - log2"))
       }
 
       ggplotly(gg) %>%
         config(modeBarButtonsToRemove = c("zoomIn2d", "zoomOut2d", "pan2d", "select2d", "lasso2d")) %>%
         config(displaylogo = FALSE)
     })
-
   })
 }
 
 ## To be copied in the UI
-# mod_ts_reg_ui("ts_reg_ui_1")
+#> mod_ts_reg_ui("ts_reg_ui_1")
 
 ## To be copied in the server
-# mod_ts_reg_server("ts_reg_ui_1")
+#> mod_ts_reg_server("ts_reg_ui_1")
