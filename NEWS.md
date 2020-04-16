@@ -1,4 +1,4 @@
-* activate lintr in Travis-CI
+* activate lintr on Travis-CI and GitHub Actions
 * fix lintr check (all but `extraction_operator_linter` (1408 problems),
   `line_length_linter` (913 problems), and `cyclocomp_linter`
   (2 problems in *_mod_maps.R)).
