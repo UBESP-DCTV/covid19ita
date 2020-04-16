@@ -98,7 +98,9 @@ usethis::use_spell_check()
 ## Quality ----
 
 ## styler
-# List here files to exclude from lint checking, as a character vector
+{# Create configuration file for lintr
+  # Source this file in package root directory
+  # List here files to exclude from lint checking, as a character vector
 excluded_files <- c(
   list.files("data",      recursive = TRUE, full.names = TRUE),
   list.files("docs",      recursive = TRUE, full.names = TRUE),
@@ -108,11 +110,22 @@ excluded_files <- c(
   list.files("vignettes", recursive = TRUE, full.names = TRUE)
 )
 
-styler::style_pkg(exclude_files = excluded_files)
+# styler::style_pkg(exclude_files = excluded_files)
 
-{  # Create configuration file for lintr
-  # Source this file in package root directory
-
+my_linters  <-  lintr::with_defaults(
+  line_length_linter = lintr::line_length_linter(72),
+  lintr::T_and_F_symbol_linter,
+  closed_curly_linter = lintr::closed_curly_linter(
+    allow_single_line = TRUE
+  ),
+  lintr::extraction_operator_linter,
+  lintr::absolute_path_linter,
+  lintr::nonportable_path_linter,
+  lintr::semicolon_terminator_linter,
+  lintr::undesirable_function_linter,
+  lintr::undesirable_operator_linter,
+  lintr::unneeded_concatenation_linter
+)
 
   ### Do not edit after this line ###
 
@@ -123,12 +136,7 @@ styler::style_pkg(exclude_files = excluded_files)
   if (file.exists(".lintr")) { file.remove(".lintr") }
 
   # List current lints
-  lintr::lint_package(
-    linters = list(
-      lintr::assignment_linter,
-      lintr::T_and_F_symbol_linter
-    )
-  ) %>%
+  lintr::lint_package(linters = my_linters) %>%
     as.data.frame %>%
     group_by(linter) %>%
     tally(sort = TRUE) %$%

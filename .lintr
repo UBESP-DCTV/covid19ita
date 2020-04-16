@@ -1,24 +1,33 @@
 linters: with_defaults(
-    line_length_linter = NULL, # 623
-    infix_spaces_linter = NULL, # 313
-    spaces_inside_linter = NULL, # 213
-    single_quotes_linter = NULL, # 212
-    paren_brace_linter = NULL, # 123
+    # line_length_linter = line_length_linter(72),
+    closed_curly_linter = closed_curly_linter(
+      allow_single_line = TRUE
+    ),
+
+    # T_and_F_symbol_linter,
+    # extraction_operator_linter,
+    absolute_path_linter,
+    nonportable_path_linter,
+    semicolon_terminator_linter,
+    undesirable_function_linter,
+    undesirable_operator_linter,
+    # unneeded_concatenation_linter
+
+    extraction_operator_linter = NULL, # 1409
+    line_length_linter = NULL, # 933
     commented_code_linter = NULL, # 116
-    trailing_whitespace_linter = NULL, # 78
     object_name_linter = NULL, # 76
     object_usage_linter = NULL, # 73
-    commas_linter = NULL, # 68
-    trailing_blank_lines_linter = NULL, # 60
     object_length_linter = NULL, # 29
-    spaces_left_parentheses_linter = NULL, # 26
-    open_curly_linter = NULL, # 25
-    no_tab_linter = NULL, # 12
-    assignment_linter = NULL, # 6
+    paren_brace_linter = NULL, # 21
+    T_and_F_symbol_linter = NULL, # 7
     seq_linter = NULL, # 6
-    closed_curly_linter = NULL, # 4
-    function_left_parentheses_linter = NULL, # 4
+    open_curly_linter = NULL, # 5
+    unneeded_concatenation_linter = NULL, # 4
     cyclocomp_linter = NULL, # 2
+    spaces_inside_linter = NULL, # 2
+    spaces_left_parentheses_linter = NULL, # 2
+    commas_linter = NULL, # 1
     dummy_linter = NULL
   )
 exclusions: list(
