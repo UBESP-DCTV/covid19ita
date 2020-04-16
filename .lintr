@@ -3,7 +3,6 @@ linters: with_defaults(
     closed_curly_linter = closed_curly_linter(
       allow_single_line = TRUE
     ),
-
     # T_and_F_symbol_linter,
     # extraction_operator_linter,
     absolute_path_linter,
@@ -11,8 +10,7 @@ linters: with_defaults(
     semicolon_terminator_linter,
     undesirable_function_linter,
     undesirable_operator_linter,
-    # unneeded_concatenation_linter
-
+    # unneeded_concatenation_linter,
     extraction_operator_linter = NULL, # 1409
     line_length_linter = NULL, # 933
     commented_code_linter = NULL, # 116
@@ -27,7 +25,6 @@ linters: with_defaults(
     cyclocomp_linter = NULL, # 2
     spaces_inside_linter = NULL, # 2
     spaces_left_parentheses_linter = NULL, # 2
-    commas_linter = NULL, # 1
     dummy_linter = NULL
   )
 exclusions: list(

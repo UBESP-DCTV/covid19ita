@@ -260,7 +260,7 @@ mod_maps_server <- function(id) {
       x
     },
     log10Per = function(x) {
-      round(10^(x) - 1, 0)
+      round(10^x - 1, 0)
     },
     logPer = function(x) {
       round(exp(x) - 1, 0)
