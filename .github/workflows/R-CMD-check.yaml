@@ -67,7 +67,7 @@ jobs:
           sudo -s eval "$sysreqs"
 
       - name: Source install macOS packages
-        if: runner.os == 'macOS' && runner.r == "devel"
+        if: runner.os == 'macOS' && runner.r == 'devel'
         run: |
           remotes::install_github('ThinkR-open/golem')
         shell: Rscript {0}
