@@ -9,18 +9,17 @@
 
 [![R build
 status](https://github.com/UBESP-DCTV/covid19ita/workflows/R-CMD-check/badge.svg)](https://github.com/UBESP-DCTV/covid19ita/actions)
-[![Travis Build
-Status](https://travis-ci.com/UBESP-DCTV/covid19ita.svg?branch=master)](https://travis-ci.com/UBESP-DCTV/covid19ita)
-[![AppVeyor build
-status](https://ci.appveyor.com/api/projects/status/github/UBESP-DCTV/covid19ita?branch=master&svg=true)](https://ci.appveyor.com/project/CorradoLanera/covid19ita)
+[![Codecov test
+coverage](https://codecov.io/gh/UBESP-DCTV/covid19ita/branch/master/graph/badge.svg)](https://codecov.io/gh/UBESP-DCTV/covid19ita?branch=master)
+
+<!-- [![Travis Build Status](https://travis-ci.com/UBESP-DCTV/covid19ita.svg?branch=master)](https://travis-ci.com/UBESP-DCTV/covid19ita) -->
+
+<!-- [![AppVeyor build status](https://ci.appveyor.com/api/projects/status/github/UBESP-DCTV/covid19ita?branch=master&svg=true)](https://ci.appveyor.com/project/CorradoLanera/covid19ita) -->
 
 [![CRAN
 status](https://www.r-pkg.org/badges/version/covid19ita)](https://CRAN.R-project.org/package=covid19ita)
 [![Lifecycle:
 maturing](https://img.shields.io/badge/lifecycle-maturing-blue.svg)](https://www.tidyverse.org/lifecycle/#maturing)
-
-[![Codecov test
-coverage](https://codecov.io/gh/UBESP-DCTV/covid19ita/branch/master/graph/badge.svg)](https://codecov.io/gh/UBESP-DCTV/covid19ita?branch=master)
 
 [![CII Best
 Practices](https://bestpractices.coreinfrastructure.org/projects/3892/badge)](https://bestpractices.coreinfrastructure.org/projects/3892)
