@@ -22,7 +22,8 @@ jobs:
         config:
           - {os: windows-latest, r: '3.5'}
           - {os: windows-latest, r: '3.6'}
-          - {os: macOS-latest, r: '3.5'}
+          # unable to access index for repository https://rcppcore.github.io/drat/bin/macosx/el-capitan/contrib/3.5
+          # - {os: macOS-latest, r: '3.5'}
           - {os: macOS-latest, r: '3.6'}
           - {os: macOS-latest, r: 'devel'}
           - {os: ubuntu-16.04, r: '3.5', rspm: "https://demo.rstudiopm.com/all/__linux__/xenial/latest"}
@@ -65,7 +66,7 @@ jobs:
           sudo -s eval "$sysreqs"
 
       - name: Source install macOS packages
-        if: runner.os == 'macOS' && runner.r == 'devel'
+        if: runner.os == 'macOS' && matrix.config.r == 'devel'
         run: |
           remotes::install_github('ThinkR-open/golem')
         shell: Rscript {0}
