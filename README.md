@@ -1,7 +1,9 @@
 
 <!-- README.md is generated from README.Rmd. Please edit that file -->
 
-# covid19ita <img src='man/figures/logo-laims.jpg' align='right' height='120' /><img src='man/figures/logo-ubep.png' align='right' height='120' />
+# covid19ita
+
+<img src='man/figures/logo-laims.jpg' align='right' height='120' /><img src='man/figures/logo-ubep.png' align='right' height='120' />
 
 <!-- badges: start -->
 
