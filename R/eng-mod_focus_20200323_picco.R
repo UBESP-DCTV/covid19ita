@@ -7,7 +7,7 @@
 #' @noRd
 #'
 #' @importFrom shiny NS tagList
-eng_mod_focus_20200323_picco_ui <- function(id){
+eng_mod_0323_picco_ui <- function(id) {
   ns <- NS(id)
 
   obs_t <- dpc_covid19_ita_andamento_nazionale[["data"]]
@@ -19,43 +19,47 @@ eng_mod_focus_20200323_picco_ui <- function(id){
 
 
   fluidPage(
-    box(width = 12, title = "How to read and use the graphs",
-      p('In the graphs the daily new confirmed cases (red dots), by region or for the whole country, vs the prediction of what will happen in the future if we assume logistic growth (black dots).'),
-      p('It is possible to see how changing the parameters modifies the predictions. The range given for each parameter is the 99% CI of the values that best explain the data gathered until now.'),
-      p('Varying the parameters for Italy (within the 99% CI) also results in a proportional change in all respective regional parameters.'),
+    box(
+      width = 12, title = "How to read and use the graphs",
+      p("In the graphs the daily new confirmed cases (red dots), by region or for the whole country, vs the prediction of what will happen in the future if we assume logistic growth (black dots)."),
+      p("It is possible to see how changing the parameters modifies the predictions. The range given for each parameter is the 99% CI of the values that best explain the data gathered until now."),
+      p("Varying the parameters for Italy (within the 99% CI) also results in a proportional change in all respective regional parameters."),
       actionButton(ns("reset"), "Rispristino parametri iniziali")
     ),
     fluidRow(
-      box(width = 4, footer = "Carrying capacity for the population: maximum number of cases that can be active for an indefinite time.",
+      box(
+        width = 4, footer = "Carrying capacity for the population: maximum number of cases that can be active for an indefinite time.",
         sliderInput(ns("k"), "k parameter",
           min = round(pred_val$k - 2.576 * pred_val$k_se),
           max = round(pred_val$k + 2.576 * pred_val$k_se),
           value = round(pred_val$k),
-          step  = round(pred_val$k_se / 10)
+          step = round(pred_val$k_se / 10)
         )
       ),
-      box(width = 4, footer = "Initial cases.",
-        sliderInput( ns("n0"), "N0 parameter",
+      box(
+        width = 4, footer = "Initial cases.",
+        sliderInput(ns("n0"), "N0 parameter",
           min = round(pred_val$n0 - 2.576 * pred_val$n0_se),
           max = round(pred_val$n0 + 2.576 * pred_val$n0_se),
           value = round(pred_val$n0),
-          step  = round(pred_val$n0_se / 10)
+          step = round(pred_val$n0_se / 10)
         )
       ),
-      box(width = 4, footer =  "Exponential growth rate.",
+      box(
+        width = 4, footer = "Exponential growth rate.",
         sliderInput(ns("r"), "r parameter",
           min = round(pred_val$r - 2.576 * pred_val$r_se, 4),
           max = round(pred_val$r + 2.576 * pred_val$r_se, 4),
           value = round(pred_val$r, 4),
-          step  = round(pred_val$r_se / 10, 4)
+          step = round(pred_val$r_se / 10, 4)
         )
       )
     ),
 
     plotlyOutput(ns("picco")),
 
-    shiny::selectInput(ns("whichRegion"),  "Select regions",
-      choices  = regions(),
+    shiny::selectInput(ns("whichRegion"), "Select regions",
+      choices = regions(),
       selectize = TRUE,
       selected = c("Veneto", "Lombardia", "Sicilia"),
       multiple = TRUE,
@@ -63,18 +67,17 @@ eng_mod_focus_20200323_picco_ui <- function(id){
     ),
 
     plotlyOutput(ns("picco_reg")),
-
   )
 }
 
 #' focus_20200323_picco Server Function
 #'
 #' @noRd
-eng_mod_focus_20200323_picco_server <- function(id) {
+eng_mod_0323_picco_server <- function(id) {
 
   # national setup
   #
-  obs_t  <- dpc_covid19_ita_andamento_nazionale[["data"]]
+  obs_t <- dpc_covid19_ita_andamento_nazionale[["data"]]
   obs_y <- dpc_covid19_ita_andamento_nazionale[["totale_casi"]]
   pred_val_origin <- growthcurver::SummarizeGrowth(
     data_t = seq_along(obs_t),
@@ -124,9 +127,9 @@ eng_mod_focus_20200323_picco_server <- function(id) {
     ns <- session$ns
 
     observeEvent(input$reset, {
-      updateNumericInput(session, "k" , value = pred_val_origin[["k" ]])
+      updateNumericInput(session, "k", value = pred_val_origin[["k"]])
       updateNumericInput(session, "n0", value = pred_val_origin[["n0"]])
-      updateNumericInput(session, "r" , value = pred_val_origin[["r" ]])
+      updateNumericInput(session, "r", value = pred_val_origin[["r"]])
     })
 
 
@@ -142,7 +145,7 @@ eng_mod_focus_20200323_picco_server <- function(id) {
     })
 
     r <- reactive({
-     req(input$r)
+      req(input$r)
     })
 
     pred_n <- reactive({
@@ -157,7 +160,6 @@ eng_mod_focus_20200323_picco_server <- function(id) {
     })
 
     output$picco <- renderPlotly({
-
       gg_ita <- tibble::tibble(t = as.Date(pred_t), y = pred_n()) %>%
         ggplot(aes(x = .data$t, y = .data$y)) +
         geom_point() +
@@ -171,7 +173,6 @@ eng_mod_focus_20200323_picco_server <- function(id) {
         )
 
       ggplotly(gg_ita)
-
     })
 
 
@@ -179,17 +180,17 @@ eng_mod_focus_20200323_picco_server <- function(id) {
     # regional plot
     #
     pred_val_reg <- reactive({
-      k_ita  <- req(input$k)
+      k_ita <- req(input$k)
       n0_ita <- req(input$n0)
-      r_ita  <- req(input$r)
+      r_ita <- req(input$r)
 
       pred_db_reg %>%
-       dplyr::mutate(
-         k  = (.data$k  * k_ita ) / pred_val_origin[["k" ]],
-         n0 = (.data$n0 * n0_ita) / pred_val_origin[["n0"]],
-         r  = (.data$r  * r_ita ) / pred_val_origin[["r" ]],
+        dplyr::mutate(
+          k = (.data$k * k_ita) / pred_val_origin[["k"]],
+          n0 = (.data$n0 * n0_ita) / pred_val_origin[["n0"]],
+          r = (.data$r * r_ita) / pred_val_origin[["r"]],
 
-         natt = purrr::pmap(
+          natt = purrr::pmap(
             list(.data$k, .data$n0, .data$r),
             function(k, n0, r) {
               tibble::tibble(
@@ -210,7 +211,6 @@ eng_mod_focus_20200323_picco_server <- function(id) {
 
 
     output$picco_reg <- renderPlotly({
-
       reg <- req(input$whichRegion)
 
       gg_reg <- pred_val_reg() %>%
@@ -221,7 +221,7 @@ eng_mod_focus_20200323_picco_server <- function(id) {
           data = dplyr::filter(obs_reg, .data$regione %in% reg)
         ) +
         geom_line() +
-        facet_wrap(~.data$regione, scales = "free_y") +
+        facet_wrap(~ .data$regione, scales = "free_y") +
         ylab("Number of new cases") +
         xlab("") +
         scale_x_date(date_breaks = "1 day", date_labels = "%b %d") +
@@ -236,15 +236,12 @@ eng_mod_focus_20200323_picco_server <- function(id) {
         )
 
       ggplotly(gg_reg)
-
     })
-
   })
 }
 
 ## To be copied in the UI
-# mod_focus_20200323_picco_ui("focus_20200323_picco_ui_1")
+#> mod_0323_picco_ui("focus_20200323_picco_ui_1")
 
 ## To be copied in the server
-# callModule(mod_focus_20200323_picco_server, "focus_20200323_picco_ui_1")
-
+#> callModule(mod_0323_picco_server, "focus_20200323_picco_ui_1")

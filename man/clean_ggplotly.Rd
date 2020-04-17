@@ -9,9 +9,9 @@ clean_ggplotly(
   width = NULL,
   height = NULL,
   tooltip = "all",
-  dynamicTicks = FALSE,
-  layerData = 1,
-  originalData = TRUE,
+  dynamic_ticks = FALSE,
+  layer_data = 1,
+  original_data = TRUE,
   source = "A",
   ...
 )
@@ -25,11 +25,11 @@ clean_ggplotly(
 
 \item{tooltip}{a character vector specifying which aesthetic mappings to show in the tooltip. The default, "all", means show all the aesthetic mappings (including the unofficial "text" aesthetic). The order of variables here will also control the order they appear. For example, use tooltip = c("y", "x", "colour") if you want y first, x second, and colour last.}
 
-\item{dynamicTicks}{should plotly.js dynamically generate axis tick labels? Dynamic ticks are useful for updating ticks in response to zoom/pan interactions; however, they can not always reproduce labels as they would appear in the static ggplot2 image.}
+\item{dynamic_ticks}{should plotly.js dynamically generate axis tick labels? Dynamic ticks are useful for updating ticks in response to zoom/pan interactions; however, they can not always reproduce labels as they would appear in the static ggplot2 image.}
 
-\item{layerData}{data from which layer should be returned?}
+\item{layer_data}{data from which layer should be returned?}
 
-\item{originalData}{should the "original" or "scaled" data be returned?}
+\item{original_data}{should the "original" or "scaled" data be returned?}
 
 \item{source}{a character string of length 1. Match the value of this string with the source argument in event_data() to retrieve the event data corresponding to a specific plot (shiny apps can have multiple plots).}
 

@@ -21,8 +21,7 @@ write_raw_rds <- function(data_name, env = sys.frame(1)) {
 
   dir_path <- here::here("data-raw")
 
-  res <- purrr::map_lgl(data_name, ~{
-
+  res <- purrr::map_lgl(data_name, ~ {
     written <- attempt::attempt({
       readr::write_rds(
         x = base::get(.x, envir = env, inherits = FALSE),
