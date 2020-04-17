@@ -80,8 +80,8 @@ jobs:
           install.packages("Rcpp", repos="https://rcppcore.github.io/drat")
           remotes::install_deps(dependencies = TRUE)
           remotes::install_cran("rcmdcheck")
-          remotes::install_cran("covr")
-          remotes::install_cran("lintr")
+          # {covr} is already included into the Suggests dependencies
+          # remotes::install_cran("covr")
         shell: Rscript {0}
 
       - name: Check

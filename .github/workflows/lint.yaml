@@ -35,7 +35,8 @@ jobs:
         run: |
           install.packages(c("remotes"))
           remotes::install_deps(dependencies = TRUE)
-          remotes::install_cran("lintr")
+          # {lintr} is already included into the Suggests dependencies
+          # remotes::install_cran("lintr")
         shell: Rscript {0}
 
       - name: Lint
