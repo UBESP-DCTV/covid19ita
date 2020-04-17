@@ -20,7 +20,9 @@ jobs:
       fail-fast: false
       matrix:
         config:
+          - {os: windows-latest, r: '3.5'}
           - {os: windows-latest, r: '3.6'}
+          - {os: macOS-latest, r: '3.5'}
           - {os: macOS-latest, r: '3.6'}
           - {os: macOS-latest, r: 'devel'}
           - {os: ubuntu-16.04, r: '3.5', rspm: "https://demo.rstudiopm.com/all/__linux__/xenial/latest"}
@@ -62,16 +64,35 @@ jobs:
           sysreqs=$(Rscript -e "cat(sysreqs::sysreq_commands('DESCRIPTION'))")
           sudo -s eval "$sysreqs"
 
+      # https://github.com/r-lib/usethis/blob/master/.github/workflows/R-CMD-check.yaml#L66
+      # I had the problem with 3.5 too, hence considered for the whole
+      # macOS-latest
+      - name: Install macOS system dependencies
+        if: matrix.config.os == 'macOS-latest'
+        # the xml2 thing is a hack / experiment
+        run: |
+          brew install imagemagick@6
+          Rscript -e "remotes::install_github('r-lib/xml2')"
+
       - name: Install dependencies
         run: |
+          # https://github.com/kevinrue/sqlighter/blob/f8e030baf2548f61d0a8cd37668ba6b5102b319b/.github/workflows/R-CMD-check.yaml#L62
+          install.packages("Rcpp", repos="https://rcppcore.github.io/drat")
           remotes::install_deps(dependencies = TRUE)
           remotes::install_cran("rcmdcheck")
+          # {covr} is already included into the Suggests dependencies
+          # remotes::install_cran("covr")
         shell: Rscript {0}
 
       - name: Check
         env:
           _R_CHECK_CRAN_INCOMING_REMOTE_: false
         run: rcmdcheck::rcmdcheck(args = c("--no-manual", "--as-cran"), error_on = "warning", check_dir = "check")
+        shell: Rscript {0}
+
+      - name: Test coverage
+        if: runner.os == 'Linux' && matrix.config.r == 3.6 && success()
+        run: covr::codecov()
         shell: Rscript {0}
 
       - name: Upload check results
