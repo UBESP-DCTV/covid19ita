@@ -25,7 +25,8 @@ jobs:
           # unable to access index for repository https://rcppcore.github.io/drat/bin/macosx/el-capitan/contrib/3.5
           # - {os: macOS-latest, r: '3.5'}
           - {os: macOS-latest, r: '3.6'}
-          - {os: macOS-latest, r: 'devel'}
+          # ##[error]Package required but not available: ‘golem’
+          # - {os: macOS-latest, r: 'devel'}
           - {os: ubuntu-16.04, r: '3.5', rspm: "https://demo.rstudiopm.com/all/__linux__/xenial/latest"}
           - {os: ubuntu-16.04, r: '3.6', rspm: "https://demo.rstudiopm.com/all/__linux__/xenial/latest"}
 
@@ -64,12 +65,6 @@ jobs:
           Rscript -e "remotes::install_github('r-hub/sysreqs')"
           sysreqs=$(Rscript -e "cat(sysreqs::sysreq_commands('DESCRIPTION'))")
           sudo -s eval "$sysreqs"
-
-      - name: Source install macOS packages
-        if: runner.os == 'macOS' && matrix.config.r == 'devel'
-        run: |
-          remotes::install_github('ThinkR-open/golem')
-        shell: Rscript {0}
 
       - name: Install dependencies
         run: |
