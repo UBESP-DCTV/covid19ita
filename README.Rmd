@@ -2,6 +2,7 @@
 title: "`{covid19ita}` <img src='man/figures/logo-laims.jpg' align='right' height='120' /><img src='man/figures/logo-ubep.png' align='right' height='120' />"
 output:
   github_document: 
+    pandoc_args: "--number-offset=1,0"
     toc: true
 pagetitle: covid19ita
 ---
