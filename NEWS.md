@@ -1,4 +1,8 @@
-* update github action and Travis-CI to install Rcpp (#59)
+
+* Included covr into gh-action to avoid badges conflicts
+* Activate gh-action for (R3.5, R3.6)*(Linux, OSX, Windows) + Rdevel on
+  OSX (the only one available at the moment for gh-actions) (#59)
+* Remove Travis and Appveyor CI (#59)
 
 # covid19ita 0.42.0
 

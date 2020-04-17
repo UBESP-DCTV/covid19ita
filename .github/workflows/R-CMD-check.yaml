@@ -80,12 +80,19 @@ jobs:
           install.packages("Rcpp", repos="https://rcppcore.github.io/drat")
           remotes::install_deps(dependencies = TRUE)
           remotes::install_cran("rcmdcheck")
+          remotes::install_cran("covr")
+          remotes::install_cran("lintr")
         shell: Rscript {0}
 
       - name: Check
         env:
           _R_CHECK_CRAN_INCOMING_REMOTE_: false
         run: rcmdcheck::rcmdcheck(args = c("--no-manual", "--as-cran"), error_on = "warning", check_dir = "check")
+        shell: Rscript {0}
+
+      - name: Test coverage
+        if: success()
+        run: covr::codecov()
         shell: Rscript {0}
 
       - name: Upload check results
