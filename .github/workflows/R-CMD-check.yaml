@@ -65,8 +65,11 @@ jobs:
           sysreqs=$(Rscript -e "cat(sysreqs::sysreq_commands('DESCRIPTION'))")
           sudo -s eval "$sysreqs"
 
+      # https://github.com/r-lib/usethis/blob/master/.github/workflows/R-CMD-check.yaml#L66
+      # I had the problem with 3.5 too, hence considered for the whole
+      # macOS-latest
       - name: Install macOS system dependencies
-        if: matrix.config.os == 'macOS-latest' && matrix.config.r == 'devel'
+        if: matrix.config.os == 'macOS-latest'
         # the xml2 thing is a hack / experiment
         run: |
           brew install imagemagick@6
