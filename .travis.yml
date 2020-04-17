@@ -8,6 +8,9 @@ env:
   global:
     - R_CHECK_ARGS="--no-manual --as-cran"
 
+before_isntall:
+  - Rscript -e 'install.packages("Rcpp")'
+
 r_github_packages:
   - jimhester/lintr
 

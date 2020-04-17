@@ -1,3 +1,5 @@
+* update github action and Travis-CI to install Rcpp (#59)
+
 # covid19ita 0.42.0
 
 * added cii best practice badge
