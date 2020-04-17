@@ -22,8 +22,7 @@ jobs:
         config:
           - {os: windows-latest, r: '3.5'}
           - {os: windows-latest, r: '3.6'}
-          # unable to access index for repository https://rcppcore.github.io/drat/bin/macosx/el-capitan/contrib/3.5
-          # - {os: macOS-latest, r: '3.5'}
+          - {os: macOS-latest, r: '3.5'}
           - {os: macOS-latest, r: '3.6'}
           # ##[error]Package required but not available: ‘golem’
           # - {os: macOS-latest, r: 'devel'}
