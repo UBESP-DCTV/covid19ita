@@ -1,4 +1,5 @@
 
+* Update data
 * Included covr into gh-action to avoid badges conflicts
 * Activate gh-action for (R3.5, R3.6)*(Linux, OSX, Windows) + Rdevel on
   OSX (the only one available at the moment for gh-actions) (#59)
