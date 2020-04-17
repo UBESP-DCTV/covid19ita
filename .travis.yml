@@ -13,6 +13,3 @@ before_isntall:
 matrix:
   - os: linux
     r: devel
-
-  - os: osx
-    r: oldrel
