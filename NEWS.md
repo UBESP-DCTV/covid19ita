@@ -1,3 +1,5 @@
+# covid19ita 0.43.0
+
 
 * Update data
 * Included covr into gh-action to avoid badges conflicts
