@@ -1,36 +1,21 @@
-`{covid19ita}`
-<img src='man/figures/logo-laims.jpg' align='right' height='120' /><img src='man/figures/logo-ubep.png' align='right' height='120' />
-================
-
-  - [Installazione/Installation](#installazioneinstallation)
-  - [Shiny App](#shiny-app)
-  - [Data](#data)
-  - [Attribuzione dei dati/Data
-    attribution](#attribuzione-dei-datidata-attribution)
-  - [Richiesta di funzionalità/Feature
-    request](#richiesta-di-funzionalitàfeature-request)
-  - [Bug reports](#bug-reports)
-  - [Codice di condotta/Code of
-    Conduct](#codice-di-condottacode-of-conduct)
 
 <!-- README.md is generated from README.Rmd. Please edit that file -->
+
+# covid19ita
+
+<img src='man/figures/logo-laims.jpg' align='right' height='120' /><img src='man/figures/logo-ubep.png' align='right' height='120' />
 
 <!-- badges: start -->
 
 [![R build
 status](https://github.com/UBESP-DCTV/covid19ita/workflows/R-CMD-check/badge.svg)](https://github.com/UBESP-DCTV/covid19ita/actions)
-[![Travis Build
-Status](https://travis-ci.com/UBESP-DCTV/covid19ita.svg?branch=master)](https://travis-ci.com/UBESP-DCTV/covid19ita)
-[![AppVeyor build
-status](https://ci.appveyor.com/api/projects/status/github/UBESP-DCTV/covid19ita?branch=master&svg=true)](https://ci.appveyor.com/project/CorradoLanera/covid19ita)
+[![Codecov test
+coverage](https://codecov.io/gh/UBESP-DCTV/covid19ita/branch/master/graph/badge.svg)](https://codecov.io/gh/UBESP-DCTV/covid19ita?branch=master)
 
 [![CRAN
 status](https://www.r-pkg.org/badges/version/covid19ita)](https://CRAN.R-project.org/package=covid19ita)
 [![Lifecycle:
 maturing](https://img.shields.io/badge/lifecycle-maturing-blue.svg)](https://www.tidyverse.org/lifecycle/#maturing)
-
-[![Codecov test
-coverage](https://codecov.io/gh/UBESP-DCTV/covid19ita/branch/master/graph/badge.svg)](https://codecov.io/gh/UBESP-DCTV/covid19ita?branch=master)
 
 [![CII Best
 Practices](https://bestpractices.coreinfrastructure.org/projects/3892/badge)](https://bestpractices.coreinfrastructure.org/projects/3892)
@@ -60,7 +45,7 @@ remotes::install_github("UBESP-DCTV/covid19ita")
 
 <img src='inst/app/www/covid19ita_screen.png' align="center"/>
 
-**Ultimo aggiornamento/Last app update**: 2020-04-17 00:01:27.
+**Ultimo aggiornamento/Last app update**: 2020-04-17 00:09:15.
 
 > È possibile visitare la Shiny App `covid19ita` ospitata e operante sui
 > server UBEP ([Unità di Biostatistica, Epidemiologia e Sanità
