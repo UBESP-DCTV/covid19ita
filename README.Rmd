@@ -1,10 +1,5 @@
 ---
-title: "`{covid19ita}` <img src='man/figures/logo-laims.jpg' align='right' height='120' /><img src='man/figures/logo-ubep.png' align='right' height='120' />"
-output:
-  github_document: 
-    pandoc_args: "--number-offset=1,0"
-    toc: true
-pagetitle: covid19ita
+output: github_document
 ---
 
 <!-- README.md is generated from README.Rmd. Please edit that file -->
@@ -17,6 +12,9 @@ knitr::opts_chunk$set(
   out.width = "100%"
 )
 ```
+
+
+# covid19ita <img src='man/figures/logo-laims.jpg' align='right' height='120' /><img src='man/figures/logo-ubep.png' align='right' height='120' />
 
 <!-- badges: start -->
 [![R build status](https://github.com/UBESP-DCTV/covid19ita/workflows/R-CMD-check/badge.svg)](https://github.com/UBESP-DCTV/covid19ita/actions)
