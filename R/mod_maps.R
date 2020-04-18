@@ -694,12 +694,14 @@ mod_maps_server <- function(id) {
         return(NULL)
       }
       domain[is.infinite(domain)] <- NA
+      values<-domain
 
       if( substr(input[["variableName"]], nchar(input[["variableName"]])-3, 4444 ) =="_std" ){
-         fin<-max( abs(min(domain)) , abs(max(domain)) )
+         fin<-max( abs(min(domain, na.rm = T)) , abs(max(domain, na.rm = T)) )
          domain<-c(-fin, 0, fin)
+      } else {
+        domain<-c(min(domain, na.rm = T), max(domain, na.rm = T) )
       }
-
 
       pal <- tryCatch(
         leaflet::colorNumeric(
@@ -744,7 +746,7 @@ mod_maps_server <- function(id) {
       but keep to the full range calculated from all values of the chosen variable accross
       the full time-span. If unchecked, the scale will change every time a different day is chosen according to the day's values.
       <hr style='margin:3px; color:#666;'>
-      <div style='width:100%% ; font-size:11px; text-align:center; '><a href='mailto:francesco.pirotti@unipd.it;'> Francesco Pirotti PhD - </a>,
+      <div style='width:100%% ;  text-align:center; '><a href='mailto:francesco.pirotti@unipd.it;'> Francesco Pirotti PhD - </a>,
                            <a href='https://www.cirgeo.unipd.it' target=_blank>TESAF</a> /
                       <a href='https://www.cirgeo.unipd.it' target=_blank>
                       CIRGEO</a></div>
