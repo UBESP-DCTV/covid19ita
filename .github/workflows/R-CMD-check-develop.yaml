@@ -78,7 +78,12 @@ jobs:
           # remotes::install_cran("covr")
         shell: Rscript {0}
 
-      - name: Configure Git user
+     - name: Install Windows dependencies
+        # problem to instal Rcurl from source
+        run: |
+          install.packages("Rcurl", repos="https://rcppcore.github.io/drat",  type = binary)
+
+     - name: Configure Git user
         run: |
           git config --global user.email "ghau@example.com"
           git config --global user.name "GitHub Actions User"
