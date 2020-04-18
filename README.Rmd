@@ -1,9 +1,5 @@
 ---
-title: "`{covid19ita}` <img src='man/figures/logo-laims.jpg' align='right' height='120' /><img src='man/figures/logo-ubep.png' align='right' height='120' />"
-output:
-  github_document: 
-    toc: true
-pagetitle: covid19ita
+output: github_document
 ---
 
 <!-- README.md is generated from README.Rmd. Please edit that file -->
@@ -17,15 +13,17 @@ knitr::opts_chunk$set(
 )
 ```
 
+
+# covid19ita
+
+<img src='man/figures/logo-laims.jpg' align='right' height='120' /><img src='man/figures/logo-ubep.png' align='right' height='120' />
+
 <!-- badges: start -->
 [![R build status](https://github.com/UBESP-DCTV/covid19ita/workflows/R-CMD-check/badge.svg)](https://github.com/UBESP-DCTV/covid19ita/actions)
-[![Travis Build Status](https://travis-ci.com/UBESP-DCTV/covid19ita.svg?branch=master)](https://travis-ci.com/UBESP-DCTV/covid19ita)
-[![AppVeyor build status](https://ci.appveyor.com/api/projects/status/github/UBESP-DCTV/covid19ita?branch=master&svg=true)](https://ci.appveyor.com/project/CorradoLanera/covid19ita)
+[![Codecov test coverage](https://codecov.io/gh/UBESP-DCTV/covid19ita/branch/master/graph/badge.svg)](https://codecov.io/gh/UBESP-DCTV/covid19ita?branch=master)
 
 [![CRAN status](https://www.r-pkg.org/badges/version/covid19ita)](https://CRAN.R-project.org/package=covid19ita)
 [![Lifecycle: maturing](https://img.shields.io/badge/lifecycle-maturing-blue.svg)](https://www.tidyverse.org/lifecycle/#maturing)
-
-[![Codecov test coverage](https://codecov.io/gh/UBESP-DCTV/covid19ita/branch/master/graph/badge.svg)](https://codecov.io/gh/UBESP-DCTV/covid19ita?branch=master)
 
 [![CII Best Practices](https://bestpractices.coreinfrastructure.org/projects/3892/badge)](https://bestpractices.coreinfrastructure.org/projects/3892)
 <!-- badges: end -->
