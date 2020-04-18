@@ -79,9 +79,10 @@ jobs:
         shell: Rscript {0}
 
      - name: Install Windows dependencies
+        if: matrix.config.os == 'windows-latest'
         # problem to instal Rcurl from source
         run: |
-          install.packages("Rcurl", repos="https://rcppcore.github.io/drat",  type = "binary"
+          install.packages("Rcurl", repos="https://rcppcore.github.io/drat",  type = "binary")
 
      - name: Configure Git user
         run: |

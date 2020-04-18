@@ -73,9 +73,10 @@ jobs:
           Rscript -e "remotes::install_github('r-lib/xml2')"
 
       - name: Install Windows dependencies
+        if: matrix.config.os == 'windows-latest'
         # problem to instal Rcurl from source
         run: |
-          install.packages("Rcurl", repos="https://rcppcore.github.io/drat",  type = "binary"
+          install.packages("Rcurl", repos="https://rcppcore.github.io/drat",  type = "binary")
 
       - name: Install dependencies
         run: |
