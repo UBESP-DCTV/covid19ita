@@ -76,7 +76,7 @@ jobs:
         if: matrix.config.os == 'windows-latest'
         # problem to instal Rcurl from source
         run: |
-          install.packages("Rcurl", repos="https://rcppcore.github.io/drat",  type = "binary")
+          install.packages("RCurl", type = "binary")
 
       - name: Install dependencies
         run: |
