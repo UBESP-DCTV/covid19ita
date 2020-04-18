@@ -39,11 +39,11 @@ jobs:
           # remotes::install_cran("lintr")
         shell: Rscript {0}
 
-     - name: Configure Git user
-       run: |
-         git config --global user.email "ghau@example.com"
-         git config --global user.name "GitHub Actions User"
+      - name: Configure Git user
+        run: |
+          git config --global user.email "ghau@example.com"
+          git config --global user.name "GitHub Actions User"
 
-     - name: Lint
+      - name: Lint
         run: lintr::lint_package()
         shell: Rscript {0}
