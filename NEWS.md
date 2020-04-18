@@ -1,3 +1,8 @@
+* separate CI checks into separate workflow for master and develop
+  branches. Push/pull-request to master branch will perform full checks
+  including oldrel and dev R version. Push/pull-request on develop
+  branch will check only against release R version
+
 # covid19ita 0.43.0
 
 
