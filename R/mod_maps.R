@@ -9,6 +9,7 @@
 #' @importFrom shiny NS tagList
 #' @importFrom grDevices dev.off png
 #' @importFrom graphics image par
+#' @importFrom slider slide_dbl
 #'
 #'
 mod_maps_ui <- function(id) {
@@ -42,7 +43,7 @@ mod_maps_ui <- function(id) {
 
   palette_list <- (names(palette_list_t))
 
-  palette_list_img <- NA_character_
+  palette_list_img <- c()
   for (pal in palette_list_t) {
     png(tf1 <- tempfile(fileext = ".png"), width = 160, height = 20)
     op <- par(mar = rep(0, 4))
@@ -191,7 +192,11 @@ mod_maps_ui <- function(id) {
             "Total cases / 10 000 residents" = "totale_casi_norm_pop",
             "Total cases" = "totale_casi",
             "Daily cases / 10 000 residents" = "delta_norm_pop",
-            "Daily cases" = "delta"
+            "Daily cases (DC)" = "delta",
+            "DC: standardized (stdz)" = "delta_std",
+            "DC: mean 7d moving window" = "delta_window7d",
+            "DC: mean 7d window stdz" = "delta_window7d_std"
+
           )
         )),
         column(3,
@@ -276,13 +281,43 @@ mod_maps_server <- function(id) {
   )
 
   ## FIX che Napoli ha sigla "NA" sbaglio importazione
-  naples <- which(dpc_covid19_ita_province$denominazione_provincia == "Napoli")
-  dpc_covid19_ita_province[naples, "sigla_provincia"] <- "NA"
-  data_to_use <- dpc_covid19_ita_province %>%
+  dpc_covid19_ita_province.clean<-dpc_covid19_ita_province[dpc_covid19_ita_province$lat!=0, ]
+  naples <- which(dpc_covid19_ita_province.clean$denominazione_provincia == "Napoli")
+  dpc_covid19_ita_province.clean[naples, "sigla_provincia"] <- "NA"
+
+
+  data_to_use <- dpc_covid19_ita_province.clean %>%
     dplyr::group_by(.data$sigla_provincia) %>%
-    dplyr::mutate(delta = c(0, diff(.data$totale_casi))) %>%
+    dplyr::mutate(
+      delta_std = scale(c(0, diff(.data$totale_casi))),
+      delta_window7d =   slider::slide_dbl(
+        c(0, diff(.data$totale_casi)),
+        ~ mean(.x),
+        .before = 3,
+        .after = 3,
+        na.rm = TRUE,
+        .complete = T
+      ),
+      delta_window7d_std =   scale(slider::slide_dbl(
+        c(0, diff(.data$totale_casi)),
+        ~ mean(.x),
+        .before = 3,
+        .after = 3,
+        na.rm = TRUE,
+        .complete = T
+      ) ),
+      delta = c(0, diff(.data$totale_casi))
+    ) %>%
     dplyr::select(
-      .data$data, .data$totale_casi, .data$delta, .data$lat, .data$long
+      .data$sigla_provincia,
+      .data$data,
+      .data$totale_casi,
+      .data$delta,
+      .data$delta_std,
+      .data$delta_window7d,
+      .data$delta_window7d_std,
+      .data$lat,
+      .data$long
     ) %>%
     dplyr::arrange(.data$sigla_provincia)
 
@@ -658,7 +693,13 @@ mod_maps_server <- function(id) {
         print("problema")
         return(NULL)
       }
-      domain[is.infinite(domain)] <- 0
+      domain[is.infinite(domain)] <- NA
+
+      if( substr(input[["variableName"]], nchar(input[["variableName"]])-3, 4444 ) =="_std" ){
+         fin<-max( abs(min(domain)) , abs(max(domain)) )
+         domain<-c(-fin, 0, fin)
+      }
+
 
       pal <- tryCatch(
         leaflet::colorNumeric(
