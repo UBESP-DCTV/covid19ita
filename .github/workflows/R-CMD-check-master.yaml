@@ -75,7 +75,7 @@ jobs:
       - name: Install Windows dependencies
         # problem to instal Rcurl from source
         run: |
-          install.packages("Rcurl", repos="https://rcppcore.github.io/drat",  type = binary)
+          install.packages("Rcurl", repos="https://rcppcore.github.io/drat",  type = "binary"
 
       - name: Install dependencies
         run: |
