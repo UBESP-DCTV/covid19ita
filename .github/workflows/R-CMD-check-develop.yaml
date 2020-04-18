@@ -68,7 +68,7 @@ jobs:
           brew install imagemagick@6
           Rscript -e "remotes::install_github('r-lib/xml2')"
 
-     - name: Install Windows dependencies
+      - name: Install Windows dependencies
         if: matrix.config.os == 'windows-latest'
         # problem to instal Rcurl from source
         run: |
@@ -84,7 +84,7 @@ jobs:
           # remotes::install_cran("covr")
         shell: Rscript {0}
 
-     - name: Check
+      - name: Check
         env:
         _R_CHECK_CRAN_INCOMING_REMOTE_: false
         run: rcmdcheck::rcmdcheck(args = c("--no-manual", "--as-cran"), error_on = "warning", check_dir = "check")
