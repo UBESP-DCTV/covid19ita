@@ -26,9 +26,9 @@ data_maps <- function() {
       "#1d91c0", "#225ea8", "#6e016b", "#990000", "#d7301f", "#FF0000"
     ),
     Spectral = c("#cccccc", rev(grDevices::rainbow(20)[1:12])),
-    YellowOrangeRed = RColorBrewer::brewer.pal(9, "YlOrRd"),
-    RedYellowBlue = RColorBrewer::brewer.pal(11, "RdYlBu"),
-    BlueYellowRed = rev(RColorBrewer::brewer.pal(11, "RdYlBu")),
+    WhiteOrangeRed = c('#FFFFFF', RColorBrewer::brewer.pal(9, "Reds") ),
+    RedWhiteBlue = RColorBrewer::brewer.pal(11, "RdBu"),
+    BlueWhiteRed = rev(RColorBrewer::brewer.pal(11, "RdBu")),
     RedWhiteGrey = rev(RColorBrewer::brewer.pal(11, "RdGy"))
   )
   ui_done("palette_list_t ready")
