@@ -1,3 +1,4 @@
+# covid19ita 0.44.0
 
 * data update
 * Add name (and email) for GitHub Action User, to be used in its
