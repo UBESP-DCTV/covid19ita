@@ -1,7 +1,11 @@
+
+* data update
+* Add name (and email) for GitHub Action User, to be used in its
+  git commits (#64).
 * separate CI checks into separate workflow for master and develop
   branches. Push/pull-request to master branch will perform full checks
   including oldrel and dev R version. Push/pull-request on develop
-  branch will check only against release R version
+  branch will check only against release R version (#65)
 
 # covid19ita 0.43.0
 
