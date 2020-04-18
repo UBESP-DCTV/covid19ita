@@ -744,7 +744,7 @@ mod_maps_server <- function(id) {
       but keep to the full range calculated from all values of the chosen variable accross
       the full time-span. If unchecked, the scale will change every time a different day is chosen according to the day's values.
       <hr style='margin:3px; color:#666;'>
-      <div style='width:100%% ; font-size:10px; text-align:center; '><a href='mailto:francesco.pirotti@unipd.it;'> Francesco Pirotti PhD - </a>,
+      <div style='width:100%% ; font-size:11px; text-align:center; '><a href='mailto:francesco.pirotti@unipd.it;'> Francesco Pirotti PhD - </a>,
                            <a href='https://www.cirgeo.unipd.it' target=_blank>TESAF</a> /
                       <a href='https://www.cirgeo.unipd.it' target=_blank>
                       CIRGEO</a></div>
