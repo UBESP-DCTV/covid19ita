@@ -69,7 +69,7 @@ jobs:
           Rscript -e "remotes::install_github('r-lib/xml2')"
 
       - name: Install Windows dependencies
-        if: matrix.config.os == "windows-latest"
+        if: matrix.config.os == 'windows-latest'
         run: |
           options(install.packages.check.source = "no")
           install.packages("RCurl")
