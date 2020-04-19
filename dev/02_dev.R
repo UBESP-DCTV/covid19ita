@@ -26,6 +26,7 @@ usethis::use_package("RColorBrewer")
 usethis::use_package("RJSONIO")
 usethis::use_package("RCurl")
 usethis::use_package("httr")
+usethis::use_package("slider")
 usethis::use_package("shinyjs")
 usethis::use_package("shinyWidgets")
 
