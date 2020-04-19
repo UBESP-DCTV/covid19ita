@@ -68,6 +68,13 @@ jobs:
           brew install imagemagick@6
           Rscript -e "remotes::install_github('r-lib/xml2')"
 
+      - name: Install Windows dependencies
+        if: matrix.config.os == "windows-latest"
+        run: |
+          options(install.packages.check.source = "no")
+          install.packages("RCurl")
+        shell: Rscript {0}
+
       - name: Install dependencies
         run: |
           # # https://github.com/kevinrue/sqlighter/blob/f8e030baf2548f61d0a8cd37668ba6b5102b319b/.github/workflows/R-CMD-check.yaml#L62
