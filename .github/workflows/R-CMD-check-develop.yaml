@@ -72,7 +72,7 @@ jobs:
         if: matrix.config.os == 'windows-latest'
         run: |
           options(install.packages.check.source = "no")
-          install.packages("RCurl")
+          install.packages("RCurl", type = "win.binary")
         shell: Rscript {0}
 
       - name: Install dependencies
