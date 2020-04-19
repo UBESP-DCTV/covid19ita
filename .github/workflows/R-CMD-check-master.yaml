@@ -72,14 +72,17 @@ jobs:
           brew install imagemagick@6
           Rscript -e "remotes::install_github('r-lib/xml2')"
 
+       - name: Install Windows dependencies
+        if: matrix.config.os == 'windows-latest'
+        run: |
+          options(install.packages.check.source = "no")
+          install.packages("RCurl", type = "win.binary")
+        shell: Rscript {0}
+
       - name: Install dependencies
         run: |
-          # https://github.com/kevinrue/sqlighter/blob/f8e030baf2548f61d0a8cd37668ba6b5102b319b/.github/workflows/R-CMD-check.yaml#L62
-          install.packages("Rcpp", repos="https://rcppcore.github.io/drat")
           remotes::install_deps(dependencies = TRUE)
           remotes::install_cran("rcmdcheck")
-          # {covr} is already included into the Suggests dependencies
-          # remotes::install_cran("covr")
         shell: Rscript {0}
 
       - name: Configure Git user
