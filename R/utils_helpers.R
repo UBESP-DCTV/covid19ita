@@ -21,13 +21,13 @@ measures <- function(
       "ricoverati_con_sintomi", "terapia_intensiva",
       "totale_ospedalizzati", "isolamento_domiciliare",
       "totale_positivi", "variazione_totale_positivi", "nuovi_positivi",
-      "dimessi_guariti", "deceduti", "totale_casi", "tamponi"
+      "dimessi_guariti", "deceduti", "totale_casi", "tamponi", "casi_testati"
     ),
     regional = c(
       "ricoverati_con_sintomi", "terapia_intensiva",
       "totale_ospedalizzati", "isolamento_domiciliare",
       "totale_positivi", "variazione_totale_positivi", "nuovi_positivi",
-      "dimessi_guariti", "deceduti", "totale_casi", "tamponi"
+      "dimessi_guariti", "deceduti", "totale_casi", "tamponi", "casi_testati"
     ),
     provincial = "totale_casi"
   ))
