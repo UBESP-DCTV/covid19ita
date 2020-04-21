@@ -31,7 +31,8 @@ data_dictionary <- function() {
     dimessi_guariti = "recovered",
     totale_casi = "total_cases",
     deceduti = "deaths",
-    tamponi = "tests_performed"
+    tamponi = "tests_performed",
+    casi_testati = "people_tested"
   )
 
 
