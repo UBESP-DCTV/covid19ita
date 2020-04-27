@@ -345,7 +345,7 @@ mod_maps_server <- function(id) {
         .before = 3,
         .after = 3,
         na.rm = TRUE,
-        .complete = T
+        .complete = F
       ),
       delta_window7d_std =   scale(
         slider::slide_dbl(
@@ -354,7 +354,7 @@ mod_maps_server <- function(id) {
           .before = 3,
           .after = 3,
           na.rm = TRUE,
-          .complete = T
+          .complete = F
         )
       ),
       delta = c(0, diff(.data$totale_casi))
@@ -820,6 +820,8 @@ mod_maps_server <- function(id) {
       } else {
         domain <- c(min(domain, na.rm = T), max(domain, na.rm = T))
       }
+
+      domain[is.infinite(domain)] <- NA
 
       pal <- tryCatch(
         leaflet::colorNumeric(palette = palette_list_t[[input[["palette"]]]],
