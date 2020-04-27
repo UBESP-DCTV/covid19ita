@@ -1,3 +1,32 @@
+# covid19ita 0.51.0
+
+* data update
+
+# covid19ita 0.50.0
+
+* data update
+
+# covid19ita 0.49.0
+
+* data update
+
+# covid19ita 0.48.0
+
+* data update
+
+# covid19ita 0.47.0
+
+* data update
+
+# covid19ita 0.46.0
+
+* data update (including case tested)
+
+# covid19ita 0.45.0
+
+* improve maps section
+* data update
+
 # covid19ita 0.44.0
 
 * data update
