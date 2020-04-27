@@ -1,3 +1,5 @@
+# covid19ita 0.52.0
+
 * data update
 * slider 7 day window incomplete tails' data fixed for maps module
 
