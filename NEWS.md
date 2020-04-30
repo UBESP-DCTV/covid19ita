@@ -1,3 +1,7 @@
+* changed `readr::write_rds()` with `saveRDS()` due to the error
+  "simpleWarning: cannot initialize lzma encoder, error 5"
+* data update
+
 # covid19ita 0.54.0
 
 * data update

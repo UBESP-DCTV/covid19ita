@@ -23,11 +23,10 @@ write_raw_rds <- function(data_name, env = sys.frame(1)) {
 
   res <- purrr::map_lgl(data_name, ~ {
     written <- attempt::attempt({
-      readr::write_rds(
-        x = base::get(.x, envir = env, inherits = FALSE),
-        path = file.path(dir_path, paste0(.x, ".rds")),
-        compress = "xz",
-        compression = 9L
+      saveRDS(
+        object = base::get(.x, envir = env, inherits = FALSE),
+        file = file.path(dir_path, paste0(.x, ".rds")),
+        compress = "xz"
       )
     })
 
