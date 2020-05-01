@@ -1,3 +1,7 @@
+# covid19ita 0.56.0
+
+* data update
+
 # covid19ita 0.55.0
 
 * changed `readr::write_rds()` with `saveRDS()` due to the error
