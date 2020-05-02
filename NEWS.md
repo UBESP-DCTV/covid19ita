@@ -1,3 +1,5 @@
+* data update
+
 # covid19ita 0.56.1
 
 * fix data
