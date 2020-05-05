@@ -20,6 +20,7 @@ jobs:
 
       - name: Query dependencies
         run: |
+          update.packages(ask = FALSE, checkBuilt = FALSE)
           install.packages('remotes')
           saveRDS(remotes::dev_package_deps(dependencies = TRUE), ".github/depends.Rds", version = 2)
         shell: Rscript {0}
@@ -33,9 +34,7 @@ jobs:
 
       - name: Install dependencies
         run: |
-          install.packages(c("remotes"))
           remotes::install_deps(dependencies = TRUE)
-          # {lintr} is already included into the Suggests dependencies
           # remotes::install_cran("lintr")
         shell: Rscript {0}
 
