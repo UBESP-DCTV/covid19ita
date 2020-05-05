@@ -35,8 +35,8 @@ jobs:
       - name: Install dependencies
         run: |
           install.packages('remotes')
+          remotes::install_cran("lintr")
           remotes::install_deps(dependencies = TRUE)
-          # remotes::install_cran("lintr")
         shell: Rscript {0}
 
       - name: Configure Git user
