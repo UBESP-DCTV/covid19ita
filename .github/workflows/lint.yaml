@@ -20,7 +20,7 @@ jobs:
 
       - name: Query dependencies
         run: |
-          update.packages(ask = FALSE, checkBuilt = FALSE)
+          update.packages(ask = FALSE, checkBuilt = TRUE)
           install.packages('remotes')
           saveRDS(remotes::dev_package_deps(dependencies = TRUE), ".github/depends.Rds", version = 2)
         shell: Rscript {0}
@@ -35,7 +35,7 @@ jobs:
       - name: Install dependencies
         run: |
           install.packages('remotes')
-          remotes::install_cran("lintr")
+          remotes::install_cran("lintr", force = TRUE)
           remotes::install_deps(dependencies = TRUE)
         shell: Rscript {0}
 
