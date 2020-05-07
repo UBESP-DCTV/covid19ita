@@ -1,3 +1,7 @@
+# covid19ita 0.60.0
+
+* data update
+
 # covid19ita 0.59.0
 
 * update remote gh-action (`{lintr}` was out-dated)
