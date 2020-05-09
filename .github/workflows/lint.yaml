@@ -20,7 +20,6 @@ jobs:
 
       - name: Query dependencies
         run: |
-          update.packages(ask = FALSE, checkBuilt = TRUE)
           install.packages('remotes')
           saveRDS(remotes::dev_package_deps(dependencies = TRUE), ".github/depends.Rds", version = 2)
         shell: Rscript {0}
@@ -34,11 +33,6 @@ jobs:
 
       - name: Install dependencies
         run: |
-          install.packages('remotes')
-          remotes::install_cran(c("lintr", "rex", "cyclocomp"),
-            force = TRUE,
-            dependencies = TRUE
-          )
           remotes::install_deps(dependencies = TRUE)
         shell: Rscript {0}
 
@@ -49,6 +43,5 @@ jobs:
 
       - name: Lint
         run: |
-          update.packages(ask = FALSE, checkBuilt = TRUE)
           lintr::lint_package()
         shell: Rscript {0}
