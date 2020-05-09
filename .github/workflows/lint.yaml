@@ -35,7 +35,10 @@ jobs:
       - name: Install dependencies
         run: |
           install.packages('remotes')
-          remotes::install_cran(c("lintr", "rex"), force = TRUE)
+          remotes::install_cran(c("lintr", "rex", "cyclocomp"),
+            force = TRUE,
+            dependencies = TRUE
+          )
           remotes::install_deps(dependencies = TRUE)
         shell: Rscript {0}
 
@@ -45,5 +48,7 @@ jobs:
           git config --global user.name "GitHub Actions User"
 
       - name: Lint
-        run: lintr::lint_package()
+        run: |
+          update.packages(ask = FALSE, checkBuilt = TRUE)
+          lintr::lint_package()
         shell: Rscript {0}
