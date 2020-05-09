@@ -35,7 +35,7 @@ jobs:
       - name: Install dependencies
         run: |
           install.packages('remotes')
-          remotes::install_cran("lintr", force = TRUE)
+          remotes::install_cran(c("lintr", "rex"), force = TRUE)
           remotes::install_deps(dependencies = TRUE)
         shell: Rscript {0}
 

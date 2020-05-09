@@ -1,3 +1,4 @@
+* update gh-action with updated dependencies
 * data update
 
 # covid19ita 0.60.0
