@@ -77,6 +77,8 @@ jobs:
         run: |
           options(install.packages.check.source = "no")
           install.packages("RCurl", type = "win.binary")
+          remotes::install_github('tidyverse/tidyr')
+
         shell: Rscript {0}
 
       - name: Install dependencies
