@@ -102,7 +102,7 @@ usethis::use_data(
   palette_list_t,
 
 
-  # mortalità
+  # mortality
   decessi_genere,
   decessi_eta,
   decessi_eta_maschi,
