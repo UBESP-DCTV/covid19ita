@@ -1,4 +1,10 @@
+# covid19ita 0.70.0
+
+* data update
+
 # covid19ita 0.69.0
+
+* data update
 
 # covid19ita 0.68.0
 
