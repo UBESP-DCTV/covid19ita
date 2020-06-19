@@ -1,4 +1,11 @@
+# covid19ita 0.89.0
+
+* data update
+* reformat default set o measure displayed
+
 # covid19ita 0.88.0
+
+* data update
 
 # covid19ita 0.87.0
 

@@ -27,7 +27,7 @@ mod_ts_reg_ui <- function(id) {
         shiny::selectInput(ns("whichMeasure"), "Selezionare le misure di interesse",
           choices = measures("regional"),
           selectize = TRUE,
-          selected = setdiff(measures("regional"), "tamponi"),
+          selected = c("nuovi_positivi", "deceduti"),
           multiple = TRUE,
           width = "100%"
         )
