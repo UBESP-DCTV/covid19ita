@@ -6,16 +6,12 @@
 #'
 #'
 #' @param data_name (chr) names of the pobject
-#' @param env teh environment in which look for the objects. By default
-#'   it is set to `sys.frame(1)` which is the calling environment. That
-#'   is because it is supposed that this funciton will be called inside
-#'   the functions which will create/update the data.
 #'
 #' @return named logical vector (invisibly) with `TRUE`s for all the
 #'   objects that are correctly saved, `FALSE`s for the other ones.
-write_raw_rds <- function(data_name, env = sys.frame(1)) {
+write_raw_rds <- function(data_name) {
   assertive::assert_all_are_non_missing_nor_empty_character(data_name)
-  assertive::assert_all_are_existing(data_name, envir = env)
+  assertive::assert_all_are_existing(data_name)
 
   ui_todo("Saving dataset(s): {ui_value(data_name)}")
 
@@ -24,7 +20,7 @@ write_raw_rds <- function(data_name, env = sys.frame(1)) {
   res <- purrr::map_lgl(data_name, ~ {
     written <- attempt::attempt({
       saveRDS(
-        object = base::get(.x, envir = env, inherits = FALSE),
+        object = base::get(.x),
         file = file.path(dir_path, paste0(.x, ".rds")),
         compress = "xz"
       )
@@ -41,3 +37,12 @@ write_raw_rds <- function(data_name, env = sys.frame(1)) {
 
   invisible(res)
 }
+
+
+#' @describeIn write_raw_rds read data-raw
+read_data_raw <- function(data_name) {
+  readr::read_rds(
+    here::here("data-raw", paste0(data_name, ".rds"))
+  )
+}
+

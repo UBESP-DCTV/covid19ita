@@ -1,15 +1,4 @@
 # DPC CoViD-19 Ita ------------------------------------------------
-
-## to update it:
-## source(here::here("data-raw", "data-dpc_covid19_ita.R"))
-##
-
-# data to update --------------------------------------------------
-
-data_dpc()
-
-
-
 # data to include -------------------------------------------------
 
 

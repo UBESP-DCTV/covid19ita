@@ -12,11 +12,11 @@
   levels of detail (regional adn provincial) and as many variables
   as provided by the original data (see the corresponding sections).
 
-An object of class \code{spec_tbl_df} (inherits from \code{tbl_df}, \code{tbl}, \code{data.frame}) with 126 rows and 16 columns.
+An object of class \code{spec_tbl_df} (inherits from \code{tbl_df}, \code{tbl}, \code{data.frame}) with 133 rows and 17 columns.
 
-An object of class \code{spec_tbl_df} (inherits from \code{tbl_df}, \code{tbl}, \code{data.frame}) with 2646 rows and 20 columns.
+An object of class \code{spec_tbl_df} (inherits from \code{tbl_df}, \code{tbl}, \code{data.frame}) with 2793 rows and 21 columns.
 
-An object of class \code{spec_tbl_df} (inherits from \code{tbl_df}, \code{tbl}, \code{data.frame}) with 16212 rows and 12 columns.
+An object of class \code{spec_tbl_df} (inherits from \code{tbl_df}, \code{tbl}, \code{data.frame}) with 17255 rows and 11 columns.
 }
 \source{
 \url{https://github.com/pcm-dpc/COVID-19}
@@ -64,10 +64,11 @@ A \code{\link[tibble]{tibble}} with one row per day and
   \item{nuovi_positivi}{today active cases - yesterday active cases}
   \item{dimessi_guariti}{Recovered}
   \item{deceduti}{Death}
+  \item{casi_da_sospetto_diagnostico}{Positive cases emerged from clinical activity}
+  \item{casi_da_screening}{Positive cases emerging from surveys and tests, planned at national or regional level}
   \item{totale_casi}{Total amount of positive cases}
   \item{tamponi}{Tests performed}
-  \item{note_it}{Notes in Italian language}
-  \item{note_eng}{Notes in English Language}
+  \item{note}{Notes}
 }
 }
 
@@ -88,13 +89,14 @@ A \code{\link[tibble]{tibble}} with one row per day/region
   \item{isolamento_domiciliare}{Home confinement}
   \item{totale_positivi}{Total amount of current positive cases (Hospitalised patients + Home confinement)}
   \item{variazione_totale_positivi}{News amount of current positive cases (Hospitalised patients + Home confinement)}
-  \item{nuovi_positivi}{today active cases - yesterday active cases}
+  \item{nuovi_positivi}{Today active cases - yesterday active cases}
   \item{dimessi_guariti}{Recovered}
   \item{deceduti}{Death}
+  \item{casi_da_sospetto_diagnostico}{Positive cases emerged from clinical activity}
+  \item{casi_da_screening}{Positive cases emerging from surveys and tests, planned at national or regional level}
   \item{totale_casi}{Total amount of positive cases}
   \item{tamponi}{Tests performed}
-  \item{note_it}{Notes in Italian language}
-  \item{note_eng}{Notes in English Language}
+  \item{note}{Notes}
 }
 }
 
@@ -113,9 +115,7 @@ A \code{\link[tibble]{tibble}} with one row per day/province
   \item{lat}{Latitude - WGS84}
   \item{long}{Longitude - WGS84}
   \item{totale_casi}{Total amount of positive cases}
-  \item{tamponi}{Tests performed}
-  \item{note_it}{Notes in Italian language}
-  \item{note_eng}{Notes in English Language}
+  \item{note}{Notes}
 }
 }
 

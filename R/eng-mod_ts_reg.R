@@ -27,7 +27,7 @@ eng_mod_ts_reg_ui <- function(id) {
         shiny::selectInput(ns("whichMeasure"), "Select measures",
           choices = measures("regional", lang = "eng"),
           selectize = TRUE,
-          selected = setdiff(measures("regional"), "tamponi"),
+          selected = "nuovi_positivi",
           multiple = TRUE,
           width = "100%"
         )

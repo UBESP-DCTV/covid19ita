@@ -46,10 +46,11 @@ NULL
 #'   \item{nuovi_positivi}{today active cases - yesterday active cases}
 #'   \item{dimessi_guariti}{Recovered}
 #'   \item{deceduti}{Death}
+#'   \item{casi_da_sospetto_diagnostico}{Positive cases emerged from clinical activity}
+#'   \item{casi_da_screening}{Positive cases emerging from surveys and tests, planned at national or regional level}
 #'   \item{totale_casi}{Total amount of positive cases}
 #'   \item{tamponi}{Tests performed}
-#'   \item{note_it}{Notes in Italian language}
-#'   \item{note_eng}{Notes in English Language}
+#'   \item{note}{Notes}
 #' }
 #'
 "dpc_covid19_ita_andamento_nazionale"
@@ -74,13 +75,14 @@ NULL
 #'   \item{isolamento_domiciliare}{Home confinement}
 #'   \item{totale_positivi}{Total amount of current positive cases (Hospitalised patients + Home confinement)}
 #'   \item{variazione_totale_positivi}{News amount of current positive cases (Hospitalised patients + Home confinement)}
-#'   \item{nuovi_positivi}{today active cases - yesterday active cases}
+#'   \item{nuovi_positivi}{Today active cases - yesterday active cases}
 #'   \item{dimessi_guariti}{Recovered}
 #'   \item{deceduti}{Death}
+#'   \item{casi_da_sospetto_diagnostico}{Positive cases emerged from clinical activity}
+#'   \item{casi_da_screening}{Positive cases emerging from surveys and tests, planned at national or regional level}
 #'   \item{totale_casi}{Total amount of positive cases}
 #'   \item{tamponi}{Tests performed}
-#'   \item{note_it}{Notes in Italian language}
-#'   \item{note_eng}{Notes in English Language}
+#'   \item{note}{Notes}
 #' }
 #'
 "dpc_covid19_ita_regioni"
@@ -102,9 +104,7 @@ NULL
 #'   \item{lat}{Latitude - WGS84}
 #'   \item{long}{Longitude - WGS84}
 #'   \item{totale_casi}{Total amount of positive cases}
-#'   \item{tamponi}{Tests performed}
-#'   \item{note_it}{Notes in Italian language}
-#'   \item{note_eng}{Notes in English Language}
+#'   \item{note}{Notes}
 #' }
 #'
 "dpc_covid19_ita_province"
