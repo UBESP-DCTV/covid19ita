@@ -2,17 +2,15 @@
 % Please edit documentation in R/utils_write_raw_rds.R
 \name{write_raw_rds}
 \alias{write_raw_rds}
+\alias{read_data_raw}
 \title{Write RDS for data-raw}
 \usage{
-write_raw_rds(data_name, env = sys.frame(1))
+write_raw_rds(data_name)
+
+read_data_raw(data_name)
 }
 \arguments{
 \item{data_name}{(chr) names of the pobject}
-
-\item{env}{teh environment in which look for the objects. By default
-it is set to `sys.frame(1)` which is the calling environment. That
-is because it is supposed that this funciton will be called inside
-the functions which will create/update the data.}
 }
 \value{
 named logical vector (invisibly) with `TRUE`s for all the
@@ -23,3 +21,8 @@ Given the names of some data, it save the corresponding objects in
 the `here::here("data-raw/")` folder. Each object will be saved like
 an independend `.rds` file with its own name as its filename.
 }
+\section{Functions}{
+\itemize{
+\item \code{read_data_raw}: read data-raw
+}}
+

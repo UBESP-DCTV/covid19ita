@@ -27,7 +27,7 @@ mod_ts_reg_ui <- function(id) {
         shiny::selectInput(ns("whichMeasure"), "Selezionare le misure di interesse",
           choices = measures("regional"),
           selectize = TRUE,
-          selected = c("nuovi_positivi", "deceduti"),
+          selected = "nuovi_positivi",
           multiple = TRUE,
           width = "100%"
         )
