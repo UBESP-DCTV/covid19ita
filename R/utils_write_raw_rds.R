@@ -20,7 +20,10 @@ write_raw_rds <- function(data_name) {
   res <- purrr::map_lgl(data_name, ~ {
     written <- attempt::attempt({
       saveRDS(
-        object = base::get(.x),
+        # sys.frame(which = 1) needs to access the environment of the
+        # calling environment which call this function, ie the one the
+        # have saved the updated just downloaded version of the new data
+        object = base::get(.x, pos = sys.frame(which = 1)),
         file = file.path(dir_path, paste0(.x, ".rds")),
         compress = "xz"
       )

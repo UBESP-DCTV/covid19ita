@@ -1,3 +1,8 @@
+# covid19ita 0.93.0
+
+* fix update function
+* update data
+
 # covid19ita 0.92.0
 
 * update updating functions
