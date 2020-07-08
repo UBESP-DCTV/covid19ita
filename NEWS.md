@@ -1,3 +1,10 @@
+# covid19ita 0.93.0
+
+* fix update function
+* update data
+
+# covid19ita 0.92.0
+
 * update updating functions
 * adjust naming convention to the new dpc ones
   (https://github.com/pcm-dpc/COVID-19/blob/master/CHANGELOG_EN.md)
