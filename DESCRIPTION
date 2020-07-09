@@ -54,6 +54,7 @@ Imports:
     ggplot2 (>= 3.3.0),
     glue (>= 1.3.1),
     golem (>= 0.2.1),
+    growthcurve (>= 1.0.0.9000),
     growthcurver,
     htmltools (>= 0.4.0),
     htmlwidgets,
@@ -74,13 +75,12 @@ Imports:
     shinydashboard (>= 0.7.1),
     shinyjs,
     shinyWidgets,
+    slider,
     stringr (>= 1.4.0),
     tibble (>= 2.1.3),
     tidyr (>= 1.0.2),
     usethis (>= 1.5.1),
-    utils,
-    slider,
-    growthcurve (>= 1.0.0.9000)
+    utils
 Suggests: 
     assertive,
     cli,
@@ -95,9 +95,9 @@ Suggests:
     testthat (>= 2.1.0)
 RdMacros: 
     lifecycle
+Remotes: 
+    briandconnelly/growthcurve
 Encoding: UTF-8
 Language: en-US
 LazyData: true
 RoxygenNote: 7.1.1
-Remotes:  
-    briandconnelly/growthcurve
