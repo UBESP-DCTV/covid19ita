@@ -79,7 +79,8 @@ Imports:
     tidyr (>= 1.0.2),
     usethis (>= 1.5.1),
     utils,
-    slider
+    slider,
+    growthcurve (>= 1.0.0.9000)
 Suggests: 
     assertive,
     cli,
@@ -98,3 +99,5 @@ Encoding: UTF-8
 Language: en-US
 LazyData: true
 RoxygenNote: 7.1.1
+Remotes:  
+    briandconnelly/growthcurve
