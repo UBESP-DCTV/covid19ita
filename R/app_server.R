@@ -24,7 +24,7 @@ app_server <- function(input, output, session) {
   mod_ts_ita_server("ts_nat_cum", "cum")
   mod_ts_ita_server("ts_nat_inc", "inc")
 
-  ## Regional
+  # ## Regional
   mod_ts_reg_server("ts_reg_cum_mes", "cum", color_var = "measure")
   mod_ts_reg_server("ts_reg_inc_mes", "inc", color_var = "measure")
   mod_ts_reg_server("ts_reg_cum_reg", "cum", color_var = "region")
