@@ -1,3 +1,5 @@
+# covid19ita 0.94.0
+
 * required dev version of tibble due to an error
 * update data
 * package `{growthcurve}` is nomore into CRAN, switched to the

@@ -1,6 +1,6 @@
 Package: covid19ita
 Title: Covid-19 - Italy
-Version: 0.93.0
+Version: 0.94.0
 Authors@R: 
     c(person(given = "Corrado",
              family = "Lanera",
@@ -94,7 +94,7 @@ Suggests:
     testthat (>= 2.1.0)
 RdMacros: 
     lifecycle
-Remotes:  
+Remotes: 
     sprouffske/growthcurver,
     tidyverse/tibble
 Encoding: UTF-8
