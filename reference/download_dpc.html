@@ -81,7 +81,7 @@ provincial = province) download data from the official Italian
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">covid19ita</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.53.0</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.98.0</span>
       </span>
     </div>
 
@@ -132,9 +132,9 @@ provincial = province) download data from the official Italian
     </div>
 
     <pre class="usage"><span class='fu'>download_dpc</span>(
-  <span class='kw'>level</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"italia"</span>, <span class='st'>"regioni"</span>, <span class='st'>"province"</span>),
-  <span class='kw'>dir</span> <span class='kw'>=</span> <span class='st'>"."</span>,
-  <span class='kw'>file_name</span> <span class='kw'>=</span> <span class='kw'>NULL</span>
+  level = <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"italia"</span>, <span class='st'>"regioni"</span>, <span class='st'>"province"</span>),
+  dir = <span class='st'>"."</span>,
+  file_name = <span class='kw'>NULL</span>
 )</pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
@@ -160,7 +160,7 @@ saved</p></td>
     <p>An (invisible) logical, `TRUE` for success and `FALSE` for failure.</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='kw'>if</span> (<span class='fl'>FALSE</span>) {
+    <pre class="examples"><div class='input'><span class='co'>if</span> (<span class='fl'>FALSE</span>) {
 <span class='fu'>download_dpc</span>(<span class='st'>"italia"</span>)
 }</div></pre>
   </div>

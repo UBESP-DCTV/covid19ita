@@ -79,7 +79,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">covid19ita</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.53.0</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.98.0</span>
       </span>
     </div>
 
@@ -127,11 +127,11 @@
     <p>Datasets containing the italian COVID-19 data.</p>
     </div>
 
-    <pre class="usage"><span class='no'>dpc_covid19_ita_andamento_nazionale</span>
+    <pre class="usage"><span class='kw'>dpc_covid19_ita_andamento_nazionale</span>
 
-<span class='no'>dpc_covid19_ita_regioni</span>
+<span class='kw'>dpc_covid19_ita_regioni</span>
 
-<span class='no'>dpc_covid19_ita_province</span></pre>
+<span class='kw'>dpc_covid19_ita_province</span></pre>
 
 
     <h2 class="hasAnchor" id="format"><a class="anchor" href="#format"></a>Format</h2>
@@ -139,9 +139,9 @@
     <p><code><a href='https://tibble.tidyverse.org/reference/tibble.html'>tibble</a></code>s with one row per day each
   levels of detail (regional adn provincial) and as many variables
   as provided by the original data (see the corresponding sections).</p>
-<p>An object of class <code>spec_tbl_df</code> (inherits from <code>tbl_df</code>, <code>tbl</code>, <code>data.frame</code>) with 65 rows and 16 columns.</p>
-<p>An object of class <code>spec_tbl_df</code> (inherits from <code>tbl_df</code>, <code>tbl</code>, <code>data.frame</code>) with 1365 rows and 20 columns.</p>
-<p>An object of class <code>spec_tbl_df</code> (inherits from <code>tbl_df</code>, <code>tbl</code>, <code>data.frame</code>) with 8448 rows and 12 columns.</p>
+<p>An object of class <code>spec_tbl_df</code> (inherits from <code>tbl_df</code>, <code>tbl</code>, <code>data.frame</code>) with 172 rows and 17 columns.</p>
+<p>An object of class <code>spec_tbl_df</code> (inherits from <code>tbl_df</code>, <code>tbl</code>, <code>data.frame</code>) with 3612 rows and 21 columns.</p>
+<p>An object of class <code>spec_tbl_df</code> (inherits from <code>tbl_df</code>, <code>tbl</code>, <code>data.frame</code>) with 23066 rows and 11 columns.</p>
     <h2 class="hasAnchor" id="source"><a class="anchor" href="#source"></a>Source</h2>
 
     <p><a href='https://github.com/pcm-dpc/COVID-19'>https://github.com/pcm-dpc/COVID-19</a></p>
@@ -175,10 +175,11 @@
   <dt>nuovi_positivi</dt><dd><p>today active cases - yesterday active cases</p></dd>
   <dt>dimessi_guariti</dt><dd><p>Recovered</p></dd>
   <dt>deceduti</dt><dd><p>Death</p></dd>
+  <dt>casi_da_sospetto_diagnostico</dt><dd><p>Positive cases emerged from clinical activity</p></dd>
+  <dt>casi_da_screening</dt><dd><p>Positive cases emerging from surveys and tests, planned at national or regional level</p></dd>
   <dt>totale_casi</dt><dd><p>Total amount of positive cases</p></dd>
   <dt>tamponi</dt><dd><p>Tests performed</p></dd>
-  <dt>note_it</dt><dd><p>Notes in Italian language</p></dd>
-  <dt>note_eng</dt><dd><p>Notes in English Language</p></dd>
+  <dt>note</dt><dd><p>Notes</p></dd>
 
 </dl>
 
@@ -200,13 +201,14 @@
   <dt>isolamento_domiciliare</dt><dd><p>Home confinement</p></dd>
   <dt>totale_positivi</dt><dd><p>Total amount of current positive cases (Hospitalised patients + Home confinement)</p></dd>
   <dt>variazione_totale_positivi</dt><dd><p>News amount of current positive cases (Hospitalised patients + Home confinement)</p></dd>
-  <dt>nuovi_positivi</dt><dd><p>today active cases - yesterday active cases</p></dd>
+  <dt>nuovi_positivi</dt><dd><p>Today active cases - yesterday active cases</p></dd>
   <dt>dimessi_guariti</dt><dd><p>Recovered</p></dd>
   <dt>deceduti</dt><dd><p>Death</p></dd>
+  <dt>casi_da_sospetto_diagnostico</dt><dd><p>Positive cases emerged from clinical activity</p></dd>
+  <dt>casi_da_screening</dt><dd><p>Positive cases emerging from surveys and tests, planned at national or regional level</p></dd>
   <dt>totale_casi</dt><dd><p>Total amount of positive cases</p></dd>
   <dt>tamponi</dt><dd><p>Tests performed</p></dd>
-  <dt>note_it</dt><dd><p>Notes in Italian language</p></dd>
-  <dt>note_eng</dt><dd><p>Notes in English Language</p></dd>
+  <dt>note</dt><dd><p>Notes</p></dd>
 
 </dl>
 
@@ -226,9 +228,7 @@
   <dt>lat</dt><dd><p>Latitude - WGS84</p></dd>
   <dt>long</dt><dd><p>Longitude - WGS84</p></dd>
   <dt>totale_casi</dt><dd><p>Total amount of positive cases</p></dd>
-  <dt>tamponi</dt><dd><p>Tests performed</p></dd>
-  <dt>note_it</dt><dd><p>Notes in Italian language</p></dd>
-  <dt>note_eng</dt><dd><p>Notes in English Language</p></dd>
+  <dt>note</dt><dd><p>Notes</p></dd>
 
 </dl>
 
