@@ -1,3 +1,4 @@
+library(tidyverse)
 source(here::here("data-raw", "data-dpc_covid19_ita.R"), local = TRUE)
 data_dpc()
 
