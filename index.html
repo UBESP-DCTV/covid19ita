@@ -38,7 +38,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="index.html">covid19ita</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.102.0</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.103.0</span>
       </span>
     </div>
 
@@ -78,17 +78,16 @@
 <p><a href="https://github.com/UBESP-DCTV/covid19ita/actions"><img src="https://github.com/UBESP-DCTV/covid19ita/workflows/R-CMD-check/badge.svg" alt="R build status"></a> <a href="https://codecov.io/gh/UBESP-DCTV/covid19ita?branch=master"><img src="https://codecov.io/gh/UBESP-DCTV/covid19ita/branch/master/graph/badge.svg" alt="Codecov test coverage"></a></p>
 <p><a href="https://CRAN.R-project.org/package=covid19ita"><img src="https://www.r-pkg.org/badges/version/covid19ita" alt="CRAN status"></a> <a href="https://www.tidyverse.org/lifecycle/#maturing"><img src="https://img.shields.io/badge/lifecycle-maturing-blue.svg" alt="Lifecycle: maturing"></a></p>
 <p><a href="https://bestpractices.coreinfrastructure.org/projects/3892"><img src="https://bestpractices.coreinfrastructure.org/projects/3892/badge" alt="CII Best Practices"></a> <!-- badges: end --></p>
-<p>Lo scopo del pacchetto <code>{covid19ita}</code> è quello di fornire una piattaforma per il monitoraggio della diffusione dell’infezione da CoViD-19 in Italia.</p>
-<p>The goal of <code>{covid19ita}</code> is to provide a platform for the monitoring of COVID-19 infection diffusion in Italy.</p>
+<p>Lo scopo del pacchetto <a href="https://github.com/UBESP-DCTV/covid19ita">covid19ita</a> è quello di fornire una piattaforma per il monitoraggio della diffusione dell’infezione da CoViD-19 in Italia.</p>
+<p>The goal of <a href="https://github.com/UBESP-DCTV/covid19ita">covid19ita</a> is to provide a platform for the monitoring of COVID-19 infection diffusion in Italy.</p>
 <div id="installazioneinstallation" class="section level2">
 <h2 class="hasAnchor">
 <a href="#installazioneinstallation" class="anchor"></a>Installazione/Installation</h2>
-<p>È possibile installare la versione di sviluppo di <code>{covid19ita}</code> dal sorgente su <a href="https://github.com/">GitHub</a> tramite l’istruzione:</p>
-<p>You can install the development version of <code>{covid19ita}</code> from the source on <a href="https://github.com/">GitHub</a> with:</p>
+<p>È possibile installare la versione di sviluppo di <a href="https://github.com/UBESP-DCTV/covid19ita">covid19ita</a> dal sorgente su <a href="https://github.com/">GitHub</a> tramite l’istruzione:</p>
+<p>You can install the development version of <a href="https://github.com/UBESP-DCTV/covid19ita">covid19ita</a> from the source on <a href="https://github.com/">GitHub</a> with:</p>
 <div class="sourceCode" id="cb1"><pre class="downlit">
 <span class="co"># install.packages("remotes")</span>
-<span class="kw">remotes</span>::<span class="fu"><a href="https://remotes.r-lib.org/reference/install_github.html">install_github</a></span>(<span class="st">"UBESP-DCTV/covid19ita"</span>)
-</pre></div>
+<span class="fu">remotes</span><span class="fu">::</span><span class="fu"><a href="https://remotes.r-lib.org/reference/install_github.html">install_github</a></span><span class="op">(</span><span class="st">"UBESP-DCTV/covid19ita"</span><span class="op">)</span></pre></div>
 </div>
 <div id="shiny-app" class="section level2">
 <h2 class="hasAnchor">
@@ -104,33 +103,30 @@
 </blockquote>
 <p>You can also run a local version of the app from your computer with:</p>
 <div class="sourceCode" id="cb2"><pre class="downlit">
-<span class="fu"><a href="https://rdrr.io/r/base/library.html">library</a></span>(<span class="kw"><a href="https://github.com/UBESP-DCTV/covid19ita">covid19ita</a></span>)
-<span class="fu"><a href="reference/run_app.html">run_app</a></span>()
-</pre></div>
+<span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/UBESP-DCTV/covid19ita">covid19ita</a></span><span class="op">)</span>
+<span class="fu"><a href="reference/run_app.html">run_app</a></span><span class="op">(</span><span class="op">)</span></pre></div>
 </div>
 <div id="data" class="section level2">
 <h2 class="hasAnchor">
 <a href="#data" class="anchor"></a>Data</h2>
-<p>Il pacchetto <code>{covid19ita}</code> contiene le versioni R delle tre <a href="https://github.com/pcm-dpc/COVID-19/">basi di dati ufficiali</a> con dettaglio a livello nazionale, regionale e provinciale.</p>
-<p>The <code>{covid19ita}</code> package provide R versions of the three <a href="https://github.com/pcm-dpc/COVID-19/">official Italian COVID-19 datasets</a> at national, regional and provincial level of detail.</p>
+<p>Il pacchetto <a href="https://github.com/UBESP-DCTV/covid19ita">covid19ita</a> contiene le versioni R delle tre <a href="https://github.com/pcm-dpc/COVID-19/">basi di dati ufficiali</a> con dettaglio a livello nazionale, regionale e provinciale.</p>
+<p>The <a href="https://github.com/UBESP-DCTV/covid19ita">covid19ita</a> package provide R versions of the three <a href="https://github.com/pcm-dpc/COVID-19/">official Italian COVID-19 datasets</a> at national, regional and provincial level of detail.</p>
 <p><strong>Ultimo aggiornamento dati/Last data update</strong>: 2020-04-13 18:15:48.</p>
 <p>È possibile accedere ai dati tramite:</p>
 <p>Access the data with:</p>
 <div class="sourceCode" id="cb3"><pre class="downlit">
-<span class="fu"><a href="https://rdrr.io/r/base/library.html">library</a></span>(<span class="kw"><a href="https://github.com/UBESP-DCTV/covid19ita">covid19ita</a></span>)
-<span class="fu"><a href="https://rdrr.io/r/utils/data.html">data</a></span>(<span class="kw">dpc_covid19_ita_andamento_nazionale</span>) <span class="co"># national level data</span>
-<span class="fu"><a href="https://rdrr.io/r/utils/data.html">data</a></span>(<span class="kw">dpc_covid19_ita_regioni</span>)             <span class="co"># regional level data</span>
-<span class="fu"><a href="https://rdrr.io/r/utils/data.html">data</a></span>(<span class="kw">dpc_covid19_ita_andamento_province</span>)  <span class="co"># provincial level data</span>
-</pre></div>
+<span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/UBESP-DCTV/covid19ita">covid19ita</a></span><span class="op">)</span>
+<span class="fu"><a href="https://rdrr.io/r/utils/data.html">data</a></span><span class="op">(</span><span class="va">dpc_covid19_ita_andamento_nazionale</span><span class="op">)</span> <span class="co"># national level data</span>
+<span class="fu"><a href="https://rdrr.io/r/utils/data.html">data</a></span><span class="op">(</span><span class="va">dpc_covid19_ita_regioni</span><span class="op">)</span>             <span class="co"># regional level data</span>
+<span class="fu"><a href="https://rdrr.io/r/utils/data.html">data</a></span><span class="op">(</span><span class="va">dpc_covid19_ita_andamento_province</span><span class="op">)</span>  <span class="co"># provincial level data</span></pre></div>
 <p>È possibile accedere anche alla documentazione dei dati in uno dei seguenti modi:</p>
 <p>You can access to the data documentation with any of:</p>
 <div class="sourceCode" id="cb4"><pre class="downlit">
-<span class="op">?</span><span class="kw">dpc_covid19_ita_andamento_nazionale</span>
-<span class="op">?</span><span class="kw">dpc_covid19_ita_regioni</span>
-<span class="op">?</span><span class="kw">dpc_covid19_ita_province</span>
+<span class="op">?</span><span class="va">dpc_covid19_ita_andamento_nazionale</span>
+<span class="op">?</span><span class="va">dpc_covid19_ita_regioni</span>
+<span class="op">?</span><span class="va">dpc_covid19_ita_province</span>
 
-<span class="op">?</span><span class="kw">dpc_covid19_ita</span>
-</pre></div>
+<span class="op">?</span><span class="va">dpc_covid19_ita</span></pre></div>
 </div>
 <div id="attribuzione-dei-datidata-attribution" class="section level2">
 <h2 class="hasAnchor">
