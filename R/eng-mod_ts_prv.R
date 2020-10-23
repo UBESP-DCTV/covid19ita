@@ -81,7 +81,7 @@ eng_mod_ts_prv_server <- function(id, type = c("cum", "inc")) {
         geom_point() +
         xlab("Date") +
         ylab(y_lab()) +
-        scale_x_date(date_breaks = "1 day", date_labels = "%b %d") +
+        scale_x_date(date_breaks = "2 weeks", date_labels = "%d %b") +
         scale_colour_discrete(name = "Provincia") +
         theme(
           axis.text.x = element_text(angle = 60, hjust = 1, vjust = 0.5)

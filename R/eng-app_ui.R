@@ -273,21 +273,7 @@ eng_dashboard_body <- function() {
           p("Click on the autoscale button (the third one) to maximize the size of the graph."),
         ),
 
-        h3("Time series by region"),
-        fluidRow(
-          box(
-            title = "Cumulative events", width = 12,
-            eng_mod_ts_reg_ui("ts_reg_cum_mes")
-          )
-        ),
-        fluidRow(
-          box(
-            title = "Daily new events", width = 12,
-            eng_mod_ts_reg_ui("ts_reg_inc_mes")
-          )
-        ),
-
-        h3("Regional time series by event"),
+        h3("Regional time series by measure"),
         fluidRow(
           box(
             title = "Cumulative events", width = 12,
@@ -299,6 +285,21 @@ eng_dashboard_body <- function() {
           box(
             title = "Daily new events", width = 12,
             eng_mod_ts_reg_ui("ts_reg_inc_reg")
+          )
+        ),
+
+
+        h3("Time series by region"),
+        fluidRow(
+          box(
+            title = "Cumulative events", width = 12,
+            eng_mod_ts_reg_ui("ts_reg_cum_mes")
+          )
+        ),
+        fluidRow(
+          box(
+            title = "Daily new events", width = 12,
+            eng_mod_ts_reg_ui("ts_reg_inc_mes")
           )
         )
       ),

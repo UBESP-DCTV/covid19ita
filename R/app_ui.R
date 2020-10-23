@@ -275,6 +275,23 @@ dashboard_body <- function() {
           p("Fare click sul pulsante autoscale (terzo) per espandere il grafico alla massima grandezza interamente visionabile."),
         ),
 
+
+        h3("Serie storiche regionali per misura"),
+        fluidRow(
+          box(
+            title = "Eventi cumulati", width = 12,
+            mod_ts_reg_ui("ts_reg_cum_reg")
+          )
+        ),
+
+        fluidRow(
+          box(
+            title = "Nuovi eventi giornalieri", width = 12,
+            mod_ts_reg_ui("ts_reg_inc_reg")
+          )
+        ),
+
+
         h3("Serie storiche per regione"),
         fluidRow(
           box(
@@ -287,21 +304,6 @@ dashboard_body <- function() {
           box(
             title = "Nuovi eventi giornalieri", width = 12,
             mod_ts_reg_ui("ts_reg_inc_mes")
-          )
-        ),
-
-        h3("Serie storiche regionali per evento"),
-        fluidRow(
-          box(
-            title = "Eventi cumulati", width = 12,
-            mod_ts_reg_ui("ts_reg_cum_reg")
-          )
-        ),
-
-        fluidRow(
-          box(
-            title = "Nuovi eventi giornalieri", width = 12,
-            mod_ts_reg_ui("ts_reg_inc_reg")
           )
         )
       ),

@@ -27,7 +27,7 @@ mod_ts_reg_ui <- function(id) {
         shiny::selectInput(ns("whichMeasure"), "Selezionare le misure di interesse",
           choices = measures("regional"),
           selectize = TRUE,
-          selected = "nuovi_positivi",
+          selected = c("totale_positivi", "terapia_intensiva"),
           multiple = TRUE,
           width = "100%"
         )
@@ -110,7 +110,8 @@ mod_ts_reg_server <- function(id, type = c("cum", "inc"), color_var = c("measure
         facet_wrap(~ .data[[{{ facet_var }}]], scales = "free_y") +
         xlab("Data") +
         ylab(y_lab()) +
-        scale_x_date(date_breaks = "1 day", date_labels = "%b %d") +
+        scale_x_date(date_breaks = "2 weeks",
+                     date_labels = "%d %b") +
         scale_colour_discrete(name = color_name) +
         theme(
           axis.text.x = element_text(angle = 60, hjust = 1, vjust = 0.5),

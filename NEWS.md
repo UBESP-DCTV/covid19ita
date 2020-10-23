@@ -1,52 +1,12 @@
-# covid19ita 0.107.0
+# covid19ita 0.107.1
 
+* Update default visualization for regions: total current cases, and
+  total current patients in ICUs.
+* reformat x scales for ts-plots using 2 weeks instead of 1 day.
+* update `data-UPDATE.R` script to automate committing of updates
 * data update
 
-# covid19ita 0.106.0
-
-* data update
-
-# covid19ita 0.105.0
-
-* data update
-
-# covid19ita 0.104.0
-
-* data update
-
-# covid19ita 0.103.0
-
-* data update
-
-# covid19ita 0.102.0
-
-* data update
-
-# covid19ita 0.101.0
-
-* data update
-
-# covid19ita 0.100.0
-
-* data update
-
-# covid19ita 0.99.0
-
-* data update
-
-# covid19ita 0.98.0
-
-* data update
-
-# covid19ita 0.97.0
-
-* data update
-
-# covid19ita 0.96.0
-
-* data update
-
-# covid19ita 0.95.0
+# covid19ita 0.95.0 -- 0.106.0
 
 * data update
 
@@ -69,11 +29,7 @@
   (https://github.com/pcm-dpc/COVID-19/blob/master/CHANGELOG_EN.md)
 * data update
 
-# covid19ita 0.91.0
-
-* data update
-
-# covid19ita 0.90.0
+# covid19ita 0.90.0 -- 0.91.0
 
 * data update
 
@@ -82,107 +38,7 @@
 * data update
 * reformat default set o measure displayed
 
-# covid19ita 0.88.0
-
-* data update
-
-# covid19ita 0.87.0
-
-* data update
-
-# covid19ita 0.86.0
-
-* data update
-
-# covid19ita 0.85.0
-
-* data update
-
-# covid19ita 0.84.0
-
-* data update
-
-# covid19ita 0.83.0
-
-* data update
-
-# covid19ita 0.82.0
-
-* data update
-
-# covid19ita 0.81.0
-
-* data update
-
-# covid19ita 0.80.0
-
-* data update
-
-# covid19ita 0.79.0
-
-* data update
-
-# covid19ita 0.78.0
-
-# covid19ita 0.77.0
-
-# covid19ita 0.76.0
-
-* data update
-
-# covid19ita 0.75.0
-
-* data update
-
-# covid19ita 0.74.0
-
-* data update
-
-# covid19ita 0.73.0
-
-* data update
-
-# covid19ita 0.72.0
-
-* data update
-
-# covid19ita 0.71.0
-
-* data update
-
-# covid19ita 0.70.0
-
-* data update
-
-# covid19ita 0.69.0
-
-* data update
-
-# covid19ita 0.68.0
-
-* data update
-
-# covid19ita 0.67.0
-
-* data update
-
-# covid19ita 0.66.0
-
-* data update
-
-# covid19ita 0.65.0
-
-* data update
-
-# covid19ita 0.64.0
-
-* data update
-
-# covid19ita 0.63.0
-
-* data update
-
-# covid19ita 0.62.0
+# covid19ita 0.62.0 -- 0.88.0
 
 * data update
 
@@ -200,19 +56,7 @@
 * update remote gh-action (`{lintr}` was out-dated)
 * data update
 
-# covid19ita 0.58.0
-
-* data update
-
-# covid19ita 0.57.0
-
-* data update
-
-# covid19ita 0.56.1
-
-* fix data
-
-# covid19ita 0.56.0
+# covid19ita 0.56.0 -- 0.58.0
 
 * data update
 
@@ -222,11 +66,7 @@
   "simpleWarning: cannot initialize lzma encoder, error 5"
 * data update
 
-# covid19ita 0.54.0
-
-* data update
-
-# covid19ita 0.53.0
+# covid19ita 0.53.0 -- 0.54.0
 
 * data update
 
@@ -235,23 +75,7 @@
 * data update
 * slider 7 day window incomplete tails' data fixed for maps module
 
-# covid19ita 0.51.0
-
-* data update
-
-# covid19ita 0.50.0
-
-* data update
-
-# covid19ita 0.49.0
-
-* data update
-
-# covid19ita 0.48.0
-
-* data update
-
-# covid19ita 0.47.0
+# covid19ita 0.47.0 -- 0.51.0
 
 * data update
 
