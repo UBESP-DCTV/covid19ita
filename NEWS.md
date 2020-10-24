@@ -1,3 +1,5 @@
+* data update
+
 # covid19ita 0.107.1
 
 * Update default visualization for regions: total current cases, and
