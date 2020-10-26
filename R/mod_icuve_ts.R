@@ -6,10 +6,25 @@
 #'
 #' @noRd
 #'
-#' @importFrom shiny NS
+#' @importFrom shiny NS tagList
 mod_icuve_ts_ui <- function(id){
   ns <- NS(id)
-  plotly::plotlyOutput(ns("gg_icuve_ts"))
+
+  tagList(
+    fluidRow(
+      box(
+        width = 12, plotlyOutput(ns("fig1")),
+        title = "Figure 1. AA"
+      )
+    ),
+    fluidRow(
+      box(
+        width = 12, plotlyOutput(ns("fig3")),
+        title = "Figure 3. BB."
+      )
+    )
+  )
+
 }
 
 #' icuve_ts Server Function
@@ -21,6 +36,7 @@ mod_icuve_ts_ui <- function(id){
 mod_icuve_ts_server <- function(id) {
 
   icuve_ts <- covid19.icuve::icuve_ts
+  covid19_veneto <- covid19ita::dpc_covid19_ita_regioni
 
   # 1) Prepare the data ------------------------------------------------
   df <- icuve_ts %>%
@@ -31,8 +47,15 @@ mod_icuve_ts_server <- function(id) {
     # Take the 1st of September as starting date for the models
     dplyr::filter(.data$date >= lubridate::ymd("2020-09-01"))
 
+  df_veneto <- covid19_veneto %>%
+    dplyr::filter(.data$denominazione_regione == "Veneto") %>%
+    # Take the 1st of September as starting date for the models
+    dplyr::filter(.data$data >= lubridate::ymd("2020-09-01")) %>%
+    # Rename date to make it consistent with the other df
+    dplyr::rename(date = data)
+
   # 2) Prepare days ahead ----------------------------------------------
-  days_ahead <- 30L
+  days_ahead <- 20L
   seq_ahead <- lubridate::ymd(seq(
     max(df$date) + 1, max(df$date) + days_ahead, by = "1 day"
   ))
@@ -52,23 +75,17 @@ mod_icuve_ts_server <- function(id) {
     family = stats::quasibinomial(link = "logit")
   )
 
-  pred_db <- df_days_ahead %>%
+  pred_db_prop <- df_days_ahead %>%
     dplyr::mutate(
       prop_pred = stats::predict(fit_prop, .),
       prop_se = stats::predict(fit_prop, ., se.fit = TRUE)[["se.fit"]]
     )
 
   ggprop <- ggplot(
-    data = pred_db,
-    mapping = aes(
-      x = .data$date
-    )
+    data = pred_db_prop, mapping = aes(x = .data$date)
   ) +
     geom_line(
-      mapping = aes(
-        y = stats::plogis(.data$prop_pred),
-        color = "Atteso"
-      ),
+      mapping = aes(y = stats::plogis(.data$prop_pred), color = "Atteso"),
       size = 1.2
     ) +
     geom_ribbon(
@@ -78,8 +95,64 @@ mod_icuve_ts_server <- function(id) {
       ), alpha = 0.33, fill = "firebrick2", color = NA
     ) +
     geom_point(
+      mapping = aes(y = .data$prop_covid_occupied, color = "Osservato"),
+      size = 1.8
+    ) +
+    geom_hline(yintercept = 0.3, linetype = "dashed", colour = "black") +
+    scale_color_manual(
+      name = "",
+      values = c("Atteso" = "firebrick2", "Osservato" = "dodgerblue1")
+    ) +
+    scale_x_date(date_breaks = "1 week", date_labels = "%d %b") +
+    scale_y_continuous(
+      breaks = seq(from = 0, to = 0.7, by = 0.1)
+    ) +
+    theme(
+      axis.text.x = element_text(
+        angle = 60, hjust = 1, vjust = 0.5
+      ),
+      panel.spacing.y = unit(2, "lines")
+    ) +
+    xlab("") +
+    ylab("Proporzione")
+
+  # 4) COVID beds over proportion of positive --------------------------
+
+  # 5) Delta days ------------------------------------------------------
+  fit_delta_days <- stats::loess(
+    covid_variation ~ as.numeric(date),
+    data = df,
+    control = stats::loess.control(surface = "direct")
+  )
+
+  pred_db_delta_days <- df_days_ahead %>%
+    dplyr::mutate(
+      delta_pred = stats::predict(fit_delta_days, .),
+      delta_se = stats::predict(fit_delta_days, ., se = TRUE)[["se.fit"]]
+    )
+
+  ggdelta_days <- ggplot(
+    data = pred_db_delta_days,
+    mapping = aes(
+      x = .data$date
+    )
+  ) +
+    geom_line(
       mapping = aes(
-        y = .data$prop_covid_occupied,
+        y = .data$delta_pred,
+        color = "Atteso"
+      ),
+      size = 1.2
+    ) +
+    geom_ribbon(
+      mapping = aes(
+        ymin = .data$delta_pred - 1.96 * .data$delta_se,
+        ymax = .data$delta_pred + 1.96 * .data$delta_se
+      ), alpha = 0.33, fill = "firebrick2", color = NA
+    ) +
+    geom_point(
+      mapping = aes(
+        y = .data$covid_variation,
         color = "Osservato"
       ),
       size = 1.8
@@ -92,11 +165,9 @@ mod_icuve_ts_server <- function(id) {
       values = c("Atteso" = "firebrick2", "Osservato" = "dodgerblue1")
     ) +
     scale_x_date(
-      date_breaks = "1 week", date_labels = "%d %b"
-    ) +
-    scale_y_continuous(
-      breaks = seq(from = 0, to = 0.7, by = 0.1),
-      labels = scales::percent
+      limits = c(min(df$date), max(df$date) + 5),
+      date_breaks = "1 week",
+      date_labels = "%d %b"
     ) +
     theme(
       axis.text.x = element_text(
@@ -104,17 +175,8 @@ mod_icuve_ts_server <- function(id) {
       ),
       panel.spacing.y = unit(2, "lines")
     ) +
-    xlab("") +
-    ylab("% posti letto totali occupati da pazienti COVID")
-
-  # 4) COVID beds over proportion of positive --------------------------
-
-  # 5) Delta days ------------------------------------------------------
-
-
-
-
-
+    ylab("Differenza rispetto al giorno precedente")
+    xlab("")
 
 
   # icuve_ts_long <- icuve_ts %>%
@@ -199,15 +261,22 @@ mod_icuve_ts_server <- function(id) {
 
 
 
-  callModule(id = id, function(input, output, session) {
-  ns <- session$ns
-  output$gg_icuve_ts <- renderPlotly(
-    plotly::ggplotly(ggprop) %>%
-      plotly::config(modeBarButtonsToRemove = c(
-        "zoomIn2d", "zoomOut2d", "pan2d", "select2d", "lasso2d")) %>%
-      plotly::config(displaylogo = FALSE)
-  )
-  })
+    callModule(id = id, function(input, output, session) {
+      ns <- session$ns
+
+      output$fig1 <- renderPlotly({
+        ggplotly(ggprop)
+      })
+
+      # output$fig2 <- renderPlotly({
+      #   ggplotly(ggn)
+      # })
+
+      output$fig3 <- renderPlotly({
+        ggplotly(ggdelta_days)
+      })
+
+    })
 }
 
 ## To be copied in the UI
