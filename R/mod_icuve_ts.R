@@ -19,7 +19,41 @@ mod_icuve_ts_ui <- function(id){
 #' @noRd
 mod_icuve_ts_server <- function(id) {
 
-  icuve_ts <- covid19.icuve::fetch_gsheet()
+  icuve_ts <- covid19.icuve::icuve_ts
+
+  # 1) Prepare the data ------------------------------------------------
+  df <- icuve_ts %>%
+    dplyr::mutate(
+      # Proportion of COVID beds
+      prop_covid_occupied = .data$covid_occupied/.data$overall_total
+    ) %>%
+    # Take the 1st of September as starting date for the models
+    dplyr::filter(.data$date >= lubridate::ymd("2020-09-01"))
+
+  # 2) Prepare days ahead ----------------------------------------------
+  days_ahead <- 14L
+  seq_ahead <- lubridate::ymd(seq(
+    max(df$date) + 1, max(df$date) + 1 + days_ahead, by = "1 day"
+  ))
+
+  df_days_ahead <- df %>%
+    dplyr::bind_rows(
+      df %>%
+        dplyr::slice(1:length(seq_ahead)) %>%
+        dplyr::mutate(date = seq_ahead) %>%
+        dplyr::mutate_at(dplyr::vars(-.data$date), ~ NA_integer_)
+    )
+
+  # 3) Proportion of COVID beds ----------------------------------------
+
+
+
+
+
+
+
+
+
 
   icuve_ts_long <- icuve_ts %>%
     tidyr::pivot_longer(-date,
