@@ -20,6 +20,9 @@ app_server <- function(input, output, session) {
   ## plottply help
   mod_help_plot_server("help")
 
+  ## ICUs VE
+  mod_icuve_ts_server("icuve_ts_cl")
+
   ## National
   mod_ts_ita_server("ts_nat_cum", "cum")
   mod_ts_ita_server("ts_nat_inc", "inc")

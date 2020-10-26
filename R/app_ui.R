@@ -139,6 +139,14 @@ dashboard_sidebar <- function() {
       )
     ),
 
+    menuItem("Terapie intensive Veneto",
+      icon = icon("procedures"),
+      menuSubItem("Regionale",
+                  tabName = "regional-icuve",
+                  icon = icon("map")
+      )
+    ),
+
     menuItem("Andamento epidemia",
       icon = icon("chart-line"),
       menuSubItem("Nazionale", tabName = "national", icon = icon("flag")),
@@ -248,6 +256,11 @@ dashboard_body <- function() {
         mod_0314_ui("dapb")
       ),
 
+      tabItem(
+        tabName = "regional-icuve",
+        h2("Andamenti e proiezioni sui posti letto nelle terapie intensive venete a livello regionale."),
+        mod_icuve_ts_ui("icuve_ts_cl")
+      ),
 
 
       tabItem(
