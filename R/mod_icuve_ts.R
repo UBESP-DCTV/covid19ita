@@ -15,18 +15,19 @@ mod_icuve_ts_ui <- function(id){
 #' icuve_ts Server Function
 #'
 #' @import ggplot2
+#' @import covid19.icuve
 #' @noRd
 mod_icuve_ts_server <- function(id) {
 
-  icuve_ts <- fetch_gsheet()
+  icuve_ts <- covid19.icuve::fetch_gsheet()
 
   icuve_ts_long <- icuve_ts %>%
     tidyr::pivot_longer(-date,
                         names_to = "type",
                         values_to = "N beds") %>%
-    dplyr::filter(!type %in% c("covid_new", "covid_discharged")) %>%
+    dplyr::filter(!.data$type %in% c("covid_new", "covid_discharged")) %>%
     dplyr::mutate(
-      type = stringr::str_replace_all(type,
+      type = stringr::str_replace_all(.data$type,
          c(covid_dead = "CoViD-19 deaths",
            covid_occupied = "CoViD-19 beds occupied",
            covid_variation = "CoViD-19 beds variation",
@@ -39,11 +40,11 @@ mod_icuve_ts_server <- function(id) {
 
 
   pred_db <- icuve_ts_long %>%
-    dplyr::group_by(type) %>%
+    dplyr::group_by(.data$type) %>%
     tidyr::nest() %>%
     dplyr::mutate(
-      model = data %>%
-        purrr::map(~stats::loess(`N beds` ~ date,
+      model = .data$data %>%
+        purrr::map(~stats::loess(as.formula("`N beds` ~ date"),
           data = .x %>%
             dplyr::filter(.data$date >= as.Date("2020-09-01")) %>%
             dplyr::mutate(date = as.numeric(.data$date)),
@@ -76,10 +77,14 @@ mod_icuve_ts_server <- function(id) {
 
   gg <- icuve_ts_long %>%
     dplyr::filter(.data$date >= as.Date("2020-09-01")) %>%
-    ggplot(aes(x = date, y = `N beds`, colour = type, fill = type)) +
+    ggplot(aes(x = .data$date,
+               y = .data$`N beds`,
+               colour = .data$type,
+               fill = .data$type)) +
     geom_point() +
     geom_ribbon(data = pred_db,
-                aes(ymin = `N beds` - se, ymax = `N beds` + se),
+                aes(ymin = .data$`N beds` - .data$se,
+                    ymax = .data$`N beds` + .data$se),
                 alpha = 0.33) +
     geom_hline(yintercept = 400, linetype = "dashed", colour = "red") +
     geom_hline(yintercept = 500, linetype = "dashed", colour = "black") +
