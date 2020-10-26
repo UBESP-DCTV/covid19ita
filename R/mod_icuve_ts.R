@@ -31,7 +31,7 @@ mod_icuve_ts_server <- function(id) {
     dplyr::filter(.data$date >= lubridate::ymd("2020-09-01"))
 
   # 2) Prepare days ahead ----------------------------------------------
-  days_ahead <- 14L
+  days_ahead <- 30L
   seq_ahead <- lubridate::ymd(seq(
     max(df$date) + 1, max(df$date) + 1 + days_ahead, by = "1 day"
   ))
@@ -45,10 +45,66 @@ mod_icuve_ts_server <- function(id) {
     )
 
   # 3) Proportion of COVID beds ----------------------------------------
+  fit_prop <- mgcv::gam(
+    prop_covid_occupied ~ s(as.numeric(date)),
+    data = df,
+    family = mgcv::betar(link="logit")
+  )
 
+  pred_db <- df_days_ahead %>%
+    dplyr::mutate(
+      prop_pred = stats::predict(fit_prop, .),
+      prop_se = stats::predict(fit_prop, ., se.fit = TRUE)[["se.fit"]]
+    )
 
-
-
+  ggprop <- ggplot2::ggplot(
+    data = pred_db,
+    mapping = ggplot2::aes(
+      x = .data$date
+    )
+  ) +
+    ggplot2::geom_line(
+      mapping = ggplot2::aes(
+        y = stats::plogis(.data$prop_pred),
+        color = "Atteso"
+      ),
+      size = 1.2
+    ) +
+    ggplot2::geom_ribbon(
+      mapping = ggplot2::aes(
+        ymin = stats::plogis(.data$prop_pred - 1.96 * .data$prop_se),
+        ymax = stats::plogis(.data$prop_pred + 1.96 * .data$prop_se)
+      ), alpha = 0.33, fill = "firebrick2", color = NA
+    ) +
+    ggplot2::geom_point(
+      mapping = ggplot2::aes(
+        y = .data$prop_covid_occupied,
+        color = "Osservato"
+      ),
+      size = 1.8
+    ) +
+    ggplot2::geom_hline(
+      yintercept = 0.3, linetype = "dashed", colour = "black"
+    ) +
+    ggplot2::scale_color_manual(
+      name = "",
+      values = c("Atteso" = "firebrick2", "Osservato" = "dodgerblue1")
+    ) +
+    ggplot2::scale_x_date(
+      date_breaks = "1 week", date_labels = "%d %b"
+    ) +
+    ggplot2::scale_y_continuous(
+      breaks = seq(from = 0, to = 0.7, by = 0.1),
+      labels = scales::percent
+    ) +
+    ggplot2::theme(
+      axis.text.x = ggplot2::element_text(
+        angle = 60, hjust = 1, vjust = 0.5
+      ),
+      panel.spacing.y = ggplot2::unit(2, "lines")
+    ) +
+    ggplot2::xlab("") +
+    ggplot2::ylab("% posti letto occupati da pazienti COVID")
 
 
 
