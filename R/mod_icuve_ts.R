@@ -6,7 +6,8 @@
 #'
 #' @noRd
 #'
-#' @importFrom shiny NS
+#' @importFrom shiny NS fluidRow fluidPage
+#' @importFrom shinydashboard box
 mod_icuve_ts_ui <- function(id){
   ns <- NS(id)
 
@@ -14,14 +15,14 @@ mod_icuve_ts_ui <- function(id){
     fluidRow(
       box(
         width = 12,
-        plotly::renderPlotly(ns("fig1")),
+        plotly::plotlyOutput(ns("fig1")),
         title = "Figure 1. AA"
       )
     ),
     fluidRow(
       box(
         width = 12,
-        plotly::renderPlotly(ns("fig3")),
+        plotly::plotlyOutput(ns("fig3")),
         title = "Figure 3. BB"
       )
     )
@@ -266,17 +267,11 @@ mod_icuve_ts_server <- function(id) {
       ns <- session$ns
 
       output$fig1 <- plotly::renderPlotly({
-        plotly::ggplotly(ggprop) %>%
-          plotly::config(modeBarButtonsToRemove = c(
-            "zoomIn2d", "zoomOut2d", "pan2d", "select2d", "lasso2d")) %>%
-          plotly::config(displaylogo = FALSE)
+        plotly::ggplotly(ggprop)
       })
 
       output$fig3 <- plotly::renderPlotly({
-        plotly::ggplotly(ggdelta_days) %>%
-          plotly::config(modeBarButtonsToRemove = c(
-            "zoomIn2d", "zoomOut2d", "pan2d", "select2d", "lasso2d")) %>%
-          plotly::config(displaylogo = FALSE)
+        plotly::ggplotly(ggdelta_days)
       })
 
     })
