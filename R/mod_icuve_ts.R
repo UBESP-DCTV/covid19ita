@@ -6,25 +6,27 @@
 #'
 #' @noRd
 #'
-#' @importFrom shiny NS tagList
+#' @importFrom shiny NS fluidRow fluidPage
+#' @importFrom shinydashboard box
 mod_icuve_ts_ui <- function(id){
   ns <- NS(id)
 
-  tagList(
+  fluidPage(
     fluidRow(
       box(
-        width = 12, plotlyOutput(ns("fig1")),
+        width = 12,
+        plotly::plotlyOutput(ns("fig1")),
         title = "Figure 1. AA"
       )
     ),
     fluidRow(
       box(
-        width = 12, plotlyOutput(ns("fig3")),
-        title = "Figure 3. BB."
+        width = 12,
+        plotly::plotlyOutput(ns("fig3")),
+        title = "Figure 3. BB"
       )
     )
   )
-
 }
 
 #' icuve_ts Server Function
@@ -36,7 +38,7 @@ mod_icuve_ts_ui <- function(id){
 mod_icuve_ts_server <- function(id) {
 
   icuve_ts <- covid19.icuve::icuve_ts
-  covid19_veneto <- covid19ita::dpc_covid19_ita_regioni
+  # covid19_veneto <- covid19ita::dpc_covid19_ita_regioni
 
   # 1) Prepare the data ------------------------------------------------
   df <- icuve_ts %>%
@@ -47,12 +49,12 @@ mod_icuve_ts_server <- function(id) {
     # Take the 1st of September as starting date for the models
     dplyr::filter(.data$date >= lubridate::ymd("2020-09-01"))
 
-  df_veneto <- covid19_veneto %>%
-    dplyr::filter(.data$denominazione_regione == "Veneto") %>%
-    # Take the 1st of September as starting date for the models
-    dplyr::filter(.data$data >= lubridate::ymd("2020-09-01")) %>%
-    # Rename date to make it consistent with the other df
-    dplyr::rename(date = data)
+  # df_veneto <- covid19_veneto %>%
+  #   dplyr::filter(.data$denominazione_regione == "Veneto") %>%
+  #   # Take the 1st of September as starting date for the models
+  #   dplyr::filter(.data$data >= lubridate::ymd("2020-09-01")) %>%
+  #   # Rename date to make it consistent with the other df
+  #   dplyr::rename(date = data)
 
   # 2) Prepare days ahead ----------------------------------------------
   days_ahead <- 20L
@@ -264,16 +266,12 @@ mod_icuve_ts_server <- function(id) {
     callModule(id = id, function(input, output, session) {
       ns <- session$ns
 
-      output$fig1 <- renderPlotly({
-        ggplotly(ggprop)
+      output$fig1 <- plotly::renderPlotly({
+        plotly::ggplotly(ggprop)
       })
 
-      # output$fig2 <- renderPlotly({
-      #   ggplotly(ggn)
-      # })
-
-      output$fig3 <- renderPlotly({
-        ggplotly(ggdelta_days)
+      output$fig3 <- plotly::renderPlotly({
+        plotly::ggplotly(ggdelta_days)
       })
 
     })
