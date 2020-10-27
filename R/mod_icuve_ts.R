@@ -26,11 +26,22 @@ mod_icuve_ts_ui <- function(id){
     fluidRow(
       box(
         width = 12,
+        plotly::plotlyOutput(ns("fig2")),
+        title = "Figure 2. Andamento stimato (linea rossa in grassetto,
+        l'area rossa indica gli intervalli di confidenza al 95%) del
+        numero di posti letto totali in terapia intensiva occupati
+        da pazienti Covid. Andamento osservato (punti blu) fino alla
+        data odierna."
+      )
+    ),
+    fluidRow(
+      box(
+        width = 12,
         plotly::plotlyOutput(ns("fig3")),
         title = "Figure 3. Andamento stimato (linea rossa in grassetto,
         l'area rossa indica gli intervalli di confidenza al 95%) della
         differenza tra il numero di posti letto in terapia intensiva
-        in data odierna e il giorno precedente. Andamento osservato
+        in data odierna e 3 giorni precedenti. Andamento osservato
         (punti blu) fino alla data odierna."
       )
     )
@@ -52,7 +63,12 @@ mod_icuve_ts_server <- function(id) {
   df <- icuve_ts %>%
     dplyr::mutate(
       # Proportion of COVID beds
-      prop_covid_occupied = .data$covid_occupied/.data$overall_total
+      prop_covid_occupied = .data$covid_occupied/.data$overall_total,
+      # Covid variation as 3 days before
+      covid_occ_lag = dplyr::lag(
+        x = .data$covid_occupied, n = 3L, default = 0
+      ),
+      covid_variation = .data$covid_occupied - .data$covid_occ_lag
     ) %>%
     # Take the 1st of September as starting date for the models
     dplyr::filter(.data$date >= lubridate::ymd("2020-09-01"))
@@ -126,7 +142,52 @@ mod_icuve_ts_server <- function(id) {
     xlab("") +
     ylab("Proporzione")
 
-  # 4) COVID beds over proportion of positive --------------------------
+  # 4) COVID beds occupied ---------------------------------------------
+  fit_beds <- mgcv::gam(
+    covid_occupied ~ s(as.numeric(date), bs = "cr"),
+    data = df,
+    family = stats::poisson(link = "log")
+  )
+
+  pred_db_beds <- df_days_ahead %>%
+    dplyr::mutate(
+      beds_pred = stats::predict(fit_beds, .),
+      beds_se = stats::predict(fit_beds, ., se.fit = TRUE)[["se.fit"]]
+    )
+
+  ggbeds <- ggplot(
+    data = pred_db_beds, mapping = aes(x = .data$date)
+  ) +
+    geom_line(
+      mapping = aes(y = exp(.data$beds_pred), color = "Atteso"),
+      size = 1.2
+    ) +
+    geom_ribbon(
+      mapping = aes(
+        ymin = exp(.data$beds_pred - 1.96 * .data$beds_se),
+        ymax = exp(.data$beds_pred + 1.96 * .data$beds_se)
+      ), alpha = 0.33, fill = "firebrick2", color = NA
+    ) +
+    geom_point(
+      mapping = aes(y = .data$covid_occupied, color = "Osservato"),
+      size = 1.8
+    ) +
+    scale_color_manual(
+      name = "",
+      values = c("Atteso" = "firebrick2", "Osservato" = "dodgerblue1")
+    ) +
+    scale_x_date(
+      limits = c(min(df$date), max(df$date) + 10),
+      date_breaks = "1 week", date_labels = "%d %b"
+    ) +
+    theme(
+      axis.text.x = element_text(
+        angle = 60, hjust = 1, vjust = 0.5
+      ),
+      panel.spacing.y = unit(2, "lines")
+    ) +
+    xlab("") +
+    ylab("Numero posti letto")
 
   # 5) Delta days ------------------------------------------------------
   fit_delta_days <- stats::loess(
@@ -143,15 +204,10 @@ mod_icuve_ts_server <- function(id) {
 
   ggdelta_days <- ggplot(
     data = pred_db_delta_days,
-    mapping = aes(
-      x = .data$date
-    )
+    mapping = aes(x = .data$date)
   ) +
     geom_line(
-      mapping = aes(
-        y = .data$delta_pred,
-        color = "Atteso"
-      ),
+      mapping = aes(y = .data$delta_pred, color = "Atteso"),
       size = 1.2
     ) +
     geom_ribbon(
@@ -161,14 +217,8 @@ mod_icuve_ts_server <- function(id) {
       ), alpha = 0.33, fill = "firebrick2", color = NA
     ) +
     geom_point(
-      mapping = aes(
-        y = .data$covid_variation,
-        color = "Osservato"
-      ),
+      mapping = aes(y = .data$covid_variation, color = "Osservato"),
       size = 1.8
-    ) +
-    geom_hline(
-      yintercept = 0.3, linetype = "dashed", colour = "black"
     ) +
     scale_color_manual(
       name = "",
@@ -185,7 +235,7 @@ mod_icuve_ts_server <- function(id) {
       ),
       panel.spacing.y = unit(2, "lines")
     ) +
-    ylab("Differenza rispetto al giorno precedente")
+    ylab("Differenza rispetto ai 3 giorni precedenti") +
     xlab("")
 
 
@@ -276,6 +326,10 @@ mod_icuve_ts_server <- function(id) {
 
       output$fig1 <- plotly::renderPlotly({
         plotly::ggplotly(ggprop)
+      })
+
+      output$fig2 <- plotly::renderPlotly({
+        plotly::ggplotly(ggbeds)
       })
 
       output$fig3 <- plotly::renderPlotly({
