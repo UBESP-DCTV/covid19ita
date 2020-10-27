@@ -28,7 +28,7 @@ mod_icuve_static_ui <- function(id){
         plotly::plotlyOutput(ns("fig2")),
         title = "Figure 2. Andamento stimato (linea blu,
         l'area grigia indica gli intervalli di confidenza al 95%) del
-        tempo mediano mensile (in giorni) di degenza in terapia intensiva
+        tempo mediano (in giorni) di degenza in terapia intensiva
         dall'inizio della pandemia."
       )
     ),
@@ -40,6 +40,15 @@ mod_icuve_static_ui <- function(id){
         l'area grigia indica gli intervalli di confidenza al 95%) dell'età
         mediana dei pazienti COVID ricoverati in terapia intensiva
         dall'inizio della pandemia."
+      )
+    ),
+    fluidRow(
+      box(
+        width = 12,
+        plotly::plotlyOutput(ns("fig4")),
+        title = "Figure 4. Andamento del numero di comorbidità mediano
+        dei pazienti COVID ricoverati in terapia intensiva dall'inizio
+        della pandemia."
       )
     )
   )
@@ -90,19 +99,22 @@ mod_icuve_static_server <- function(id) {
       max_date = max(.data$icu_addmission, na.rm = TRUE)
     ) %>%
     dplyr::ungroup() %>%
-    dplyr::select(.data$max_date, .data$los, .data$age) %>%
+    dplyr::select(
+      .data$max_date, .data$los, .data$age, .data$n_comorb
+    ) %>%
     # Aggregate to 25-02-2020 the first observations
     dplyr::mutate(
       max_date = dplyr::if_else(
         .data$max_date <= lubridate::as_date("2020-02-25"),
-        lubridate::as_date("2020-02-10"),
+        lubridate::as_date("2020-02-25"),
         .data$max_date
       )
     ) %>%
     dplyr::group_by(.data$max_date) %>%
     dplyr::summarise(
       week_age = stats::median(.data$age, na.rm = TRUE),
-      week_los = stats::median(.data$los, na.rm = TRUE)
+      week_los = stats::median(.data$los, na.rm = TRUE),
+      week_comorb = stats::median(.data$n_comorb, na.rm = TRUE)
     )
 
   # Monthly db ---------------------------------------------------------
@@ -209,6 +221,23 @@ mod_icuve_static_server <- function(id) {
     ylab("Età (anni)") +
     xlab("")
 
+  # 5) Weekly number of comorbidities ----------------------------------
+  ggweek_comorb <- ggplot(
+    data = df_weekly,
+    mapping = aes(x = .data$max_date, y = .data$week_comorb)
+  ) +
+    geom_point(size = 1.8) +
+    geom_line() +
+    scale_x_date(date_breaks = "1 week", date_labels = "%d %b") +
+    theme(
+      axis.text.x = element_text(
+        angle = 60, hjust = 1, vjust = 0.5
+      ),
+      panel.spacing.y = unit(2, "lines")
+    ) +
+    ylab("Numero di comorbidità") +
+    xlab("")
+
 
   callModule(id = id, function(input, output, session) {
     ns <- session$ns
@@ -223,6 +252,10 @@ mod_icuve_static_server <- function(id) {
 
     output$fig3 <- plotly::renderPlotly({
       plotly::ggplotly(ggweek_age)
+    })
+
+    output$fig4 <- plotly::renderPlotly({
+      plotly::ggplotly(ggweek_comorb)
     })
 
   })
