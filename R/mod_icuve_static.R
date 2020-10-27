@@ -128,13 +128,20 @@ mod_icuve_static_server <- function(id) {
       ),
       mese = factor(
         dplyr::case_when(
-          .data$mese %in% c("gennaio", "febbraio") ~ "gennaio/febbraio",
-          .data$mese %in% c("giugno", "luglio") ~ "giugno/luglio",
-          .data$mese %in% c("settembre", "ottobre") ~ "settembre/ottobre",
-          TRUE ~ as.character(.data$mese)
+           .data$mese %in% levels(.data$mese)[1:2] ~ "gennaio/febbraio",
+           .data$mese %in% levels(.data$mese)[3] ~ "marzo",
+           .data$mese %in% levels(.data$mese)[4] ~ "aprile",
+           .data$mese %in% levels(.data$mese)[5] ~ "maggio",
+           .data$mese %in% levels(.data$mese)[6:7] ~ "giugno/luglio",
+           .data$mese %in% levels(.data$mese)[8] ~ "agosto",
+           .data$mese %in% levels(.data$mese)[9:10] ~ "settembre/ottobre",
+           .data$mese %in% levels(.data$mese)[11] ~ "novembre",
+           .data$mese %in% levels(.data$mese)[12] ~ "dicembre",
+           TRUE ~ as.character(.data$mese)
         ), levels = c(
           "gennaio/febbraio", "marzo", "aprile", "maggio",
-          "giugno/luglio", "agosto", "settembre/ottobre"
+          "giugno/luglio", "agosto", "settembre/ottobre", "novembre",
+          "dicembre"
         )
       ),
       # Death in ICU
