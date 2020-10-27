@@ -37,7 +37,9 @@ mod_icuve_ts_ui <- function(id){
     fluidRow(
       box(
         width = 12,
-        plotly::plotlyOutput(ns("fig3")),
+        plotOutput(# plotly::plotlyOutput(
+          ns("fig3")
+        ),
         title = "Figure 3. Relazione stimata (linea rossa in grassetto,
         l'area rossa indica gli intervalli di confidenza al 95%) tra
         numero di posti letto totali in terapia intensiva occupati
@@ -168,9 +170,10 @@ mod_icuve_ts_server <- function(id) {
       values = c("Atteso" = "firebrick2", "Osservato" = "dodgerblue1")
     ) +
     scale_x_date(date_breaks = "1 week", date_labels = "%d %b") +
-    scale_y_continuous(
-      breaks = seq(from = 0, to = 0.7, by = 0.1)
-    ) +
+    coord_cartesian(ylim = c(0, 0.7)) +
+    # scale_y_continuous(
+    #   breaks = seq(from = 0, to = 0.7, by = 0.1)
+    # ) +
     theme(
       axis.text.x = element_text(
         angle = 60, hjust = 1, vjust = 0.5
@@ -197,6 +200,10 @@ mod_icuve_ts_server <- function(id) {
   ggbeds <- ggplot(
     data = pred_db_beds, mapping = aes(x = .data$date)
   ) +
+    geom_point(
+      mapping = aes(y = .data$covid_occupied, color = "Osservato"),
+      size = 1.8
+    ) +
     geom_line(
       mapping = aes(y = exp(.data$beds_pred), color = "Atteso"),
       size = 1.2
@@ -207,24 +214,22 @@ mod_icuve_ts_server <- function(id) {
         ymax = exp(.data$beds_pred + 1.96 * .data$beds_se)
       ), alpha = 0.33, fill = "firebrick2", color = NA
     ) +
-    geom_point(
-      mapping = aes(y = .data$covid_occupied, color = "Osservato"),
-      size = 1.8
-    ) +
     scale_color_manual(
       name = "",
       values = c("Atteso" = "firebrick2", "Osservato" = "dodgerblue1")
     ) +
-    scale_y_continuous(limits = c(0, 250)) +
+    coord_cartesian(xlim = c(min(df$date), max(df$date) + 7),
+                    ylim = c(0, 250)) +
     scale_x_date(
-      limits = c(min(df$date), max(df$date) + 7),
+      # limits = c(min(df$date), max(df$date) + 7),
       date_breaks = "1 week", date_labels = "%d %b"
     ) +
     theme(
       axis.text.x = element_text(
         angle = 60, hjust = 1, vjust = 0.5
-      ),
-      panel.spacing.y = unit(2, "lines")
+      )#,
+
+      #panel.spacing.y = unit(2, "lines")
     ) +
     xlab("") +
     ylab("Numero posti letto")
@@ -245,6 +250,10 @@ mod_icuve_ts_server <- function(id) {
   ggswab <- ggplot(
     data = pred_db_swab, mapping = aes(x = .data$prop_pos)
   ) +
+    geom_point(
+      mapping = aes(y = .data$covid_occupied, color = "Osservato"),
+      size = 1.8
+    ) +
     geom_line(
       mapping = aes(y = exp(.data$swab_pred), color = "Atteso"),
       size = 1.2
@@ -253,14 +262,10 @@ mod_icuve_ts_server <- function(id) {
       mapping = aes(
         ymin = exp(.data$swab_pred - 1.96 * .data$swab_se),
         ymax = exp(.data$swab_pred + 1.96 * .data$swab_se)
-      ), alpha = 0.33, fill = "firebrick2", color = NA
+      ), alpha = 0.33, fill = "firebrick2"#, color = NA
     ) +
-    geom_point(
-      mapping = aes(y = .data$covid_occupied, color = "Osservato"),
-      size = 1.8
-    ) +
-    scale_x_continuous(
-      limits = c(
+    coord_cartesian(
+      xlim = c(
         stats::quantile(df$prop_pos, 0.1, na.rm = TRUE),
         stats::quantile(df$prop_pos, 0.9, na.rm = TRUE)
       )
@@ -307,8 +312,9 @@ mod_icuve_ts_server <- function(id) {
       name = "",
       values = c("Atteso" = "firebrick2", "Osservato" = "dodgerblue1")
     ) +
+    coord_cartesian(xlim = c(min(df$date), max(df$date) + 5)) +
     scale_x_date(
-      limits = c(min(df$date), max(df$date) + 5),
+      # limits = c(min(df$date), max(df$date) + 5),
       date_breaks = "1 week",
       date_labels = "%d %b"
     ) +
@@ -333,8 +339,8 @@ mod_icuve_ts_server <- function(id) {
         plotly::ggplotly(ggbeds)
       })
 
-      output$fig3 <- plotly::renderPlotly({
-        plotly::ggplotly(ggswab)
+      output$fig3 <- renderPlot({# plotly::renderPlotly({
+        ggswab # plotly::ggplotly(ggswab)
       })
 
       output$fig4 <- plotly::renderPlotly({
