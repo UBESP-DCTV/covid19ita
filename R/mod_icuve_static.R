@@ -94,21 +94,29 @@ mod_icuve_static_server <- function(id) {
     dplyr::ungroup() %>%
     # Arrange db by date of ICU admission
     dplyr::arrange(.data$icu_addmission) %>%
-    # Column with the week of the month
-    dplyr::mutate(
-      week_month = ceiling(lubridate::day(.data$icu_addmission)/7)
-    ) %>%
-    dplyr::group_by(week_month) %>%
+    # Column with the week and prepare the data
+    dplyr::mutate(week = lubridate::week(.data$icu_addmission)) %>%
+    dplyr::group_by(week) %>%
     dplyr::mutate(
       min_date = min(.data$icu_addmission, na.rm = TRUE),
       max_date = max(.data$icu_addmission, na.rm = TRUE)
+    ) %>%
+    dplyr::ungroup() %>%
+    dplyr::select(.data$max_date, .data$los, .data$age) %>%
+    dplyr::group_by(.data$max_date) %>%
+    dplyr::summarise(
+      week_age = stats::median(.data$age, na.rm = TRUE),
+      week_los = stats::median(.data$los, na.rm = TRUE)
     )
 
   # 2) Proportion of deaths in patients admitted to ICU ----------------
 
 
   # 3) Weekly ICU lengths of stay (median) -----------------------------
-    #
+  ggweek_los <- ggplot(
+    data = df_weekly
+  )
+
 
 
   callModule(id = id, function(input, output, session) {
