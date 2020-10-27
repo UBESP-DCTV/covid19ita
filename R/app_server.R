@@ -125,8 +125,12 @@ app_server <- function(input, output, session) {
 
           menuItem("Terapie intensive Veneto",
                    icon = icon("procedures"),
-                   menuSubItem("Regionale",
-                               tabName = "regional-icuve",
+                   menuSubItem("Regionale timeseries",
+                               tabName = "regional-icuve-ts",
+                               icon = icon("map")
+                   ),
+                   menuSubItem("Regionale overview",
+                               tabName = "regional-icuve-static",
                                icon = icon("map")
                    )
           )
@@ -233,10 +237,17 @@ app_server <- function(input, output, session) {
           ),
 
           tabItem(
-            tabName = "regional-icuve",
+            tabName = "regional-icuve-ts",
             h2("Andamenti e proiezioni sui posti letto nelle terapie intensive venete a livello regionale."),
             if (super_secret()[["permission"]][usr_pos] == "advanced") {
-              mod_icuve_ts_ui("icuve_ts_cl")
+              mod_icuve_ts_ui("icuve_ts")
+            }
+          ),
+          tabItem(
+            tabName = "regional-icuve-static",
+            h2("Andamenti delle terapie intensive venete dall'inizio della pandemia."),
+            if (super_secret()[["permission"]][usr_pos] == "advanced") {
+              mod_icuve_static_ui("icuve_static")
             }
           ),
 
@@ -397,7 +408,8 @@ app_server <- function(input, output, session) {
   mod_help_plot_server("help")
 
   ## ICUs VE
-  mod_icuve_ts_server("icuve_ts_cl")
+  mod_icuve_ts_server("icuve_ts")
+  mod_icuve_static_server("icuve_static")
 
   ## National
   mod_ts_ita_server("ts_nat_cum", "cum")
