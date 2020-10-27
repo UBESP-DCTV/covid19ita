@@ -42,7 +42,8 @@ app_server <- function(input, output, session) {
       href = "javascript:window.location.reload(true)"),
       class = "dropdown",
       style = "background-color: #eee !important; border: 0;
-               font-weight: bold; margin:5px; padding: 10px;")
+               font-weight: bold; margin:10px 50px;
+               padding: 5px;")
   })
 
 
