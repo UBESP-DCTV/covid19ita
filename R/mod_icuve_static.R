@@ -16,43 +16,30 @@ mod_icuve_static_ui <- function(id){
       box(
         width = 12,
         plotly::plotlyOutput(ns("fig1")),
-        title = "Figure 1. Andamento stimato (linea rossa in grassetto,
-        l'area rossa indica gli intervalli di confidenza al 95%) delle
-        proporzioni di posti letto totali in terapia intensiva occupati
-        da pazienti Covid. Andamento osservato (punti blu) fino alla
-        data odierna."
+        title = "Figure 1. Proporzione mensile di decessi in
+        pazienti COVID ammessi in terapia intensiva. I punti indicano
+        la stima, le linee i relativi intervalli di confidenza al 95%.
+        La linea blu indica la proporzione stimata totale."
       )
     ),
     fluidRow(
       box(
         width = 12,
         plotly::plotlyOutput(ns("fig2")),
-        title = "Figure 2. Andamento stimato (linea rossa in grassetto,
-        l'area rossa indica gli intervalli di confidenza al 95%) del
-        numero di posti letto totali in terapia intensiva occupati
-        da pazienti Covid aggiustato per proporzione di tamponi positivi.
-        Andamento osservato (punti blu) fino alla data odierna."
+        title = "Figure 2. Andamento stimato (linea blu,
+        l'area grigia indica gli intervalli di confidenza al 95%) del
+        tempo mediano mensile (in giorni) di degenza in terapia intensiva
+        dall'inizio della pandemia."
       )
     ),
     fluidRow(
       box(
         width = 12,
         plotly::plotlyOutput(ns("fig3")),
-        title = "Figure 3. Relazione stimata (linea rossa in grassetto,
-        l'area rossa indica gli intervalli di confidenza al 95%) tra
-        numero di posti letto totali in terapia intensiva occupati
-        da pazienti Covid e proporzione di tamponi positivi."
-      )
-    ),
-    fluidRow(
-      box(
-        width = 12,
-        plotly::plotlyOutput(ns("fig4")),
-        title = "Figure 4. Andamento stimato (linea rossa in grassetto,
-        l'area rossa indica gli intervalli di confidenza al 95%) della
-        differenza tra il numero di posti letto in terapia intensiva
-        in data odierna e 3 giorni precedenti. Andamento osservato
-        (punti blu) fino alla data odierna."
+        title = "Figure 3. Andamento stimato (linea blu,
+        l'area grigia indica gli intervalli di confidenza al 95%) dell'età
+        mediana dei pazienti COVID ricoverati in terapia intensiva
+        dall'inizio della pandemia."
       )
     )
   )
@@ -66,16 +53,19 @@ mod_icuve_static_ui <- function(id){
 #' @noRd
 mod_icuve_static_server <- function(id) {
 
-  icuve_static <- covid19.icuve::icuve
+  icuve_static <- covid19.icuve::icuve %>%
+    # Arrange db by date of ICU admission
+    dplyr::arrange(.data$icu_addmission)
 
   # 1) Data preparation ------------------------------------------------
+  # Weekly db ----------------------------------------------------------
   df_weekly <- icuve_static %>%
     # Select only relevant columns
     dplyr::select(
       .data$icu_addmission, .data$icu_discharge, .data$age,
       dplyr::starts_with("comorb")
     ) %>%
-    # Compute Length of stay (LOS) in days and N comorb ----------------
+    # Compute Length of stay (LOS) in days and N comorb
     dplyr::mutate(
       los = difftime(
         .data$icu_discharge, .data$icu_addmission,  units = "days"
@@ -92,8 +82,6 @@ mod_icuve_static_server <- function(id) {
       )
     ) %>%
     dplyr::ungroup() %>%
-    # Arrange db by date of ICU admission
-    dplyr::arrange(.data$icu_addmission) %>%
     # Column with the week and prepare the data
     dplyr::mutate(week = lubridate::week(.data$icu_addmission)) %>%
     dplyr::group_by(week) %>%
@@ -103,39 +91,138 @@ mod_icuve_static_server <- function(id) {
     ) %>%
     dplyr::ungroup() %>%
     dplyr::select(.data$max_date, .data$los, .data$age) %>%
+    # Aggregate to 25-02-2020 the first observations
+    dplyr::mutate(
+      max_date = dplyr::if_else(
+        .data$max_date <= lubridate::as_date("2020-02-25"),
+        lubridate::as_date("2020-02-10"),
+        .data$max_date
+      )
+    ) %>%
     dplyr::group_by(.data$max_date) %>%
     dplyr::summarise(
       week_age = stats::median(.data$age, na.rm = TRUE),
       week_los = stats::median(.data$los, na.rm = TRUE)
     )
 
+  # Monthly db ---------------------------------------------------------
+  df_month <- icuve_static %>%
+    # Arrange db by date of ICU admission
+    dplyr::arrange(.data$icu_addmission) %>%
+    # Get the month and aggregate them
+    dplyr::mutate(
+      mese = lubridate::month(
+        .data$icu_addmission, label = TRUE, abbr = FALSE
+      ),
+      mese = factor(
+        dplyr::case_when(
+          .data$mese %in% c("gennaio", "febbraio") ~ "gennaio/febbraio",
+          .data$mese %in% c("giugno", "luglio") ~ "giugno/luglio",
+          .data$mese %in% c("settembre", "ottobre") ~ "settembre/ottobre",
+          TRUE ~ as.character(.data$mese)
+        ), levels = c(
+          "gennaio/febbraio", "marzo", "aprile", "maggio",
+          "giugno/luglio", "agosto", "settembre/ottobre"
+        )
+      ),
+      # Death in ICU
+      death_icu = dplyr::if_else(
+        !.data$icu_is_exited & !is.na(.data$icu_discharge), 1, 0
+      )
+    ) %>%
+    # Compute Length of stay (LOS) in days and N comorb
+    dplyr::mutate(
+      los = difftime(
+        .data$icu_discharge, .data$icu_addmission,  units = "days"
+      )
+    ) %>%
+    # Compute the number of deaths, admission, and the los by month
+    dplyr::group_by(mese) %>%
+    dplyr::summarise(
+      n_deaths = sum(.data$final_is_dead, na.rm = TRUE),
+      n_deaths_icu = sum(.data$death_icu, na.rm = TRUE),
+      n_adm = dplyr::n(),
+      los = sum(.data$los, na.rm = TRUE)/100
+    ) %>%
+    dplyr::ungroup() %>%
+    dplyr::rowwise() %>%
+    # Proportion of deaths
+    dplyr::mutate(
+      prop_death = .data$n_deaths/.data$n_adm,
+      prop_lower = stats::prop.test(
+        x = .data$n_deaths, n = .data$n_adm
+      )$conf.int[1],
+      prop_upper = stats::prop.test(
+        x = .data$n_deaths, n = .data$n_adm
+      )$conf.int[2]
+    )
+
+  overall_p_death <- sum(icuve_static$final_is_dead)/nrow(icuve_static)
+
   # 2) Proportion of deaths in patients admitted to ICU ----------------
+  ggprop_death <- ggplot(
+    data = df_month,
+    mapping = aes(x = .data$mese, y = .data$prop_death)
+  ) +
+    geom_point(size = 1.8) +
+    geom_pointrange(
+      mapping = aes(ymin = .data$prop_lower, ymax = .data$prop_upper)
+    ) +
+    geom_hline(
+      yintercept = overall_p_death, color = "royalblue", size = 1.1
+    ) +
+    xlab("Mese") +
+    ylab("Proporzione")
 
 
   # 3) Weekly ICU lengths of stay (median) -----------------------------
   ggweek_los <- ggplot(
-    data = df_weekly
-  )
+    data = df_weekly,
+    mapping = aes(x = .data$max_date, y = .data$week_los)
+  ) +
+    geom_point(size = 1.8) +
+    geom_smooth() +
+    scale_x_date(date_breaks = "1 week", date_labels = "%d %b") +
+    theme(
+      axis.text.x = element_text(
+        angle = 60, hjust = 1, vjust = 0.5
+      ),
+      panel.spacing.y = unit(2, "lines")
+    ) +
+    ylab("Giorni di degenza") +
+    xlab("")
 
+  # 4) Weekly age ICU (median) -----------------------------------------
+  ggweek_age <- ggplot(
+    data = df_weekly,
+    mapping = aes(x = .data$max_date, y = .data$week_age)
+  ) +
+    geom_point(size = 1.8) +
+    geom_smooth() +
+    scale_x_date(date_breaks = "1 week", date_labels = "%d %b") +
+    theme(
+      axis.text.x = element_text(
+        angle = 60, hjust = 1, vjust = 0.5
+      ),
+      panel.spacing.y = unit(2, "lines")
+    ) +
+    ylab("Età (anni)") +
+    xlab("")
 
 
   callModule(id = id, function(input, output, session) {
     ns <- session$ns
 
     output$fig1 <- plotly::renderPlotly({
-      plotly::ggplotly(ggprop)
+      plotly::ggplotly(ggprop_death)
     })
 
     output$fig2 <- plotly::renderPlotly({
-      plotly::ggplotly(ggbeds)
+      plotly::ggplotly(ggweek_los)
     })
 
     output$fig3 <- plotly::renderPlotly({
-      plotly::ggplotly(ggswab)
-    })
-
-    output$fig4 <- plotly::renderPlotly({
-      plotly::ggplotly(ggdelta_days)
+      plotly::ggplotly(ggweek_age)
     })
 
   })
