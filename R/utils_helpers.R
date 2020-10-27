@@ -65,13 +65,15 @@ measure_to_labels <- function(x, lang = c("ita", "eng")) {
 
 
 
-super_secret <- function() {
+super_secret <- function(return_path = FALSE) {
   path <- here::here("supersecret")
   if (!file.exists(path)) {
     stop("Can't find secret file at: ", path)
   }
 
-  readr::read_csv(path, skip = 1L)
+  if (return_path) return(path)
+
+  readr::read_csv(path, na = "NA")
 }
 
 nomatch <- function() {

@@ -277,9 +277,10 @@ login_page <- function() {
                        class = "text-center"))),
           br(),
           br(),
-          tags$code("Username: foo  Password: bar  (basic user)"),
-          br(),
-          tags$code("Username: bar  Password: taz   (advanced user)")
+          tags$code("Lasciare tutto in bianco e cliccare \"SIGN IN\" per la visualizzazione standard")
+          # tags$code("Username: foo  Password: bar  (basic user)"),
+          # br(),
+          # tags$code("Username: bar  Password: taz   (advanced user)")
         ))
   )
 }
