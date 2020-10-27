@@ -71,6 +71,7 @@ golem::add_utils("plot_mort_data")
 golem::add_fct("clean_ggplotly")
 golem::add_utils("write_raw_rds")
 golem::add_fct("pull_region_w_pop")
+golem::add_fct("update_supersecrets")
 
 
 ## Update package documentation and namespace

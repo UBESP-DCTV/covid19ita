@@ -62,3 +62,21 @@ measure_to_labels <- function(x, lang = c("ita", "eng")) {
   stringr::str_replace_all(x, "_", " ") %>%
     stringr::str_to_title()
 }
+
+
+
+super_secret <- function(return_path = FALSE) {
+  path <- here::here("supersecret")
+  if (!file.exists(path)) {
+    stop("Can't find secret file at: ", path)
+  }
+
+  if (return_path) return(path)
+
+  readr::read_csv(path, na = "NA")
+}
+
+nomatch <- function() {
+  shinyjs::toggle(id = "nomatch", anim = TRUE, time = 1, animType = "fade")
+  shinyjs::delay(3000, shinyjs::toggle(id = "nomatch", anim = TRUE, time = 1, animType = "fade"))
+}
