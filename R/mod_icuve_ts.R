@@ -66,7 +66,7 @@ mod_icuve_ts_ui <- function(id){
 #' @noRd
 mod_icuve_ts_server <- function(id) {
 
-  icuve_ts <- covid19.icuve::fetch_gsheet()
+  icuve_ts <- covid19.icuve::fetch_gsheet("ts")
   covid19dd <- covid19ita::dpc_covid19_ita_regioni
 
   # 1) Prepare the data ------------------------------------------------
