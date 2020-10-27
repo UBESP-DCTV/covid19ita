@@ -93,7 +93,7 @@ mod_icuve_static_server <- function(id) {
     dplyr::ungroup() %>%
     # Column with the week and prepare the data
     dplyr::mutate(week = lubridate::week(.data$icu_addmission)) %>%
-    dplyr::group_by(week) %>%
+    dplyr::group_by(.data$week) %>%
     dplyr::mutate(
       min_date = min(.data$icu_addmission, na.rm = TRUE),
       max_date = max(.data$icu_addmission, na.rm = TRUE)
@@ -156,7 +156,7 @@ mod_icuve_static_server <- function(id) {
       )
     ) %>%
     # Compute the number of deaths, admission, and the los by month
-    dplyr::group_by(mese) %>%
+    dplyr::group_by(.data$mese) %>%
     dplyr::summarise(
       n_deaths = sum(.data$final_is_dead, na.rm = TRUE),
       n_deaths_icu = sum(.data$death_icu, na.rm = TRUE),

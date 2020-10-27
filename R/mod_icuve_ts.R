@@ -69,11 +69,10 @@ mod_icuve_ts_ui <- function(id){
 mod_icuve_ts_server <- function(id) {
 
   icuve_ts <- covid19.icuve::fetch_gsheet("ts")
-  covid19dd <- covid19ita::dpc_covid19_ita_regioni
 
   # 1) Prepare the data ------------------------------------------------
   # Time series Veneto -------------------------------------------------
-  veneto_ts <- covid19dd %>%
+  veneto_ts <- dpc_covid19_ita_regioni %>%
     # Select the Veneto data
     dplyr::filter(.data$denominazione_regione == "Veneto") %>%
     # Rename the column date the make it consistent with the other db
@@ -91,7 +90,7 @@ mod_icuve_ts_server <- function(id) {
     ) %>%
     # Take the 1st of September as starting date for the models
     dplyr::filter(.data$date >= lubridate::ymd("2020-09-01")) %>%
-    dplyr::select(date, prop_pos)
+    dplyr::select(.data$date, .data$prop_pos)
 
   # Time series data Veneto ICU ----------------------------------------
   df <- icuve_ts %>%
@@ -129,7 +128,7 @@ mod_icuve_ts_server <- function(id) {
     dplyr::mutate(
       prop_pos = dplyr::if_else(
         is.na(.data$prop_pos),
-        dplyr::last(na.omit(.data$prop_pos)),
+        dplyr::last(stats::na.omit(.data$prop_pos)),
         .data$prop_pos
       )
     )
@@ -185,8 +184,9 @@ mod_icuve_ts_server <- function(id) {
 
   # 4) COVID beds occupied adjusted by proportion of positive ----------
   fit_beds <- mgcv::gam(
-    covid_occupied ~ s(as.numeric(date)) +
-      s(prop_pos),
+    stats::as.formula(
+      "covid_occupied ~ s(as.numeric(date)) + s(prop_pos)"
+    ),
     data = df,
     family = stats::poisson(link = "log")
   )
@@ -236,7 +236,7 @@ mod_icuve_ts_server <- function(id) {
 
   # 5) COVID beds and by proportion of positive ------------------------
   fit_swab <- mgcv::gam(
-    covid_occupied ~ s(prop_pos),
+    stats::as.formula("covid_occupied ~ s(prop_pos)"),
     data = df,
     family = stats::poisson(link = "log")
   )

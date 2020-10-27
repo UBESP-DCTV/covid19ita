@@ -12,7 +12,10 @@ devtools::check_man()
 res_check <- devtools::check()
 
 
-if (length(res_check$errors) == 0L & length(res_check$warnings) == 0L) {
+# tools::showNonASCIIfile(here::here("R/mod_icuve_static.R"))
+
+
+if (length(res_check$errors) == 0L && length(res_check$warnings) == 0L) {
 
   nws <- here::here("NEWS.md")
   readr::write_lines(

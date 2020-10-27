@@ -1,3 +1,9 @@
+* data update
+
+* Added login module
+* Added module `mod_icuve_ts` and `mod_icuve_static` to showing ICU's
+  data and predictions on Veneto
+
 # covid23icuve 0.110.0
 
 # covid19ita 0.109.0
