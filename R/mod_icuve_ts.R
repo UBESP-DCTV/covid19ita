@@ -182,11 +182,20 @@ mod_icuve_ts_server <- function(id) {
     ylab("Proporzione")
 
   # 4) COVID beds occupied adjusted by proportion of positive ----------
+  beds_df <- df %>%
+    dplyr::mutate(
+      prop_pos = dplyr::if_else(
+        is.na(.data$prop_pos),
+        dplyr::last(stats::na.omit(.data$prop_pos)),
+        .data$prop_pos
+      )
+    )
+
   fit_beds <- mgcv::gam(
     stats::as.formula(
       "covid_occupied ~ s(as.numeric(date)) + s(prop_pos)"
     ),
-    data = df,
+    data = beds_df,
     family = stats::poisson(link = "log")
   )
 
@@ -199,10 +208,6 @@ mod_icuve_ts_server <- function(id) {
   ggbeds <- ggplot(
     data = pred_db_beds, mapping = aes(x = .data$date)
   ) +
-    geom_point(
-      mapping = aes(y = .data$covid_occupied, color = "Osservato"),
-      size = 1.8
-    ) +
     geom_line(
       mapping = aes(y = exp(.data$beds_pred), color = "Atteso"),
       size = 1.2
@@ -213,12 +218,18 @@ mod_icuve_ts_server <- function(id) {
         ymax = exp(.data$beds_pred + 1.96 * .data$beds_se)
       ), alpha = 0.33, fill = "firebrick2", color = NA
     ) +
+    geom_point(
+      mapping = aes(y = .data$covid_occupied, color = "Osservato"),
+      size = 1.8
+    ) +
     scale_color_manual(
       name = "",
       values = c("Atteso" = "firebrick2", "Osservato" = "dodgerblue1")
     ) +
-    coord_cartesian(xlim = c(min(df$date), max(df$date) + 7),
-                    ylim = c(0, 250)) +
+    coord_cartesian(
+      xlim = c(min(df$date), max(df$date) + 7),
+      ylim = c(0, 250)
+    ) +
     scale_x_date(date_breaks = "1 week", date_labels = "%d %b") +
     theme(
       axis.text.x = element_text(
@@ -253,7 +264,8 @@ mod_icuve_ts_server <- function(id) {
   ) +
     geom_line(
       data = pred_swab_df,
-      mapping = aes(y = y_hat, color = "Atteso")
+      mapping = aes(y = y_hat, color = "Atteso"),
+      size = 1.2
     ) +
     geom_ribbon(
       data = pred_swab_df,
