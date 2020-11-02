@@ -125,6 +125,10 @@ app_server <- function(input, output, session) {
 
           menuItem("Terapie intensive Veneto",
                    icon = icon("procedures"),
+                   menuSubItem("Regionale situation report",
+                               tabName = "regional-icuve-sitrep",
+                               icon = icon("map")
+                   ),
                    menuSubItem("Regionale timeseries",
                                tabName = "regional-icuve-ts",
                                icon = icon("map")
@@ -236,6 +240,13 @@ app_server <- function(input, output, session) {
             mod_0314_ui("dapb")
           ),
 
+          tabItem(
+            tabName = "regional-icuve-sitrep",
+            h2("Report situazione corrente nelle terapie intensive venete a livello regionale."),
+            if (super_secret()[["permission"]][usr_pos] == "advanced") {
+              mod_icuve_sitrep_ui("icuve_sitrep")
+            }
+          ),
           tabItem(
             tabName = "regional-icuve-ts",
             h2("Andamenti e proiezioni sui posti letto nelle terapie intensive venete a livello regionale."),
@@ -408,6 +419,7 @@ app_server <- function(input, output, session) {
   mod_help_plot_server("help")
 
   ## ICUs VE
+  mod_icuve_sitrep_server("icuve_sitrep")
   mod_icuve_ts_server("icuve_ts")
   mod_icuve_static_server("icuve_static")
 
