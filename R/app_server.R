@@ -27,6 +27,7 @@ app_server <- function(input, output, session) {
 
         if (pasverify) {
           USER$login <- TRUE
+          updateTabItems(session, "sidebar", "home")
         } else {
           nomatch()
         }

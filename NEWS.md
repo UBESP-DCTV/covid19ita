@@ -1,5 +1,6 @@
-# covid23icuve (development version)
+# covid23icuve 0.109.1
 
+* Restore home page after login
 * data update
 * Added login module.
 * Added modules `mod_icuve_sitrep`, `mod_icuve_ts` and `mod_icuve_static` to showing ICU's

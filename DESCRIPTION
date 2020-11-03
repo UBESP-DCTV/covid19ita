@@ -1,6 +1,6 @@
 Package: covid23icuve
 Title: Covid-19 - Italy
-Version: 0.109.0.9000
+Version: 0.109.1
 Authors@R: 
     c(person(given = "Corrado",
              family = "Lanera",
