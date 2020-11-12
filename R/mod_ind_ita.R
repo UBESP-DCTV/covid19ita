@@ -146,8 +146,8 @@ mod_ind_ita_server <- function(id) {
       cum_ti = cumsum(.data$terapia_intensiva),
       tamponi_no_sintomi = .data$tamponi - # .data$casi_testati - #
         .data$ricoverati_con_sintomi -
-        # .data$terapia_intensiva,
-        .data$cum_ti,
+        .data$terapia_intensiva,
+        # .data$cum_ti,
       tamp_asint_pesati = 100 * (
         .data$tamponi_no_sintomi / .data$residenti
       ),
@@ -213,11 +213,15 @@ mod_ind_ita_server <- function(id) {
 
     # #-------
     # dd <- dati_tamponi %>%
-    #   dplyr::filter(denominazione_regione %in% c("Lombardia", "Veneto"))
+    #   dplyr::filter(
+    #     denominazione_regione %in% c("Lombardia", "Veneto"),
+    #     .data$data < as.Date("2020-09-23")
+    #   )
     #
-    # ddt <- dd %>% dplyr::mutate(
+    # ddt <- dd %>%
+    #   dplyr::mutate(
     #     data_to_plot = purrr::map(.data$data,
-    #       ~dplyr::filter(dd, dd$data <= .x) %>%
+    #       ~ dplyr::filter(dd, dd$data <= .x) %>%
     #         dplyr::mutate(n = dplyr::n())
     #     )
     #   ) %>%
@@ -233,24 +237,32 @@ mod_ind_ita_server <- function(id) {
     #     colour = denominazione_regione,
     #     label = denominazione_regione
     #   )) +
-    #   geom_point(show.legend = FALSE) +
+    #   geom_point() +
+    #   scale_color_discrete(name = "Regione") +
+    #   theme(legend.position = "bottom") +
     #   # geom_smooth(method = stats::loess, span = 1.5, se = FALSE, show.legend = FALSE) +
     #   ylab("% soggetti in t. intensiva") +
-    #   xlab("% sulla popolazione regionale di tamponi effettuati su soggetti non sintomatici") +
+    #   xlab("% sulla popolazione regionale di tamponi effettuati su soggetti non sintomatici") #+
     #   # coord_cartesian(
     #   #   xlim = c(0, max(dati_tamponi$tamp_asint_pesati, na.rm = TRUE) + 1L),
     #   #   ylim = c(0, max(dati_tamponi$intensiva_pesati, na.rm = TRUE))
     #   # ) +
-    #   facet_grid(denominazione_regione~.)
+    #   # facet_grid(denominazione_regione~.)
     #
     # anim <- base_plot +
     #   labs(title = "Ultima data: {frame_time}") +
     #   gganimate::transition_time(last_date) +
-    #   ease_aes('linear')
+    #   gganimate::ease_aes('linear')
     #
-    # animate(anim, nframes = 258, start_pause = 10, , end_pause = 10)
+    # res <- gganimate::animate(anim,
+    #                    nframes = length(unique(ddt$last_date)),
+    #                    start_pause = 10,
+    #                    end_pause = 30
+    # )
     #
-    # #-------
+    # res
+    # #
+    # # #-------
 
 
     output$titamponi <- renderPlotly({
