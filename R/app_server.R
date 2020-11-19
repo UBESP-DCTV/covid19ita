@@ -122,7 +122,7 @@ app_server <- function(input, output, session) {
                  )
         ),
 
-        if (super_secret()[["permission"]][usr_pos] == "advanced") {
+        if (super_secret()[["permission"]][usr_pos] %in% c("ubep", "tip-v")) {
 
           menuItem("Terapie intensive Veneto",
                    icon = icon("procedures"),
@@ -244,21 +244,24 @@ app_server <- function(input, output, session) {
           tabItem(
             tabName = "regional-icuve-sitrep",
             h2("Report situazione corrente nelle terapie intensive venete a livello regionale."),
-            if (super_secret()[["permission"]][usr_pos] == "advanced") {
+            if (super_secret()[["permission"]][usr_pos] %in%
+                c("ubep", "tip-v")) {
               mod_icuve_sitrep_ui("icuve_sitrep")
             }
           ),
           tabItem(
             tabName = "regional-icuve-ts",
             h2("Andamenti e proiezioni sui posti letto nelle terapie intensive venete a livello regionale."),
-            if (super_secret()[["permission"]][usr_pos] == "advanced") {
+            if (super_secret()[["permission"]][usr_pos] %in%
+                c("ubep", "tip-v")) {
               mod_icuve_ts_ui("icuve_ts")
             }
           ),
           tabItem(
             tabName = "regional-icuve-static",
             h2("Andamenti delle terapie intensive venete dall'inizio della pandemia."),
-            if (super_secret()[["permission"]][usr_pos] == "advanced") {
+            if (super_secret()[["permission"]][usr_pos] %in%
+                c("ubep", "tip-v")) {
               mod_icuve_static_ui("icuve_static")
             }
           ),

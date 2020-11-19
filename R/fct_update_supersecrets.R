@@ -28,13 +28,20 @@ update_supersecrets <- function(type = c("add", "rm")) {
   Sys.chmod(super_secret(TRUE), mode = "0600")
 
   if (type == "add") {
-    role <- readline("Advanced (a) or Basic (b) user? ")
-    stopifnot(`Role must be "a" (advanced) or "b" (basic)` =
-                role %in% c("a", "b"))
+    role <- readline("Set privileges:
+      u := ubep,
+      v := tip-v,
+      a := agenas,
+      b := basic
+    ")
+    stopifnot(`Role must be "a", "b", "u", "v"` =
+                role %in% c("a", "b", "u", "v"))
 
     role <- switch(role,
-      a = "advanced",
-      b = "basic")
+        u = "ubep",
+        v = "tip-v",
+        a = "agenas",
+        b = "basic")
 
     readr::write_lines(
       paste(usr, sodium::password_store(psw), role, sep = ", "),
