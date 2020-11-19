@@ -60,13 +60,59 @@ mod_icuve_ts_ui <- function(id){
   )
 }
 
-#' icuve_ts Server Function
+#' tsicuve Server Function
 #'
 #' @import ggplot2
-#' @import covid19.icuve
-#' @import mgcv
 #' @noRd
 mod_icuve_ts_server <- function(id) {
+
+  # 1) Data preparation ------------------------------------------------
+  veneto <- dpc_covid19_ita_regioni %>%
+    # Get the Veneto ICU data
+    dplyr::filter(.data$denominazione_regione == "Veneto") %>%
+    # Select relevant variables
+    dplyr::select(.data$data, .data$terapia_intensiva) %>%
+    # Dates in lubridate format
+    dplyr::mutate(data = lubridate::as_date(.data$data))
+
+  # Define inputs for the functions ------------------------------------
+  data <- veneto
+  n_ahead <- 7L
+  d <- 20L
+  tstart <- min(veneto[["data"]])
+
+  # 2) TS models -------------------------------------------------------
+  d_seq <- as.integer(round(seq(
+    from = 10L,
+    to = length(veneto$data) - d - n_ahead,
+    by = 14
+  )))
+  # 2A) Holter ---------------------------------------------------------
+  # Plot ---------------------------------------------------------------
+  ts_holter <- holter_plot(veneto, n_ahead, d, tstart)
+
+  # Error plot ---------------------------------------------------------
+  df_error <- purrr::map_dfr(
+    .x = d_seq, ~ holter_error(veneto, n_ahead, .x, tstart)
+  )
+
+  error_holter <- ggplot(
+    data = df_error,
+    mapping = aes(x = .data$data, y = .data$error)
+  ) +
+    geom_point(size = 1.1) +
+    geom_smooth(se = FALSE) +
+    ylab("Squared error") +
+    xlab("") +
+    scale_x_date(date_breaks = "2 weeks", date_labels = "%d %b") +
+    theme(
+      axis.text.x = element_text(
+        angle = 60, hjust = 1, vjust = 0.5
+      )
+    )
+
+
+
 
 
 
