@@ -81,7 +81,10 @@ Imports:
     tidyr (>= 1.0.2),
     usethis (>= 1.5.1),
     utils,
-    sodium
+    sodium,
+    forecast,
+    xts,
+    tscount
 Suggests: 
     assertive,
     cli,

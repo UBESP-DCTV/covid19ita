@@ -1,3 +1,7 @@
+# covid23icuve 0.109.2
+
+* Add `xts`, `tscount`, and `forecast` to Imports
+
 # covid23icuve 0.109.1
 
 * Restore home page after login
