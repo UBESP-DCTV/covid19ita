@@ -1,12 +1,9 @@
-holter_plot <- function(data, n_ahead, d, tstart) {
+holter_plot <- function(data, n_ahead, tstart, tstop) {
 
   assertive::assert_is_data.frame(data)
   assertive::assert_is_integer(n_ahead)
-  assertive::assert_is_integer(d)
   assertive::assert_is_date(tstart)
-
-  # Maximum date for TS model fitting
-  tstop <- tstart + d
+  assertive::assert_is_date(tstop)
 
   # Select the time series for model fitting
   ts_fit <- data %>%
@@ -25,7 +22,9 @@ holter_plot <- function(data, n_ahead, d, tstart) {
   pred <- forecast::forecast(hw_object, n_ahead)
 
   # Prepare the dataframes for the TS plot
-  na_ahead <- length(data[["data"]]) - d - n_ahead
+  na_ahead <- length(data$data) -
+    lubridate::interval(tstart, tstop)/lubridate::ddays(1) -
+    n_ahead
 
   obs_df <- data %>%
     dplyr::rename(est = .data$terapia_intensiva) %>%
@@ -33,34 +32,29 @@ holter_plot <- function(data, n_ahead, d, tstart) {
     dplyr::mutate(type = "obs")
 
   fitted_df <- tibble::tibble(
-    data = data[["data"]],
-    est = c(
-      NA_real_, NA_real_,
+    data = seq(from = tstart + 2, to = tstop + n_ahead, by = 1),
+    est = round(c(
       as.double(hw_object$fitted[, 1]),
-      as.double(pred$mean),
-      rep(NA_real_, na_ahead - 1)
-    ),
-    lower = c(
-      NA_real_, NA_real_,
-      rep(NA_real_, length(as.double(hw_object$fitted[, 1]))),
-      pred$lower[, 2],
-      rep(NA_real_, na_ahead - 1)
-    ),
-    upper = c(
-      NA_real_, NA_real_,
-      rep(NA_real_, length(as.double(hw_object$fitted[, 1]))),
-      pred$upper[, 2],
-      rep(NA_real_, na_ahead - 1)
-    ),
-    type = "expected"
-  )
-
-  plot_df <- dplyr::bind_rows(obs_df, fitted_df) %>%
+      as.double(pred$mean)
+      ))
+    ) %>%
     dplyr::mutate(
-      type = factor(
-        .data$type,
-        levels = c("obs", "expected")
+      lower = c(
+        rep(NA_real_, length(as.double(hw_object$fitted[, 1]))),
+        pred$lower[, 2]
+      ),
+      upper = c(
+        rep(NA_real_, length(as.double(hw_object$fitted[, 1]))),
+        pred$upper[, 2]
       )
+    ) %>%
+    dplyr::mutate(
+      lower = dplyr::if_else(
+        is.na(.data$lower), .data$est, .data$lower
+      ),
+      upper = dplyr::if_else(
+        is.na(.data$upper), .data$est, .data$upper
+      ),
     ) %>%
     # If upper or lower are less than 0 put 0
     dplyr::mutate(
@@ -68,30 +62,29 @@ holter_plot <- function(data, n_ahead, d, tstart) {
       upper = dplyr::if_else(.data$upper < 0, 0, .data$upper)
     )
 
+
   # TS plot
   ggplot(
-    data = plot_df,
-    mapping = aes(
-      x = .data$data, y = .data$est, colour = .data$type,
-      fill = .data$type
-    )
+    data = fitted_df,
+    mapping = aes(x = .data$data)
   ) +
-    geom_line(size = 1.1) +
+    geom_line(
+      mapping = aes(y = .data$est, colour = "Atteso"),
+      size = 1.5
+    ) +
+    geom_line(
+      data = obs_df,
+      mapping = aes(y = .data$est, color = "Osservato"),
+      size = 0.8
+    ) +
     geom_ribbon(
-      mapping = aes(ymin = lower, ymax = upper), alpha = 0.2,
-      colour = NA
+      mapping = aes(ymin = .data$lower, ymax = .data$upper),
+      alpha = 0.2, fill = "firebrick2", colour = NA
     ) +
     scale_color_manual(
       name = "",
-      values = c("dodgerblue1", "firebrick2"),
-      labels = c("Osservato", "Atteso")
+      values = c("Atteso" = "firebrick2", "Osservato" = "dodgerblue1")
     ) +
-    scale_fill_manual(
-      name = "",
-      values = c("dodgerblue1", "firebrick2"),
-      labels = c("Osservato", "Atteso")
-    ) +
-    geom_vline(xintercept = tstop, linetype = "dashed") +
     ylab("Numero posti letto TI") +
     xlab("") +
     scale_x_date(date_breaks = "2 weeks", date_labels = "%d %b") +

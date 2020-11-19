@@ -8,54 +8,35 @@
 #'
 #' @importFrom shiny NS fluidRow fluidPage
 #' @importFrom shinydashboard box
-mod_icuve_ts_ui <- function(id){
+mod_tsicuve_ui <- function(id){
   ns <- NS(id)
 
   fluidPage(
+    h2(HTML("1) Holter-Winters Filtering")),
     fluidRow(
-      box(
-        width = 12,
-        plotly::plotlyOutput(ns("fig1")),
-        title = "Figure 1. Andamento stimato (linea rossa in grassetto,
-        l'area rossa indica gli intervalli di confidenza al 95%) delle
-        proporzioni di posti letto totali in terapia intensiva occupati
-        da pazienti Covid. Andamento osservato (punti blu) fino alla
-        data odierna."
+      sliderInput(
+        width = "45%", ns("lastDate"),
+        label = "Selezionare l'ultima data da considerare per la stima del modello",
+        value = lubridate::as_date(max(dpc_covid19_ita_regioni$data)),
+        min = lubridate::as_date(min(dpc_covid19_ita_regioni$data)) +
+          lubridate::days(10),
+        max = lubridate::as_date(max(dpc_covid19_ita_regioni$data)) -
+          lubridate::days(8),
+        step = lubridate::days(1),
+        animate = animationOptions(interval = 400)
       )
     ),
-    fluidRow(
-      box(
+    box(plotlyOutput(ns("fig1a")),
         width = 12,
-        plotly::plotlyOutput(ns("fig2")),
-        title = "Figure 2. Andamento stimato (linea rossa in grassetto,
+        title = "Figura 1A. Andamento stimato (linea rossa in grassetto,
         l'area rossa indica gli intervalli di confidenza al 95%) del
-        numero di posti letto totali in terapia intensiva occupati
-        da pazienti Covid aggiustato per proporzione di tamponi positivi.
+        numero di posti occupati in terapia intensiva.
         Andamento osservato (punti blu) fino alla data odierna."
-      )
     ),
-    fluidRow(
-      box(
+    box(plotlyOutput(ns("fig1b")),
         width = 12,
-        plotOutput(# plotly::plotlyOutput(
-          ns("fig3")
-        ),
-        title = "Figure 3. Relazione stimata (linea rossa in grassetto,
-        l'area rossa indica gli intervalli di confidenza al 95%) tra
-        numero di posti letto totali in terapia intensiva occupati
-        da pazienti Covid e proporzione di tamponi positivi."
-      )
-    ),
-    fluidRow(
-      box(
-        width = 12,
-        plotly::plotlyOutput(ns("fig4")),
-        title = "Figure 4. Andamento stimato (linea rossa in grassetto,
-        l'area rossa indica gli intervalli di confidenza al 95%) della
-        differenza tra il numero di posti letto in terapia intensiva
-        in data odierna e 3 giorni precedenti. Andamento osservato
-        (punti blu) fino alla data odierna."
-      )
+        title = "Figura 1B. Andamento dell'errore quadratico del
+        modello fino alla data odierna."
     )
   )
 }
@@ -64,7 +45,7 @@ mod_icuve_ts_ui <- function(id){
 #'
 #' @import ggplot2
 #' @noRd
-mod_icuve_ts_server <- function(id) {
+mod_tsicuve_server <- function(id) {
 
   # 1) Data preparation ------------------------------------------------
   veneto <- dpc_covid19_ita_regioni %>%
@@ -76,21 +57,19 @@ mod_icuve_ts_server <- function(id) {
     dplyr::mutate(data = lubridate::as_date(.data$data))
 
   # Define inputs for the functions ------------------------------------
-  data <- veneto
   n_ahead <- 7L
-  d <- 20L
   tstart <- min(veneto[["data"]])
+  tstop <- tstart + 20L
 
   # 2) TS models -------------------------------------------------------
   d_seq <- as.integer(round(seq(
     from = 10L,
-    to = length(veneto$data) - d - n_ahead,
+    to = length(veneto$data) -
+      lubridate::interval(tstart, tstop)/lubridate::ddays(1) -
+      n_ahead,
     by = 14
   )))
   # 2A) Holter ---------------------------------------------------------
-  # Plot ---------------------------------------------------------------
-  ts_holter <- holter_plot(veneto, n_ahead, d, tstart)
-
   # Error plot ---------------------------------------------------------
   df_error <- purrr::map_dfr(
     .x = d_seq, ~ holter_error(veneto, n_ahead, .x, tstart)
@@ -114,33 +93,31 @@ mod_icuve_ts_server <- function(id) {
 
 
 
-
-
   callModule(id = id, function(input, output, session) {
     ns <- session$ns
 
-    output$fig1 <- plotly::renderPlotly({
-      plotly::ggplotly(ggprop)
+    output$fig1a <- renderPlotly({
+      gg_holter <- holter_plot(
+        data = dpc_covid19_ita_regioni %>%
+          # Get the Veneto ICU data
+          dplyr::filter(.data$denominazione_regione == "Veneto") %>%
+          # Select relevant variables
+          dplyr::select(.data$data, .data$terapia_intensiva) %>%
+          # Dates in lubridate format
+          dplyr::mutate(data = lubridate::as_date(.data$data)),
+        n_ahead = n_ahead,
+        tstart = tstart,
+        tstop = input$lastDate
+      )
+
+      ggplotly(gg_holter, originalData = FALSE)
     })
 
-    output$fig2 <- plotly::renderPlotly({
-      plotly::ggplotly(ggbeds)
-    })
-
-    output$fig3 <- renderPlot({# plotly::renderPlotly({
-      ggswab # plotly::ggplotly(ggswab)
-    })
-
-    output$fig4 <- plotly::renderPlotly({
-      plotly::ggplotly(ggdelta_days)
+    output$fig1b <- plotly::renderPlotly({
+      plotly::ggplotly(error_holter)
     })
 
   })
 }
 
-## To be copied in the UI
-# mod_icuve_ts_ui("icuve_ts_cl")
-
-## To be copied in the server
-# mod_icuve_ts_server("icuve_ts_cl")
 
