@@ -15,7 +15,7 @@ mod_tsicuve_ui <- function(id){
     fluidRow(
       h2(HTML("1) Holter-Winters Filtering")),
       sliderInput(
-        width = "45%", ns("lastDate"),
+        width = "45%", ns("lastDate_h"),
         label = "Selezionare l'ultima data da considerare per la stima del modello",
         value = lubridate::as_date(max(dpc_covid19_ita_regioni$data)),
         min = lubridate::as_date(min(dpc_covid19_ita_regioni$data)) +
@@ -41,7 +41,7 @@ mod_tsicuve_ui <- function(id){
     fluidRow(
       h2(HTML("2) Exponential smoothing state space model")),
       sliderInput(
-        width = "45%", ns("lastDate"),
+        width = "45%", ns("lastDate_d"),
         label = "Selezionare l'ultima data da considerare per la stima del modello",
         value = lubridate::as_date(max(dpc_covid19_ita_regioni$data)),
         min = lubridate::as_date(min(dpc_covid19_ita_regioni$data)) +
@@ -69,7 +69,7 @@ mod_tsicuve_ui <- function(id){
     fluidRow(
       h2(HTML("3) ARIMA")),
       sliderInput(
-        width = "45%", ns("lastDate"),
+        width = "45%", ns("lastDate_a"),
         label = "Selezionare l'ultima data da considerare per la stima del modello",
         value = lubridate::as_date(max(dpc_covid19_ita_regioni$data)),
         min = lubridate::as_date(min(dpc_covid19_ita_regioni$data)) +
@@ -198,7 +198,7 @@ mod_tsicuve_server <- function(id) {
         data = veneto,
         n_ahead = n_ahead,
         tstart = tstart,
-        tstop = input$lastDate
+        tstop = input$lastDate_h
       )
 
       ggplotly(gg_holter, originalData = FALSE)
@@ -213,7 +213,7 @@ mod_tsicuve_server <- function(id) {
         data = veneto,
         n_ahead = n_ahead,
         tstart = tstart,
-        tstop = input$lastDate
+        tstop = input$lastDate_d
       )
 
       ggplotly(gg_damped, originalData = FALSE)
@@ -228,7 +228,7 @@ mod_tsicuve_server <- function(id) {
         data = veneto,
         n_ahead = n_ahead,
         tstart = tstart,
-        tstop = input$lastDate
+        tstop = input$lastDate_a
       )
 
       ggplotly(gg_arima, originalData = FALSE)
