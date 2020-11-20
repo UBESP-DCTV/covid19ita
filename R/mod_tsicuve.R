@@ -18,11 +18,40 @@ mod_tsicuve_ui <- function(id){
 
   day_step <- lubridate::days(1)
   slider_min <- first_date + lubridate::days(10)
-  slider_max <- last_date - lubridate::days(8)
+  slider_max <- last_date - lubridate::days(2)
 
   fluidPage(
     fluidRow(
-      h2(HTML("1) Holter-Winters Filtering")),
+      h2(HTML("Andamento ricoveri in terapia intensiva per la regione Veneto")),
+      box(
+        width = 12,
+        p(
+          "Sono stati impiegati tre approcci descritti in letteratura per la
+          predizione delle serie di ricoveri in terapia intensiva per COVID-19:
+          Holter-Winters Filtering, Exponential Smoothing e ARIMA (1).
+          I risultati dei tre approcci sono riportati rispettivamente in
+          Figura 1A, Figura 2A e Figura 3A."
+        ),
+        p(
+          "Si è proceduto alla predizione dei casi ricoverati in terapia
+          intensiva a partire dal 24 febbraio 2020 utilizzando le osservazioni
+          via via accumulate nei giorni precedenti. I ricoveri osservati
+          sono rappresentati dalla linea blu, quelli attesi (ovvero
+          predetti dal modello) sono rappresentati dalla linea rossa.
+          Sfiorando il grafico col cursore si può visualizzare, per
+          ciascun giorno selezionato, il numero di casi osservati e
+          quello predetto dal modello (“attesi”)."
+        ),
+        p(
+          "Le figure 1B, 2B e 3B rappresentano l’andamento dell’errore di
+          stima dei modelli corrispondenti. Il modello che mostra un più
+          basso errore di stima è l’Holter-Winters Filtering che si
+          rivela quindi l’approccio con la migliore capacità predittiva."
+        )
+      )
+    ),
+    fluidRow(
+      h3(HTML("1) Holter-Winters Filtering")),
       sliderInput(
         width = "45%", ns("lastDate_h"),
         label = "Selezionare l'ultima data da considerare per la stima del modello",
@@ -46,7 +75,7 @@ mod_tsicuve_ui <- function(id){
       )
     ),
     fluidRow(
-      h2(HTML("2) Exponential smoothing state space model")),
+      h3(HTML("2) Exponential smoothing state space model")),
       sliderInput(
         width = "45%", ns("lastDate_d"),
         label = "Selezionare l'ultima data da considerare per la stima del modello",
@@ -72,7 +101,7 @@ mod_tsicuve_ui <- function(id){
       )
     ),
     fluidRow(
-      h2(HTML("3) ARIMA")),
+      h3(HTML("3) ARIMA")),
       sliderInput(
         width = "45%", ns("lastDate_a"),
         label = "Selezionare l'ultima data da considerare per la stima del modello",
@@ -97,6 +126,16 @@ mod_tsicuve_ui <- function(id){
         modello fino alla data odierna.",
           footer = "NOTE: il modello è stato stimato con un metodo automatico basato
           sull'AIC corretto. La linea blu rappresenta lo smoothing con metodo local polinomial regression (LOESS, span = 0.75, degree = 2)."
+      )
+    ),
+    fluidRow(
+      box(
+        width = 12, title = "Bibliografia",
+        p(HTML("
+          <ol>
+            <li>Barry D, Hartigan JA. A Bayesian Analysis for Change Point Problems. J Am Stat Assoc. 1993;88(421):309--19.</li>
+          </ol>
+        "))
       )
     )
   )

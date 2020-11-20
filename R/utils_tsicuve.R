@@ -157,3 +157,24 @@ ts_plot_error <- function(df_error) {
       axis.text.x = element_text(angle = 60, hjust = 1, vjust = 0.5)
     )
 }
+
+partial_forecast <- function(
+  aux_objs, n_ahead, method = c("hw", "ets", "arima")
+) {
+  method <- match.arg(method)
+
+  mod <- switch(method,
+                hw = stats::HoltWinters(aux_objs[["my_ts"]], gamma = FALSE),
+                ets = forecast::ets(aux_objs[["my_ts"]], damped = TRUE),
+                forecast::auto.arima(aux_objs[["my_ts"]])
+  )
+
+  fit <- as.double(
+    if (method == "hw") mod$fitted[, 1] else mod$fitted
+  )
+  pred <- forecast::forecast(mod, h = n_ahead)
+
+  list(mod = mod, fit = fit, pred = pred)
+}
+
+
