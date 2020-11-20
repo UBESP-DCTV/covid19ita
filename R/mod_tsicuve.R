@@ -132,64 +132,22 @@ mod_tsicuve_server <- function(id) {
   )))
 
   # 2A) Holter ---------------------------------------------------------
-  df_error <- purrr::map_dfr(
+  error_holter <- purrr::map_dfr(
     .x = d_seq, ~ partial_ts_error(veneto, n_ahead, .x, tstart, "hw")
-  )
-
-  error_holter <- ggplot(
-    data = df_error,
-    mapping = aes(x = .data$data, y = .data$error)
-  ) +
-    geom_point(size = 1.1) +
-    geom_smooth(se = FALSE) +
-    ylab("Squared error") +
-    xlab("") +
-    scale_x_date(date_breaks = "2 weeks", date_labels = "%d %b") +
-    theme(
-      axis.text.x = element_text(
-        angle = 60, hjust = 1, vjust = 0.5
-      )
-    )
+  ) %>%
+    ts_plot_error()
 
   # 2B) Damped ---------------------------------------------------------
-  df_error <- purrr::map_dfr(
+  error_damped <- purrr::map_dfr(
     .x = d_seq, ~ partial_ts_error(veneto, n_ahead, .x, tstart, "ets")
-  )
-
-  error_damped <- ggplot(
-    data = df_error,
-    mapping = aes(x = .data$data, y = .data$error)
-  ) +
-    geom_point(size = 1.1) +
-    geom_smooth(se = FALSE) +
-    ylab("Squared error") +
-    xlab("") +
-    scale_x_date(date_breaks = "2 weeks", date_labels = "%d %b") +
-    theme(
-      axis.text.x = element_text(
-        angle = 60, hjust = 1, vjust = 0.5
-      )
-    )
+  ) %>%
+    ts_plot_error()
 
   # 2C) ARIMA ----------------------------------------------------------
-  df_error <- purrr::map_dfr(
+  error_arima <- purrr::map_dfr(
     .x = d_seq, ~ partial_ts_error(veneto, n_ahead, .x, tstart, "arima")
-  )
-
-  error_arima <- ggplot(
-    data = df_error,
-    mapping = aes(x = .data$data, y = .data$error)
-  ) +
-    geom_point(size = 1.1) +
-    geom_smooth(se = FALSE) +
-    ylab("Squared error") +
-    xlab("") +
-    scale_x_date(date_breaks = "2 weeks", date_labels = "%d %b") +
-    theme(
-      axis.text.x = element_text(
-        angle = 60, hjust = 1, vjust = 0.5
-      )
-    )
+  ) %>%
+    ts_plot_error()
 
 
 
@@ -219,7 +177,7 @@ mod_tsicuve_server <- function(id) {
         n_ahead = n_ahead,
         d = NULL,
         tstart = tstart,
-        tstop = input$lastDate_h,
+        tstop = input$lastDate_d,
         method = "ets"
       )
 
@@ -236,7 +194,7 @@ mod_tsicuve_server <- function(id) {
         n_ahead = n_ahead,
         d = NULL,
         tstart = tstart,
-        tstop = input$lastDate_h,
+        tstop = input$lastDate_a,
         method = "arima"
       )
 

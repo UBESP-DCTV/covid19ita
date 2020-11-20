@@ -19,14 +19,12 @@ eval_aux_objs <- function(
     end = c(2020, as.numeric(format(max(ts_fit[["data"]]), "%j")))
   )
 
-  obs_df <- dplyr::rename(data, est = .data$terapia_intensiva)
-
-  obs <- data %>%
+  icu_obs <- data %>%
     dplyr::filter(.data$data <= max(ts_fit$data) + n_ahead) %>%
     dplyr::pull(.data$terapia_intensiva)
 
   list(
-    ts_fit = ts_fit, my_ts = my_ts, obs_df = obs_df, obs = obs[-c(1, 2)]
+    ts_fit = ts_fit, my_ts = my_ts, obs_df = data, icu_obs = icu_obs[-c(1, 2)]
   )
 }
 
@@ -57,7 +55,7 @@ ts_plot <- function(fit, pred, aux_objs, n_ahead, tstart, tstop) {
     ) +
     geom_line(
       data = aux_objs[["obs_df"]],
-      mapping = aes(y = .data$est, color = "Osservato"),
+      mapping = aes(y = .data$terapia_intensiva, color = "Osservato"),
       size = 0.8
     ) +
     geom_ribbon(
@@ -84,7 +82,7 @@ tbl_error <- function(fit, pred, aux_objs, n_ahead) {
   expected <- round(c(fit, pred$mean))
 
   # Squared error for count data
-  sq_err <- tscount::scoring(expected, aux_objs[["obs"]])[[7]]
+  sq_err <- tscount::scoring(expected, aux_objs[["icu_obs"]])[[7]]
 
   # Final result into a tibble
   tibble::tibble(
@@ -114,12 +112,13 @@ fit_partial_ts_model <- function(
 }
 
 partial_ts_plot <- function(
-  data, n_ahead, d = NULL, tstart, tstop,
+  data, n_ahead, d = NULL, tstart, tstop = tstart + d,
   method = c("hw", "ets", "arima")
 ) {
   method <- match.arg(method)
 
   aux_objs <- eval_aux_objs(data, n_ahead, d = d, tstart, tstop)
+
   mod <- fit_partial_ts_model(aux_objs, n_ahead, method)
 
   if (method == "hw") {
@@ -143,3 +142,18 @@ partial_ts_error <- function(
   tbl_error(mod[["fit"]], mod[["pred"]], aux_objs, n_ahead)
 }
 
+
+ts_plot_error <- function(df_error) {
+  ggplot(
+    data = df_error,
+    mapping = aes(x = .data$data, y = .data$error)
+  ) +
+    geom_point(size = 1.1) +
+    geom_smooth(se = FALSE) +
+    ylab("Squared error") +
+    xlab("") +
+    scale_x_date(date_breaks = "2 weeks", date_labels = "%d %b") +
+    theme(
+      axis.text.x = element_text(angle = 60, hjust = 1, vjust = 0.5)
+    )
+}
