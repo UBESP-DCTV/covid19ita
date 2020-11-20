@@ -1,3 +1,11 @@
+# covid23icuve 0.109.2
+
+* New module `mod_tsicuve` that shows forecasts of Time-Series models
+  applied to ICU data from the Veneto region. The following Time-Series
+  models were considered: Holter-Winters Filtering (HTF), Exponential 
+  smoothing state space model (ETS), and ARIMA.
+* Added `xts`, `tscount`, and `forecast` to Imports
+
 # covid23icuve 0.109.1
 
 * Restore home page after login
