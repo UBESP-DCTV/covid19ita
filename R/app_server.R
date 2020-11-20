@@ -141,6 +141,17 @@ app_server <- function(input, output, session) {
           )
         },
 
+        if (super_secret()[["permission"]][usr_pos] %in% c("ubep", "agenas")) {
+
+          menuItem("Terapie intensive Veneto",
+                   icon = icon("procedures"),
+                   menuSubItem("Regionale partial timeseries",
+                               tabName = "partial-ts-icuve",
+                               icon = icon("map")
+                   )
+          )
+        },
+
         menuItem("Andamento epidemia",
                  icon = icon("chart-line"),
                  menuSubItem("Nazionale", tabName = "national", icon = icon("flag")),
@@ -263,6 +274,15 @@ app_server <- function(input, output, session) {
             if (super_secret()[["permission"]][usr_pos] %in%
                 c("ubep", "tip-v")) {
               mod_icuve_static_ui("icuve_static")
+            }
+          ),
+
+          tabItem(
+            tabName = "partial-ts-icuve",
+            h2("Progressione delle proiezioni e relativi errori per le terapie intensive venete dall'inizio della pandemia."),
+            if (super_secret()[["permission"]][usr_pos] %in%
+                c("ubep", "agenas")) {
+              mod_tsicuve_ui("partial_ts_icuve")
             }
           ),
 
@@ -426,6 +446,7 @@ app_server <- function(input, output, session) {
   mod_icuve_sitrep_server("icuve_sitrep")
   mod_icuve_ts_server("icuve_ts")
   mod_icuve_static_server("icuve_static")
+  mod_tsicuve_server("partial_ts_icuve")
 
   ## National
   mod_ts_ita_server("ts_nat_cum", "cum")
