@@ -1,4 +1,4 @@
-# covid 19ita 0.110.0
+# covid19icuve 0.110.0
 
 * Integrated login credential in the main app
 * New module `mod_tsicuve` that shows forecasts of Time-Series models
