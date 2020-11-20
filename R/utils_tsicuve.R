@@ -30,18 +30,18 @@ eval_aux_objs <- function(
   )
 }
 
-ts_plot <- function(hw_fitted, pred, aux_objs, n_ahead, tstart, tstop) {
+ts_plot <- function(fit, pred, aux_objs, n_ahead, tstart, tstop) {
   fitted_df <- tibble::tibble(
     data = seq(from = tstart, to = tstop + n_ahead, by = 1),
-    est = round(c(hw_fitted, as.double(pred$mean)))
+    est = round(c(fit, as.double(pred$mean)))
   ) %>%
     dplyr::mutate(
       lower = c(
-        rep(NA_real_, length(hw_fitted)),
+        rep(NA_real_, length(fit)),
         as.double(pred$lower[, 2])
       ),
       upper = c(
-        rep(NA_real_, length(hw_fitted)),
+        rep(NA_real_, length(fit)),
         as.double(pred$upper[, 2])
       )
     ) %>%
@@ -93,9 +93,9 @@ ts_plot <- function(hw_fitted, pred, aux_objs, n_ahead, tstart, tstop) {
 
 }
 
-tbl_error <- function(hw_fitted, pred, aux_objs, n_ahead) {
+tbl_error <- function(fit, pred, aux_objs, n_ahead) {
   # Construct data for error
-  expected <- round(c(hw_fitted, pred$mean))
+  expected <- round(c(fit, pred$mean))
 
   # Squared error for count data
   sq_err <- tscount::scoring(expected, aux_objs[["obs"]])[[7]]
@@ -141,71 +141,19 @@ partial_ts_plot <- function(
   }
 
   ts_plot(
-    hw_fitted = mod[["fit"]], pred = mod[["pred"]],
-    aux_objs, n_ahead, tstart, tstop
+    mod[["fit"]], mod[["pred"]], aux_objs, n_ahead, tstart, tstop
   )
 
 }
 
-holter_error <- function(data, n_ahead, d, tstart) {
+partial_ts_error <- function(
+  data, n_ahead, d, tstart,
+  method = c("hw", "ets", "arima")
+) {
+  method <- match.arg(method)
 
   aux_objs <- eval_aux_objs(data, n_ahead, d, tstart)
-
-  # Fit the model
-  hw_object <- stats::HoltWinters(aux_objs[["my_ts"]], gamma = FALSE)
-  hw_fitted <- as.double(hw_object$fitted[, 1])
-  pred <- forecast::forecast(hw_object, n_ahead)
-
-  tbl_error(hw_fitted, pred, aux_objs, n_ahead)
-}
-
-damped_plot <- function(data, n_ahead, tstart, tstop) {
-
-  aux_objs <- eval_aux_objs(data, n_ahead, d = NULL, tstart, tstop)
-
-  # Fit the model
-  mod <- fit_partial_ts_model(aux_objs, n_ahead, "ets")
-
-  ts_plot(
-    mod[["mod"]], mod[["pred"]],
-    aux_objs, n_ahead, tstart, tstop
-  )
-}
-
-damped_error <- function(data, n_ahead, d, tstart) {
-
-  aux_objs <- eval_aux_objs(data, n_ahead, d, tstart)
-
-  # Fit the model
-  hw_object <- forecast::ets(aux_objs[["my_ts"]], damped = TRUE)
-  hw_fitted <- as.double(hw_object$fitted)
-  pred <- forecast::forecast(hw_object,  h = n_ahead)
-
-  tbl_error(hw_fitted, pred, aux_objs, n_ahead)
-}
-
-arima_plot <- function(data, n_ahead, tstart, tstop) {
-
-  aux_objs <- eval_aux_objs(data, n_ahead, d = NULL, tstart, tstop)
-
-  # Fit the model
-  mod <- fit_partial_ts_model(aux_objs, n_ahead, "arima")
-
-  ts_plot(
-    mod[["mod"]], mod[["pred"]],
-    aux_objs, n_ahead, tstart, tstop
-  )
-}
-
-arima_error <- function(data, n_ahead, d, tstart) {
-
-  aux_objs <- eval_aux_objs(data, n_ahead, d, tstart)
-
-  # Fit the model
-  hw_object <- forecast::auto.arima(aux_objs[["my_ts"]])
-  hw_fitted <- as.double(hw_object$fitted)
-  pred <- forecast::forecast(hw_object,  h = n_ahead)
-
-  tbl_error(hw_fitted, pred, aux_objs, n_ahead)
+  mod <- fit_partial_ts_model(aux_objs, n_ahead, method)
+  tbl_error(mod[["fit"]], mod[["pred"]], aux_objs, n_ahead)
 }
 

@@ -133,7 +133,7 @@ mod_tsicuve_server <- function(id) {
 
   # 2A) Holter ---------------------------------------------------------
   df_error <- purrr::map_dfr(
-    .x = d_seq, ~ holter_error(veneto, n_ahead, .x, tstart)
+    .x = d_seq, ~ partial_ts_error(veneto, n_ahead, .x, tstart, "hw")
   )
 
   error_holter <- ggplot(
@@ -153,7 +153,7 @@ mod_tsicuve_server <- function(id) {
 
   # 2B) Damped ---------------------------------------------------------
   df_error <- purrr::map_dfr(
-    .x = d_seq, ~ damped_error(veneto, n_ahead, .x, tstart)
+    .x = d_seq, ~ partial_ts_error(veneto, n_ahead, .x, tstart, "ets")
   )
 
   error_damped <- ggplot(
@@ -173,7 +173,7 @@ mod_tsicuve_server <- function(id) {
 
   # 2C) ARIMA ----------------------------------------------------------
   df_error <- purrr::map_dfr(
-    .x = d_seq, ~ arima_error(veneto, n_ahead, .x, tstart)
+    .x = d_seq, ~ partial_ts_error(veneto, n_ahead, .x, tstart, "arima")
   )
 
   error_arima <- ggplot(
