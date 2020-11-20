@@ -28,9 +28,9 @@ mod_tsicuve_ui <- function(id){
         p(
           "Sono stati impiegati tre approcci descritti in letteratura per la
           predizione delle serie di ricoveri in terapia intensiva per COVID-19:
-          Holter-Winters Filtering, Exponential Smoothing e ARIMA (1).
-          I risultati dei tre approcci sono riportati rispettivamente in
-          Figura 1A, Figura 2A e Figura 3A."
+          Holter-Winters Filtering, Exponential Smoothing state space
+          model e ARIMA (1). I risultati dei tre approcci sono riportati
+          rispettivamente in Figura 1A, Figura 2A e Figura 3A."
         ),
         p(
           "Si è proceduto alla predizione dei casi ricoverati in terapia
@@ -43,10 +43,16 @@ mod_tsicuve_ui <- function(id){
           quello predetto dal modello (“attesi”)."
         ),
         p(
-          "Le figure 1B, 2B e 3B rappresentano l’andamento dell’errore di
-          stima dei modelli corrispondenti. Il modello che mostra un più
-          basso errore di stima è l’Holter-Winters Filtering che si
-          rivela quindi l’approccio con la migliore capacità predittiva."
+          "Le figure 1B, 2B e 3B rappresentano l’andamento dell’errore
+          quadratico di stima dei modelli corrispondenti. Il modello che
+          mostra un più basso errore di stima è l’Holter-Winters Filtering
+          che si rivela quindi l’approccio con la migliore capacità
+          predittiva."
+        ),
+        p(
+          "In Tabella 1, Tabella 2 e Tabella 3 sono riportati i ricoveri
+          previsti dai modelli (con relativi intervalli di confidenza al
+          95%) nei 15 giorni successivi all'ultimo dato disponibile."
         )
       )
     ),
@@ -65,13 +71,22 @@ mod_tsicuve_ui <- function(id){
           width = 12,
           title = "Figura 1A. Andamento stimato (linea rossa in grassetto,
         l'area rossa indica gli intervalli di confidenza al 95%) del
-        numero di posti occupati in terapia intensiva.
-        Andamento osservato (linea blu) fino alla data odierna."
+        numero di ricoveri in terapia intensiva.
+        Andamento osservato (linea blu) fino all'ultimo dato disponibile."
+      ),
+      box(DT::DTOutput(ns("tab1")),
+          width = 12,
+          title = "Tabella 1. Numero di ricoveri attesi in base alle stime
+          del modello nei 15 giorni successivi all'ultimo dato disponibile. Tra
+          parentesi quadre sono riportati gli intervalli di confidenza
+          al 95%."
       ),
       box(plotlyOutput(ns("fig1b")),
           width = 12,
           title = "Figura 1B. Andamento dell'errore quadratico del
-        modello fino alla data odierna. La linea blu rappresenta lo smoothing con metodo local polinomial regression (LOESS, span = 0.75, degree = 2)."
+        modello fino all'ultimo dato disponibile.",
+          footer = "NOTE: la linea blu rappresenta lo smoothing con metodo
+          local polinomial regression (LOESS, span = 0.75, degree = 2)."
       )
     ),
     fluidRow(
@@ -89,15 +104,24 @@ mod_tsicuve_ui <- function(id){
           width = 12,
           title = "Figura 2A. Andamento stimato (linea rossa in grassetto,
         l'area rossa indica gli intervalli di confidenza al 95%) del
-        numero di posti occupati in terapia intensiva.
-        Andamento osservato (linea blu) fino alla data odierna.",
+        numero di ricoveri in terapia intensiva.
+        Andamento osservato (linea blu) fino all'ultimo dato disponibile.",
           footer = "NOTE: il modello è stato stimato ipotizzando un damped trend."
+      ),
+      box(DT::DTOutput(ns("tab2")),
+          width = 12,
+          title = "Tabella 2. Numero di ricoveri attesi in base alle stime
+          del modello nei 15 giorni successivi all'ultimo dato disponibile.
+          Tra parentesi quadre sono riportati gli intervalli di confidenza
+          al 95%."
       ),
       box(plotlyOutput(ns("fig2b")),
           width = 12,
           title = "Figura 2B. Andamento dell'errore quadratico del
-        modello fino alla data odierna. La linea blu rappresenta lo smoothing con metodo local polinomial regression (LOESS, span = 0.75, degree = 2).",
-          footer = "NOTE: il modello è stato stimato ipotizzando un damped trend."
+        modello fino all'ultimo dato disponibile.",
+          footer = "NOTE: il modello è stato stimato ipotizzando un damped
+          trend. La linea blu rappresenta lo smoothing con metodo local
+          polinomial regression (LOESS, span = 0.75, degree = 2)."
       )
     ),
     fluidRow(
@@ -115,17 +139,26 @@ mod_tsicuve_ui <- function(id){
           width = 12,
           title = "Figura 3A. Andamento stimato (linea rossa in grassetto,
         l'area rossa indica gli intervalli di confidenza al 95%) del
-        numero di posti occupati in terapia intensiva.
-        Andamento osservato (linea blu) fino alla data odierna.",
-          footer = "NOTE: il modello è stato stimato con un metodo automatico basato
-          sull'AIC corretto."
+        numero di ricoveri in terapia intensiva.
+        Andamento osservato (linea blu) fino all'ultimo dato disponibile.",
+          footer = "NOTE: il modello è stato stimato con un metodo automatico
+          basato sull'AIC corretto."
+      ),
+      box(DT::DTOutput(ns("tab3")),
+          width = 12,
+          title = "Tabella 3. Numero di ricoveri attesi in base alle stime
+          del modello nei 15 giorni successivi alla data odierna. Tra
+          parentesi quadre sono riportati gli intervalli di confidenza
+          al 95%."
       ),
       box(plotlyOutput(ns("fig3b")),
           width = 12,
           title = "Figura 3B. Andamento dell'errore quadratico del
-        modello fino alla data odierna.",
-          footer = "NOTE: il modello è stato stimato con un metodo automatico basato
-          sull'AIC corretto. La linea blu rappresenta lo smoothing con metodo local polinomial regression (LOESS, span = 0.75, degree = 2)."
+        modello fino all'ultimo dato disponibile.",
+          footer = "NOTE: il modello è stato stimato con un metodo
+          automatico basato sull'AIC corretto. La linea blu rappresenta
+          lo smoothing con metodo local polinomial regression (LOESS,
+          span = 0.75, degree = 2)."
       )
     ),
     fluidRow(
@@ -170,6 +203,7 @@ mod_tsicuve_server <- function(id) {
     by = 3
   )))
 
+  # 2) Plots with errors -----------------------------------------------
   # 2A) Holter ---------------------------------------------------------
   error_holter <- purrr::map_dfr(
     .x = d_seq, ~ partial_ts_error(veneto, n_ahead, .x, tstart, "hw")
@@ -187,6 +221,16 @@ mod_tsicuve_server <- function(id) {
     .x = d_seq, ~ partial_ts_error(veneto, n_ahead, .x, tstart, "arima")
   ) %>%
     ts_plot_error()
+
+  # 3) Table with forecast ---------------------------------------------
+  # 3A) Holter ---------------------------------------------------------
+  fc_holter <- partial_forecast(veneto, 15L, "hw")
+
+  # 3B) Damped ---------------------------------------------------------
+  fc_damped <- partial_forecast(veneto, 15L, "ets")
+
+  # 3C) ARIMA ----------------------------------------------------------
+  fc_arima <- partial_forecast(veneto, 15L, "arima")
 
 
 
@@ -206,6 +250,8 @@ mod_tsicuve_server <- function(id) {
       ggplotly(gg_holter, originalData = FALSE)
     })
 
+    output$tab1 <- DT::renderDT({fc_holter})
+
     output$fig1b <- plotly::renderPlotly({
       plotly::ggplotly(error_holter)
     })
@@ -223,6 +269,8 @@ mod_tsicuve_server <- function(id) {
       ggplotly(gg_damped, originalData = FALSE)
     })
 
+    output$tab2 <- DT::renderDT({fc_damped})
+
     output$fig2b <- plotly::renderPlotly({
       plotly::ggplotly(error_damped)
     })
@@ -239,6 +287,8 @@ mod_tsicuve_server <- function(id) {
 
       ggplotly(gg_arima, originalData = FALSE)
     })
+
+    output$tab3 <- DT::renderDT({fc_arima})
 
     output$fig3b <- plotly::renderPlotly({
       plotly::ggplotly(error_arima)
