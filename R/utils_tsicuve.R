@@ -1,7 +1,10 @@
-holter_plot <- function(data, n_ahead, tstart, tstop) {
+eval_aux_objs <- function(
+  data, n_ahead, d = NULL, tstart, tstop = tstart + d
+) {
 
   assertive::assert_is_data.frame(data)
   assertive::assert_is_integer(n_ahead)
+  if (!is.null(d)) assertive::assert_is_integer(d)
   assertive::assert_is_date(tstart)
   assertive::assert_is_date(tstop)
 
@@ -16,33 +19,46 @@ holter_plot <- function(data, n_ahead, tstart, tstop) {
     end = c(2020, as.numeric(format(max(ts_fit[["data"]]), "%j")))
   )
 
-  # Fit the model
-  hw_object <- stats::HoltWinters(my_ts, gamma = F)
-
-  pred <- forecast::forecast(hw_object, n_ahead)
-
-  # Prepare the dataframes for the TS plot
-  na_ahead <- length(data$data) -
-    lubridate::interval(tstart, tstop)/lubridate::ddays(1) -
-    n_ahead
-
   obs_df <- data %>%
     dplyr::rename(est = .data$terapia_intensiva)
 
+  obs <- data %>%
+    dplyr::filter(.data$data <= max(ts_fit$data) + n_ahead) %>%
+    dplyr::pull(terapia_intensiva)
+
+  list(
+    ts_fit = ts_fit,
+    my_ts = my_ts,
+    obs_df = obs_df,
+    obs = obs[-c(1, 2)]
+  )
+}
+
+
+holter_plot <- function(data, n_ahead, tstart, tstop) {
+
+  aux_objs <- eval_aux_objs(data, n_ahead, d = NULL, tstart, tstop)
+
+  # Fit the model
+  hw_object <- stats::HoltWinters(aux_objs[["my_ts"]],
+    gamma = FALSE
+  )
+  hw_fitted <- as.double(hw_object$fitted[, 1])
+  pred <- forecast::forecast(hw_object, n_ahead)
+
+  # Prepare the dataframes for the TS plot
+
   fitted_df <- tibble::tibble(
     data = seq(from = tstart + 2, to = tstop + n_ahead, by = 1),
-    est = round(c(
-      as.double(hw_object$fitted[, 1]),
-      as.double(pred$mean)
-      ))
+    est = round(c(hw_fitted, as.double(pred$mean)))
     ) %>%
     dplyr::mutate(
       lower = c(
-        rep(NA_real_, length(as.double(hw_object$fitted[, 1]))),
+        rep(NA_real_, length(hw_fitted)),
         pred$lower[, 2]
       ),
       upper = c(
-        rep(NA_real_, length(as.double(hw_object$fitted[, 1]))),
+        rep(NA_real_, length(hw_fitted)),
         pred$upper[, 2]
       )
     ) %>%
@@ -71,7 +87,7 @@ holter_plot <- function(data, n_ahead, tstart, tstop) {
       size = 1.5
     ) +
     geom_line(
-      data = obs_df,
+      data = aux_objs[["obs_df"]],
       mapping = aes(y = .data$est, color = "Osservato"),
       size = 0.8
     ) +
@@ -96,43 +112,24 @@ holter_plot <- function(data, n_ahead, tstart, tstop) {
 
 holter_error <- function(data, n_ahead, d, tstart) {
 
-  assertive::assert_is_data.frame(data)
-  assertive::assert_is_integer(n_ahead)
-  assertive::assert_is_integer(d)
-  assertive::assert_is_date(tstart)
-
-  # Maximum date for TS model fitting
-  tstop <- tstart + d
-
-  # Select the time series for model fitting
-  ts_fit <- data %>%
-    dplyr::filter(.data$data >= tstart & .data$data <= tstop)
-
-  # Retrieve the time-series
-  my_ts <- stats::ts(
-    ts_fit[["terapia_intensiva"]],
-    start = c(2020, as.numeric(format(min(ts_fit[["data"]]), "%j"))),
-    end = c(2020, as.numeric(format(max(ts_fit[["data"]]), "%j")))
-  )
+  aux_objs <- eval_aux_objs(data, n_ahead, d, tstart)
 
   # Fit the model
-  hw_object <- stats::HoltWinters(my_ts, gamma = F)
-
+  hw_object <- stats::HoltWinters(aux_objs[["my_ts"]],
+                                  gamma = FALSE
+  )
+  hw_fitted <- as.double(hw_object$fitted[, 1])
   pred <- forecast::forecast(hw_object, n_ahead)
 
   # Construct data for error
-  expected <- round(c(hw_object$fitted[, 1], pred$mean))
-
-  tt <- data %>%
-    dplyr::filter(.data$data <= max(ts_fit$data) + n_ahead)
-  obs <- tt$terapia_intensiva[-c(1, 2)]
+  expected <- round(c(hw_fitted, pred$mean))
 
   # Squared error for count data
-  sq_err <- tscount::scoring(expected, obs)[[7]]
+  sq_err <- tscount::scoring(expected, aux_objs[["obs"]])[[7]]
 
   # Final result into a tibble
   tibble::tibble(
-    data = max(ts_fit$data) + n_ahead,
+    data = max(aux_objs[["ts_fit"]]$data) + n_ahead,
     error = sq_err
   )
 
@@ -140,49 +137,25 @@ holter_error <- function(data, n_ahead, d, tstart) {
 
 damped_plot <- function(data, n_ahead, tstart, tstop) {
 
-  assertive::assert_is_data.frame(data)
-  assertive::assert_is_integer(n_ahead)
-  assertive::assert_is_date(tstart)
-  assertive::assert_is_date(tstop)
-
-  # Select the time series for model fitting
-  ts_fit <- data %>%
-    dplyr::filter(.data$data >= tstart & .data$data <= tstop)
-
-  # Retrieve the time-series
-  my_ts <- stats::ts(
-    ts_fit[["terapia_intensiva"]],
-    start = c(2020, as.numeric(format(min(ts_fit[["data"]]), "%j"))),
-    end = c(2020, as.numeric(format(max(ts_fit[["data"]]), "%j")))
-  )
+  aux_objs <- eval_aux_objs(data, n_ahead, d = NULL, tstart, tstop)
 
   # Fit the model
-  hw_object <- forecast::ets(my_ts, damped = TRUE)
-
+  hw_object <- forecast::ets(aux_objs[["my_ts"]], damped = TRUE)
+  hw_fitted <- as.double(hw_object$fitted)
   pred <- forecast::forecast(hw_object,  h = n_ahead)
 
   # Prepare the dataframes for the TS plot
-  na_ahead <- length(data$data) -
-    lubridate::interval(tstart, tstop)/lubridate::ddays(1) -
-    n_ahead
-
-  obs_df <- data %>%
-    dplyr::rename(est = .data$terapia_intensiva)
-
   fitted_df <- tibble::tibble(
     data = seq(from = tstart, to = tstop + n_ahead, by = 1),
-    est = round(c(
-      as.double(hw_object$fitted),
-      as.double(pred$mean)
-    ))
+    est = round(c(hw_fitted, as.double(pred$mean)))
   ) %>%
     dplyr::mutate(
       lower = c(
-        rep(NA_real_, length(as.double(hw_object$fitted))),
+        rep(NA_real_, length(hw_fitted)),
         as.double(pred$lower[, 2])
       ),
       upper = c(
-        rep(NA_real_, length(as.double(hw_object$fitted))),
+        rep(NA_real_, length(hw_fitted)),
         as.double(pred$upper[, 2])
       )
     ) %>%
@@ -211,7 +184,7 @@ damped_plot <- function(data, n_ahead, tstart, tstop) {
       size = 1.5
     ) +
     geom_line(
-      data = obs_df,
+      data = aux_objs[["obs_df"]],
       mapping = aes(y = .data$est, color = "Osservato"),
       size = 0.8
     ) +
@@ -236,43 +209,22 @@ damped_plot <- function(data, n_ahead, tstart, tstop) {
 
 damped_error <- function(data, n_ahead, d, tstart) {
 
-  assertive::assert_is_data.frame(data)
-  assertive::assert_is_integer(n_ahead)
-  assertive::assert_is_integer(d)
-  assertive::assert_is_date(tstart)
-
-  # Maximum date for TS model fitting
-  tstop <- tstart + d
-
-  # Select the time series for model fitting
-  ts_fit <- data %>%
-    dplyr::filter(.data$data >= tstart & .data$data <= tstop)
-
-  # Retrieve the time-series
-  my_ts <- stats::ts(
-    ts_fit[["terapia_intensiva"]],
-    start = c(2020, as.numeric(format(min(ts_fit[["data"]]), "%j"))),
-    end = c(2020, as.numeric(format(max(ts_fit[["data"]]), "%j")))
-  )
+  aux_objs <- eval_aux_objs(data, n_ahead, d, tstart)
 
   # Fit the model
-  hw_object <- forecast::ets(my_ts, damped = TRUE)
-
+  hw_object <- forecast::ets(aux_objs[["my_ts"]], damped = TRUE)
+  hw_fitted <- as.double(hw_object$fitted)
   pred <- forecast::forecast(hw_object,  h = n_ahead)
 
   # Construct data for error
-  expected <- round(c(hw_object$fitted, pred$mean))
-
-  tt <- data %>%
-    dplyr::filter(.data$data <= max(ts_fit$data) + n_ahead)
-  obs <- tt$terapia_intensiva
+  expected <- round(c(hw_fitted, pred$mean))
 
   # Squared error for count data
-  sq_err <- tscount::scoring(expected, obs)[[7]]
+  sq_err <- tscount::scoring(expected, aux_objs[["obs"]])[[7]]
 
   # Final result into a tibble
   tibble::tibble(
-    data = max(ts_fit$data) + n_ahead,
+    data = max(aux_objs[["ts_fit"]]$data) + n_ahead,
     error = sq_err
   )
 
@@ -280,49 +232,25 @@ damped_error <- function(data, n_ahead, d, tstart) {
 
 arima_plot <- function(data, n_ahead, tstart, tstop) {
 
-  assertive::assert_is_data.frame(data)
-  assertive::assert_is_integer(n_ahead)
-  assertive::assert_is_date(tstart)
-  assertive::assert_is_date(tstop)
-
-  # Select the time series for model fitting
-  ts_fit <- data %>%
-    dplyr::filter(.data$data >= tstart & .data$data <= tstop)
-
-  # Retrieve the time-series
-  my_ts <- stats::ts(
-    ts_fit[["terapia_intensiva"]],
-    start = c(2020, as.numeric(format(min(ts_fit[["data"]]), "%j"))),
-    end = c(2020, as.numeric(format(max(ts_fit[["data"]]), "%j")))
-  )
+  aux_objs <- eval_aux_objs(data, n_ahead, d = NULL, tstart, tstop)
 
   # Fit the model
-  hw_object <- forecast::auto.arima(my_ts)
-
+  hw_object <- forecast::auto.arima(aux_objs[["my_ts"]])
+  hw_fitted <- as.double(hw_object$fitted)
   pred <- forecast::forecast(hw_object,  h = n_ahead)
 
   # Prepare the dataframes for the TS plot
-  na_ahead <- length(data$data) -
-    lubridate::interval(tstart, tstop)/lubridate::ddays(1) -
-    n_ahead
-
-  obs_df <- data %>%
-    dplyr::rename(est = .data$terapia_intensiva)
-
   fitted_df <- tibble::tibble(
     data = seq(from = tstart, to = tstop + n_ahead, by = 1),
-    est = round(c(
-      as.double(hw_object$fitted),
-      as.double(pred$mean)
-    ))
+    est = round(c(hw_fitted, as.double(pred$mean)))
   ) %>%
     dplyr::mutate(
       lower = c(
-        rep(NA_real_, length(as.double(hw_object$fitted))),
+        rep(NA_real_, length(hw_fitted)),
         as.double(pred$lower[, 2])
       ),
       upper = c(
-        rep(NA_real_, length(as.double(hw_object$fitted))),
+        rep(NA_real_, length(hw_fitted)),
         as.double(pred$upper[, 2])
       )
     ) %>%
@@ -351,7 +279,7 @@ arima_plot <- function(data, n_ahead, tstart, tstop) {
       size = 1.5
     ) +
     geom_line(
-      data = obs_df,
+      data = aux_objs[["obs_df"]],
       mapping = aes(y = .data$est, color = "Osservato"),
       size = 0.8
     ) +
@@ -376,43 +304,22 @@ arima_plot <- function(data, n_ahead, tstart, tstop) {
 
 arima_error <- function(data, n_ahead, d, tstart) {
 
-  assertive::assert_is_data.frame(data)
-  assertive::assert_is_integer(n_ahead)
-  assertive::assert_is_integer(d)
-  assertive::assert_is_date(tstart)
-
-  # Maximum date for TS model fitting
-  tstop <- tstart + d
-
-  # Select the time series for model fitting
-  ts_fit <- data %>%
-    dplyr::filter(.data$data >= tstart & .data$data <= tstop)
-
-  # Retrieve the time-series
-  my_ts <- stats::ts(
-    ts_fit[["terapia_intensiva"]],
-    start = c(2020, as.numeric(format(min(ts_fit[["data"]]), "%j"))),
-    end = c(2020, as.numeric(format(max(ts_fit[["data"]]), "%j")))
-  )
+  aux_objs <- eval_aux_objs(data, n_ahead, d, tstart)
 
   # Fit the model
-  hw_object <- forecast::auto.arima(my_ts)
-
+  hw_object <- forecast::auto.arima(aux_objs[["my_ts"]])
+  hw_fitted <- as.double(hw_object$fitted)
   pred <- forecast::forecast(hw_object,  h = n_ahead)
 
   # Construct data for error
-  expected <- round(c(hw_object$fitted, pred$mean))
-
-  tt <- data %>%
-    dplyr::filter(.data$data <= max(ts_fit$data) + n_ahead)
-  obs <- tt$terapia_intensiva
+  expected <- round(c(hw_fitted, pred$mean))
 
   # Squared error for count data
-  sq_err <- tscount::scoring(expected, obs)[[7]]
+  sq_err <- tscount::scoring(expected, aux_objs[["obs"]])[[7]]
 
   # Final result into a tibble
   tibble::tibble(
-    data = max(ts_fit$data) + n_ahead,
+    data = max(aux_objs[["ts_fit"]]$data) + n_ahead,
     error = sq_err
   )
 
