@@ -197,11 +197,13 @@ mod_tsicuve_server <- function(id) {
     ns <- session$ns
 
     output$fig1a <- renderPlotly({
-      gg_holter <- holter_plot(
+      gg_holter <- partial_ts_plot(
         data = veneto,
         n_ahead = n_ahead,
+        d = NULL,
         tstart = tstart,
-        tstop = input$lastDate_h
+        tstop = input$lastDate_h,
+        method = "hw"
       )
 
       ggplotly(gg_holter, originalData = FALSE)
@@ -212,11 +214,13 @@ mod_tsicuve_server <- function(id) {
     })
 
     output$fig2a <- renderPlotly({
-      gg_damped <- damped_plot(
+      gg_damped <- partial_ts_plot(
         data = veneto,
         n_ahead = n_ahead,
+        d = NULL,
         tstart = tstart,
-        tstop = input$lastDate_d
+        tstop = input$lastDate_h,
+        method = "ets"
       )
 
       ggplotly(gg_damped, originalData = FALSE)
@@ -227,11 +231,13 @@ mod_tsicuve_server <- function(id) {
     })
 
     output$fig3a <- renderPlotly({
-      gg_arima <- arima_plot(
+      gg_arima <- partial_ts_plot(
         data = veneto,
         n_ahead = n_ahead,
+        d = NULL,
         tstart = tstart,
-        tstop = input$lastDate_a
+        tstop = input$lastDate_h,
+        method = "arima"
       )
 
       ggplotly(gg_arima, originalData = FALSE)
