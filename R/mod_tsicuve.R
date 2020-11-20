@@ -11,18 +11,25 @@
 mod_tsicuve_ui <- function(id){
   ns <- NS(id)
 
+  date_range <- range(dpc_covid19_ita_regioni$data, na.rm = TRUE) %>%
+    lubridate::as_date()
+  first_date <- date_range[[1]]
+  last_date  <- date_range[[2]]
+
+  day_step <- lubridate::days(1)
+  slider_min <- first_date + lubridate::days(10)
+  slider_max <- last_date - lubridate::days(8)
+
   fluidPage(
     fluidRow(
       h2(HTML("1) Holter-Winters Filtering")),
       sliderInput(
         width = "45%", ns("lastDate_h"),
         label = "Selezionare l'ultima data da considerare per la stima del modello",
-        value = lubridate::as_date(max(dpc_covid19_ita_regioni$data)),
-        min = lubridate::as_date(min(dpc_covid19_ita_regioni$data)) +
-          lubridate::days(10),
-        max = lubridate::as_date(max(dpc_covid19_ita_regioni$data)) -
-          lubridate::days(8),
-        step = lubridate::days(1),
+        value = last_date,
+        min = slider_min,
+        max = slider_max,
+        step = day_step,
         animate = animationOptions(interval = 400)
       ),
       box(plotlyOutput(ns("fig1a")),
@@ -43,12 +50,10 @@ mod_tsicuve_ui <- function(id){
       sliderInput(
         width = "45%", ns("lastDate_d"),
         label = "Selezionare l'ultima data da considerare per la stima del modello",
-        value = lubridate::as_date(max(dpc_covid19_ita_regioni$data)),
-        min = lubridate::as_date(min(dpc_covid19_ita_regioni$data)) +
-          lubridate::days(10),
-        max = lubridate::as_date(max(dpc_covid19_ita_regioni$data)) -
-          lubridate::days(8),
-        step = lubridate::days(1),
+        value = last_date,
+        min = slider_min,
+        max = slider_max,
+        step = day_step,
         animate = animationOptions(interval = 400)
       ),
       box(plotlyOutput(ns("fig2a")),
@@ -71,12 +76,10 @@ mod_tsicuve_ui <- function(id){
       sliderInput(
         width = "45%", ns("lastDate_a"),
         label = "Selezionare l'ultima data da considerare per la stima del modello",
-        value = lubridate::as_date(max(dpc_covid19_ita_regioni$data)),
-        min = lubridate::as_date(min(dpc_covid19_ita_regioni$data)) +
-          lubridate::days(10),
-        max = lubridate::as_date(max(dpc_covid19_ita_regioni$data)) -
-          lubridate::days(8),
-        step = lubridate::days(1),
+        value = last_date,
+        min = slider_min,
+        max = slider_max,
+        step = day_step,
         animate = animationOptions(interval = 400)
       ),
       box(plotlyOutput(ns("fig3a")),
