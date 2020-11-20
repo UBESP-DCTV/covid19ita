@@ -66,7 +66,7 @@ ts_plot <- function(fit, pred, aux_objs, n_ahead, tstart, tstop) {
       name = "",
       values = c("Atteso" = "firebrick2", "Osservato" = "dodgerblue1")
     ) +
-    ylab("Numero posti letto TI") +
+    ylab("Numero ricoveri terapia intensiva") +
     xlab("") +
     scale_x_date(date_breaks = "2 weeks", date_labels = "%d %b") +
     theme(
