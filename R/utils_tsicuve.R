@@ -159,22 +159,34 @@ ts_plot_error <- function(df_error) {
 }
 
 partial_forecast <- function(
-  aux_objs, n_ahead, method = c("hw", "ets", "arima")
+  data, n_ahead, method = c("hw", "ets", "arima")
 ) {
   method <- match.arg(method)
 
-  mod <- switch(method,
-                hw = stats::HoltWinters(aux_objs[["my_ts"]], gamma = FALSE),
-                ets = forecast::ets(aux_objs[["my_ts"]], damped = TRUE),
-                forecast::auto.arima(aux_objs[["my_ts"]])
+  aux_objs <- eval_aux_objs(
+    data, n_ahead, tstart = min(data$data), tstop = max(data$data)
   )
+
+  mod <- fit_partial_ts_model(aux_objs, n_ahead, method)
 
   fit <- as.double(
-    if (method == "hw") mod$fitted[, 1] else mod$fitted
+    if (method == "hw") mod$mod$fitted[, 1] else mod$mod$fitted
   )
-  pred <- forecast::forecast(mod, h = n_ahead)
+  pred <- forecast::forecast(mod$mod, h = n_ahead)
 
-  list(mod = mod, fit = fit, pred = pred)
+  y_hat <- round(pred$mean)
+  lower <- round(pred$lower[, 2])
+  upper <- round(pred$upper[, 2])
+
+  tibble::tibble(
+    Data = seq(
+      from = max(data$data) + 1, to = max(data$data) + n_ahead, by = 1
+    ),
+    `Ricoveri attesi (95% CI)` = glue::glue(
+      "{y_hat} [{lower} - {upper}]"
+    )
+  )
+
 }
 
 
