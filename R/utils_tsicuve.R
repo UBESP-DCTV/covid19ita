@@ -36,22 +36,8 @@ ts_plot <- function(fit, pred, aux_objs, n_ahead, tstart, tstop) {
     est = round(c(fit, as.double(pred$mean)))
   ) %>%
     dplyr::mutate(
-      lower = c(
-        rep(NA_real_, length(fit)),
-        as.double(pred$lower[, 2])
-      ),
-      upper = c(
-        rep(NA_real_, length(fit)),
-        as.double(pred$upper[, 2])
-      )
-    ) %>%
-    dplyr::mutate(
-      lower = dplyr::if_else(
-        is.na(.data$lower), .data$est, .data$lower
-      ),
-      upper = dplyr::if_else(
-        is.na(.data$upper), .data$est, .data$upper
-      ),
+      lower = c(.data$est[seq_along(fit)], as.double(pred$lower[, 2])),
+      upper = c(.data$est[seq_along(fit)], as.double(pred$upper[, 2]))
     ) %>%
     # If upper or lower are less than 0 put 0
     dplyr::mutate(
