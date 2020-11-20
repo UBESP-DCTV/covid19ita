@@ -166,7 +166,7 @@ mod_tsicuve_ui <- function(id){
         width = 12, title = "Bibliografia",
         p(HTML("
           <ol>
-            <li>Barry D, Hartigan JA. A Bayesian Analysis for Change Point Problems. J Am Stat Assoc. 1993;88(421):309--19.</li>
+            <li>Simone AA., Arruda EF., Goldwasser R., Lobo MSC., Salles A., Lapa e Silva, JR., . Demand Forecast and Optimal Planning of Intensive Care Unit (ICU) capacity. Pequisa Operacional. 2017;37(2):229-245.</li>
           </ol>
         "))
       )

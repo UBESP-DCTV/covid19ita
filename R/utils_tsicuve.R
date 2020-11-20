@@ -182,7 +182,7 @@ partial_forecast <- function(
     Data = seq(
       from = max(data$data) + 1, to = max(data$data) + n_ahead, by = 1
     ),
-    `Ricoveri attesi (95% CI)` = glue::glue(
+    `Ricoveri attesi [95% CI]` = glue::glue(
       "{y_hat} [{lower} - {upper}]"
     )
   )
