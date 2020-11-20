@@ -195,13 +195,7 @@ mod_tsicuve_server <- function(id) {
 
     output$fig1a <- renderPlotly({
       gg_holter <- holter_plot(
-        data = dpc_covid19_ita_regioni %>%
-          # Get the Veneto ICU data
-          dplyr::filter(.data$denominazione_regione == "Veneto") %>%
-          # Select relevant variables
-          dplyr::select(.data$data, .data$terapia_intensiva) %>%
-          # Dates in lubridate format
-          dplyr::mutate(data = lubridate::as_date(.data$data)),
+        data = veneto,
         n_ahead = n_ahead,
         tstart = tstart,
         tstop = input$lastDate
@@ -216,13 +210,7 @@ mod_tsicuve_server <- function(id) {
 
     output$fig2a <- renderPlotly({
       gg_damped <- damped_plot(
-        data = dpc_covid19_ita_regioni %>%
-          # Get the Veneto ICU data
-          dplyr::filter(.data$denominazione_regione == "Veneto") %>%
-          # Select relevant variables
-          dplyr::select(.data$data, .data$terapia_intensiva) %>%
-          # Dates in lubridate format
-          dplyr::mutate(data = lubridate::as_date(.data$data)),
+        data = veneto,
         n_ahead = n_ahead,
         tstart = tstart,
         tstop = input$lastDate
@@ -237,13 +225,7 @@ mod_tsicuve_server <- function(id) {
 
     output$fig3a <- renderPlotly({
       gg_arima <- arima_plot(
-        data = dpc_covid19_ita_regioni %>%
-          # Get the Veneto ICU data
-          dplyr::filter(.data$denominazione_regione == "Veneto") %>%
-          # Select relevant variables
-          dplyr::select(.data$data, .data$terapia_intensiva) %>%
-          # Dates in lubridate format
-          dplyr::mutate(data = lubridate::as_date(.data$data)),
+        data = veneto,
         n_ahead = n_ahead,
         tstart = tstart,
         tstop = input$lastDate
