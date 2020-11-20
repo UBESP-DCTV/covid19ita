@@ -34,117 +34,7 @@ eval_aux_objs <- function(
   )
 }
 
-
-holter_plot <- function(data, n_ahead, tstart, tstop) {
-
-  aux_objs <- eval_aux_objs(data, n_ahead, d = NULL, tstart, tstop)
-
-  # Fit the model
-  hw_object <- stats::HoltWinters(aux_objs[["my_ts"]],
-    gamma = FALSE
-  )
-  hw_fitted <- as.double(hw_object$fitted[, 1])
-  pred <- forecast::forecast(hw_object, n_ahead)
-
-  # Prepare the dataframes for the TS plot
-
-  fitted_df <- tibble::tibble(
-    data = seq(from = tstart + 2, to = tstop + n_ahead, by = 1),
-    est = round(c(hw_fitted, as.double(pred$mean)))
-    ) %>%
-    dplyr::mutate(
-      lower = c(
-        rep(NA_real_, length(hw_fitted)),
-        pred$lower[, 2]
-      ),
-      upper = c(
-        rep(NA_real_, length(hw_fitted)),
-        pred$upper[, 2]
-      )
-    ) %>%
-    dplyr::mutate(
-      lower = dplyr::if_else(
-        is.na(.data$lower), .data$est, .data$lower
-      ),
-      upper = dplyr::if_else(
-        is.na(.data$upper), .data$est, .data$upper
-      ),
-    ) %>%
-    # If upper or lower are less than 0 put 0
-    dplyr::mutate(
-      lower = dplyr::if_else(.data$lower < 0, 0, .data$lower),
-      upper = dplyr::if_else(.data$upper < 0, 0, .data$upper)
-    )
-
-
-  # TS plot
-  ggplot(
-    data = fitted_df,
-    mapping = aes(x = .data$data)
-  ) +
-    geom_line(
-      mapping = aes(y = .data$est, colour = "Atteso"),
-      size = 1.5
-    ) +
-    geom_line(
-      data = aux_objs[["obs_df"]],
-      mapping = aes(y = .data$est, color = "Osservato"),
-      size = 0.8
-    ) +
-    geom_ribbon(
-      mapping = aes(ymin = .data$lower, ymax = .data$upper),
-      alpha = 0.2, fill = "firebrick2", colour = NA
-    ) +
-    scale_color_manual(
-      name = "",
-      values = c("Atteso" = "firebrick2", "Osservato" = "dodgerblue1")
-    ) +
-    ylab("Numero posti letto TI") +
-    xlab("") +
-    scale_x_date(date_breaks = "2 weeks", date_labels = "%d %b") +
-    theme(
-      axis.text.x = element_text(
-        angle = 60, hjust = 1, vjust = 0.5
-      )
-    )
-
-}
-
-holter_error <- function(data, n_ahead, d, tstart) {
-
-  aux_objs <- eval_aux_objs(data, n_ahead, d, tstart)
-
-  # Fit the model
-  hw_object <- stats::HoltWinters(aux_objs[["my_ts"]],
-                                  gamma = FALSE
-  )
-  hw_fitted <- as.double(hw_object$fitted[, 1])
-  pred <- forecast::forecast(hw_object, n_ahead)
-
-  # Construct data for error
-  expected <- round(c(hw_fitted, pred$mean))
-
-  # Squared error for count data
-  sq_err <- tscount::scoring(expected, aux_objs[["obs"]])[[7]]
-
-  # Final result into a tibble
-  tibble::tibble(
-    data = max(aux_objs[["ts_fit"]]$data) + n_ahead,
-    error = sq_err
-  )
-
-}
-
-damped_plot <- function(data, n_ahead, tstart, tstop) {
-
-  aux_objs <- eval_aux_objs(data, n_ahead, d = NULL, tstart, tstop)
-
-  # Fit the model
-  hw_object <- forecast::ets(aux_objs[["my_ts"]], damped = TRUE)
-  hw_fitted <- as.double(hw_object$fitted)
-  pred <- forecast::forecast(hw_object,  h = n_ahead)
-
-  # Prepare the dataframes for the TS plot
+ts_plot <- function(hw_fitted, pred, aux_objs, n_ahead, tstart, tstop) {
   fitted_df <- tibble::tibble(
     data = seq(from = tstart, to = tstop + n_ahead, by = 1),
     est = round(c(hw_fitted, as.double(pred$mean)))
@@ -205,6 +95,55 @@ damped_plot <- function(data, n_ahead, tstart, tstop) {
       )
     )
 
+}
+
+holter_plot <- function(data, n_ahead, tstart, tstop) {
+
+  aux_objs <- eval_aux_objs(data, n_ahead, d = NULL, tstart, tstop)
+
+  # Fit the model
+  hw_object <- stats::HoltWinters(aux_objs[["my_ts"]], gamma = FALSE)
+  hw_fitted <- as.double(hw_object$fitted[, 1])
+  pred <- forecast::forecast(hw_object, n_ahead)
+
+  ts_plot(hw_fitted, pred, aux_objs, n_ahead, tstart + 2, tstop)
+}
+
+
+
+holter_error <- function(data, n_ahead, d, tstart) {
+
+  aux_objs <- eval_aux_objs(data, n_ahead, d, tstart)
+
+  # Fit the model
+  hw_object <- stats::HoltWinters(aux_objs[["my_ts"]], gamma = FALSE)
+  hw_fitted <- as.double(hw_object$fitted[, 1])
+  pred <- forecast::forecast(hw_object, n_ahead)
+
+  # Construct data for error
+  expected <- round(c(hw_fitted, pred$mean))
+
+  # Squared error for count data
+  sq_err <- tscount::scoring(expected, aux_objs[["obs"]])[[7]]
+
+  # Final result into a tibble
+  tibble::tibble(
+    data = max(aux_objs[["ts_fit"]]$data) + n_ahead,
+    error = sq_err
+  )
+
+}
+
+damped_plot <- function(data, n_ahead, tstart, tstop) {
+
+  aux_objs <- eval_aux_objs(data, n_ahead, d = NULL, tstart, tstop)
+
+  # Fit the model
+  hw_object <- forecast::ets(aux_objs[["my_ts"]], damped = TRUE)
+  hw_fitted <- as.double(hw_object$fitted)
+  pred <- forecast::forecast(hw_object,  h = n_ahead)
+
+  ts_plot(hw_fitted, pred, aux_objs, n_ahead, tstart, tstop)
 }
 
 damped_error <- function(data, n_ahead, d, tstart) {
@@ -239,67 +178,7 @@ arima_plot <- function(data, n_ahead, tstart, tstop) {
   hw_fitted <- as.double(hw_object$fitted)
   pred <- forecast::forecast(hw_object,  h = n_ahead)
 
-  # Prepare the dataframes for the TS plot
-  fitted_df <- tibble::tibble(
-    data = seq(from = tstart, to = tstop + n_ahead, by = 1),
-    est = round(c(hw_fitted, as.double(pred$mean)))
-  ) %>%
-    dplyr::mutate(
-      lower = c(
-        rep(NA_real_, length(hw_fitted)),
-        as.double(pred$lower[, 2])
-      ),
-      upper = c(
-        rep(NA_real_, length(hw_fitted)),
-        as.double(pred$upper[, 2])
-      )
-    ) %>%
-    dplyr::mutate(
-      lower = dplyr::if_else(
-        is.na(.data$lower), .data$est, .data$lower
-      ),
-      upper = dplyr::if_else(
-        is.na(.data$upper), .data$est, .data$upper
-      ),
-    ) %>%
-    # If upper or lower are less than 0 put 0
-    dplyr::mutate(
-      lower = dplyr::if_else(.data$lower < 0, 0, .data$lower),
-      upper = dplyr::if_else(.data$upper < 0, 0, .data$upper)
-    )
-
-
-  # TS plot
-  ggplot(
-    data = fitted_df,
-    mapping = aes(x = .data$data)
-  ) +
-    geom_line(
-      mapping = aes(y = .data$est, colour = "Atteso"),
-      size = 1.5
-    ) +
-    geom_line(
-      data = aux_objs[["obs_df"]],
-      mapping = aes(y = .data$est, color = "Osservato"),
-      size = 0.8
-    ) +
-    geom_ribbon(
-      mapping = aes(ymin = .data$lower, ymax = .data$upper),
-      alpha = 0.2, fill = "firebrick2", colour = NA
-    ) +
-    scale_color_manual(
-      name = "",
-      values = c("Atteso" = "firebrick2", "Osservato" = "dodgerblue1")
-    ) +
-    ylab("Numero posti letto TI") +
-    xlab("") +
-    scale_x_date(date_breaks = "2 weeks", date_labels = "%d %b") +
-    theme(
-      axis.text.x = element_text(
-        angle = 60, hjust = 1, vjust = 0.5
-      )
-    )
-
+  ts_plot(hw_fitted, pred, aux_objs, n_ahead, tstart, tstop)
 }
 
 arima_error <- function(data, n_ahead, d, tstart) {
