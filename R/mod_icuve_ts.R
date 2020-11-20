@@ -68,9 +68,7 @@ mod_icuve_ts_ui <- function(id){
 #' @noRd
 mod_icuve_ts_server <- function(id) {
 
-  icuve_ts <- covid19.icuve::fetch_gsheet(
-    "ts", usr_email = "luca.vedovelli@unipd.it"
-  )
+  icuve_ts <- covid19.icuve::fetch_gsheet("ts")
 
   # 1) Prepare the data ------------------------------------------------
   # Time series Veneto -------------------------------------------------
