@@ -37,12 +37,12 @@ mod_tsicuve_ui <- function(id){
           title = "Figura 1A. Andamento stimato (linea rossa in grassetto,
         l'area rossa indica gli intervalli di confidenza al 95%) del
         numero di posti occupati in terapia intensiva.
-        Andamento osservato (punti blu) fino alla data odierna."
+        Andamento osservato (linea blu) fino alla data odierna."
       ),
       box(plotlyOutput(ns("fig1b")),
           width = 12,
           title = "Figura 1B. Andamento dell'errore quadratico del
-        modello fino alla data odierna."
+        modello fino alla data odierna. La linea blu rappresenta lo smoothing con metodo local polinomial regression (LOESS, span = 0.75, degree = 2)."
       )
     ),
     fluidRow(
@@ -61,13 +61,13 @@ mod_tsicuve_ui <- function(id){
           title = "Figura 2A. Andamento stimato (linea rossa in grassetto,
         l'area rossa indica gli intervalli di confidenza al 95%) del
         numero di posti occupati in terapia intensiva.
-        Andamento osservato (punti blu) fino alla data odierna.",
+        Andamento osservato (linea blu) fino alla data odierna.",
           footer = "NOTE: il modello è stato stimato ipotizzando un damped trend."
       ),
       box(plotlyOutput(ns("fig2b")),
           width = 12,
           title = "Figura 2B. Andamento dell'errore quadratico del
-        modello fino alla data odierna.",
+        modello fino alla data odierna. La linea blu rappresenta lo smoothing con metodo local polinomial regression (LOESS, span = 0.75, degree = 2).",
           footer = "NOTE: il modello è stato stimato ipotizzando un damped trend."
       )
     ),
@@ -87,7 +87,7 @@ mod_tsicuve_ui <- function(id){
           title = "Figura 3A. Andamento stimato (linea rossa in grassetto,
         l'area rossa indica gli intervalli di confidenza al 95%) del
         numero di posti occupati in terapia intensiva.
-        Andamento osservato (punti blu) fino alla data odierna.",
+        Andamento osservato (linea blu) fino alla data odierna.",
           footer = "NOTE: il modello è stato stimato con un metodo automatico basato
           sull'AIC corretto."
       ),
@@ -96,7 +96,7 @@ mod_tsicuve_ui <- function(id){
           title = "Figura 3B. Andamento dell'errore quadratico del
         modello fino alla data odierna.",
           footer = "NOTE: il modello è stato stimato con un metodo automatico basato
-          sull'AIC corretto."
+          sull'AIC corretto. La linea blu rappresenta lo smoothing con metodo local polinomial regression (LOESS, span = 0.75, degree = 2)."
       )
     )
   )
@@ -128,7 +128,7 @@ mod_tsicuve_server <- function(id) {
     to = length(veneto$data) -
       lubridate::interval(tstart, tstop)/lubridate::ddays(1) -
       n_ahead,
-    by = 14
+    by = 3
   )))
 
   # 2A) Holter ---------------------------------------------------------

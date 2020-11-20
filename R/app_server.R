@@ -279,7 +279,7 @@ app_server <- function(input, output, session) {
 
           tabItem(
             tabName = "partial-ts-icuve",
-            h2("Progressione delle proiezioni e relativi errori per le terapie intensive venete dall'inizio della pandemia."),
+            h2("Progressione delle proiezioni e andamento dell'errore di stima per le terapie intensive venete dall'inizio della pandemia."),
             if (super_secret()[["permission"]][usr_pos] %in%
                 c("ubep", "agenas")) {
               mod_tsicuve_ui("partial_ts_icuve")

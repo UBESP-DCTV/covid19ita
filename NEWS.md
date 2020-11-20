@@ -1,5 +1,6 @@
-# covid23icuve 0.109.2
+# covid 19ita 0.110.0
 
+* Integrated login credential in the main app
 * New module `mod_tsicuve` that shows forecasts of Time-Series models
   applied to ICU data from the Veneto region. The following Time-Series
   models were considered: Holter-Winters Filtering (HTF), Exponential 
