@@ -220,7 +220,7 @@ mod_icuve_ts_server <- function(id) {
     ) +
     coord_cartesian(
       xlim = c(min(df$date), max(df$date) + 7),
-      ylim = c(0, 250)
+      # ylim = c(0, 250)
     ) +
     scale_x_date(date_breaks = "1 week", date_labels = "%d %b") +
     theme(
