@@ -1,5 +1,9 @@
 # covid23icuve 0.111.0
 
+* Remove `ylim` in `ggbeds` in `mod_icuve_ts`
+* Solved the problem with `mod_icuve_ts` at line 186 (#86)
+* Solved the problem with default account (#86)
+
 * data update
 
 * Added login module
