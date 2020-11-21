@@ -181,13 +181,7 @@ mod_icuve_ts_server <- function(id) {
 
   # 4) COVID beds occupied adjusted by proportion of positive ----------
   beds_df <- df %>%
-    dplyr::mutate(
-      prop_pos = dplyr::if_else(
-        is.na(.data$prop_pos),
-        dplyr::last(stats::na.omit(.data$prop_pos)),
-        .data$prop_pos
-      )
-    )
+    tidyr::fill(.data$prop_pos)
 
   fit_beds <- mgcv::gam(
     stats::as.formula(
