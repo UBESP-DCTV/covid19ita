@@ -124,19 +124,19 @@ mod_icuve_static_server <- function(id) {
     # Get the month and aggregate them
     dplyr::mutate(
       mese = lubridate::month(
-        .data$icu_addmission, label = TRUE, abbr = FALSE
+        .data$icu_addmission, label = FALSE, abbr = FALSE
       ),
       mese = factor(
         dplyr::case_when(
-           .data$mese %in% levels(.data$mese)[1:2] ~ "gennaio/febbraio",
-           .data$mese %in% levels(.data$mese)[3] ~ "marzo",
-           .data$mese %in% levels(.data$mese)[4] ~ "aprile",
-           .data$mese %in% levels(.data$mese)[5] ~ "maggio",
-           .data$mese %in% levels(.data$mese)[6:7] ~ "giugno/luglio",
-           .data$mese %in% levels(.data$mese)[8] ~ "agosto",
-           .data$mese %in% levels(.data$mese)[9:10] ~ "settembre/ottobre",
-           .data$mese %in% levels(.data$mese)[11] ~ "novembre",
-           .data$mese %in% levels(.data$mese)[12] ~ "dicembre",
+           .data$mese %in% c(1:2) ~ "gennaio/febbraio",
+           .data$mese == 3 ~ "marzo",
+           .data$mese == 4 ~ "aprile",
+           .data$mese == 5 ~ "maggio",
+           .data$mese %in% c(6:7) ~ "giugno/luglio",
+           .data$mese == 8 ~ "agosto",
+           .data$mese %in% c(9:10) ~ "settembre/ottobre",
+           .data$mese == 11 ~ "novembre",
+           .data$mese == 12 ~ "dicembre",
            TRUE ~ as.character(.data$mese)
         ), levels = c(
           "gennaio/febbraio", "marzo", "aprile", "maggio",

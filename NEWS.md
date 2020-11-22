@@ -1,5 +1,12 @@
 # covid19icuve 0.110.0
 
+* Remove `ylim` in `ggbeds` in `mod_icuve_ts`
+* Solved the problem with `mod_icuve_ts` at line 186 (#86)
+* Solved the problem with default account (#86)
+* Solve automatic update of Figure 3 in `mod_icuve_ts` (#86)
+* Fixed 1/2 of #85
+* Fixed problem with `ggswab` (#84)
+* data update
 * Integrated login credential in the main app
 * New module `mod_tsicuve` that shows forecasts of Time-Series models
   applied to ICU data from the Veneto region. The following Time-Series
