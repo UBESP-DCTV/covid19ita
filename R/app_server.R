@@ -27,6 +27,7 @@ app_server <- function(input, output, session) {
 
         if (pasverify) {
           USER$login <- TRUE
+          updateTabItems(session, "sidebar", "home")
         } else {
           nomatch()
         }
@@ -121,16 +122,31 @@ app_server <- function(input, output, session) {
                  )
         ),
 
-        if (super_secret()[["permission"]][usr_pos] == "advanced") {
+        if (super_secret()[["permission"]][usr_pos] %in% c("ubep", "tip-v")) {
 
           menuItem("Terapie intensive Veneto",
                    icon = icon("procedures"),
+                   menuSubItem("Regionale situation report",
+                               tabName = "regional-icuve-sitrep",
+                               icon = icon("map")
+                   ),
                    menuSubItem("Regionale timeseries",
                                tabName = "regional-icuve-ts",
                                icon = icon("map")
                    ),
                    menuSubItem("Regionale overview",
                                tabName = "regional-icuve-static",
+                               icon = icon("map")
+                   )
+          )
+        },
+
+        if (super_secret()[["permission"]][usr_pos] %in% c("ubep", "agenas")) {
+
+          menuItem("Terapie intensive Veneto",
+                   icon = icon("procedures"),
+                   menuSubItem("Regionale partial timeseries",
+                               tabName = "partial-ts-icuve",
                                icon = icon("map")
                    )
           )
@@ -237,17 +253,36 @@ app_server <- function(input, output, session) {
           ),
 
           tabItem(
+            tabName = "regional-icuve-sitrep",
+            h2("Report situazione corrente nelle terapie intensive venete a livello regionale."),
+            if (super_secret()[["permission"]][usr_pos] %in%
+                c("ubep", "tip-v")) {
+              mod_icuve_sitrep_ui("icuve_sitrep")
+            }
+          ),
+          tabItem(
             tabName = "regional-icuve-ts",
             h2("Andamenti e proiezioni sui posti letto nelle terapie intensive venete a livello regionale."),
-            if (super_secret()[["permission"]][usr_pos] == "advanced") {
+            if (super_secret()[["permission"]][usr_pos] %in%
+                c("ubep", "tip-v")) {
               mod_icuve_ts_ui("icuve_ts")
             }
           ),
           tabItem(
             tabName = "regional-icuve-static",
             h2("Andamenti delle terapie intensive venete dall'inizio della pandemia."),
-            if (super_secret()[["permission"]][usr_pos] == "advanced") {
+            if (super_secret()[["permission"]][usr_pos] %in%
+                c("ubep", "tip-v")) {
               mod_icuve_static_ui("icuve_static")
+            }
+          ),
+
+          tabItem(
+            tabName = "partial-ts-icuve",
+            h2("Progressione delle proiezioni e relativi errori per le terapie intensive venete dall'inizio della pandemia."),
+            if (super_secret()[["permission"]][usr_pos] %in%
+                c("ubep", "agenas")) {
+              mod_tsicuve_ui("partial_ts_icuve")
             }
           ),
 
@@ -408,8 +443,10 @@ app_server <- function(input, output, session) {
   mod_help_plot_server("help")
 
   ## ICUs VE
+  mod_icuve_sitrep_server("icuve_sitrep")
   mod_icuve_ts_server("icuve_ts")
   mod_icuve_static_server("icuve_static")
+  mod_tsicuve_server("partial_ts_icuve")
 
   ## National
   mod_ts_ita_server("ts_nat_cum", "cum")

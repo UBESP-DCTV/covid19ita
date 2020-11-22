@@ -66,7 +66,7 @@ mod_ind_ita_ui <- function(id) {
         min = min(dpc_covid19_ita_regioni$data) + lubridate::days(6),
         max = max(dpc_covid19_ita_regioni$data),
         step = lubridate::days(1),
-        animate = animationOptions(interval = 1100)
+        animate = animationOptions(interval = 200)
       )
     ),
     box(plotlyOutput(ns("titamponi")),
@@ -143,9 +143,11 @@ mod_ind_ita_server <- function(id) {
     dplyr::left_join(region_population) %>%
     dplyr::group_by(.data$denominazione_regione) %>%
     dplyr::mutate(
-      tamponi_no_sintomi = .data$tamponi -
+      cum_ti = cumsum(.data$terapia_intensiva),
+      tamponi_no_sintomi = .data$tamponi - # .data$casi_testati - #
         .data$ricoverati_con_sintomi -
         .data$terapia_intensiva,
+        # .data$cum_ti,
       tamp_asint_pesati = 100 * (
         .data$tamponi_no_sintomi / .data$residenti
       ),
@@ -208,6 +210,59 @@ mod_ind_ita_server <- function(id) {
         )
     })
 
+
+    # #-------
+    # dd <- dati_tamponi %>%
+    #   dplyr::filter(
+    #     denominazione_regione %in% c("Lombardia", "Veneto"),
+    #     .data$data < as.Date("2020-09-23")
+    #   )
+    #
+    # ddt <- dd %>%
+    #   dplyr::mutate(
+    #     data_to_plot = purrr::map(.data$data,
+    #       ~ dplyr::filter(dd, dd$data <= .x) %>%
+    #         dplyr::mutate(n = dplyr::n())
+    #     )
+    #   ) %>%
+    #   dplyr::select(data, data_to_plot) %>%
+    #   dplyr::rename(last_date = data) %>%
+    #   tidyr::unnest(data_to_plot) %>%
+    #   dplyr::filter(n >= 7)
+    #
+    # base_plot <- ddt %>%
+    #   ggplot(aes(
+    #     x = tamp_asint_pesati,
+    #     y = intensiva_pesati,
+    #     colour = denominazione_regione,
+    #     label = denominazione_regione
+    #   )) +
+    #   geom_point() +
+    #   scale_color_discrete(name = "Regione") +
+    #   theme(legend.position = "bottom") +
+    #   # geom_smooth(method = stats::loess, span = 1.5, se = FALSE, show.legend = FALSE) +
+    #   ylab("% soggetti in t. intensiva") +
+    #   xlab("% sulla popolazione regionale di tamponi effettuati su soggetti non sintomatici") #+
+    #   # coord_cartesian(
+    #   #   xlim = c(0, max(dati_tamponi$tamp_asint_pesati, na.rm = TRUE) + 1L),
+    #   #   ylim = c(0, max(dati_tamponi$intensiva_pesati, na.rm = TRUE))
+    #   # ) +
+    #   # facet_grid(denominazione_regione~.)
+    #
+    # anim <- base_plot +
+    #   labs(title = "Ultima data: {frame_time}") +
+    #   gganimate::transition_time(last_date) +
+    #   gganimate::ease_aes('linear')
+    #
+    # res <- gganimate::animate(anim,
+    #                    nframes = length(unique(ddt$last_date)),
+    #                    start_pause = 10,
+    #                    end_pause = 30
+    # )
+    #
+    # res
+    # #
+    # # #-------
 
 
     output$titamponi <- renderPlotly({

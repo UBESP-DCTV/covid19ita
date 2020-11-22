@@ -1,4 +1,4 @@
-# covid23icuve 0.111.0
+# covid23icuve 0.109.2
 
 * Remove `ylim` in `ggbeds` in `mod_icuve_ts`
 * Solved the problem with `mod_icuve_ts` at line 186 (#86)
@@ -6,14 +6,20 @@
 * Solve automatic update of Figure 3 in `mod_icuve_ts` (#86)
 * Fixed 1/2 of #85
 * Fixed problem with `ggswab` (#84)
-
 * data update
+* New module `mod_tsicuve` that shows forecasts of Time-Series models
+  applied to ICU data from the Veneto region. The following Time-Series
+  models were considered: Holter-Winters Filtering (HTF), Exponential 
+  smoothing state space model (ETS), and ARIMA.
+* Added `xts`, `tscount`, and `forecast` to Imports
 
-* Added login module
-* Added module `mod_icuve_ts` and `mod_icuve_static` to showing ICU's
-  data and predictions on Veneto
+# covid23icuve 0.109.1
 
-# covid23icuve 0.110.0
+* Restore home page after login
+* data update
+* Added login module.
+* Added modules `mod_icuve_sitrep`, `mod_icuve_ts` and `mod_icuve_static` to showing ICU's
+  situation report, indicators on time series and static data, and predictions for ICUs in Veneto.
 
 # covid19ita 0.109.0
 

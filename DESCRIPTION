@@ -1,6 +1,6 @@
 Package: covid23icuve
 Title: Covid-19 - Italy
-Version: 0.111.0
+Version: 0.109.1
 Authors@R: 
     c(person(given = "Corrado",
              family = "Lanera",
@@ -81,7 +81,10 @@ Imports:
     tidyr (>= 1.0.2),
     usethis (>= 1.5.1),
     utils,
-    sodium
+    sodium,
+    forecast,
+    xts,
+    tscount
 Suggests: 
     assertive,
     cli,
