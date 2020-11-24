@@ -122,35 +122,34 @@ app_server <- function(input, output, session) {
                  )
         ),
 
-        if (super_secret()[["permission"]][usr_pos] %in% c("ubep", "tip-v")) {
-
-          menuItem("Terapie intensive Veneto",
-                   icon = icon("procedures"),
-                   menuSubItem("Regionale situation report",
-                               tabName = "regional-icuve-sitrep",
-                               icon = icon("map")
-                   ),
-                   menuSubItem("Regionale timeseries",
-                               tabName = "regional-icuve-ts",
-                               icon = icon("map")
-                   ),
-                   menuSubItem("Regionale overview",
-                               tabName = "regional-icuve-static",
-                               icon = icon("map")
-                   )
-          )
-        },
-
-        if (super_secret()[["permission"]][usr_pos] %in% c("ubep", "agenas")) {
+        if (super_secret()[["permission"]][usr_pos] %in% c("ubep", "tip-v", "agenas")) {
 
           menuItem("Terapie intensive Veneto",
                    icon = icon("procedures"),
                    menuSubItem("Regionale partial timeseries",
                                tabName = "partial-ts-icuve",
                                icon = icon("map")
-                   )
+                   ),
+                   if (super_secret()[["permission"]][usr_pos] != "agenas") {
+                     menuSubItem("Regionale situation report",
+                               tabName = "regional-icuve-sitrep",
+                               icon = icon("map")
+                   )},
+
+                   if (super_secret()[["permission"]][usr_pos] != "agenas") {
+                     menuSubItem("Regionale timeseries",
+                               tabName = "regional-icuve-ts",
+                               icon = icon("map")
+                   )},
+
+                   if (super_secret()[["permission"]][usr_pos] != "agenas") {
+                     menuSubItem("Regionale overview",
+                               tabName = "regional-icuve-static",
+                               icon = icon("map")
+                   )}
           )
         },
+
 
         menuItem("Andamento epidemia",
                  icon = icon("chart-line"),
