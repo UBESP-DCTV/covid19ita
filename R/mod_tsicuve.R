@@ -106,7 +106,8 @@ mod_tsicuve_ui <- function(id){
         l'area rossa indica gli intervalli di confidenza al 95%) del
         numero di ricoveri in terapia intensiva.
         Andamento osservato (linea blu) fino all'ultimo dato disponibile.",
-          footer = "NOTE: il modello è stato stimato ipotizzando un damped trend."
+          footer = "NOTE: il modello è stato stimato ipotizzando un damped trend, con parametri di Errore, Trend e Stagionalità indicati, nell'ordine in figura, con la seguente convenzione:
+          \"N\" = nessuna, \"A\"/\"Ad\" = additiva, \"M\" = moltiplicativa e \"Z\" = selezione automatica"
       ),
       box(DT::DTOutput(ns("tab2")),
           width = 12,

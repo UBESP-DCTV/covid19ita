@@ -37,12 +37,19 @@ app_server <- function(input, output, session) {
           USER$login <- TRUE
           if (Username != "") {
             showNotification(
-              "Setup zone riservate, serve un po' di tempo in più...
-              Grazie per la pazienza!",
-              duration = 12, type = "warning"
+              HTML("
+                Setup zone riservate</br>serve un po' di tempo in più...
+              "),
+              duration = 9, type = "warning"
             )
           }
           updateTabItems(session, "sidebar", "home")
+          showNotification(
+            HTML("
+                Grazie per la pazienza!
+              "),
+            duration = 18, type = "warning"
+          )
         } else {
           nomatch()
         }
@@ -248,19 +255,19 @@ app_server <- function(input, output, session) {
                                icon = icon("map")
                    ),
                    if (super_secret()[["permission"]][usr_pos] != "agenas") {
-                     menuSubItem("Regionale situation report",
+                     menuSubItem("Veneto ICUs situation report",
                                tabName = "regional-icuve-sitrep",
                                icon = icon("map")
                    )},
 
                    if (super_secret()[["permission"]][usr_pos] != "agenas") {
-                     menuSubItem("Regionale timeseries",
+                     menuSubItem("Veneto ICUs timeseries",
                                tabName = "regional-icuve-ts",
                                icon = icon("map")
                    )},
 
                    if (super_secret()[["permission"]][usr_pos] != "agenas") {
-                     menuSubItem("Regionale overview",
+                     menuSubItem("Veneto ICUs overview",
                                tabName = "regional-icuve-static",
                                icon = icon("map")
                    )}
