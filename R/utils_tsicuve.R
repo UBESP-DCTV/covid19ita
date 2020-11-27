@@ -28,7 +28,9 @@ eval_aux_objs <- function(
   )
 }
 
-ts_plot <- function(fit, pred, aux_objs, n_ahead, tstart, tstop) {
+ts_plot <- function(fit, pred, aux_objs, n_ahead, tstart, tstop, method
+) {
+
   fitted_df <- tibble::tibble(
     data = seq(from = tstart, to = tstop + n_ahead, by = 1),
     est = round(c(fit, as.double(pred$mean)))
@@ -45,7 +47,7 @@ ts_plot <- function(fit, pred, aux_objs, n_ahead, tstart, tstop) {
 
 
   # TS plot
-  ggplot(
+  ggres <- ggplot(
     data = fitted_df,
     mapping = aes(x = .data$data)
   ) +
@@ -75,6 +77,17 @@ ts_plot <- function(fit, pred, aux_objs, n_ahead, tstart, tstop) {
       )
     )
 
+  if (!is.null(method)) {
+    ggres <- ggres +
+      annotate("text",
+               x = median(aux_objs[["obs_df"]]$data, na.rm = TRUE),
+               y = max(aux_objs[["obs_df"]]$terapia_intensiva, na.rm = TRUE),
+               label = paste0("Methods: ", method),
+               vjust = "inward", hjust = "inward"
+      )
+  }
+
+  ggres
 }
 
 tbl_error <- function(fit, pred, aux_objs, n_ahead) {
@@ -127,7 +140,8 @@ partial_ts_plot <- function(
   }
 
   ts_plot(
-    mod[["fit"]], mod[["pred"]], aux_objs, n_ahead, tstart, tstop
+    mod[["fit"]], mod[["pred"]], aux_objs, n_ahead, tstart, tstop,
+    mod[["mod"]][["method"]]
   )
 
 }
