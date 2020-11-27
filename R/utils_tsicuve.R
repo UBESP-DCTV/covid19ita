@@ -93,14 +93,15 @@ tbl_error <- function(fit, pred, aux_objs, n_ahead) {
 }
 
 fit_partial_ts_model <- function(
-  aux_objs, n_ahead, method = c("hw", "ets", "arima")
+  aux_objs, n_ahead, method = c("hw", "ets", "arima", "ets_auto")
 ) {
   method <- match.arg(method)
 
   mod <- switch(method,
     hw = stats::HoltWinters(aux_objs[["my_ts"]], gamma = FALSE),
     ets = forecast::ets(aux_objs[["my_ts"]], damped = TRUE),
-    forecast::auto.arima(aux_objs[["my_ts"]])
+    forecast::auto.arima(aux_objs[["my_ts"]]),
+    ets_auto = forecast::ets(aux_objs[["my_ts"]])
   )
 
   fit <- as.double(
