@@ -62,6 +62,15 @@ app_server <- function(input, output, session) {
         menuItem("In evidenza",
                  icon = icon("bullseye"),
 
+                 if (super_secret()[["permission"]][usr_pos] %in% c("ubep", "tip-v", "agenas")) {
+
+                    menuSubItem("Veneto partial timeseries",
+                                tabName = "partial-ts-icuve",
+                                icon = icon("map")
+                    )
+                 },
+
+
                  menuSubItem(
                    text = "2020-04-15 Impatto tamponi",
                    tabName = "20200415TampHosp",
@@ -126,10 +135,6 @@ app_server <- function(input, output, session) {
 
           menuItem("Terapie intensive Veneto",
                    icon = icon("procedures"),
-                   menuSubItem("Regionale partial timeseries",
-                               tabName = "partial-ts-icuve",
-                               icon = icon("map")
-                   ),
                    if (super_secret()[["permission"]][usr_pos] != "agenas") {
                      menuSubItem("Regionale situation report",
                                tabName = "regional-icuve-sitrep",
@@ -179,6 +184,15 @@ app_server <- function(input, output, session) {
       if (USER$login) {
         tabItems(
           dashboard_home_body(),
+
+          tabItem(
+            tabName = "partial-ts-icuve",
+            h2("Progressione delle proiezioni e andamento dell'errore di stima per le terapie intensive venete dall'inizio della pandemia."),
+            if (super_secret()[["permission"]][usr_pos] %in%
+                c("ubep", "agenas")) {
+              mod_tsicuve_ui("partial_ts_icuve")
+            }
+          ),
 
           tabItem(
             tabName = "20200415TampHosp",
@@ -273,15 +287,6 @@ app_server <- function(input, output, session) {
             if (super_secret()[["permission"]][usr_pos] %in%
                 c("ubep", "tip-v")) {
               mod_icuve_static_ui("icuve_static")
-            }
-          ),
-
-          tabItem(
-            tabName = "partial-ts-icuve",
-            h2("Progressione delle proiezioni e andamento dell'errore di stima per le terapie intensive venete dall'inizio della pandemia."),
-            if (super_secret()[["permission"]][usr_pos] %in%
-                c("ubep", "agenas")) {
-              mod_tsicuve_ui("partial_ts_icuve")
             }
           ),
 
