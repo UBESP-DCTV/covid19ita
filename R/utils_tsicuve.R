@@ -114,7 +114,7 @@ fit_partial_ts_model <- function(
 
 partial_ts_plot <- function(
   data, n_ahead, d = NULL, tstart, tstop = tstart + d,
-  method = c("hw", "ets", "arima")
+  method = c("hw", "ets", "arima", "ets_auto")
 ) {
   method <- match.arg(method)
 
@@ -134,7 +134,7 @@ partial_ts_plot <- function(
 
 partial_ts_error <- function(
   data, n_ahead, d, tstart,
-  method = c("hw", "ets", "arima")
+  method = c("hw", "ets", "arima", "ets_auto")
 ) {
   method <- match.arg(method)
 
@@ -160,7 +160,7 @@ ts_plot_error <- function(df_error) {
 }
 
 partial_forecast <- function(
-  data, n_ahead, method = c("hw", "ets", "arima")
+  data, n_ahead, method = c("hw", "ets", "arima", "ets_auto")
 ) {
   method <- match.arg(method)
 
