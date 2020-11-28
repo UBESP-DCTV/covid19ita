@@ -37,7 +37,7 @@ mod_icuve_static_ui <- function(id){
         width = 12,
         plotly::plotlyOutput(ns("fig3")),
         title = "Figure 3. Andamento stimato (linea blu,
-        l'area grigia indica gli intervalli di confidenza al 95%) dell'età
+        l'area grigia indica gli intervalli di confidenza al 95%) dell'et\u00E0
         mediana dei pazienti COVID ricoverati in terapia intensiva
         dall'inizio della pandemia."
       )
@@ -46,7 +46,7 @@ mod_icuve_static_ui <- function(id){
       box(
         width = 12,
         plotly::plotlyOutput(ns("fig4")),
-        title = "Figure 4. Andamento del numero di comorbidità mediano
+        title = "Figure 4. Andamento del numero di comorbidit\u00E0 mediano
         dei pazienti COVID ricoverati in terapia intensiva dall'inizio
         della pandemia."
       )
@@ -226,7 +226,7 @@ mod_icuve_static_server <- function(id) {
       ),
       panel.spacing.y = unit(2, "lines")
     ) +
-    ylab("Età (anni)") +
+    ylab("Et\u00E0 (anni)") +
     xlab("")
 
   # 5) Weekly number of comorbidities ----------------------------------
@@ -243,7 +243,7 @@ mod_icuve_static_server <- function(id) {
       ),
       panel.spacing.y = unit(2, "lines")
     ) +
-    ylab("Numero di comorbidità") +
+    ylab("Numero di comorbidit\u00E0") +
     xlab("")
 
 

@@ -33,20 +33,20 @@ mod_tsicuve_ui <- function(id){
           rispettivamente in Figura 1A, Figura 2A e Figura 3A."
         ),
         p(
-          "Si è proceduto alla predizione dei casi ricoverati in terapia
+          "Si \u00E8 proceduto alla predizione dei casi ricoverati in terapia
           intensiva a partire dal 24 febbraio 2020 utilizzando le osservazioni
           via via accumulate nei giorni precedenti. I ricoveri osservati
           sono rappresentati dalla linea blu, quelli attesi (ovvero
           predetti dal modello) sono rappresentati dalla linea rossa.
-          Sfiorando il grafico col cursore si può visualizzare, per
+          Sfiorando il grafico col cursore si pu\u00F2 visualizzare, per
           ciascun giorno selezionato, il numero di casi osservati e
-          quello predetto dal modello (“attesi”)."
+          quello predetto dal modello (\"attesi\")."
         ),
         p(
-          "Le figure 1B, 2B e 3B rappresentano l’andamento dell’errore
+          "Le figure 1B, 2B e 3B rappresentano l'andamento dell'errore
           quadratico di stima dei modelli corrispondenti. Il modello che
-          mostra un più basso errore di stima è l’Holter-Winters Filtering
-          che si rivela quindi l’approccio con la migliore capacità
+          mostra un pi\u00F2 basso errore di stima \u00E8 l'Holter-Winters Filtering
+          che si rivela quindi l'approccio con la migliore capacit\u00E0
           predittiva."
         ),
         p(
@@ -106,7 +106,7 @@ mod_tsicuve_ui <- function(id){
         l'area rossa indica gli intervalli di confidenza al 95%) del
         numero di ricoveri in terapia intensiva.
         Andamento osservato (linea blu) fino all'ultimo dato disponibile.",
-          footer = "NOTE: il modello è stato stimato ipotizzando un damped trend."
+          footer = "NOTE: il modello \u00E8 stato stimato ipotizzando un damped trend."
       ),
       box(DT::DTOutput(ns("tab2")),
           width = 12,
@@ -119,7 +119,7 @@ mod_tsicuve_ui <- function(id){
           width = 12,
           title = "Figura 2B. Andamento dell'errore quadratico del
         modello fino all'ultimo dato disponibile.",
-          footer = "NOTE: il modello è stato stimato ipotizzando un damped
+          footer = "NOTE: il modello \u00E8 stato stimato ipotizzando un damped
           trend. La linea blu rappresenta lo smoothing con metodo local
           polinomial regression (LOESS, span = 0.75, degree = 2)."
       )
@@ -141,7 +141,7 @@ mod_tsicuve_ui <- function(id){
         l'area rossa indica gli intervalli di confidenza al 95%) del
         numero di ricoveri in terapia intensiva.
         Andamento osservato (linea blu) fino all'ultimo dato disponibile.",
-          footer = "NOTE: il modello è stato stimato con un metodo automatico
+          footer = "NOTE: il modello \u00E8 stato stimato con un metodo automatico
           basato sull'AIC corretto."
       ),
       box(DT::DTOutput(ns("tab3")),
@@ -155,7 +155,7 @@ mod_tsicuve_ui <- function(id){
           width = 12,
           title = "Figura 3B. Andamento dell'errore quadratico del
         modello fino all'ultimo dato disponibile.",
-          footer = "NOTE: il modello è stato stimato con un metodo
+          footer = "NOTE: il modello \u00E8 stato stimato con un metodo
           automatico basato sull'AIC corretto. La linea blu rappresenta
           lo smoothing con metodo local polinomial regression (LOESS,
           span = 0.75, degree = 2)."
