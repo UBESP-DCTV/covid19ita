@@ -1,4 +1,9 @@
-# covid19icuve 0.110.0
+# covid19ita (development version)
+
+* Move `{covid19.icuve}` into **Enhances** to avoid its installation 
+  even when installed with `dependencies = TRUE`.
+
+# covid19ita 0.110.0
 
 * Remove `ylim` in `ggbeds` in `mod_icuve_ts`
 * Solved the problem with `mod_icuve_ts` at line 186 (#86)

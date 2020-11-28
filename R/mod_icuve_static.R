@@ -57,11 +57,12 @@ mod_icuve_static_ui <- function(id){
 #' icuve_ts Server Function
 #'
 #' @import ggplot2
-#' @import covid19.icuve
 #' @import mgcv
 #' @noRd
 mod_icuve_static_server <- function(id) {
 
+  stopifnot(`package {covid19.icuve} required for this function` =
+              requireNamespace("covid19.icuve"))
   icuve_static <- covid19.icuve::icuve %>%
     # Arrange db by date of ICU admission
     dplyr::arrange(.data$icu_addmission)

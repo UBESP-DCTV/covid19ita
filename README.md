@@ -41,11 +41,26 @@ source on [GitHub](https://github.com/) with:
 remotes::install_github("UBESP-DCTV/covid19ita")
 ```
 
+> Nota per poter utilizzare gli accessi riservati sulla propria
+> installazione locale e richiesto il pacchetto `{covid19.icuve}`
+> riservato all’uso esclusivo di chi ne ha diritto. Nel caso ci si
+> trovasse in tale situazione e si volesse una installazione completa
+> utilizzare l’istruzione seguente.
+> 
+> ``` r
+> remotes::install_github("UBESP-DCTV/covid19ita",
+> dependencies = c("Depends", "Imports", "Suggests", "Enhances")
+> )
+> ```
+> 
+> Se autorizzati, il sistema completo verrà installato/aggiornato
+> regolarmente.
+
 ## Shiny App
 
 <img src='inst/app/www/covid19ita_screen.png' align="center"/>
 
-**Ultimo aggiornamento/Last app update**: 2020-04-17 00:09:15.
+**Ultimo aggiornamento/Last app update**: 2020-11-28 22:49:54.
 
 > È possibile visitare la Shiny App `covid19ita` ospitata e operante sui
 > server UBEP ([Unità di Biostatistica, Epidemiologia e Sanità
@@ -77,7 +92,7 @@ The `{covid19ita}` package provide R versions of the three [official
 Italian COVID-19 datasets](https://github.com/pcm-dpc/COVID-19/) at
 national, regional and provincial level of detail.
 
-**Ultimo aggiornamento dati/Last data update**: 2020-04-13 18:15:48.
+**Ultimo aggiornamento dati/Last data update**: 2020-11-27 23:20:20.
 
 È possibile accedere ai dati tramite:
 

@@ -63,10 +63,11 @@ mod_icuve_ts_ui <- function(id){
 #' icuve_ts Server Function
 #'
 #' @import ggplot2
-#' @import covid19.icuve
 #' @import mgcv
 #' @noRd
 mod_icuve_ts_server <- function(id) {
+  stopifnot(`package {covid19.icuve} required for this function` =
+              requireNamespace("covid19.icuve"))
 
   icuve_ts <- covid19.icuve::fetch_gsheet("ts")
 
@@ -76,7 +77,7 @@ mod_icuve_ts_server <- function(id) {
     # Select the Veneto data
     dplyr::filter(.data$denominazione_regione == "Veneto") %>%
     # Rename the column date the make it consistent with the other db
-    dplyr::rename(date = data) %>%
+    dplyr::rename(date = .data$data) %>%
     # Take only the date, the positive and the swabs
     dplyr::select(.data$date, .data$totale_casi, .data$tamponi) %>%
     # dplyr::select(date, prop_pos) %>%
@@ -96,7 +97,7 @@ mod_icuve_ts_server <- function(id) {
   df <- icuve_ts %>%
     dplyr::mutate(
       # Proportion of COVID beds
-      prop_covid_occupied = .data$covid_occupied/.data$overall_total,
+      prop_covid_occupied = .data$covid_occupied /.data$overall_total,
       # Covid variation as 3 days before
       covid_occ_lag = dplyr::lag(
         x = .data$covid_occupied, n = 3L, default = 0
@@ -142,8 +143,9 @@ mod_icuve_ts_server <- function(id) {
 
   pred_db_prop <- df_days_ahead %>%
     dplyr::mutate(
-      prop_pred = stats::predict(fit_prop, .),
-      prop_se = stats::predict(fit_prop, ., se.fit = TRUE)[["se.fit"]]
+      prop_pred = stats::predict(fit_prop, df_days_ahead),
+      prop_se = stats::predict(fit_prop, df_days_ahead,
+                               se.fit = TRUE)[["se.fit"]]
     )
 
   ggprop <- ggplot(
@@ -193,8 +195,9 @@ mod_icuve_ts_server <- function(id) {
 
   pred_db_beds <- df_days_ahead %>%
     dplyr::mutate(
-      beds_pred = stats::predict(fit_beds, .),
-      beds_se = stats::predict(fit_beds, ., se.fit = TRUE)[["se.fit"]]
+      beds_pred = stats::predict(fit_beds, df_days_ahead),
+      beds_se = stats::predict(fit_beds, df_days_ahead,
+                               se.fit = TRUE)[["se.fit"]]
     )
 
   ggbeds <- ggplot(
@@ -256,12 +259,12 @@ mod_icuve_ts_server <- function(id) {
   ) +
     geom_line(
       data = pred_swab_df,
-      mapping = aes(y = y_hat, color = "Atteso"),
+      mapping = aes(y = .data$y_hat, color = "Atteso"),
       size = 1.2
     ) +
     geom_ribbon(
       data = pred_swab_df,
-      mapping = aes(ymin = y_lower, ymax = y_upper),
+      mapping = aes(ymin = .data$y_lower, ymax = .data$y_upper),
       alpha = 0.33, fill = "firebrick2", colour = NA
     ) +
     geom_point(
@@ -290,8 +293,9 @@ mod_icuve_ts_server <- function(id) {
 
   pred_db_delta_days <- df_days_ahead %>%
     dplyr::mutate(
-      delta_pred = stats::predict(fit_delta_days, .),
-      delta_se = stats::predict(fit_delta_days, ., se = TRUE)[["se.fit"]]
+      delta_pred = stats::predict(fit_delta_days, df_days_ahead),
+      delta_se = stats::predict(fit_delta_days, df_days_ahead,
+                                se = TRUE)[["se.fit"]]
     )
 
   ggdelta_days <- ggplot(

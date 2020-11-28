@@ -48,6 +48,20 @@ source on [GitHub](https://github.com/) with:
 remotes::install_github("UBESP-DCTV/covid19ita")
 ```
 
+> Nota per poter utilizzare gli accessi riservati sulla propria
+  installazione locale e richiesto il pacchetto `{covid19.icuve}`
+  riservato all'uso esclusivo di chi ne ha diritto. Nel caso ci si 
+  trovasse in tale situazione e si volesse una installazione completa
+  utilizzare l'istruzione seguente.
+  ``` r
+  remotes::install_github("UBESP-DCTV/covid19ita",
+      dependencies = c("Depends", "Imports", "Suggests", "Enhances")
+  )
+  ```
+  Se autorizzati, il sistema completo verrà installato/aggiornato 
+  regolarmente.
+  
+
 ## Shiny App
 
 <img src='inst/app/www/covid19ita_screen.png' align="center"/>

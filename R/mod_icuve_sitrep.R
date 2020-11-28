@@ -28,10 +28,11 @@ mod_icuve_sitrep_ui <- function(id) {
 #' icuve_sitrep Server Function
 #'
 #' @import ggplot2
-#' @import covid19.icuve
 #' @noRd
 mod_icuve_sitrep_server <- function(id) {
 
+  stopifnot(`package {covid19.icuve} required for this function` =
+              requireNamespace("covid19.icuve"))
   icuve_sitrep <- covid19.icuve::fetch_gsheet()
 
   icuve_sitrep_long <- icuve_sitrep %>%
