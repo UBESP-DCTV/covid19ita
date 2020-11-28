@@ -1,5 +1,7 @@
 # covid19ita (development version)
 
+* Added `mod_reg_tsicuve` to section *Terapie intensive*
+* Moved module `mod_ts_icuve`to section "In evidenza"
 * Fix non-ASCII characters
 * Update WORDLIST
 * Move `{covid19.icuve}` into **Enhances** to avoid its installation 

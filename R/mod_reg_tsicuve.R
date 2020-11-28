@@ -34,7 +34,7 @@ mod_reg_tsicuve_ui <- function(id){
       box(
         width = 12,
         p(
-          "\u00C8 stato impiegato un approcco descritto in letteratura per la
+          "\u00C8m stato impiegato un approcco descritto in letteratura per la
           predizione delle serie di ricoveri in terapia intensiva per COVID-19
           Exponential Smoothing state space model. I risultati sono riportati
           rispettivamente in Figura 1A."
