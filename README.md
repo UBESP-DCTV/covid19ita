@@ -48,9 +48,8 @@ remotes::install_github("UBESP-DCTV/covid19ita")
 > utilizzare l’istruzione seguente.
 > 
 > ``` r
-> remotes::install_github("UBESP-DCTV/covid19ita",
-> dependencies = c("Depends", "Imports", "Suggests", "Enhances")
-> )
+> remotes::install_github("UBESP-DCTV/covid19.icuve")
+> remotes::install_github("UBESP-DCTV/covid19ita")
 > ```
 > 
 > Se autorizzati, il sistema completo verrà installato/aggiornato
@@ -60,7 +59,7 @@ remotes::install_github("UBESP-DCTV/covid19ita")
 
 <img src='inst/app/www/covid19ita_screen.png' align="center"/>
 
-**Ultimo aggiornamento/Last app update**: 2020-11-28 22:49:54.
+**Ultimo aggiornamento/Last app update**: 2020-11-28 23:23:20.
 
 > È possibile visitare la Shiny App `covid19ita` ospitata e operante sui
 > server UBEP ([Unità di Biostatistica, Epidemiologia e Sanità
