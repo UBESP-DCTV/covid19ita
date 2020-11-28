@@ -1,4 +1,4 @@
-# covid19ita (development version)
+# covid19ita 0.111.0
 
 * Added `mod_reg_tsicuve` to section *Terapie intensive*
 * Moved module `mod_ts_icuve`to section "In evidenza"
