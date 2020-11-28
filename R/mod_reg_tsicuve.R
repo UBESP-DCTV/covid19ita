@@ -34,23 +34,23 @@ mod_reg_tsicuve_ui <- function(id){
       box(
         width = 12,
         p(
-          "È stato impiegato un approcco descritto in letteratura per la
+          "\u00C8 stato impiegato un approcco descritto in letteratura per la
           predizione delle serie di ricoveri in terapia intensiva per COVID-19
           Exponential Smoothing state space model. I risultati sono riportati
           rispettivamente in Figura 1A."
         ),
         p(
-          "Si è proceduto alla predizione dei casi ricoverati in terapia
+          "Si \u00E8 proceduto alla predizione dei casi ricoverati in terapia
           intensiva a partire dal 24 febbraio 2020 utilizzando le osservazioni
           via via accumulate nei giorni precedenti. I ricoveri osservati
           sono rappresentati dalla linea blu, quelli attesi (ovvero
           predetti dal modello) sono rappresentati dalla linea rossa.
-          Sfiorando il grafico col cursore si può visualizzare, per
+          Sfiorando il grafico col cursore si pu\u00F2 visualizzare, per
           ciascun giorno selezionato, il numero di casi osservati e
-          quello predetto dal modello (“attesi”)."
+          quello predetto dal modello (\"attesi\")."
         ),
         p(
-          "La figura 1B rappresenta l’andamento dell’errore
+          "La figura 1B rappresenta l'andamento dell'errore
           quadratico di stima del modello corrispondente."
         ),
         p(
@@ -62,6 +62,19 @@ mod_reg_tsicuve_ui <- function(id){
     ),
     fluidRow(
       h3(HTML("Exponential smoothing state space model")),
+      h3(HTML("\u00C8 stato impiegato un approccio Estimation Smothing State Space Model per la predizione della serie dei ricoveri COVID-19 in terapia intensiva.
+
+Il Modello si caratterizza per i parametri di Errore (E), Trend (T) e Stagionalit\u00E0 (S).
+
+ La notazione del modello di definisce come ETS(Errore, Trend, Stagionalit\u00E0).
+
+Le tre componenti possono essere additive (A), o moltiplicative (M).
+
+Il Trend pu\u00F2 essere anche Additivo Damped (Ad). Le previsioni generate dal metodo Additivo mostrano una trend costante (in aumento o in diminuzione) a tempo indeterminato verso il futuro. Il parametro Damped Ad, invece, smorza lo shape della curva verso un appiattimento certo periodo di tempo nel futuro.
+
+Ad esempio un modello ETS(A,Ad,N) indica un modello con Errore Additivo, Trend Damped e Nessuna stagionalit\u00E0 (N).
+
+La parametrizzazione ottimale viene scelta in modo automatico utilizzando come criterio di selezione dei parametri il BIC (Bayesian Information Criterion).")),
       sliderInput(
         width = "45%", ns("lastDate_d"),
         label = "Selezionare l'ultima data da considerare per la stima del modello",
@@ -76,9 +89,7 @@ mod_reg_tsicuve_ui <- function(id){
           title = "Figura 1A. Andamento stimato (linea rossa in grassetto,
         l'area rossa indica gli intervalli di confidenza al 95%) del
         numero di ricoveri in terapia intensiva.
-        Andamento osservato (linea blu) fino all'ultimo dato disponibile.",
-          footer = "NOTE: il modello \u00E8 stato stimato con selezione automatica dei parametri di Errore, Trend e Stagionalità. Indicati, nell'ordine in figura, con la seguente convenzione:
-          \"N\" = nessuna, \"A\"/\"Ad\" = additiva, \"M\" = moltiplicativa e \"Z\" = selezione automatica"
+        Andamento osservato (linea blu) fino all'ultimo dato disponibile."
       ),
       box(DT::DTOutput(ns("tab1")),
           width = 12,
@@ -91,7 +102,7 @@ mod_reg_tsicuve_ui <- function(id){
           width = 12,
           title = "Figura 1B. Andamento dell'errore quadratico del
         modello fino all'ultimo dato disponibile.",
-          footer = "NOTE: il modello è stato stimato ipotizzando un damped
+          footer = "NOTE: il modello \u00E8 stato stimato ipotizzando un damped
           trend. La linea blu rappresenta lo smoothing con metodo local
           polinomial regression (LOESS, span = 0.75, degree = 2)."
       )

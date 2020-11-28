@@ -248,7 +248,7 @@ app_server <- function(input, output, session) {
 
         if (super_secret()[["permission"]][usr_pos] %in% c("ubep", "tip-v", "agenas")) {
 
-          menuItem("Terapie intensive Veneto",
+          menuItem("Terapie intensive",
                    icon = icon("procedures"),
                    menuSubItem("Regionale partial timeseries",
                                tabName = "regional-partial-ts-icuve",
