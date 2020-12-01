@@ -1,3 +1,4 @@
+# static ===============================================================
 sitrep2long <- function(db, vars) {
   db %>%
     tidyr::pivot_longer(-date,
@@ -66,19 +67,57 @@ gg_siterep <- function(db, db_pred) {
                y = .data$`N beds`,
                colour = .data$type,
                fill = .data$type)) +
-    geom_point() +
+    geom_point(size = 0.5) +
     geom_ribbon(data = db_pred,
                 aes(ymin = .data$`N beds` - 1.96*.data$se,
                     ymax = .data$`N beds` + 1.96*.data$se),
                 alpha = 0.33) +
     geom_hline(yintercept = 400, linetype = "dashed", colour = "red") +
     geom_hline(yintercept = 500, linetype = "dashed", colour = "black") +
-    scale_x_date(date_breaks = "3 days",
-                 date_labels = "%d %b") +
+    scale_x_date(date_breaks = "3 days", date_labels = "%d %b") +
     theme(
       axis.text.x = element_text(angle = 60, hjust = 1, vjust = 0.5),
       panel.spacing.y = unit(2, "lines")
     ) +
     ylab("Numero posti letto") +
     xlab("")
+}
+
+
+
+# live =================================================================
+
+gg_live <- function(db, who, vars, group = c("province", "centre")) {
+  group <- match.arg(group)
+
+  db %>%
+    dplyr::select(
+      .data$storing_time, .data$centre, .data$province,
+      dplyr::all_of(vars)
+    ) %>%
+    dplyr::filter(dplyr::across(dplyr::all_of(group), ~ . %in% who)) %>%
+    tidyr::pivot_longer(-c(
+      .data$storing_time, .data$centre, .data$province
+    )) %>%
+    dplyr::group_by(dplyr::across(dplyr::all_of(c(
+      "storing_time", "name", group
+    )))) %>%
+    dplyr::summarize(value = sum(.data$value, na.rm = TRUE)) %>%
+    ggplot(aes(
+      x = .data$storing_time,
+      y = .data$value,
+      colour = .data$name,
+      fill = .data$name
+    )) +
+    geom_point(size = 0.5) +
+    # geom_smooth(se = TRUE) +
+    scale_x_datetime(date_breaks = "3 days", date_labels = "%d %b") +
+    facet_wrap(as.formula(paste(group, "~", "."))) +
+    theme(
+      axis.text.x = element_text(angle = 60, hjust = 1, vjust = 0.5),
+      panel.spacing.y = unit(2, "lines")
+    ) +
+    ylab("Numero posti letto") +
+    xlab("")
+
 }
