@@ -15,11 +15,74 @@ mod_icuve_sitrep_ui <- function(id) {
 
   fluidPage(
     fluidRow(
+      h3(HTML("Report regionale (Veneto)")),
+      column(6,
+        shiny::selectInput(
+          ns("whichInfoReg"), "(De-)selezionare le variabili da mostrare",
+          choices = "INFOTOSHOW",
+          multiple = TRUE,
+          selected = NULL,
+          width = "100%"
+        )
+      ),
       box(
         width = 12,
         plotly::plotlyOutput(ns("gg_icuve_sitrep")),
-        title = "Dettaglio della situazione corrente (punti) e stima andamento a 15 giorni (linee curve) dei posti letto nelle terapie intensive venete.",
-        footer = "Modello di proiezione loess (span = 0.75, degree = 2); bande di confidenza al 95%. Linee orizzontali tratteggiate a 400 (rosso) e 500 (nero) posti letto."
+        title = "Dettaglio regionale della situazione corrente (punti) e stima andamento a 15 giorni (linee) dei posti letto nelle terapie intensive venete.",
+        footer = "Linee orizzontali tratteggiate a 400 (rosso) e 500 (nero) posti letto."
+      )
+    ),
+    fluidRow(
+      h3(HTML("Report provinciale (Veneto)")),
+      column(6,
+        shiny::selectInput(
+          ns("whichProvince"), "(De-)selezionare le province di interesse",
+          choices = "PROVINCESTOSHOW",
+          multiple = TRUE,
+          selected = NULL,
+          width = "100%"
+        )
+      ),
+      column(6,
+        shiny::selectInput(
+          ns("whichInfoProv"), "(De-)selezionare le variabili da mostrare",
+          choices = "INFOTOSHOW",
+          multiple = TRUE,
+          selected = NULL,
+          width = "100%"
+        )
+      ),
+      box(
+        width = 12,
+        plotly::plotlyOutput(ns("gg_icuve_sitrep_prov")),
+        title = "Dettaglio provinciale della situazione corrente (punti) e stima andamento a 15 giorni (linee) dei posti letto nelle terapie intensive venete.",
+        footer = "Linee orizzontali tratteggiate a 400 (rosso) e 500 (nero) posti letto."
+      )
+    ),
+    fluidRow(
+      h3(HTML("Report per centro (Veneto)")),
+      column(6,
+        shiny::selectInput(
+          ns("whichCentre"), "Selezionare il centro di interesse",
+          choices = "CENTRESTOSHOW",
+          selected = NULL,
+          width = "100%"
+        )
+      ),
+      column(6,
+        shiny::selectInput(
+          ns("whichInfoCntr"), "(De-)selezionare le variabili da mostrare",
+          choices = "INFOTOSHOW",
+          multiple = TRUE,
+          selected = NULL,
+          width = "100%"
+        )
+      ),
+      box(
+        width = 12,
+        plotly::plotlyOutput(ns("gg_icuve_sitrep_centre")),
+        title = "Dettaglio per centro della situazione corrente (punti) e stima andamento a 15 giorni (linee) dei posti letto nelle terapie intensive venete.",
+        footer = "Linee orizzontali tratteggiate a 400 (rosso) e 500 (nero) posti letto."
       )
     )
   )
@@ -33,6 +96,7 @@ mod_icuve_sitrep_server <- function(id) {
 
   stopifnot(`package {covid19.icuve} required for this function` =
               requireNamespace("covid19.icuve"))
+
   icuve_sitrep <- covid19.icuve::fetch_gsheet()
 
   icuve_sitrep_long <- icuve_sitrep %>%
