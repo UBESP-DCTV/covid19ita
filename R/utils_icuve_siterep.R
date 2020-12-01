@@ -146,7 +146,8 @@ gg_live <- function(db, who, vars, group = c("province", "centre"),
     dplyr::group_by(dplyr::across(dplyr::all_of(c(
       "date", "type", group
     )))) %>%
-    dplyr::summarize(`N beds` = sum(.data$`N beds`, na.rm = TRUE))
+    dplyr::summarize(`N beds` = sum(.data$`N beds`, na.rm = TRUE)) %>%
+    dplyr::ungroup()
 
   db_pred <- pred_ets(db_long, groups = c("type", group))
   methods <- db_pred %>%
