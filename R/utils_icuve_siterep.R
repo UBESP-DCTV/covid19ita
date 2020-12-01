@@ -115,7 +115,7 @@ gg_siterep <- function(db, which_info_reg, start_date = "2020-09-01",
                 alpha = 0.33)
   }
 
-  gg +
+  gg <- gg +
     geom_text(data = dplyr::mutate(methods, date = .data$date + 5),
               aes(x = date, y = .data$`N beds`, label = .data$method),
               hjust = "inward",
@@ -131,18 +131,19 @@ gg_siterep <- function(db, which_info_reg, start_date = "2020-09-01",
     ) +
     ylab("Numero posti letto") +
     xlab("")
+
+  list(gg = gg, db_long = db_long, db_pred = db_pred)
 }
 
 
 
 # live =================================================================
 
-gg_live <- function(db, who, vars, group = c("province", "centre"),
-                    start_date = "2020-09-01", ic = TRUE
-) {
-  group <- match.arg(group)
 
-  db_long <- db %>%
+live2long <- function(db, who, vars, group = c("province", "centre"),
+                      start_date = "2020-09-01"
+) {
+  db %>%
     dplyr::rename(date = .data$storing_time) %>%
     dplyr::select(
       .data$date, dplyr::all_of(c(vars, group))
@@ -161,26 +162,35 @@ gg_live <- function(db, who, vars, group = c("province", "centre"),
     dplyr::mutate(
       type = .data$type %>%
         stringr::str_replace_all(c(
-            covid_free = "CoViD-19 Free beds",
-            covid_occupied = "CoViD-19 Beds occupied",
-            covid_total = "CoViD-19 Total number of beds",
-            other_free = "Non-CoViD-19 Free beds",
-            other_occupied = "Non-CoViD-19 Beds occupied",
-            other_total = "Non-CoViD-19 Total number of beds",
-            general_free = "Stand-by Free beds",
-            overall_free = "Overall Free beds",
-            overall_occupied = "Overall Beds occupied",
-            overall_total = "Overall Total number of beds",
-            covid_suspect = "Suspected CoViD-19 cases",
-            covid_ecmo = "ECMO",
-            covid_iot = "IOT",
-            covid_niv = "NIV",
-            covid_negativized = "CoViD-19 Negativized"
+          covid_free = "CoViD-19 Free beds",
+          covid_occupied = "CoViD-19 Beds occupied",
+          covid_total = "CoViD-19 Total number of beds",
+          other_free = "Non-CoViD-19 Free beds",
+          other_occupied = "Non-CoViD-19 Beds occupied",
+          other_total = "Non-CoViD-19 Total number of beds",
+          general_free = "Stand-by Free beds",
+          overall_free = "Overall Free beds",
+          overall_occupied = "Overall Beds occupied",
+          overall_total = "Overall Total number of beds",
+          covid_suspect = "Suspected CoViD-19 cases",
+          covid_ecmo = "ECMO",
+          covid_iot = "IOT",
+          covid_niv = "NIV",
+          covid_negativized = "CoViD-19 Negativized"
         ))
     )
 
+}
 
+
+gg_live <- function(db, who, vars, group = c("province", "centre"),
+                    start_date = "2020-09-01", ic = TRUE
+) {
+  group <- match.arg(group)
+
+  db_long <- live2long(db, who, vars, group, start_date)
   db_pred <- pred_ets(db_long, groups = c("type", group))
+
   methods <- db_pred %>%
     dplyr::mutate(date = as.Date(.data$date)) %>%
     dplyr::filter(date == as.Date(max(db_long$date))) %>%
@@ -211,7 +221,7 @@ gg_live <- function(db, who, vars, group = c("province", "centre"),
         alpha = 0.33)
   }
 
-  gg +
+  gg <- gg +
     geom_text(data = dplyr::mutate(methods, date = as.POSIXct(.data$date + 5)),
         aes(x = date, y = .data$`N beds`, label = .data$method),
              hjust = "inward",
@@ -227,5 +237,6 @@ gg_live <- function(db, who, vars, group = c("province", "centre"),
     ylab("Numero posti letto") +
     xlab("")
 
+  list(gg = gg, db_long = db_long, db_pred = db_pred)
 }
 

@@ -122,6 +122,13 @@ La parametrizzazione ottimale viene scelta in modo automatico utilizzando come c
         plotly::plotlyOutput(ns("gg_icuve_sitrep")),
         title = "Dettaglio regionale della situazione corrente (punti) e stima andamento a 15 giorni (linee) dei posti letto nelle terapie intensive venete con intervalli di confidenza al 95% (bande).",
         footer = "Linee orizzontali tratteggiate a 400 (rosso) e 500 (nero) posti letto."
+      ),
+      box(DT::DTOutput(ns("tab_icuve_sitrep")),
+          width = 12,
+          title = "Numero di ricoveri attesi in base alle stime
+          del modello nei 15 giorni successivi all'ultimo dato disponibile. Tra
+          parentesi quadre sono riportati gli intervalli di confidenza
+          al 95%."
       )
     ),
     fluidRow(
@@ -151,6 +158,13 @@ La parametrizzazione ottimale viene scelta in modo automatico utilizzando come c
         width = 12,
         plotly::plotlyOutput(ns("gg_icuve_sitrep_prov"), height = "600px"),
         title = "Dettaglio provinciale della situazione corrente (punti) e stima andamento a 15 giorni (linee) dei posti letto nelle terapie intensive venete con intervalli di confidenza al 95% (bande)."
+      ),
+      box(DT::DTOutput(ns("tab_icuve_sitrep_prov")),
+          width = 12,
+          title = "Numero di ricoveri attesi in base alle stime
+          del modello nei 15 giorni successivi all'ultimo dato disponibile. Tra
+          parentesi quadre sono riportati gli intervalli di confidenza
+          al 95%."
       )
     ),
     fluidRow(
@@ -179,6 +193,13 @@ La parametrizzazione ottimale viene scelta in modo automatico utilizzando come c
         width = 12,
         plotly::plotlyOutput(ns("gg_icuve_sitrep_centre")),
         title = "Dettaglio per centro della situazione corrente (punti) e stima andamento a 15 giorni (linee) dei posti letto nelle terapie intensive venete con intervalli di confidenza al 95% (bande)."
+      ),
+      box(DT::DTOutput(ns("tab_icuve_sitrep_centre")),
+          width = 12,
+          title = "Numero di ricoveri attesi in base alle stime
+          del modello nei 15 giorni successivi all'ultimo dato disponibile. Tra
+          parentesi quadre sono riportati gli intervalli di confidenza
+          al 95%."
       )
     ),
     fluidRow(
@@ -217,49 +238,84 @@ mod_icuve_sitrep_server <- function(id) {
 
 
     # siterep ----------------------------------------------------------
-    output$gg_icuve_sitrep <- renderPlotly({
-      which_info_reg <- req(input$whichInfoReg)
 
-      plotly::ggplotly(
-        gg_siterep(icuve_sitrep, which_info_reg, ic = TRUE)
-      ) %>%
+    sitrep <- reactive({
+      which_info_reg <- req(input$whichInfoReg)
+      gg_siterep(icuve_sitrep, which_info_reg, ic = TRUE)
+    })
+
+    output$gg_icuve_sitrep <- renderPlotly({
+
+      plotly::ggplotly(sitrep()[["gg"]]) %>%
         plotly::config(modeBarButtonsToRemove = c(
           "zoomIn2d", "zoomOut2d", "pan2d", "select2d", "lasso2d")) %>%
         plotly::config(displaylogo = FALSE)
+    })
+
+    output$tab_icuve_sitrep <- DT::renderDT({
+      sitrep()[["db_pred"]] %>%
+        dplyr::filter(.data$date >= max(sitrep()[["db_long"]]$date)) %>%
+        dplyr::select(-.data$method) %>%
+        dplyr::mutate(dplyr::across(c(lower, upper), ~round(.x, 1))) %>%
+        dplyr::rename(`Posti letto attesi` = `N beds`)
     })
 
 
 
     # provincial -------------------------------------------------------
-    output$gg_icuve_sitrep_prov <- renderPlotly({
+
+    live_prov <- reactive({
       which_prov <- req(input$whichProvince)
       which_info_prov <- req(input$whichInfoProv)
 
-      plotly::ggplotly(
-        gg_live(glive_ts, which_prov, which_info_prov, "province",
-                ic = TRUE)
-      ) %>%
+      gg_live(glive_ts, which_prov, which_info_prov, "province",
+                      ic = TRUE)
+    })
+
+    output$gg_icuve_sitrep_prov <- renderPlotly({
+
+      plotly::ggplotly(live_prov()[["gg"]]) %>%
         plotly::config(modeBarButtonsToRemove = c(
           "zoomIn2d", "zoomOut2d", "pan2d", "select2d", "lasso2d")) %>%
         plotly::config(displaylogo = FALSE)
     })
 
+    output$tab_icuve_sitrep_prov <- DT::renderDT({
+      live_prov()[["db_pred"]] %>%
+        dplyr::filter(.data$date >= max(live_prov()[["db_long"]]$date)) %>%
+        dplyr::select(-.data$method) %>%
+        dplyr::mutate(dplyr::across(c(lower, upper), ~round(.x, 1))) %>%
+        dplyr::rename(`Posti letto attesi` = `N beds`)
+    })
 
 
 
     # centre -----------------------------------------------------------
-    output$gg_icuve_sitrep_centre <- renderPlotly({
+
+    live_cntr <- reactive({
       which_cntr <- req(input$whichCentre)
       which_info_cntr <- req(input$whichInfoCntr)
 
-      plotly::ggplotly(
-        gg_live(glive_ts, which_cntr, which_info_cntr, "centre",
-                ic = TRUE)
-      ) %>%
+      gg_live(glive_ts, which_cntr, which_info_cntr, "centre",
+              ic = TRUE)
+    })
+
+    output$gg_icuve_sitrep_centre <- renderPlotly({
+
+      plotly::ggplotly(live_cntr()[["gg"]]) %>%
         plotly::config(modeBarButtonsToRemove = c(
           "zoomIn2d", "zoomOut2d", "pan2d", "select2d", "lasso2d")) %>%
         plotly::config(displaylogo = FALSE)
     })
+
+    output$tab_icuve_sitrep_centre <- DT::renderDT({
+      live_cntr()[["db_pred"]] %>%
+        dplyr::filter(.data$date >= max(live_cntr()[["db_long"]]$date)) %>%
+        dplyr::select(-.data$method) %>%
+        dplyr::mutate(dplyr::across(c(lower, upper), ~round(.x, 1))) %>%
+        dplyr::rename(`Posti letto attesi` = `N beds`)
+    })
+
 
   })
 }
