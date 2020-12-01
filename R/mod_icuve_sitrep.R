@@ -245,7 +245,6 @@ mod_icuve_sitrep_server <- function(id) {
     })
 
     output$gg_icuve_sitrep <- renderPlotly({
-
       plotly::ggplotly(sitrep()[["gg"]]) %>%
         plotly::config(modeBarButtonsToRemove = c(
           "zoomIn2d", "zoomOut2d", "pan2d", "select2d", "lasso2d")) %>%
@@ -273,7 +272,6 @@ mod_icuve_sitrep_server <- function(id) {
     })
 
     output$gg_icuve_sitrep_prov <- renderPlotly({
-
       plotly::ggplotly(live_prov()[["gg"]]) %>%
         plotly::config(modeBarButtonsToRemove = c(
           "zoomIn2d", "zoomOut2d", "pan2d", "select2d", "lasso2d")) %>%
@@ -301,7 +299,6 @@ mod_icuve_sitrep_server <- function(id) {
     })
 
     output$gg_icuve_sitrep_centre <- renderPlotly({
-
       plotly::ggplotly(live_cntr()[["gg"]]) %>%
         plotly::config(modeBarButtonsToRemove = c(
           "zoomIn2d", "zoomOut2d", "pan2d", "select2d", "lasso2d")) %>%

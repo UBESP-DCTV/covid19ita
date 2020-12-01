@@ -24,7 +24,60 @@ sitrep2long <- function(db, vars) {
 
 
 
+fix_missing_dates <- function(db_long, groups) {
 
+  time_range <- as.Date(range(db_long$date, na.rm = FALSE))
+  time_span <- seq(from = time_range[[1]], to = time_range[[2]], by = 1)
+  current_dates <- as.Date(db_long$date)
+  missing_dates <- as.Date(time_span[!time_span %in% current_dates])
+
+  if (length(missing_dates) != 0) {
+    other_group <- setdiff(groups, "type")
+
+    if (length(other_group) == 0) {
+      additional_db <- list(
+        type = unique(db_long[["type"]]),
+        date = missing_dates
+      ) %>%
+        purrr::cross_df() %>%
+        dplyr::mutate(date = as.Date(.data$date, origin = "1970-01-01"))
+
+    } else if (other_group == "province") {
+      additional_db <- list(
+        type = unique(db_long[["type"]]),
+        province = unique(db_long[[other_group]]),
+        date = missing_dates
+      ) %>%
+        purrr::cross_df() %>%
+        dplyr::mutate(
+          date = as.POSIXct(as.Date(.data$date, origin = "1970-01-01"))
+        )
+
+    } else if (other_group == "centre") {
+      additional_db <- list(
+        type = unique(db_long[["type"]]),
+        centre = unique(db_long[[other_group]]),
+        date = missing_dates
+      ) %>%
+        purrr::cross_df() %>%
+        dplyr::mutate(
+          date = as.POSIXct(as.Date(.data$date, origin = "1970-01-01"))
+        )
+
+    } else {
+      stop("Error in `pred_ets()`, contanct the administrator")
+    }
+
+    db_long <- db_long %>%
+      dplyr::bind_rows(additional_db) %>%
+      dplyr::group_by(dplyr::across(dplyr::all_of(groups))) %>%
+      dplyr::arrange(.data$date) %>%
+      dplyr::mutate(`N beds` = zoo::na.locf(.data$`N beds`)) %>%
+      dplyr::ungroup()
+  }
+
+  db_long
+}
 
 
 
@@ -32,8 +85,7 @@ pred_ets <- function(db_long, groups = "type", n_ahead = 15) {
 
   time_range <- as.Date(range(db_long$date, na.rm = FALSE))
 
-  db_long %>%
-    ggplot2::remove_missing() %>%
+  fix_missing_dates(db_long, groups) %>%
     dplyr::group_by(dplyr::across(dplyr::all_of(groups)), .data$date) %>%
     dplyr::mutate(date = as.Date(.data$date)) %>%
     dplyr::summarise(`N beds` = mean(.data$`N beds`)) %>%
@@ -57,7 +109,7 @@ pred_ets <- function(db_long, groups = "type", n_ahead = 15) {
                      to = time_range[[2]] + n_ahead,
                      by = 1
           ),
-          `N beds` = c(.y$fitted, as.double(pred$mean)) %>% round(),
+          `N beds` = c(.y$fitted, as.double(pred$mean)) %>% round(1),
           lower = c(
             .data$`N beds`[seq_along(.y$fitted)],
             as.double(pred$lower[, 2])
