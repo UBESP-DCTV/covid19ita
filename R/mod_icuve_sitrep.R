@@ -13,13 +13,182 @@
 mod_icuve_sitrep_ui <- function(id) {
   ns <- NS(id)
 
+  province_veneto <- c(
+    "Belluno" = "belluno",
+    "Padova" = "padova",
+    "Rovigo" = "rovigo",
+    "Treviso" = "treviso",
+    "Venezia" = "venezia",
+    "Verona" = "verona",
+    "Vicenza" = "vicenza"
+  )
+
+  regional_info <- list(
+    "CoViD-19" = list(
+      "Deaths" = "covid_dead",
+      "New" = "covid_new",
+      "Discharged" = "covid_discharged",
+      "Beds occupied" = "covid_occupied",
+      "Beds variation" = "covid_variation"
+    ),
+    "Non-CoViD-19" = list(
+      "Beds occupied" = "other_occupied"
+    ),
+    "Overall" = list(
+      "Free beds" = "overall_free",
+      "Beds occupied" = "overall_occupied",
+      "Total number of beds" = "overall_total"
+    )
+  )
+
+  live_info <- list(
+    "CoViD-19" = list(
+      "Free beds" = "covid_free",
+      "Beds occupied" = "covid_occupied",
+      "Total number of beds" = "covid_total"
+    ),
+    "Non-CoViD-19" = list(
+      "Free beds" = "other_free",
+      "Beds occupied" = "other_occupied",
+      "Total number of beds" = "other_total"
+    ),
+    "Stand-by" = list(
+      "Free beds" = "general_free"
+    ),
+    "Overall" = list(
+      "Free beds" = "overall_free",
+      "Beds occupied" = "overall_occupied",
+      "Total number of beds" = "overall_total"
+    ),
+    "Supplementary CoViD-19 info" = list(
+      "Suspected cases" = "covid_suspect",
+      "ECMO" = "covid_ecmo",
+      "IOT" = "covid_iot",
+      "NIV" = "covid_niv",
+      "Negativized" = "covid_negativized"
+    )
+  )
+
+  centri_veneto <- c(
+    "ABANO", "ADRIA", "ARZIGNANO", "BASSANO", "BELLUNO", "CAMPOSAM",
+    "CASTELFRANCO", "CHIOGGIA", "CITTADELLA", "CONEGLIANO", "DOLO",
+    "FELTRE", "ISTAR 3", "ISTAR 4", "ISTAR 5", "JESOLO", "LEGNAGO",
+    "MESTRE", "MIRANO", "MONTEBELLUNA", "NEGRAR", "ODERZO",
+    "PADOVA NCH", "PD CENTRALE", "PD IOV", "PD SA", "PESCHIERA",
+    "PIEVE DI CADORE", "PIOVE DI S.", "PORTO VIRO", "PORTOGRUARO",
+    "ROVIGO", "SAN BONIFACIO", "SAN DONA'", "SANTORSO", "SCHIAVONIA",
+    "TRECENTA", "TREVISO 1", "TREVISO 5", "TREVISO CCH", "TREVISO INF",
+    "TREVISO NCH", "VENEZIA SGP", "VICENZA", "VILLAFRANCA",
+    "VITTORIO V.TO", "VR B.ROMA", "VR B.TRENTO A", "VR B.TRENTO B",
+    "VR B.TRENTO POSTOP", "VR B.TRENTO SPINA"
+  )
+
+
+
   fluidPage(
     fluidRow(
+      h1(HTML("Analisi delle serie storiche per l'occupazione dei posti letto nelle terapie intensive in Veneto")),
+      h3(HTML("Exponential smoothing state space model")),
+      p(HTML("\u00C8 stato impiegato un approccio Estimation Smothing State Space Model per la predizione delle serie dei ricoveri COVID-19 in terapia intensiva.
+
+Il Modello si caratterizza per i parametri di Errore (E), Trend (T) e Stagionalit\u00E0 (S).
+
+ La notazione del modello di definisce come ETS(Errore, Trend, Stagionalit\u00E0).
+
+Le tre componenti possono essere additive (A), o moltiplicative (M).
+
+Il Trend pu\u00F2 essere anche Additivo Damped (Ad). Le previsioni generate dal metodo Additivo mostrano una trend costante (in aumento o in diminuzione) a tempo indeterminato verso il futuro. Il parametro Damped Ad, invece, smorza lo shape della curva verso un appiattimento certo periodo di tempo nel futuro.
+
+Ad esempio un modello ETS(A,Ad,N) indica un modello con Errore Additivo, Trend Damped e Nessuna stagionalit\u00E0 (N).
+
+La parametrizzazione ottimale viene scelta in modo automatico utilizzando come criterio di selezione dei parametri il BIC (Bayesian Information Criterion).")),
+    ),
+    fluidRow(
+      h1(HTML("Report regionale (Veneto)")),
+      column(8,
+        shiny::selectInput(
+          ns("whichInfoReg"), "(De-)selezionare le variabili da mostrare",
+          choices = regional_info,
+          multiple = TRUE,
+          selected = c(
+            "covid_occupied", "other_occupied", "overall_occupied",
+            "overall_total"
+          ),
+          width = "100%"
+        )
+      ),
       box(
         width = 12,
         plotly::plotlyOutput(ns("gg_icuve_sitrep")),
-        title = "Dettaglio della situazione corrente (punti) e stima andamento a 15 giorni (linee curve) dei posti letto nelle terapie intensive venete.",
-        footer = "Modello di proiezione loess (span = 0.75, degree = 2); bande di confidenza al 95%. Linee orizzontali tratteggiate a 400 (rosso) e 500 (nero) posti letto."
+        title = "Dettaglio regionale della situazione corrente (punti) e stima andamento a 15 giorni (linee) dei posti letto nelle terapie intensive venete con intervalli di confidenza al 95% (bande).",
+        footer = "Linee orizzontali tratteggiate a 400 (rosso) e 500 (nero) posti letto."
+      )
+    ),
+    fluidRow(
+      h1(HTML("Report provinciale (Veneto)")),
+      column(8,
+        shiny::selectInput(
+          ns("whichProvince"), "(De-)selezionare le province di interesse",
+          choices = province_veneto,
+          multiple = TRUE,
+          selected = "padova",
+          width = "100%"
+        )
+      ),
+      column(8,
+        shiny::selectInput(
+          ns("whichInfoProv"), "(De-)selezionare le variabili da mostrare",
+          choices = live_info,
+          multiple = TRUE,
+          selected = c(
+            "covid_occupied", "other_occupied", "overall_occupied",
+            "overall_total"
+          ),
+          width = "100%"
+        )
+      ),
+      box(
+        width = 12,
+        plotly::plotlyOutput(ns("gg_icuve_sitrep_prov"), height = "600px"),
+        title = "Dettaglio provinciale della situazione corrente (punti) e stima andamento a 15 giorni (linee) dei posti letto nelle terapie intensive venete con intervalli di confidenza al 95% (bande)."
+      )
+    ),
+    fluidRow(
+      h1(HTML("Report per centro (Veneto)")),
+      column(8,
+        shiny::selectInput(
+          ns("whichCentre"), "Selezionare il centro di interesse",
+          choices = centri_veneto,
+          selected = NULL,
+          width = "100%"
+        )
+      ),
+      column(8,
+        shiny::selectInput(
+          ns("whichInfoCntr"), "(De-)selezionare le variabili da mostrare",
+          choices = live_info,
+          multiple = TRUE,
+          selected = c(
+            "covid_occupied", "other_occupied", "overall_occupied",
+            "overall_total"
+          ),
+          width = "100%"
+        )
+      ),
+      box(
+        width = 12,
+        plotly::plotlyOutput(ns("gg_icuve_sitrep_centre")),
+        title = "Dettaglio per centro della situazione corrente (punti) e stima andamento a 15 giorni (linee) dei posti letto nelle terapie intensive venete con intervalli di confidenza al 95% (bande)."
+      )
+    ),
+    fluidRow(
+      box(
+        width = 12, title = "Bibliografia",
+        p(HTML("
+          <ol>
+            <li>Simone AA., Arruda EF., Goldwasser R., Lobo MSC., Salles A., Lapa e Silva, JR., . Demand Forecast and Optimal Planning of Intensive Care Unit (ICU) capacity. Pequisa Operacional. 2017;37(2):229-245.</li>
+          </ol>
+        "))
       )
     )
   )
@@ -33,94 +202,63 @@ mod_icuve_sitrep_server <- function(id) {
 
   stopifnot(`package {covid19.icuve} required for this function` =
               requireNamespace("covid19.icuve"))
+
   icuve_sitrep <- covid19.icuve::fetch_gsheet()
 
-  icuve_sitrep_long <- icuve_sitrep %>%
-    tidyr::pivot_longer(-date,
-                        names_to = "type",
-                        values_to = "N beds") %>%
-    dplyr::filter(!.data$type %in% c("covid_new", "covid_discharged")) %>%
-    dplyr::mutate(
-      type = stringr::str_replace_all(.data$type,
-                                      c(covid_dead = "CoViD-19 deaths",
-                                        covid_occupied = "CoViD-19 beds occupied",
-                                        covid_variation = "CoViD-19 beds variation",
-                                        other_occupied = "Non-CoViD-19 beds occupied",
-                                        overall_free = "Overall free beds",
-                                        overall_occupied = "Overall beds occupied",
-                                        overall_total = "Overall number of beds")
-      )
-    )
-
-
-  pred_db <- icuve_sitrep_long %>%
-    dplyr::group_by(.data$type) %>%
-    tidyr::nest() %>%
-    dplyr::mutate(
-      model = .data$data %>%
-        purrr::map(~stats::loess(as.formula("`N beds` ~ date"),
-                                 data = .x %>%
-                                   dplyr::filter(.data$date >= as.Date("2020-09-01")) %>%
-                                   dplyr::mutate(date = as.numeric(.data$date)),
-                                 control = stats::loess.control(surface = "direct")
-        )),
-      res  = purrr::map2(.data$data, .data$model,
-                         ~tibble::tibble(
-                           date = as.Date("2020-09-01"):(max(.x$date) + 15L),
-                           `N beds` = stats::predict(.y,
-                                                     data.frame(date = as.numeric(.data$date))
-                           ),
-                           se = stats::predict(.y,
-                                               data.frame(date = as.numeric(.data$date)),
-                                               se = TRUE
-                           )[["se.fit"]]
-                         )
-      )
-    ) %>%
-    dplyr::select(.data$type, .data$res) %>%
-    tidyr::unnest(cols = c("res")) %>%
-    dplyr::mutate(
-      `N beds` = .data$`N beds`,
-      date = as.Date(.data$date, origin = "1970-01-01")
-    ) %>%
-    dplyr::ungroup()
-
-
-
-
-
-  gg <- icuve_sitrep_long %>%
-    dplyr::filter(.data$date >= as.Date("2020-09-01")) %>%
-    ggplot(aes(x = .data$date,
-               y = .data$`N beds`,
-               colour = .data$type,
-               fill = .data$type)) +
-    geom_point() +
-    geom_ribbon(data = pred_db,
-                aes(ymin = .data$`N beds` - 1.96*.data$se,
-                    ymax = .data$`N beds` + 1.96*.data$se),
-                alpha = 0.33) +
-    geom_hline(yintercept = 400, linetype = "dashed", colour = "red") +
-    geom_hline(yintercept = 500, linetype = "dashed", colour = "black") +
-    scale_x_date(date_breaks = "3 days",
-                 date_labels = "%d %b") +
-    theme(
-      axis.text.x = element_text(angle = 60, hjust = 1, vjust = 0.5),
-      panel.spacing.y = unit(2, "lines")
-    ) +
-    ylab("Numero posti letto") +
-    xlab("")
-
-
+  glive_ts <- withr::with_db_connection(
+    con = list(con = covid19.icuve::dblive_connect()),
+    code = covid19.icuve::dblive_read(con, verbose = FALSE)
+  )
 
   callModule(id = id, function(input, output, session) {
     ns <- session$ns
-    output$gg_icuve_sitrep <- renderPlotly(
-      plotly::ggplotly(gg) %>%
+
+
+
+
+    # siterep ----------------------------------------------------------
+    output$gg_icuve_sitrep <- renderPlotly({
+      which_info_reg <- req(input$whichInfoReg)
+
+      plotly::ggplotly(
+        gg_siterep(icuve_sitrep, which_info_reg)
+      ) %>%
         plotly::config(modeBarButtonsToRemove = c(
           "zoomIn2d", "zoomOut2d", "pan2d", "select2d", "lasso2d")) %>%
         plotly::config(displaylogo = FALSE)
-    )
+    })
+
+
+
+    # provincial -------------------------------------------------------
+    output$gg_icuve_sitrep_prov <- renderPlotly({
+      which_prov <- req(input$whichProvince)
+      which_info_prov <- req(input$whichInfoProv)
+
+      plotly::ggplotly(
+        gg_live(glive_ts, which_prov, which_info_prov, "province")
+      ) %>%
+        plotly::config(modeBarButtonsToRemove = c(
+          "zoomIn2d", "zoomOut2d", "pan2d", "select2d", "lasso2d")) %>%
+        plotly::config(displaylogo = FALSE)
+    })
+
+
+
+
+    # centre -----------------------------------------------------------
+    output$gg_icuve_sitrep_centre <- renderPlotly({
+      which_cntr <- req(input$whichCentre)
+      which_info_cntr <- req(input$whichInfoCntr)
+
+      plotly::ggplotly(
+        gg_live(glive_ts, which_cntr, which_info_cntr, "centre")
+      ) %>%
+        plotly::config(modeBarButtonsToRemove = c(
+          "zoomIn2d", "zoomOut2d", "pan2d", "select2d", "lasso2d")) %>%
+        plotly::config(displaylogo = FALSE)
+    })
+
   })
 }
 
