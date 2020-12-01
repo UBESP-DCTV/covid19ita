@@ -89,7 +89,8 @@ pred_ets <- function(db_long, groups = "type", n_ahead = 15) {
 
 
 
-gg_siterep <- function(db, which_info_reg, start_date = "2020-09-01") {
+gg_siterep <- function(db, which_info_reg, start_date = "2020-09-01",
+                       ic = TRUE) {
 
   db_long <- sitrep2long(db, which_info_reg) %>%
     dplyr::filter(.data$date >= as.Date(start_date))
@@ -97,15 +98,24 @@ gg_siterep <- function(db, which_info_reg, start_date = "2020-09-01") {
   db_pred <- pred_ets(db_long)
   methods <- dplyr::filter(db_pred, date == max(db_long$date))
 
-  db_long %>%
+  gg <- db_long %>%
     ggplot(aes(x = .data$date,
                y = .data$`N beds`,
                colour = .data$type,
                fill = .data$type)) +
     geom_point(size = 0.5) +
-    geom_ribbon(data = db_pred,
+    geom_line(data = db_pred, aes(y = .data$`N beds`), alpha = 0.33)
+
+  if (ic) {
+  gg <- gg +
+    geom_ribbon(data = db_pred %>%
+                  dplyr::filter(.data$date %in%
+                    max(db_long$date):(max(db_long$date) + 4)),
                 aes(ymin = .data$lower, ymax = .data$upper),
-                alpha = 0.33) +
+                alpha = 0.33)
+  }
+
+  gg +
     geom_text(data = dplyr::mutate(methods, date = .data$date + 5),
               aes(x = date, y = .data$`N beds`, label = .data$method),
               hjust = "inward",
@@ -128,7 +138,7 @@ gg_siterep <- function(db, which_info_reg, start_date = "2020-09-01") {
 # live =================================================================
 
 gg_live <- function(db, who, vars, group = c("province", "centre"),
-                    start_date = "2020-09-01"
+                    start_date = "2020-09-01", ic = TRUE
 ) {
   group <- match.arg(group)
 
@@ -147,7 +157,28 @@ gg_live <- function(db, who, vars, group = c("province", "centre"),
       "date", "type", group
     )))) %>%
     dplyr::summarize(`N beds` = sum(.data$`N beds`, na.rm = TRUE)) %>%
-    dplyr::ungroup()
+    dplyr::ungroup() %>%
+    dplyr::mutate(
+      type = .data$type %>%
+        stringr::str_replace_all(c(
+            covid_free = "CoViD-19 Free beds",
+            covid_occupied = "CoViD-19 Beds occupied",
+            covid_total = "CoViD-19 Total number of beds",
+            other_free = "Non-CoViD-19 Free beds",
+            other_occupied = "Non-CoViD-19 Beds occupied",
+            other_total = "Non-CoViD-19 Total number of beds",
+            general_free = "Stand-by Free beds",
+            overall_free = "Overall Free beds",
+            overall_occupied = "Overall Beds occupied",
+            overall_total = "Overall Total number of beds",
+            covid_suspect = "Suspected CoViD-19 cases",
+            covid_ecmo = "ECMO",
+            covid_iot = "IOT",
+            covid_niv = "NIV",
+            covid_negativized = "CoViD-19 Negativized"
+        ))
+    )
+
 
   db_pred <- pred_ets(db_long, groups = c("type", group))
   methods <- db_pred %>%
@@ -156,7 +187,7 @@ gg_live <- function(db, who, vars, group = c("province", "centre"),
     dplyr::distinct() %>%
     dplyr::filter(dplyr::across(dplyr::all_of(group), ~.%in% who))
 
-  db_long  %>%
+  gg <- db_long  %>%
     ggplot(aes(
       x = .data$date,
       y = .data$`N beds`,
@@ -164,10 +195,23 @@ gg_live <- function(db, who, vars, group = c("province", "centre"),
       fill = .data$type
     )) +
     geom_point(size = 0.5) +
-    geom_ribbon(data = db_pred %>%
+    geom_line(data = db_pred %>%
                   dplyr::mutate(date = as.POSIXct(.data$date)),
-                aes(ymin = .data$lower, ymax = .data$upper),
-                alpha = 0.33) +
+                aes(y = .data$`N beds`),
+                alpha = 0.33)
+
+  if (ic) {
+    gg <- gg +
+      geom_ribbon(
+        data = db_pred %>%
+          dplyr::filter(.data$date %in%
+            as.Date(max(db_long$date)):(as.Date(max(db_long$date)) + 4)) %>%
+          dplyr::mutate(date = as.POSIXct(.data$date)),
+        aes(ymin = .data$lower, ymax = .data$upper),
+        alpha = 0.33)
+  }
+
+  gg +
     geom_text(data = dplyr::mutate(methods, date = as.POSIXct(.data$date + 5)),
         aes(x = date, y = .data$`N beds`, label = .data$method),
              hjust = "inward",

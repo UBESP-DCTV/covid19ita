@@ -25,47 +25,47 @@ mod_icuve_sitrep_ui <- function(id) {
 
   regional_info <- list(
     "CoViD-19" = list(
-      "Deaths" = "covid_dead",
-      "New" = "covid_new",
-      "Discharged" = "covid_discharged",
-      "Beds occupied" = "covid_occupied",
-      "Beds variation" = "covid_variation"
+      "CoViD-19 Deaths" = "covid_dead",
+      "CoViD-19 New" = "covid_new",
+      "CoViD-19 Discharged" = "covid_discharged",
+      "CoViD-19 Beds occupied" = "covid_occupied",
+      "CoViD-19 Beds variation" = "covid_variation"
     ),
     "Non-CoViD-19" = list(
-      "Beds occupied" = "other_occupied"
+      "Non-CoViD-19 Beds occupied" = "other_occupied"
     ),
     "Overall" = list(
-      "Free beds" = "overall_free",
-      "Beds occupied" = "overall_occupied",
-      "Total number of beds" = "overall_total"
+      "Overall Free beds" = "overall_free",
+      "Overall Beds occupied" = "overall_occupied",
+      "Overall Total number of beds" = "overall_total"
     )
   )
 
   live_info <- list(
     "CoViD-19" = list(
-      "Free beds" = "covid_free",
-      "Beds occupied" = "covid_occupied",
-      "Total number of beds" = "covid_total"
+      "CoViD-19 Free beds" = "covid_free",
+      "CoViD-19 Beds occupied" = "covid_occupied",
+      "CoViD-19 Total number of beds" = "covid_total"
     ),
     "Non-CoViD-19" = list(
-      "Free beds" = "other_free",
-      "Beds occupied" = "other_occupied",
-      "Total number of beds" = "other_total"
+      "Non-CoViD-19 Free beds" = "other_free",
+      "Non-CoViD-19 Beds occupied" = "other_occupied",
+      "Non-CoViD-19 Total number of beds" = "other_total"
     ),
     "Stand-by" = list(
-      "Free beds" = "general_free"
+      "Stand-by Free beds" = "general_free"
     ),
     "Overall" = list(
-      "Free beds" = "overall_free",
-      "Beds occupied" = "overall_occupied",
-      "Total number of beds" = "overall_total"
+      "Overall Free beds" = "overall_free",
+      "Overall Beds occupied" = "overall_occupied",
+      "Overall Total number of beds" = "overall_total"
     ),
     "Supplementary CoViD-19 info" = list(
-      "Suspected cases" = "covid_suspect",
+      "Suspected CoViD-19 cases" = "covid_suspect",
       "ECMO" = "covid_ecmo",
       "IOT" = "covid_iot",
       "NIV" = "covid_niv",
-      "Negativized" = "covid_negativized"
+      "CoViD-19 Negativized" = "covid_negativized"
     )
   )
 
@@ -221,7 +221,7 @@ mod_icuve_sitrep_server <- function(id) {
       which_info_reg <- req(input$whichInfoReg)
 
       plotly::ggplotly(
-        gg_siterep(icuve_sitrep, which_info_reg)
+        gg_siterep(icuve_sitrep, which_info_reg, ic = TRUE)
       ) %>%
         plotly::config(modeBarButtonsToRemove = c(
           "zoomIn2d", "zoomOut2d", "pan2d", "select2d", "lasso2d")) %>%
@@ -236,7 +236,8 @@ mod_icuve_sitrep_server <- function(id) {
       which_info_prov <- req(input$whichInfoProv)
 
       plotly::ggplotly(
-        gg_live(glive_ts, which_prov, which_info_prov, "province")
+        gg_live(glive_ts, which_prov, which_info_prov, "province",
+                ic = TRUE)
       ) %>%
         plotly::config(modeBarButtonsToRemove = c(
           "zoomIn2d", "zoomOut2d", "pan2d", "select2d", "lasso2d")) %>%
@@ -252,7 +253,8 @@ mod_icuve_sitrep_server <- function(id) {
       which_info_cntr <- req(input$whichInfoCntr)
 
       plotly::ggplotly(
-        gg_live(glive_ts, which_cntr, which_info_cntr, "centre")
+        gg_live(glive_ts, which_cntr, which_info_cntr, "centre",
+                ic = TRUE)
       ) %>%
         plotly::config(modeBarButtonsToRemove = c(
           "zoomIn2d", "zoomOut2d", "pan2d", "select2d", "lasso2d")) %>%
