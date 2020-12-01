@@ -12,7 +12,7 @@ devtools::check_man()
 res_check <- devtools::check()
 
 
-# tools::showNonASCIIfile(here::here("R/mod_icuve_static.R"))
+tools::showNonASCIIfile(here::here("R/mod_tsicuve.R"))
 
 
 if (length(res_check$errors) == 0L && length(res_check$warnings) == 0L) {

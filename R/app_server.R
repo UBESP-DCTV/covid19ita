@@ -38,7 +38,7 @@ app_server <- function(input, output, session) {
           if (Username != "") {
             showNotification(
               HTML("
-                Setup zone riservate</br>serve un po' di tempo in più...
+                Setup zone riservate</br>serve un po' di tempo in pi\u00F9...
               "),
               duration = 9, type = "warning"
             )

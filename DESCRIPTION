@@ -83,7 +83,9 @@ Imports:
     tscount,
     usethis (>= 1.5.1),
     utils,
-    xts
+    xts,
+    withr,
+    zoo
 Suggests: 
     assertive,
     cli,

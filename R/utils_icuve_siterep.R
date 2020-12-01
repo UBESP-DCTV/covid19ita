@@ -107,7 +107,7 @@ gg_siterep <- function(db, which_info_reg, start_date = "2020-09-01") {
                 aes(ymin = .data$lower, ymax = .data$upper),
                 alpha = 0.33) +
     geom_text(data = dplyr::mutate(methods, date = .data$date + 5),
-              aes(x = date, y = `N beds`, label = method),
+              aes(x = date, y = .data$`N beds`, label = .data$method),
               hjust = "inward",
               size = 3,
               alpha = 0.6
@@ -168,13 +168,13 @@ gg_live <- function(db, who, vars, group = c("province", "centre"),
                 aes(ymin = .data$lower, ymax = .data$upper),
                 alpha = 0.33) +
     geom_text(data = dplyr::mutate(methods, date = as.POSIXct(.data$date + 5)),
-        aes(x = date, y = `N beds`, label = method),
+        aes(x = date, y = .data$`N beds`, label = .data$method),
              hjust = "inward",
              size = 3,
              alpha = 0.6
     ) +
     scale_x_datetime(date_breaks = "3 days", date_labels = "%d %b") +
-    facet_wrap(as.formula(paste(group, "~", "."))) +
+    facet_wrap(stats::as.formula(paste(group, "~", "."))) +
     theme(
       axis.text.x = element_text(angle = 60, hjust = 1, vjust = 0.5),
       panel.spacing.y = unit(2, "lines")

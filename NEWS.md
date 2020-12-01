@@ -5,7 +5,7 @@
 * Fix non-ASCII characters
 * Update WORDLIST
 * Move `{covid19.icuve}` into **Enhances** to avoid its installation 
-  even when installed with `dependencies = TRUE` (solvels #89).
+  even when installed with `dependencies = TRUE` (solves #89).
 
 # covid19ita 0.110.0
 

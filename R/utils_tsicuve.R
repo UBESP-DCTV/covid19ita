@@ -80,7 +80,7 @@ ts_plot <- function(fit, pred, aux_objs, n_ahead, tstart, tstop, method
   if (!is.null(method)) {
     ggres <- ggres +
       annotate("text",
-               x = median(aux_objs[["obs_df"]]$data, na.rm = TRUE),
+               x = stats::median(aux_objs[["obs_df"]]$data, na.rm = TRUE),
                y = max(aux_objs[["obs_df"]]$terapia_intensiva, na.rm = TRUE),
                label = paste0("Methods: ", method),
                vjust = "inward", hjust = "inward"
