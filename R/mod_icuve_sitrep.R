@@ -114,7 +114,7 @@ mod_icuve_sitrep_ui <- function(id) {
           ns("whichProvince"), "(De-)selezionare le province di interesse",
           choices = province_veneto,
           multiple = TRUE,
-          selected = province_veneto,
+          selected = "padova",
           width = "100%"
         )
       ),
@@ -132,7 +132,7 @@ mod_icuve_sitrep_ui <- function(id) {
       ),
       box(
         width = 12,
-        plotly::plotlyOutput(ns("gg_icuve_sitrep_prov"), height = "600px"),
+        plotly::plotlyOutput(ns("gg_icuve_sitrep_prov")),
         title = "Dettaglio provinciale della situazione corrente (punti) e stima andamento a 15 giorni (linee) dei posti letto nelle terapie intensive venete.",
         footer = "Linee orizzontali tratteggiate a 400 (rosso) e 500 (nero) posti letto."
       )
@@ -188,40 +188,47 @@ mod_icuve_sitrep_server <- function(id) {
   callModule(id = id, function(input, output, session) {
     ns <- session$ns
 
-    siterep_gg <- reactive({
+
+
+
+    # siterep ----------------------------------------------------------
+    output$gg_icuve_sitrep <- renderPlotly({
       which_info_reg <- req(input$whichInfoReg)
 
-      icuve_sitrep_long <- sitrep2long(icuve_sitrep, which_info_reg)
-      pred_db <- pred_siterep(icuve_sitrep_long)
-      gg_siterep(icuve_sitrep_long, pred_db)
-    })
-
-    output$gg_icuve_sitrep <- renderPlotly(
-      plotly::ggplotly(siterep_gg()) %>%
+      plotly::ggplotly(
+        gg_siterep(icuve_sitrep, which_info_reg)
+      ) %>%
         plotly::config(modeBarButtonsToRemove = c(
           "zoomIn2d", "zoomOut2d", "pan2d", "select2d", "lasso2d")) %>%
         plotly::config(displaylogo = FALSE)
-    )
+    })
 
+
+
+    # provincial -------------------------------------------------------
     output$gg_icuve_sitrep_prov <- renderPlotly({
       which_prov <- req(input$whichProvince)
       which_info_prov <- req(input$whichInfoProv)
 
       plotly::ggplotly(
-          gg_live(glive_ts, which_prov, which_info_prov, "province")
-        ) %>%
+        gg_live(glive_ts, which_prov, which_info_prov, "province")
+      ) %>%
         plotly::config(modeBarButtonsToRemove = c(
           "zoomIn2d", "zoomOut2d", "pan2d", "select2d", "lasso2d")) %>%
         plotly::config(displaylogo = FALSE)
     })
 
+
+
+
+    # centre -----------------------------------------------------------
     output$gg_icuve_sitrep_centre <- renderPlotly({
       which_cntr <- req(input$whichCentre)
       which_info_cntr <- req(input$whichInfoCntr)
 
       plotly::ggplotly(
-          gg_live(glive_ts, which_cntr, which_info_cntr, "centre")
-        ) %>%
+        gg_live(glive_ts, which_cntr, which_info_cntr, "centre")
+      ) %>%
         plotly::config(modeBarButtonsToRemove = c(
           "zoomIn2d", "zoomOut2d", "pan2d", "select2d", "lasso2d")) %>%
         plotly::config(displaylogo = FALSE)
