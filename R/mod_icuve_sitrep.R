@@ -207,7 +207,21 @@ mod_icuve_sitrep_server <- function(id) {
       which_prov <- req(input$whichProvince)
       which_info_prov <- req(input$whichInfoProv)
 
-      plotly::ggplotly(gg_live(glive_ts, which_prov, which_info_prov)) %>%
+      plotly::ggplotly(
+          gg_live(glive_ts, which_prov, which_info_prov, "province")
+        ) %>%
+        plotly::config(modeBarButtonsToRemove = c(
+          "zoomIn2d", "zoomOut2d", "pan2d", "select2d", "lasso2d")) %>%
+        plotly::config(displaylogo = FALSE)
+    })
+
+    output$gg_icuve_sitrep_centre <- renderPlotly({
+      which_cntr <- req(input$whichCentre)
+      which_info_cntr <- req(input$whichInfoCntr)
+
+      plotly::ggplotly(
+          gg_live(glive_ts, which_cntr, which_info_cntr, "centre")
+        ) %>%
         plotly::config(modeBarButtonsToRemove = c(
           "zoomIn2d", "zoomOut2d", "pan2d", "select2d", "lasso2d")) %>%
         plotly::config(displaylogo = FALSE)
