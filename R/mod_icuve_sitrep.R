@@ -87,7 +87,24 @@ mod_icuve_sitrep_ui <- function(id) {
 
   fluidPage(
     fluidRow(
-      h3(HTML("Report regionale (Veneto)")),
+      h1(HTML("Analisi delle serie storiche per l'occupazione dei posti letto nelle terapie intensive in Veneto")),
+      h3(HTML("Exponential smoothing state space model")),
+      p(HTML("\u00C8 stato impiegato un approccio Estimation Smothing State Space Model per la predizione delle serie dei ricoveri COVID-19 in terapia intensiva.
+
+Il Modello si caratterizza per i parametri di Errore (E), Trend (T) e Stagionalit\u00E0 (S).
+
+ La notazione del modello di definisce come ETS(Errore, Trend, Stagionalit\u00E0).
+
+Le tre componenti possono essere additive (A), o moltiplicative (M).
+
+Il Trend pu\u00F2 essere anche Additivo Damped (Ad). Le previsioni generate dal metodo Additivo mostrano una trend costante (in aumento o in diminuzione) a tempo indeterminato verso il futuro. Il parametro Damped Ad, invece, smorza lo shape della curva verso un appiattimento certo periodo di tempo nel futuro.
+
+Ad esempio un modello ETS(A,Ad,N) indica un modello con Errore Additivo, Trend Damped e Nessuna stagionalit\u00E0 (N).
+
+La parametrizzazione ottimale viene scelta in modo automatico utilizzando come criterio di selezione dei parametri il BIC (Bayesian Information Criterion).")),
+    ),
+    fluidRow(
+      h1(HTML("Report regionale (Veneto)")),
       column(8,
         shiny::selectInput(
           ns("whichInfoReg"), "(De-)selezionare le variabili da mostrare",
@@ -103,12 +120,12 @@ mod_icuve_sitrep_ui <- function(id) {
       box(
         width = 12,
         plotly::plotlyOutput(ns("gg_icuve_sitrep")),
-        title = "Dettaglio regionale della situazione corrente (punti) e stima andamento a 15 giorni (linee) dei posti letto nelle terapie intensive venete.",
+        title = "Dettaglio regionale della situazione corrente (punti) e stima andamento a 15 giorni (linee) dei posti letto nelle terapie intensive venete con intervalli di confidenza al 95% (bande).",
         footer = "Linee orizzontali tratteggiate a 400 (rosso) e 500 (nero) posti letto."
       )
     ),
     fluidRow(
-      h3(HTML("Report provinciale (Veneto)")),
+      h1(HTML("Report provinciale (Veneto)")),
       column(8,
         shiny::selectInput(
           ns("whichProvince"), "(De-)selezionare le province di interesse",
@@ -132,13 +149,12 @@ mod_icuve_sitrep_ui <- function(id) {
       ),
       box(
         width = 12,
-        plotly::plotlyOutput(ns("gg_icuve_sitrep_prov")),
-        title = "Dettaglio provinciale della situazione corrente (punti) e stima andamento a 15 giorni (linee) dei posti letto nelle terapie intensive venete.",
-        footer = "Linee orizzontali tratteggiate a 400 (rosso) e 500 (nero) posti letto."
+        plotly::plotlyOutput(ns("gg_icuve_sitrep_prov"), height = "600px"),
+        title = "Dettaglio provinciale della situazione corrente (punti) e stima andamento a 15 giorni (linee) dei posti letto nelle terapie intensive venete con intervalli di confidenza al 95% (bande)."
       )
     ),
     fluidRow(
-      h3(HTML("Report per centro (Veneto)")),
+      h1(HTML("Report per centro (Veneto)")),
       column(8,
         shiny::selectInput(
           ns("whichCentre"), "Selezionare il centro di interesse",
@@ -162,8 +178,17 @@ mod_icuve_sitrep_ui <- function(id) {
       box(
         width = 12,
         plotly::plotlyOutput(ns("gg_icuve_sitrep_centre")),
-        title = "Dettaglio per centro della situazione corrente (punti) e stima andamento a 15 giorni (linee) dei posti letto nelle terapie intensive venete.",
-        footer = "Linee orizzontali tratteggiate a 400 (rosso) e 500 (nero) posti letto."
+        title = "Dettaglio per centro della situazione corrente (punti) e stima andamento a 15 giorni (linee) dei posti letto nelle terapie intensive venete con intervalli di confidenza al 95% (bande)."
+      )
+    ),
+    fluidRow(
+      box(
+        width = 12, title = "Bibliografia",
+        p(HTML("
+          <ol>
+            <li>Simone AA., Arruda EF., Goldwasser R., Lobo MSC., Salles A., Lapa e Silva, JR., . Demand Forecast and Optimal Planning of Intensive Care Unit (ICU) capacity. Pequisa Operacional. 2017;37(2):229-245.</li>
+          </ol>
+        "))
       )
     )
   )

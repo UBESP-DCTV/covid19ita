@@ -62,7 +62,7 @@ mod_reg_tsicuve_ui <- function(id){
     ),
     fluidRow(
       h3(HTML("Exponential smoothing state space model")),
-      h3(HTML("\u00C8 stato impiegato un approccio Estimation Smothing State Space Model per la predizione della serie dei ricoveri COVID-19 in terapia intensiva.
+      p(HTML("\u00C8 stato impiegato un approccio Estimation Smothing State Space Model per la predizione della serie dei ricoveri COVID-19 in terapia intensiva.
 
 Il Modello si caratterizza per i parametri di Errore (E), Trend (T) e Stagionalit\u00E0 (S).
 
