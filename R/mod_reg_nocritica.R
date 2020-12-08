@@ -8,7 +8,7 @@
 #'
 #' @importFrom shiny NS fluidRow fluidPage
 #' @importFrom shinydashboard box
-mod_reg_tsicuve_ui <- function(id){
+mod_reg_nocritica_ui <- function(id){
   ns <- NS(id)
 
   date_range <- range(dpc_covid19_ita_regioni$data, na.rm = TRUE) %>%
@@ -30,21 +30,22 @@ mod_reg_tsicuve_ui <- function(id){
       )
     ),
     fluidRow(
-      h2(HTML("Andamento ricoveri in terapia intensiva per la regione Selezionata")),
+      h2(HTML("Andamento ricoveri in area non critica per la regione Selezionata")),
       box(
         width = 12,
         p(
           "\u00C8 stato impiegato un approcco descritto in letteratura per la
-          predizione delle serie di ricoveri in terapia intensiva per COVID-19
+          predizione delle serie di ricoveri in area non critica per COVID-19
           Exponential Smoothing state space model. I risultati sono riportati
           rispettivamente in Figura 1A."
         ),
         p(
-          "Si \u00E8 proceduto alla predizione dei casi ricoverati in terapia
-          intensiva a partire dal 24 febbraio 2020 utilizzando le osservazioni
-          via via accumulate nei giorni precedenti. I ricoveri osservati
-          sono rappresentati dalla linea blu, quelli attesi (ovvero
-          predetti dal modello) sono rappresentati dalla linea rossa.
+          "Si \u00E8 proceduto alla predizione dei casi ricoverati in
+          area non critica a partire dal 24 febbraio 2020 utilizzando le
+          osservazioni via via accumulate nei giorni precedenti.
+          I ricoveri osservati sono rappresentati dalla linea blu,
+          quelli attesi (ovvero predetti dal modello) sono rappresentati
+          dalla linea rossa.
           Sfiorando il grafico col cursore si pu\u00F2 visualizzare, per
           ciascun giorno selezionato, il numero di casi osservati e
           quello predetto dal modello (\"attesi\")."
@@ -62,7 +63,7 @@ mod_reg_tsicuve_ui <- function(id){
     ),
     fluidRow(
       h3(HTML("Exponential smoothing state space model")),
-      p(HTML("\u00C8 stato impiegato un approccio Estimation Smothing State Space Model per la predizione della serie dei ricoveri COVID-19 in terapia intensiva.
+      p(HTML("\u00C8 stato impiegato un approccio Estimation Smothing State Space Model per la predizione della serie dei ricoveri COVID-19 in area non critica.
 
 Il Modello si caratterizza per i parametri di Errore (E), Trend (T) e Stagionalit\u00E0 (S).
 
@@ -88,7 +89,7 @@ La parametrizzazione ottimale viene scelta in modo automatico utilizzando come c
           width = 12,
           title = "Figura 1A. Andamento stimato (linea rossa in grassetto,
         l'area rossa indica gli intervalli di confidenza al 95%) del
-        numero di ricoveri in terapia intensiva.
+        numero di ricoveri in area non critica.
         Andamento osservato (linea blu) fino all'ultimo dato disponibile."
       ),
       box(DT::DTOutput(ns("tab1")),
@@ -124,7 +125,7 @@ La parametrizzazione ottimale viene scelta in modo automatico utilizzando come c
 #'
 #' @import ggplot2
 #' @noRd
-mod_reg_tsicuve_server <- function(id) {
+mod_reg_nocritica_server <- function(id) {
 
   callModule(id = id, function(input, output, session) {
     ns <- session$ns
@@ -137,7 +138,10 @@ mod_reg_tsicuve_server <- function(id) {
         # Get the region ICU data
         dplyr::filter(.data$denominazione_regione == input$whichRegion) %>%
         # Select relevant variables
-        dplyr::select(.data$data, .data$terapia_intensiva) %>%
+        dplyr::select(.data$data,
+          .data[["terapia_intensiva"]],
+          .data[["ricoverati_con_sintomi"]]
+        ) %>%
         # Dates in lubridate format
         dplyr::mutate(data = lubridate::as_date(.data$data))
     })
@@ -163,7 +167,8 @@ mod_reg_tsicuve_server <- function(id) {
       )))
 
       purrr::map_dfr(
-        .x = d_seq, ~ partial_ts_error(region(), n_ahead, .x, tstart(), "ets_auto")
+        .x = d_seq, ~ partial_ts_error(
+          region(), n_ahead, .x, tstart(), "ets_auto"), critica = FALSE
       ) %>%
         ts_plot_error()
     })
@@ -172,7 +177,7 @@ mod_reg_tsicuve_server <- function(id) {
     # 3) Table with forecast -------------------------------------------
     # 3B) ets auto -----------------------------------------------------
     fc_ets <- reactive({
-      partial_forecast(region(), 15L, "ets_auto")
+      partial_forecast(region(), 15L, "ets_auto", critica = FALSE)
     })
 
 
@@ -185,7 +190,8 @@ mod_reg_tsicuve_server <- function(id) {
         d = NULL,
         tstart = tstart(),
         tstop = input$lastDate_d,
-        method = "ets_auto"
+        method = "ets_auto",
+        critica = FALSE
       )
 
       ggplotly(gg_ets, originalData = FALSE)

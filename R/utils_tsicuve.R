@@ -1,5 +1,6 @@
 eval_aux_objs <- function(
-  data, n_ahead, d = NULL, tstart, tstop = tstart + d
+  data, n_ahead, d = NULL, tstart, tstop = tstart + d,
+  critica = TRUE
 ) {
 
   assertive::assert_is_data.frame(data)
@@ -12,23 +13,29 @@ eval_aux_objs <- function(
   ts_fit <- data %>%
     dplyr::filter(.data$data >= tstart & .data$data <= tstop)
 
+  var_of_interest <- ifelse(critica,
+                            "terapia_intensiva",
+                            "ricoverati_con_sintomi"
+  )
+
   # Retrieve the time-series
   my_ts <- stats::ts(
-    ts_fit[["terapia_intensiva"]],
+    ts_fit[[var_of_interest]],
     start = c(2020, as.numeric(format(min(ts_fit[["data"]]), "%j"))),
     end = c(2020, as.numeric(format(max(ts_fit[["data"]]), "%j")))
   )
 
   icu_obs <- data %>%
     dplyr::filter(.data$data <= max(ts_fit$data) + n_ahead) %>%
-    dplyr::pull(.data$terapia_intensiva)
+    dplyr::pull(.data[[var_of_interest]])
 
   list(
     ts_fit = ts_fit, my_ts = my_ts, obs_df = data, icu_obs = icu_obs[-c(1, 2)]
   )
 }
 
-ts_plot <- function(fit, pred, aux_objs, n_ahead, tstart, tstop, method
+ts_plot <- function(fit, pred, aux_objs, n_ahead, tstart, tstop, method,
+                    critica = TRUE
 ) {
 
   fitted_df <- tibble::tibble(
@@ -45,6 +52,13 @@ ts_plot <- function(fit, pred, aux_objs, n_ahead, tstart, tstop, method
       upper = dplyr::if_else(.data$upper < 0, 0, .data$upper)
     )
 
+  y_lab <- ifelse(critica, "Numero ricoveri terapia intensiva",
+                  "Numero ricoveri area non critica")
+
+  var_of_interest <- ifelse(critica,
+                            "terapia_intensiva",
+                            "ricoverati_con_sintomi"
+  )
 
   # TS plot
   ggres <- ggplot(
@@ -57,7 +71,7 @@ ts_plot <- function(fit, pred, aux_objs, n_ahead, tstart, tstop, method
     ) +
     geom_line(
       data = aux_objs[["obs_df"]],
-      mapping = aes(y = .data$terapia_intensiva, color = "Osservato"),
+      mapping = aes(y = .data[[var_of_interest]], color = "Osservato"),
       size = 0.8
     ) +
     geom_ribbon(
@@ -68,7 +82,7 @@ ts_plot <- function(fit, pred, aux_objs, n_ahead, tstart, tstop, method
       name = "",
       values = c("Atteso" = "firebrick2", "Osservato" = "dodgerblue1")
     ) +
-    ylab("Numero ricoveri terapia intensiva") +
+    ylab(y_lab) +
     xlab("") +
     scale_x_date(date_breaks = "2 weeks", date_labels = "%d %b") +
     theme(
@@ -81,7 +95,7 @@ ts_plot <- function(fit, pred, aux_objs, n_ahead, tstart, tstop, method
     ggres <- ggres +
       annotate("text",
                x = stats::median(aux_objs[["obs_df"]]$data, na.rm = TRUE),
-               y = max(aux_objs[["obs_df"]]$terapia_intensiva, na.rm = TRUE),
+               y = max(aux_objs[["obs_df"]][[var_of_interest]], na.rm = TRUE),
                label = paste0("Methods: ", method),
                vjust = "inward", hjust = "inward"
       )
@@ -127,11 +141,14 @@ fit_partial_ts_model <- function(
 
 partial_ts_plot <- function(
   data, n_ahead, d = NULL, tstart, tstop = tstart + d,
-  method = c("hw", "ets", "arima", "ets_auto")
+  method = c("hw", "ets", "arima", "ets_auto"),
+  critica = TRUE
 ) {
   method <- match.arg(method)
 
-  aux_objs <- eval_aux_objs(data, n_ahead, d = d, tstart, tstop)
+  aux_objs <- eval_aux_objs(
+    data, n_ahead, d = d, tstart, tstop, critica = critica
+  )
 
   mod <- fit_partial_ts_model(aux_objs, n_ahead, method)
 
@@ -141,18 +158,19 @@ partial_ts_plot <- function(
 
   ts_plot(
     mod[["fit"]], mod[["pred"]], aux_objs, n_ahead, tstart, tstop,
-    mod[["mod"]][["method"]]
+    mod[["mod"]][["method"]], critica = critica
   )
 
 }
 
 partial_ts_error <- function(
   data, n_ahead, d, tstart,
-  method = c("hw", "ets", "arima", "ets_auto")
+  method = c("hw", "ets", "arima", "ets_auto"),
+  critica = TRUE
 ) {
   method <- match.arg(method)
 
-  aux_objs <- eval_aux_objs(data, n_ahead, d, tstart)
+  aux_objs <- eval_aux_objs(data, n_ahead, d, tstart, critica = critica)
   mod <- fit_partial_ts_model(aux_objs, n_ahead, method)
   tbl_error(mod[["fit"]], mod[["pred"]], aux_objs, n_ahead)
 }
@@ -174,12 +192,14 @@ ts_plot_error <- function(df_error) {
 }
 
 partial_forecast <- function(
-  data, n_ahead, method = c("hw", "ets", "arima", "ets_auto")
+  data, n_ahead, method = c("hw", "ets", "arima", "ets_auto"),
+  critica = TRUE
 ) {
   method <- match.arg(method)
 
   aux_objs <- eval_aux_objs(
-    data, n_ahead, tstart = min(data$data), tstop = max(data$data)
+    data, n_ahead, tstart = min(data$data), tstop = max(data$data),
+    critica = critica
   )
 
   mod <- fit_partial_ts_model(aux_objs, n_ahead, method)
@@ -190,7 +210,7 @@ partial_forecast <- function(
   pred <- forecast::forecast(mod$mod, h = n_ahead)
 
   y_hat <- round(pred$mean)
-  lower <- round(pred$lower[, 2])
+  lower <- pmax(0, round(pred$lower[, 2]))
   upper <- round(pred$upper[, 2])
 
   tibble::tibble(
