@@ -1,3 +1,5 @@
+# covid19ita 0.113.0
+
 * Added `mod_reg_tsicuve_noncritical` to show timeseries and the 
   corresponding ETS forecasting for non-critical hospitalizations.
 
