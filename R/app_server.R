@@ -91,6 +91,7 @@ app_server <- function(input, output, session) {
     if (super_secret()[["permission"]][usr_pos] %in% c("ubep", "tip-v", "agenas")) {
       mod_tsicuve_server("partial_ts_icuve")
       mod_reg_tsicuve_server("regional_partial_tsicuve")
+      mod_reg_nocritica_server("regional_partial_nocritica")
     }
 
     ## National
@@ -250,8 +251,12 @@ app_server <- function(input, output, session) {
 
           menuItem("Terapie intensive",
                    icon = icon("procedures"),
-                   menuSubItem("Regionale partial timeseries",
+                   menuSubItem("Serie TI (reg)",
                                tabName = "regional-partial-ts-icuve",
+                               icon = icon("map")
+                   ),
+                   menuSubItem("Serie area non critica (reg)",
+                               tabName = "regional-partial-ts-nocritica",
                                icon = icon("map")
                    ),
                    if (super_secret()[["permission"]][usr_pos] != "agenas") {
@@ -428,6 +433,13 @@ app_server <- function(input, output, session) {
             h2("Andamenti delle terapie intensive regionali dall'inizio della pandemia."),
             if (super_secret()[["permission"]][usr_pos] %in% c("ubep", "tip-v", "agenas")) {
               mod_reg_tsicuve_ui("regional_partial_tsicuve")
+            }
+          ),
+          tabItem(
+            tabName = "regional-partial-ts-nocritica",
+            h2("Andamenti delle aree non critiche regionali dall'inizio della pandemia."),
+            if (super_secret()[["permission"]][usr_pos] %in% c("ubep", "tip-v", "agenas")) {
+              mod_reg_nocritica_ui("regional_partial_nocritica")
             }
           ),
 

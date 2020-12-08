@@ -1,3 +1,6 @@
+* Added `mod_reg_tsicuve_noncritical` to show timeseries and the 
+  corresponding ETS forecasting for non-critical hospitalizations.
+
 # covid19ita 0.112.0
 
 * Added ets prediction to siterep (including estimation up to 15 days

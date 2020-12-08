@@ -8,7 +8,7 @@
 #'
 #' @importFrom shiny NS fluidRow fluidPage
 #' @importFrom shinydashboard box
-mod_reg_tsicuve_nocritica_ui <- function(id){
+mod_reg_nocritica_ui <- function(id){
   ns <- NS(id)
 
   date_range <- range(dpc_covid19_ita_regioni$data, na.rm = TRUE) %>%
@@ -34,7 +34,7 @@ mod_reg_tsicuve_nocritica_ui <- function(id){
       box(
         width = 12,
         p(
-          "\u00C8m stato impiegato un approcco descritto in letteratura per la
+          "\u00C8 stato impiegato un approcco descritto in letteratura per la
           predizione delle serie di ricoveri in area non critica per COVID-19
           Exponential Smoothing state space model. I risultati sono riportati
           rispettivamente in Figura 1A."
@@ -125,7 +125,7 @@ La parametrizzazione ottimale viene scelta in modo automatico utilizzando come c
 #'
 #' @import ggplot2
 #' @noRd
-mod_reg_tsicuve_nocritica_server <- function(id) {
+mod_reg_nocritica_server <- function(id) {
 
   callModule(id = id, function(input, output, session) {
     ns <- session$ns
