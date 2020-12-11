@@ -85,7 +85,9 @@ Imports:
     utils,
     xts,
     withr,
-    zoo
+    zoo,
+    greybox,
+    smooth
 Suggests: 
     assertive,
     cli,
