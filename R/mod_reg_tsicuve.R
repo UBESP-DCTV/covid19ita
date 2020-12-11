@@ -108,6 +108,32 @@ La parametrizzazione ottimale viene scelta in modo automatico utilizzando come c
       )
     ),
     fluidRow(
+      sliderInput(
+        width = "100%", ns("shock"),
+        label = "Selezionare la variazione percentuale (shock) nei ricoveri \"domani\" in area non critica rispetto a \"oggi\" (es: -100 = azzeramento, 100 = raddoppio)",
+        value = 30,
+        min = -100,
+        max = 100,
+        step = 5 #, animate = animationOptions(interval = 400)
+      ),
+      box(plotlyOutput(ns("fig2")), width = 12, title = "Figura 2. E’ stato stimato un Exponential Time Series smoothing model sui ricoveri COVID in terapia intensiva con variabile esogena (ETSX model).
+          La variabile esogena utilizzata è la serie storica dei ricoveri ordinari.
+          E’ stato identificato un lag (ritardo) ottimale di 5 giorni sui ricoveri ordinari scegliendo il valore che minimizza il BIC
+          sul modello ETSX.
+
+          Il valore del lag a 5 giorni indica che una variazione improvvisa dei ricoveri ordinari al tempo T,
+          impatterebbe sugli accessi in terapia intensiva dopo 5 giorni.
+          Successivamente è stato ipotizzato uno shock sui ricoveri ordinari in corrispondenza del giorno che segue la fine della serie osservata.
+
+          L’ammontare di questo effetto improvviso sui ricoveri (variabile esogena) può essere definito dinamicamente tramite lo slider.
+
+          Tale shock è stato proiettato in avanti con un forecast ets fino alla fine della finestra di previsione di 15 giorni.
+          La variabile esogena che include lo shock sui ricoveri ordinari è stata inserita nel modello ETSX come componente ausiliaria.
+          Si riportano le stime previsive a 15 giorni le quali considerano l’impatto di una variazione improvvisa
+          dei ricoveri ordinari sui ricoveri in terapia intensiva."),
+      box(DT::DTOutput(ns("tab2")), width = 12, title = "Tabella 2")
+    ),
+    fluidRow(
       box(
         width = 12, title = "Bibliografia",
         p(HTML("
@@ -137,10 +163,15 @@ mod_reg_tsicuve_server <- function(id) {
         # Get the region ICU data
         dplyr::filter(.data$denominazione_regione == input$whichRegion) %>%
         # Select relevant variables
-        dplyr::select(.data$data, .data$terapia_intensiva) %>%
+        dplyr::select(.data$data,
+                      .data$terapia_intensiva,
+                      .data$ricoverati_con_sintomi
+        ) %>%
         # Dates in lubridate format
-        dplyr::mutate(data = lubridate::as_date(.data$data))
+        dplyr::mutate(data = lubridate::as_date(.data$data)) %>%
+        dplyr::arrange(.data$data)
     })
+
 
     # Define inputs for the functions ------------------------------------
     n_ahead <- 7L
@@ -166,6 +197,21 @@ mod_reg_tsicuve_server <- function(id) {
         .x = d_seq, ~ partial_ts_error(region(), n_ahead, .x, tstart(), "ets_auto")
       ) %>%
         ts_plot_error()
+    })
+
+
+    ## Exogen model
+    current_exogen_objects <- reactive({
+      shock <- req(input$shock) / 100
+      exogen_objects(region(), shock)
+    })
+
+    current_exogen_icu_model <- reactive({
+      exogen_icu_model(current_exogen_objects(), n_ahead)
+    })
+
+    current_exogen_db <- reactive({
+      exogen_db(current_exogen_objects(), current_exogen_icu_model())
     })
 
 
@@ -195,6 +241,14 @@ mod_reg_tsicuve_server <- function(id) {
 
     output$fig1b <- plotly::renderPlotly({
       plotly::ggplotly(error_ets())
+    })
+
+    output$fig2 <- plotly::renderPlotly({
+      plotly::ggplotly(gg_shock(current_exogen_db()))
+    })
+    output$tab2 <- DT::renderDT({
+      current_exogen_db()[["forecast_df"]] %>%
+        dplyr::mutate(dplyr::across(where(is.numeric), ~round(.x, 3)))
     })
 
   })

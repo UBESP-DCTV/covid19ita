@@ -225,3 +225,153 @@ partial_forecast <- function(
 }
 
 
+
+
+exogen_objects <- function(db, shock, lag_ottimo = 5) {
+  time_range <- range(db$data)
+  net_shock <- 1 + shock
+
+  ts_icu <- stats::ts(db$terapia_intensiva,
+    start = c(2020, as.numeric(format(time_range[[1]], "%j"))),
+    end = c(2020, as.numeric(format(time_range[[2]], "%j")))
+  )
+
+
+  # ts ricoverati
+  ts_nocritica <- stats::ts(db$ricoverati_con_sintomi,
+    start = c(2020, as.numeric(format(time_range[[1]], "%j"))),
+    end = c(2020, as.numeric(format(time_range[[2]], "%j")))
+  )
+
+  # Calcola tutti i lag
+  ts_nocritica_lagged <- greybox::xregExpander(ts_nocritica,
+    lags = -lag_ottimo
+  )[, 2]
+
+  # shock
+  ts_nocritica_shocked <- c(
+    ts_nocritica, net_shock * ts_nocritica[length(ts_nocritica)]
+  )
+
+
+  list(
+    time_range = time_range,
+    ts_icu = ts_icu,
+    ts_nocritica_lagged = ts_nocritica_lagged,
+    ts_nocritica_shocked = ts_nocritica_shocked,
+    shock = shock
+  )
+}
+
+exogen_icu_model <- function(exogen_objects, n_ahead, lag_ottimo = 5) {
+  serie_osp <- exogen_objects[["ts_nocritica_shocked"]] %>%
+    forecast::ets() %>%
+    predict(h = n_ahead - 1)
+
+  ts_shocked_lagged <- greybox::xregExpander(
+    c(exogen_objects[["ts_nocritica_shocked"]], serie_osp$mean),
+    lags = -lag_ottimo
+  )[, 2]
+
+  icu_model <- smooth::es(exogen_objects[["ts_icu"]],
+    xreg = exogen_objects[["ts_nocritica_lagged"]],
+    lambda = forecast::BoxCox.lambda(exogen_objects[["ts_icu"]]),
+    h = n_ahead
+  )
+
+  icu_forecast <- smooth::forecast.smooth(icu_model,
+    h = n_ahead,
+    xreg = data.frame(ts_shocked_lagged),
+    lambda = forecast::BoxCox.lambda(exogen_objects[["ts_icu"]])
+  )
+
+  list(
+    icu_model = icu_model,
+    icu_forecast = icu_forecast
+  )
+}
+
+
+ts2data <- function(ts, start_date, offset) {
+  as.Date(start_date + lubridate::days(ts - offset))
+}
+
+exogen_db <- function(exogen_objects, exogen_icu_model) {
+  time_offset <- min(stats::time(exogen_objects[["ts_icu"]]))
+  start <- exogen_objects[["time_range"]][[1]]
+
+  fitted_df <- dplyr::tibble(
+    data = stats::time(exogen_icu_model[["icu_model"]]$fitted) %>%
+      ts2data(start, time_offset),
+    Stima = as.integer(exogen_icu_model[["icu_model"]]$fitted),
+    Lower = .data$Stima,
+    Upper = .data$Stima
+  )
+
+  forecast_df <- dplyr::tibble(
+    data = stats::time(exogen_icu_model[["icu_forecast"]]$forecast) %>%
+      ts2data(start, time_offset),
+    Stima = as.integer(exogen_icu_model[["icu_forecast"]]$forecast),
+    Lower = as.numeric(exogen_icu_model[["icu_forecast"]]$lower),
+    Upper = as.numeric(exogen_icu_model[["icu_forecast"]]$upper)
+  )
+
+  estimated_df <- dplyr::bind_rows(
+    fitted_df, forecast_df
+  ) %>%
+    dplyr::mutate(Type = "Estimated")
+
+
+  observed_df <- dplyr::tibble(
+    data = stats::time(exogen_objects[["ts_icu"]]) %>%
+      ts2data(start, time_offset),
+    Stima = as.integer(exogen_objects[["ts_icu"]]),
+    Type = "Observerd"
+  )
+
+  list(
+    fitted_df = fitted_df,
+    forecast_df = forecast_df,
+    estimated_df = estimated_df,
+    observed_df = observed_df,
+    method = exogen_icu_model[["icu_model"]]$model,
+    shock = exogen_objects[["shock"]]
+  )
+
+}
+
+
+gg_shock <- function(exogen_db) {
+  ggplot(
+    data = exogen_db[["estimated_df"]],
+    mapping = aes(x = .data$data, y = .data$Stima, colour = .data$Type)
+  ) +
+    geom_line(size = 1.5) +
+    geom_ribbon(aes(ymin = .data$Lower, ymax = .data$Upper),
+                alpha = 0.2, fill = "firebrick2", colour = NA
+    ) +
+    geom_line(data = exogen_db[["observed_df"]], size = 0.8) +
+    scale_color_manual(
+      name = "",
+      values = c("Estimated" = "firebrick2", "Observerd" = "dodgerblue1")
+    ) +
+    ylab("ICU patients") +
+    xlab("") +
+    scale_x_date(date_breaks = "2 weeks", date_labels = "%d %b") +
+    theme(
+      axis.text.x = element_text(
+        angle = 60, hjust = 1, vjust = 0.5
+      )
+    ) +
+    annotate("text",
+             x = stats::median(exogen_db[["observed_df"]]$data, na.rm = TRUE),
+             y = max(exogen_db[["observed_df$Stima"]], na.rm = TRUE),
+             label = paste0("Methods: ", exogen_db[["method"]]),
+             vjust = "inward", hjust = "inward"
+    ) +
+    labs(
+      caption = paste0(
+        "Variazione shock ipotizzata (domani rispetto a oggi) ",
+        "in area non critica del ", 100*exogen_db[["shock"]], "%")
+    )
+}
