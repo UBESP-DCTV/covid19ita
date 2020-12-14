@@ -34,7 +34,8 @@ data_dictionary <- function() {
     casi_da_sospetto_diagnostico = "positive_cases_from_clinical_activity",
     casi_da_screening = "positive_cases_from_planned_screening",
     tamponi = "tests_performed",
-    casi_testati = "people_tested"
+    casi_testati = "people_tested",
+    ingressi_terapia_intensiva = "admissions_in_intensive_care"
   )
 
 
