@@ -78,7 +78,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">covid19ita</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.109.0</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.114.0</span>
       </span>
     </div>
 
@@ -94,7 +94,7 @@
       <ul class="nav navbar-nav navbar-right">
         <li>
   <a href="https://github.com/UBESP-DCTV/covid19ita/">
-    <span class="fab fa fab fa-github fa-lg"></span>
+    <span class="fab fa-github fa-lg"></span>
      
   </a>
 </li>
@@ -115,6 +115,57 @@
       <small>Source: <a href='https://github.com/UBESP-DCTV/covid19ita/blob/master/NEWS.md'><code>NEWS.md</code></a></small>
     </div>
 
+    <div id="covid19ita-01140" class="section level1">
+<h1 class="page-header" data-toc-text="0.114.0">
+<a href="#covid19ita-01140" class="anchor"></a>covid19ita 0.114.0</h1>
+<ul>
+<li>added ICU exogen model with shock on non critical hospitalizations</li>
+</ul>
+</div>
+    <div id="covid19ita-01130" class="section level1">
+<h1 class="page-header" data-toc-text="0.113.0">
+<a href="#covid19ita-01130" class="anchor"></a>covid19ita 0.113.0</h1>
+<ul>
+<li>Added <code>mod_reg_tsicuve_noncritical</code> to show timeseries and the corresponding ETS forecasting for non-critical hospitalizations.</li>
+</ul>
+</div>
+    <div id="covid19ita-01120" class="section level1">
+<h1 class="page-header" data-toc-text="0.112.0">
+<a href="#covid19ita-01120" class="anchor"></a>covid19ita 0.112.0</h1>
+<ul>
+<li>Added ets prediction to siterep (including estimation up to 15 days and CI95% up to 4 days).</li>
+<li>added provincial and centre level at siterep.</li>
+</ul>
+</div>
+    <div id="covid19ita-01110" class="section level1">
+<h1 class="page-header" data-toc-text="0.111.0">
+<a href="#covid19ita-01110" class="anchor"></a>covid19ita 0.111.0</h1>
+<ul>
+<li>Added <code>mod_reg_tsicuve</code> to section <em>Terapie intensive</em>
+</li>
+<li>Moved module <code>mod_ts_icuve</code>to section “In evidenza”</li>
+<li>Fix non-ASCII characters</li>
+<li>Update WORDLIST</li>
+<li>Move <code>{covid19.icuve}</code> into <strong>Enhances</strong> to avoid its installation even when installed with <code>dependencies = TRUE</code> (solves <a href='https://github.com/UBESP-DCTV/covid19ita/issues/89'>#89</a>).</li>
+</ul>
+</div>
+    <div id="covid19ita-01100" class="section level1">
+<h1 class="page-header" data-toc-text="0.110.0">
+<a href="#covid19ita-01100" class="anchor"></a>covid19ita 0.110.0</h1>
+<ul>
+<li>Remove <code>ylim</code> in <code>ggbeds</code> in <code>mod_icuve_ts</code>
+</li>
+<li>Solved the problem with <code>mod_icuve_ts</code> at line 186 (<a href='https://github.com/UBESP-DCTV/covid19ita/issues/86'>#86</a>)</li>
+<li>Solved the problem with default account (<a href='https://github.com/UBESP-DCTV/covid19ita/issues/86'>#86</a>)</li>
+<li>Solve automatic update of Figure 3 in <code>mod_icuve_ts</code> (<a href='https://github.com/UBESP-DCTV/covid19ita/issues/86'>#86</a>)</li>
+<li>Fixed 1/2 of <a href='https://github.com/UBESP-DCTV/covid19ita/issues/85'>#85</a></li>
+<li>Fixed problem with <code>ggswab</code> (<a href='https://github.com/UBESP-DCTV/covid19ita/issues/84'>#84</a>)</li>
+<li>data update</li>
+<li>Integrated login credential in the main app</li>
+<li>New module <code>mod_tsicuve</code> that shows forecasts of Time-Series models applied to ICU data from the Veneto region. The following Time-Series models were considered: Holter-Winters Filtering (HTF), Exponential smoothing state space model (ETS), and ARIMA.</li>
+<li>Added <code>xts</code>, <code>tscount</code>, and <code>forecast</code> to Imports</li>
+</ul>
+</div>
     <div id="covid19ita-01090" class="section level1">
 <h1 class="page-header" data-toc-text="0.109.0">
 <a href="#covid19ita-01090" class="anchor"></a>covid19ita 0.109.0</h1>

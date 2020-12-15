@@ -38,7 +38,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="index.html">covid19ita</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.109.0</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.114.0</span>
       </span>
     </div>
 
@@ -54,7 +54,7 @@
 <ul class="nav navbar-nav navbar-right">
 <li>
   <a href="https://github.com/UBESP-DCTV/covid19ita/">
-    <span class="fab fa fab fa-github fa-lg"></span>
+    <span class="fab fa-github fa-lg"></span>
      
   </a>
 </li>
@@ -88,12 +88,19 @@
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="co"># install.packages("remotes")</span>
 <span class="fu">remotes</span><span class="fu">::</span><span class="fu"><a href="https://remotes.r-lib.org/reference/install_github.html">install_github</a></span><span class="op">(</span><span class="st">"UBESP-DCTV/covid19ita"</span><span class="op">)</span></code></pre></div>
+<blockquote>
+<p>Nota per poter utilizzare gli accessi riservati sulla propria installazione locale e richiesto il pacchetto <code>{covid19.icuve}</code> riservato all’uso esclusivo di chi ne ha diritto. Nel caso ci si trovasse in tale situazione e si volesse una installazione completa utilizzare l’istruzione seguente.</p>
+<div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="fu">remotes</span><span class="fu">::</span><span class="fu"><a href="https://remotes.r-lib.org/reference/install_github.html">install_github</a></span><span class="op">(</span><span class="st">"UBESP-DCTV/covid19.icuve"</span><span class="op">)</span>
+<span class="fu">remotes</span><span class="fu">::</span><span class="fu"><a href="https://remotes.r-lib.org/reference/install_github.html">install_github</a></span><span class="op">(</span><span class="st">"UBESP-DCTV/covid19ita"</span><span class="op">)</span></code></pre></div>
+<p>Se autorizzati, il sistema completo verrà installato/aggiornato regolarmente.</p>
+</blockquote>
 </div>
 <div id="shiny-app" class="section level2">
 <h2 class="hasAnchor">
 <a href="#shiny-app" class="anchor"></a>Shiny App</h2>
 <p><img src="inst/app/www/covid19ita_screen.png" align="center"></p>
-<p><strong>Ultimo aggiornamento/Last app update</strong>: 2020-04-17 00:09:15.</p>
+<p><strong>Ultimo aggiornamento/Last app update</strong>: 2020-11-28 23:23:20.</p>
 <blockquote>
 <p>È possibile visitare la Shiny App <code>covid19ita</code> ospitata e operante sui server UBEP (<a href="https://ubesp.jimdofree.com/">Unità di Biostatistica, Epidemiologia e Sanità Pubblica</a>) <a href="https://r-ubesp.dctv.unipd.it/shiny/covid19ita/"><strong>QUI (versione italiana)</strong></a></p>
 </blockquote>
@@ -102,7 +109,7 @@
 <p>You can visit the <code>covid19ita</code> Shiny App hosted and running on the UBEP (<a href="https://ubesp.jimdofree.com/">Unit of Biostatistics, Epidemiology, and Public Health</a>) servers <a href="https://r-ubesp.dctv.unipd.it/shiny/covid19italy/"><strong>HERE (English version)</strong></a>.</p>
 </blockquote>
 <p>You can also run a local version of the app from your computer with:</p>
-<div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/UBESP-DCTV/covid19ita">covid19ita</a></span><span class="op">)</span>
 <span class="fu"><a href="reference/run_app.html">run_app</a></span><span class="op">(</span><span class="op">)</span></code></pre></div>
 </div>
@@ -111,17 +118,17 @@
 <a href="#data" class="anchor"></a>Data</h2>
 <p>Il pacchetto <a href="https://github.com/UBESP-DCTV/covid19ita">covid19ita</a> contiene le versioni R delle tre <a href="https://github.com/pcm-dpc/COVID-19/">basi di dati ufficiali</a> con dettaglio a livello nazionale, regionale e provinciale.</p>
 <p>The <a href="https://github.com/UBESP-DCTV/covid19ita">covid19ita</a> package provide R versions of the three <a href="https://github.com/pcm-dpc/COVID-19/">official Italian COVID-19 datasets</a> at national, regional and provincial level of detail.</p>
-<p><strong>Ultimo aggiornamento dati/Last data update</strong>: 2020-04-13 18:15:48.</p>
+<p><strong>Ultimo aggiornamento dati/Last data update</strong>: 2020-11-27 23:20:20.</p>
 <p>È possibile accedere ai dati tramite:</p>
 <p>Access the data with:</p>
-<div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/UBESP-DCTV/covid19ita">covid19ita</a></span><span class="op">)</span>
 <span class="fu"><a href="https://rdrr.io/r/utils/data.html">data</a></span><span class="op">(</span><span class="va">dpc_covid19_ita_andamento_nazionale</span><span class="op">)</span> <span class="co"># national level data</span>
 <span class="fu"><a href="https://rdrr.io/r/utils/data.html">data</a></span><span class="op">(</span><span class="va">dpc_covid19_ita_regioni</span><span class="op">)</span>             <span class="co"># regional level data</span>
 <span class="fu"><a href="https://rdrr.io/r/utils/data.html">data</a></span><span class="op">(</span><span class="va">dpc_covid19_ita_andamento_province</span><span class="op">)</span>  <span class="co"># provincial level data</span></code></pre></div>
 <p>È possibile accedere anche alla documentazione dei dati in uno dei seguenti modi:</p>
 <p>You can access to the data documentation with any of:</p>
-<div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="op">?</span><span class="va">dpc_covid19_ita_andamento_nazionale</span>
 <span class="op">?</span><span class="va">dpc_covid19_ita_regioni</span>
 <span class="op">?</span><span class="va">dpc_covid19_ita_province</span>
