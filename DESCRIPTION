@@ -106,8 +106,7 @@ RdMacros:
     lifecycle
 Remotes: 
     sprouffske/growthcurver,
-    tidyverse/tibble,
-    UBESP-DCTV/covid19.icuve
+    tidyverse/tibble
 Encoding: UTF-8
 Language: en-US
 LazyData: true
