@@ -76,7 +76,7 @@ Ad esempio un modello ETS(A,Ad,N) indica un modello con Errore Additivo, Trend D
 
 La parametrizzazione ottimale viene scelta in modo automatico utilizzando come criterio di selezione dei parametri il BIC (Bayesian Information Criterion).")),
       sliderInput(
-        width = "45%", ns("lastDate_d"),
+        width = "60%", ns("lastDate_d"),
         label = "Selezionare l'ultima data da considerare per la stima del modello",
         value = last_date,
         min = slider_min,
@@ -109,23 +109,32 @@ La parametrizzazione ottimale viene scelta in modo automatico utilizzando come c
     ),
     fluidRow(
       sliderInput(
-        width = "100%", ns("shock"),
-        label = "Selezionare la variazione percentuale (shock) nei ricoveri \"domani\" in area non critica rispetto a \"oggi\" (es: -100 = azzeramento, 100 = raddoppio)",
-        value = 30,
+        width = "60%", ns("shock"),
+        label = "Selezionare la variazione percentuale attesa (shock) nei ricoveri CoViD-19 in area non critica (es: -50 = dimezzamento, 100 = raddoppio)",
+        value = 0,
         min = -100,
         max = 100,
         step = 5 #, animate = animationOptions(interval = 400)
       ),
+      sliderInput(
+        width = "60%", ns("shock_delay"),
+        label = "Selezionare dopo quanti giorni (ritardo) da \"oggi\" si ipotizza che lo shock sull'area non critica entri in azione (0 altera direttamente il valore odierno)",
+        value = 1,
+        min = 0,
+        max = 7,
+        step = 1 #, animate = animationOptions(interval = 400)
+      ),
       box(plotlyOutput(ns("fig2")), width = 12, title = "Figura 2. E’ stato stimato un Exponential Time Series smoothing model sui ricoveri COVID in terapia intensiva con variabile esogena (ETSX model).
           La variabile esogena utilizzata è la serie storica dei ricoveri ordinari.
-          E’ stato identificato un lag (ritardo) ottimale di 5 giorni sui ricoveri ordinari scegliendo il valore che minimizza il BIC
+          E’ stato identificato e fissato (non modificabile interattivamente) un lag (ritardo) ottimale di 5 giorni dell'impatto causato dai ricoveri ordinari sull'occupazione in terapia intensiva, scegliendo il valore che minimizza il BIC
           sul modello ETSX.
 
           Il valore del lag a 5 giorni indica che una variazione improvvisa dei ricoveri ordinari al tempo T,
           impatterebbe sugli accessi in terapia intensiva dopo 5 giorni.
-          Successivamente è stato ipotizzato uno shock sui ricoveri ordinari in corrispondenza del giorno che segue la fine della serie osservata.
 
-          L’ammontare di questo effetto improvviso sui ricoveri (variabile esogena) può essere definito dinamicamente tramite lo slider.
+          D'altra parte, lo shock sui ricoveri ordinari (rispetto per esempio alla misura di ristrezione o rilassamento adottata) può essere selezionato dal secondo cursore, rispetto alla fine della serie osservata.
+
+          L’ammontare di questo effetto improvviso sui ricoveri in area non critica (variabile esogena) può essere definito dinamicamente tramite lo slider.
 
           Tale shock è stato proiettato in avanti con un forecast ets fino alla fine della finestra di previsione di 15 giorni.
           La variabile esogena che include lo shock sui ricoveri ordinari è stata inserita nel modello ETSX come componente ausiliaria.
@@ -174,7 +183,7 @@ mod_reg_tsicuve_server <- function(id) {
 
 
     # Define inputs for the functions ------------------------------------
-    n_ahead <- 7L
+    n_ahead <- 15L
     tstart <- reactive({
       min(region()[["data"]])
     })
@@ -200,18 +209,14 @@ mod_reg_tsicuve_server <- function(id) {
     })
 
 
-    ## Exogen model
-    current_exogen_objects <- reactive({
-      shock <- req(input$shock) / 100
-      exogen_objects(region(), shock)
-    })
-
-    current_exogen_icu_model <- reactive({
-      exogen_icu_model(current_exogen_objects(), n_ahead)
-    })
-
     current_exogen_db <- reactive({
-      exogen_db(current_exogen_objects(), current_exogen_icu_model())
+      shock <- req(input$shock) / 100
+      delay <- req(input$shock_delay)
+      current_exogen_icu_model <- exogen_icu_model(
+        region(), shock, n_ahead, delay = delay
+      )
+
+      exogen_db(region(), shock, current_exogen_icu_model)
     })
 
 
