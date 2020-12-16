@@ -1,4 +1,4 @@
-# covid19ita (development version)
+# covid19ita 0.114.1
 
 * update `Dockerfile`
 * added delay for the shock in the exogen model
