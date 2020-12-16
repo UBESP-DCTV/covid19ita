@@ -1,3 +1,9 @@
+# covid19ita (development version)
+
+* update `Dockerfile`
+* added delay for the shock in the exogen model
+* data update
+
 # covid19ita 0.114.0
 
 * added ICU exogen model with shock on non critical hospitalizations

@@ -226,63 +226,100 @@ partial_forecast <- function(
 
 
 
-
-exogen_objects <- function(db, shock, lag_ottimo = 5) {
+base_ts_icu <- function(db) {
   time_range <- range(db$data)
-  net_shock <- 1 + shock
-
-  ts_icu <- stats::ts(db$terapia_intensiva,
+  stats::ts(
+    data = db$terapia_intensiva,
     start = c(2020, as.numeric(format(time_range[[1]], "%j"))),
     end = c(2020, as.numeric(format(time_range[[2]], "%j")))
-  )
-
-
-  # ts ricoverati
-  ts_nocritica <- stats::ts(db$ricoverati_con_sintomi,
-    start = c(2020, as.numeric(format(time_range[[1]], "%j"))),
-    end = c(2020, as.numeric(format(time_range[[2]], "%j")))
-  )
-
-  # Calcola tutti i lag
-  ts_nocritica_lagged <- greybox::xregExpander(ts_nocritica,
-    lags = -lag_ottimo
-  )[, 2]
-
-  # shock
-  ts_nocritica_shocked <- c(
-    ts_nocritica, net_shock * ts_nocritica[length(ts_nocritica)]
-  )
-
-
-  list(
-    time_range = time_range,
-    ts_icu = ts_icu,
-    ts_nocritica_lagged = ts_nocritica_lagged,
-    ts_nocritica_shocked = ts_nocritica_shocked,
-    shock = shock
   )
 }
 
-exogen_icu_model <- function(exogen_objects, n_ahead, lag_ottimo = 5) {
-  serie_osp <- exogen_objects[["ts_nocritica_shocked"]] %>%
-    forecast::ets() %>%
-    predict(h = n_ahead - 1)
+base_ts_nocritica <- function(db) {
+  time_range <- range(db$data)
+  stats::ts(
+    data = db$ricoverati_con_sintomi,
+    start = c(2020, as.numeric(format(time_range[[1]], "%j"))),
+    end = c(2020, as.numeric(format(time_range[[2]], "%j")))
+  )
+}
 
-  ts_shocked_lagged <- greybox::xregExpander(
-    c(exogen_objects[["ts_nocritica_shocked"]], serie_osp$mean),
-    lags = -lag_ottimo
-  )[, 2]
 
-  icu_model <- smooth::es(exogen_objects[["ts_icu"]],
-    xreg = exogen_objects[["ts_nocritica_lagged"]],
-    lambda = forecast::BoxCox.lambda(exogen_objects[["ts_icu"]]),
+predicted_ts <- function(ts, ahead) {
+  predict(forecast::ets(ts), h = ahead)[["mean"]]
+}
+
+c_ts_pred <- function(ts, pred) {
+  stats::ts(
+    data = c(ts, pred),
+    start = attributes(ts)[["tsp"]][[1]],
+    end = attributes(pred)[["tsp"]][[2]]
+  )
+}
+
+shocked_ts_nocritica <- function(db, shock, delay) {
+  net_shock <- 1 + shock
+  ts_nocritica <- base_ts_nocritica(db)
+
+  if (delay > 0) {
+    ts_nocritica <- c_ts_pred(
+      ts_nocritica,
+      predicted_ts(ts_nocritica, delay)
+    )
+  }
+
+  len <- length(ts_nocritica)
+  ts_nocritica[len] <- net_shock * ts_nocritica[len]
+  ts_nocritica
+}
+
+
+lagged_ts <- function(ts, lag_ottimo = 5) {
+  greybox::xregExpander(ts, lags = -lag_ottimo)[, 2]
+}
+
+
+icu_model <- function(db, n_ahead = 15, lag_ottimo = 5) {
+  ts_icu <- base_ts_icu(db)
+
+  ts_base_lagged <- base_ts_nocritica(db) %>%
+    lagged_ts(lag_ottimo)
+
+  smooth::es(ts_icu,
+    xreg = ts_base_lagged,
+    lambda = forecast::BoxCox.lambda(ts_icu),
     h = n_ahead
   )
+}
+
+
+exogen_icu_model <- function(db,
+                             shock,
+                             n_ahead = 15,
+                             lag_ottimo = 5,
+                             delay = 1
+) {
+  if (n_ahead <= delay) {
+    n_ahead <- delay + 1
+  }
+
+  ts_icu <- base_ts_icu(db)
+
+  icu_model <- icu_model(db, n_ahead, lag_ottimo)
+
+  ts_nocritica_shocked <- shocked_ts_nocritica(db, shock, delay)
+  serie_osp <- predicted_ts(ts_nocritica_shocked, n_ahead - delay)
+
+  ts_shocked_lagged <- c_ts_pred(ts_nocritica_shocked, serie_osp) %>%
+    lagged_ts(lag_ottimo) %>%
+    data.frame()
+
+  cat(ts_shocked_lagged[[1]])
 
   icu_forecast <- smooth::forecast.smooth(icu_model,
     h = n_ahead,
-    xreg = data.frame(ts_shocked_lagged),
-    lambda = forecast::BoxCox.lambda(exogen_objects[["ts_icu"]])
+    xreg = ts_shocked_lagged,
+    lambda = forecast::BoxCox.lambda(ts_icu)
   )
 
   list(
@@ -296,9 +333,11 @@ ts2data <- function(ts, start_date, offset) {
   as.Date(start_date + lubridate::days(ts - offset))
 }
 
-exogen_db <- function(exogen_objects, exogen_icu_model) {
-  time_offset <- min(stats::time(exogen_objects[["ts_icu"]]))
-  start <- exogen_objects[["time_range"]][[1]]
+exogen_db <- function(db, shock, exogen_icu_model) {
+  time_range <- range(db$data)
+  ts_icu <- base_ts_icu(db)
+  time_offset <- min(stats::time(ts_icu))
+  start <- time_range[[1]]
 
   fitted_df <- dplyr::tibble(
     data = stats::time(exogen_icu_model[["icu_model"]]$fitted) %>%
@@ -323,9 +362,9 @@ exogen_db <- function(exogen_objects, exogen_icu_model) {
 
 
   observed_df <- dplyr::tibble(
-    data = stats::time(exogen_objects[["ts_icu"]]) %>%
+    data = stats::time(ts_icu) %>%
       ts2data(start, time_offset),
-    Stima = as.integer(exogen_objects[["ts_icu"]]),
+    Stima = as.integer(ts_icu),
     Type = "Observerd"
   )
 
@@ -335,7 +374,7 @@ exogen_db <- function(exogen_objects, exogen_icu_model) {
     estimated_df = estimated_df,
     observed_df = observed_df,
     method = exogen_icu_model[["icu_model"]]$model,
-    shock = exogen_objects[["shock"]]
+    shock = shock
   )
 
 }
@@ -365,7 +404,7 @@ gg_shock <- function(exogen_db) {
     ) +
     annotate("text",
              x = stats::median(exogen_db[["observed_df"]]$data, na.rm = TRUE),
-             y = max(exogen_db[["observed_df$Stima"]], na.rm = TRUE),
+             y = max(exogen_db[["observed_df"]]$Stima, na.rm = TRUE),
              label = paste0("Methods: ", exogen_db[["method"]]),
              vjust = "inward", hjust = "inward"
     ) +
