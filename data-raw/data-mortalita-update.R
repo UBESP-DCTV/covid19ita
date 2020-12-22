@@ -141,25 +141,25 @@ data_mortalita <- function() {
 
 
 
-  # Mortalit`a settimanale ------------------------------------------
+  # Mortalit`a giornaliera ------------------------------------------
   #
 
 
-  settimanale_url <- paste0(
+  giornaliero_url <- paste0(
     "https://www.istat.it/",
     "it/files//2020/03/",
     "Dataset-decessi-comunali-giornalieri-e-tracciato-record_dati-al-30-settembre.zip"
   )
 
-  tmp_sett <- tempfile(fileext = ".zip")
+  tmp_gior <- tempfile(fileext = ".zip")
 
-  download.file(settimanale_url, tmp_sett, mode = "wb")
+  download.file(giornaliero_url, tmp_gior, mode = "wb")
 
-  comuni_settimana <- unzip(
-    tmp_sett, "comuni_giornaliero_30settembre.csv",
+  comuni_giornaliero <- unzip(
+    tmp_gior, "comuni_giornaliero_30settembre.csv",
     exdir = tempdir()
   ) %>%
-    read.csv(encoding = "Latin-1") %>%
+    read.csv(encoding = "Latin-1", na.strings = "n.d.") %>%
     janitor::clean_names() %>%
     dplyr::rename(
       regione = nome_regione,
@@ -173,60 +173,58 @@ data_mortalita <- function() {
         "Friuli-Venezia Giulia" = "Friuli Venezia Giulia"
       ))
     )
-  ui_done("comuni_settimana ready")
+
 
 
 
 
   # Mortalità comuni ------------------------------------------------
 
-  nord <- c(
-    "Friuli Venezia Giulia", "Emilia-Romagna", "Liguria", "Veneto",
-    "Lombardia", "Piemonte", "Trentino A.A.", "Valle d'Aosta"
-  )
-  sud_centro_isole <- setdiff(
-    unique(comuni_settimana[["regione"]]),
-    nord
-  )
-
-  mort_data_comuni <- comuni_settimana %>%
-    mutate(m_15 = ifelse(m_15 == "n.d.", NA, m_15),
-           m_16 = ifelse(m_16 == "n.d.", NA, m_16),
-           m_17 = ifelse(m_17 == "n.d.", NA, m_17),
-           m_18 = ifelse(m_18 == "n.d.", NA, m_18),
-           m_19 = ifelse(m_19 == "n.d.", NA, m_19),
-           m_20 = ifelse(m_20 == "n.d.", NA, m_20),
-           f_15 = ifelse(f_15 == "n.d.", NA, f_15),
-           f_16 = ifelse(f_16 == "n.d.", NA, f_16),
-           f_17 = ifelse(f_17 == "n.d.", NA, f_17),
-           f_18 = ifelse(f_18 == "n.d.", NA, f_18),
-           f_19 = ifelse(f_19 == "n.d.", NA, f_19),
-           f_20 = ifelse(f_20 == "n.d.", NA, f_20),
-           t_15 = ifelse(t_15 == "n.d.", NA, t_15),
-           t_16 = ifelse(t_16 == "n.d.", NA, t_16),
-           t_17 = ifelse(t_17 == "n.d.", NA, t_17),
-           t_18 = ifelse(t_18 == "n.d.", NA, t_18),
-           t_19 = ifelse(t_19 == "n.d.", NA, t_19),
-           t_20 = ifelse(t_20 == "n.d.", NA, t_20)) %>%
-    mutate_at(vars(m_15:t_20), as.numeric) %>%
-    dplyr::select(-.data$reg, -.data$prov, -.data$cod_provcom) %>%
-    dplyr::mutate(
-      area = dplyr::if_else(.data$regione %in% nord,
-                            true = "nord",
-                            false = "sud, centro, isole"
-      )
-    ) %>%
-    tidyr::pivot_longer(.data$m_15:.data$t_20,
-                        names_to = c("sex", "year"),
+  mort_data_comuni <- comuni_giornaliero %>%
+    dplyr::mutate_at(vars(m_15:t_20), as.numeric) %>%
+    dplyr::select(-.data$reg, -.data$prov, -.data$cod_provcom,
+                  -.data$tipo_comune) %>%
+    dplyr::mutate(m_1519 = rowMeans(data.frame(m_15,m_16, m_17, m_18,
+                                               m_19)),
+                  f_1519 = rowMeans(data.frame(f_15, f_16, f_17, f_18,
+                                               f_19)),
+                  t_1519 = rowMeans(data.frame(t_15, t_16, t_17, t_18,
+                                               t_19))) %>%
+    tidyr::separate(ge, into = c("mm", "gg"), sep = 1) %>%
+    dplyr::filter(is.finite(t_20)) %>%
+    dplyr::mutate(cl_eta = ifelse(cl_eta < 14, "<=64", ">=65")
+  ) %>%
+    dplyr::select(-m_15, -m_16, -m_17, -m_18, -m_19,
+                  -f_15, -f_16, -f_17, -f_18, -f_19,
+                  -t_15, -t_16, -t_17, -t_18, -t_19) %>%
+    tidyr::pivot_longer(.data$m_20:.data$t_1519,
+                        names_to = c("gender", "year"),
                        # names_ptypes = list(sex = character(), year = integer()),
                         names_sep = "_",
                         values_to = "n_death"#,
                        # values_ptypes = list(n_death = integer())
     ) %>%
-    mutate(cl_eta = ifelse(cl_eta >))#create age class
-    dplyr::group_by(regione, eta) %>%
-    dplyr::mutate()
-  ui_done("mort_data_comuni ready")
+    dplyr::group_by(regione, cl_eta, year, gg, mm, gender) %>%
+    dplyr::summarise(morti = sum(n_death, na.rm = TRUE)) %>%
+    dplyr::ungroup()
+
+  db_italia_tot <- mort_data_comuni %>%
+    dplyr::group_by(cl_eta, year, gg, mm, gender) %>%
+    dplyr::summarise(morti = sum(morti, na.rm = TRUE)) %>%
+    dplyr::mutate(regione = "Italia") %>%
+    dplyr::ungroup()
+
+  db_comuni_tot <- bind_rows(mort_data_comuni, db_italia_tot)
+
+  #add data without age class
+  db_comuni_allage <- db_comuni_tot %>%
+    dplyr::group_by(year, gg, mm, gender, regione) %>%
+    dplyr::summarise(morti = sum(morti, na.rm = TRUE)) %>%
+    dplyr::mutate(cl_eta = "Total") %>%
+    dplyr::ungroup()
+
+  db_comuni_tot <- bind_rows(db_comuni_tot, db_comuni_allage) %>%
+    mutate_at(vars(gender, cl_eta, gg, mm, year), as.factor)
 
 
 
@@ -240,10 +238,7 @@ data_mortalita <- function() {
     "decessi_eta_maschi",
     "decessi_eta_femmine",
 
-    "mort_data_reg_age", "mort_data_reg_sex", "mort_data_veneto_age",
-    "mort_data_veneto_sex",
-    "comuni_settimana",
-    "mort_data_comuni"
+    "db_comuni_tot"
   ))
 }
 
