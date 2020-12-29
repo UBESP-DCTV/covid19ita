@@ -1,4 +1,3 @@
-library(tidyverse)
 source(here::here("data-raw", "data-dpc_covid19_ita.R"), local = TRUE)
 data_dpc()
 
@@ -12,7 +11,10 @@ devtools::check_man()
 devtools::build_readme()
 devtools::check()
 
-tools::showNonASCIIfile(here::here("R/mod_reg_tsicuve.R"))
+here::here("R") %>%
+  list.files(pattern = ".R$", full.names = TRUE) %>%
+  purrr::walk(tools::showNonASCIIfile)
+
 
 
 {
