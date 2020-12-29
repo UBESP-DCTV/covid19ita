@@ -246,7 +246,7 @@ base_ts_nocritica <- function(db) {
 
 
 predicted_ts <- function(ts, ahead) {
-  predict(forecast::ets(ts), h = ahead)[["mean"]]
+  stats::predict(forecast::ets(ts), h = ahead)[["mean"]]
 }
 
 c_ts_pred <- function(ts, pred) {

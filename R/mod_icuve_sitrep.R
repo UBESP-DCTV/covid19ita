@@ -255,8 +255,11 @@ mod_icuve_sitrep_server <- function(id) {
       sitrep()[["db_pred"]] %>%
         dplyr::filter(.data$date >= max(sitrep()[["db_long"]]$date)) %>%
         dplyr::select(-.data$method) %>%
-        dplyr::mutate(dplyr::across(c(lower, upper), ~round(.x, 1))) %>%
-        dplyr::rename(`Posti letto attesi` = `N beds`)
+        dplyr::mutate(dplyr::across(
+          c(.data[["lower"]], .data[["upper"]]),
+          ~round(.x, 1)
+        )) %>%
+        dplyr::rename(`Posti letto attesi` = .data[["N beds"]])
     })
 
 
@@ -282,8 +285,11 @@ mod_icuve_sitrep_server <- function(id) {
       live_prov()[["db_pred"]] %>%
         dplyr::filter(.data$date >= max(live_prov()[["db_long"]]$date)) %>%
         dplyr::select(-.data$method) %>%
-        dplyr::mutate(dplyr::across(c(lower, upper), ~round(.x, 1))) %>%
-        dplyr::rename(`Posti letto attesi` = `N beds`)
+        dplyr::mutate(dplyr::across(
+          c(.data[["lower"]], .data[["upper"]]),
+          ~round(.x, 1)
+        )) %>%
+        dplyr::rename(`Posti letto attesi` = .data[["N beds"]])
     })
 
 
@@ -309,8 +315,8 @@ mod_icuve_sitrep_server <- function(id) {
       live_cntr()[["db_pred"]] %>%
         dplyr::filter(.data$date >= max(live_cntr()[["db_long"]]$date)) %>%
         dplyr::select(-.data$method) %>%
-        dplyr::mutate(dplyr::across(c(lower, upper), ~round(.x, 1))) %>%
-        dplyr::rename(`Posti letto attesi` = `N beds`)
+        dplyr::mutate(dplyr::across(c(.data[["lower"]], .data[["upper"]]), ~round(.x, 1))) %>%
+        dplyr::rename(`Posti letto attesi` = .data[["N beds"]])
     })
 
 
