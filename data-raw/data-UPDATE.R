@@ -12,21 +12,12 @@ devtools::check_man()
 res_check <- devtools::check()
 
 
-tools::showNonASCIIfile(here::here("R/mod_tsicuve.R"))
+tools::showNonASCIIfile(here::here("R/mod_reg_tsicuve.R"))
 
 
-if (length(res_check$errors) == 0L && length(res_check$warnings) == 0L) {
-
-  nws <- here::here("NEWS.md")
-  readr::write_lines(
-    c(list(
-      "* data update",
-      ""
-    ), readr::read_lines(file = nws)),
-    file = nws
-  )
-
-  git2r::commit(message = "Data update", all = TRUE)
-
-  usethis::use_version("minor")
+{
+  options(golem.app.prod = FALSE)
+  golem::detach_all_attached()
+  golem::document_and_reload()
+  run_app(language = "ita")
 }
