@@ -9,8 +9,8 @@ source(here::here("data-raw", "data-EXPORTED.R"), local = TRUE)
 rm(list = ls(all.names = TRUE))
 
 devtools::check_man()
-res_check <- devtools::check()
-
+devtools::build_readme()
+devtools::check()
 
 tools::showNonASCIIfile(here::here("R/mod_reg_tsicuve.R"))
 

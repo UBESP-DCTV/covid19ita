@@ -11,7 +11,8 @@ test_that("download_dpc works", {
       "totale_ospedalizzati,isolamento_domiciliare,",
       "totale_positivi,variazione_totale_positivi,nuovi_positivi,",
       "dimessi_guariti,deceduti,casi_da_sospetto_diagnostico,",
-      "casi_da_screening,totale_casi,tamponi,casi_testati,note"
+      "casi_da_screening,totale_casi,tamponi,casi_testati,note,",
+      "ingressi_terapia_intensiva,note_test,note_casi"
     )
   )
 })
