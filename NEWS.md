@@ -17,7 +17,7 @@
 
 * Added ets prediction to siterep (including estimation up to 15 days
   and CI95% up to 4 days).
-* added provincial and centre level at siterep.
+* added provincial and center level at siterep.
 
 # covid19ita 0.111.0
 

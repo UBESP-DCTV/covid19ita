@@ -57,6 +57,7 @@ Rdevel
 Regione
 Richiesta
 Sanità
+Terapie
 Trentino
 Trento
 UI
@@ -66,6 +67,7 @@ Venezia
 Vercelli
 Visualizza
 WGS
+WORDLIST
 XYZ
 accedere
 accessi
@@ -92,6 +94,7 @@ autorizzati
 basi
 briandconnelly
 caso
+centre
 chr
 ci
 cii
@@ -143,7 +146,9 @@ epidemiologia
 esclusivo
 eseguire
 etichette
+ets
 evidenza
+exogen
 fase
 favore
 fornire
@@ -250,6 +255,7 @@ sigle
 simpleWarning
 sintomatici
 sistema
+siterep
 situazione
 sono
 sorgente
@@ -264,6 +270,7 @@ sviluppo
 tamponi
 terapie
 tibble
+timeseries
 tooltip
 tramite
 tre
