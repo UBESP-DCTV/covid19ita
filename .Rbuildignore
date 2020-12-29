@@ -21,3 +21,4 @@ $run_dev.*
 ^\.lintr$
 supersecret
 ^Dockerfile$
+^.dockerignore$
