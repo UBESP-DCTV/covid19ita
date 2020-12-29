@@ -1,3 +1,5 @@
+utils::globalVariables("where")
+
 #' reg_tsicuve UI Function
 #'
 #' @description A shiny Module.
@@ -124,21 +126,21 @@ La parametrizzazione ottimale viene scelta in modo automatico utilizzando come c
         max = 7,
         step = 1 #, animate = animationOptions(interval = 400)
       ),
-      box(plotlyOutput(ns("fig2")), width = 12, title = "Figura 2. E’ stato stimato un Exponential Time Series smoothing model sui ricoveri COVID in terapia intensiva con variabile esogena (ETSX model).
-          La variabile esogena utilizzata è la serie storica dei ricoveri ordinari.
-          E’ stato identificato e fissato (non modificabile interattivamente) un lag (ritardo) ottimale di 5 giorni dell'impatto causato dai ricoveri ordinari sull'occupazione in terapia intensiva, scegliendo il valore che minimizza il BIC
+      box(plotlyOutput(ns("fig2")), width = 12, title = "Figura 2. \u00C8 stato stimato un Exponential Time Series smoothing model sui ricoveri COVID in terapia intensiva con variabile esogena (ETSX model).
+          La variabile esogena utilizzata \u00E8 la serie storica dei ricoveri ordinari.
+          \u00C8 stato identificato e fissato (non modificabile interattivamente) un lag (ritardo) ottimale di 5 giorni dell'impatto causato dai ricoveri ordinari sull'occupazione in terapia intensiva, scegliendo il valore che minimizza il BIC
           sul modello ETSX.
 
           Il valore del lag a 5 giorni indica che una variazione improvvisa dei ricoveri ordinari al tempo T,
           impatterebbe sugli accessi in terapia intensiva dopo 5 giorni.
 
-          D'altra parte, lo shock sui ricoveri ordinari (rispetto per esempio alla misura di ristrezione o rilassamento adottata) può essere selezionato dal secondo cursore, rispetto alla fine della serie osservata.
+          D'altra parte, lo shock sui ricoveri ordinari (rispetto per esempio alla misura di ristrezione o rilassamento adottata) pu\u00F2 essere selezionato dal secondo cursore, rispetto alla fine della serie osservata.
 
-          L’ammontare di questo effetto improvviso sui ricoveri in area non critica (variabile esogena) può essere definito dinamicamente tramite lo slider.
+          L'ammontare di questo effetto improvviso sui ricoveri in area non critica (variabile esogena) pu\u00F2 essere definito dinamicamente tramite lo slider.
 
-          Tale shock è stato proiettato in avanti con un forecast ets fino alla fine della finestra di previsione di 15 giorni.
-          La variabile esogena che include lo shock sui ricoveri ordinari è stata inserita nel modello ETSX come componente ausiliaria.
-          Si riportano le stime previsive a 15 giorni le quali considerano l’impatto di una variazione improvvisa
+          Tale shock \u00E8 stato proiettato in avanti con un forecast ets fino alla fine della finestra di previsione di 15 giorni.
+          La variabile esogena che include lo shock sui ricoveri ordinari \u00E8 stata inserita nel modello ETSX come componente ausiliaria.
+          Si riportano le stime previsive a 15 giorni le quali considerano l'impatto di una variazione improvvisa
           dei ricoveri ordinari sui ricoveri in terapia intensiva."),
       box(DT::DTOutput(ns("tab2")), width = 12, title = "Tabella 2")
     ),
@@ -252,6 +254,7 @@ mod_reg_tsicuve_server <- function(id) {
       plotly::ggplotly(gg_shock(current_exogen_db()))
     })
     output$tab2 <- DT::renderDT({
+
       current_exogen_db()[["forecast_df"]] %>%
         dplyr::mutate(dplyr::across(where(is.numeric), ~round(.x, 3)))
     })
