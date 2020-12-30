@@ -16,7 +16,6 @@ app_server <- function(input, output, session) {
   ############
   ## LOGIN #############################################################
   ############
-  # login <- FALSE
   USER <- reactiveValues(login = TRUE)
   usr_pos <- which(super_secret()$username == "")
   updateTabItems(session, "sidebar", "home")

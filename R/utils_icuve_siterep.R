@@ -102,7 +102,7 @@ pred_ets <- function(db_long, groups = "type", n_ahead = 15) {
         }),
       res  = purrr::map2(.data[["data"]], .data[["model"]], ~{
 
-        pred = forecast::forecast(.y, h = n_ahead)
+        pred <- forecast::forecast(.y, h = n_ahead)
 
         tibble::tibble(
           date = seq(from = time_range[[1]],
@@ -131,7 +131,7 @@ pred_ets <- function(db_long, groups = "type", n_ahead = 15) {
       })
     ) %>%
     dplyr::select(dplyr::all_of(groups), .data[["res"]]) %>%
-    tidyr::unnest(cols = c("res")) %>%
+    tidyr::unnest(cols = "res") %>%
     dplyr::mutate(
       `N beds` = .data$`N beds`,
       date = as.Date(.data[["date"]], origin = "1970-01-01")
@@ -247,7 +247,7 @@ gg_live <- function(db, who, vars, group = c("province", "centre"),
     dplyr::mutate(date = as.Date(.data[["date"]])) %>%
     dplyr::filter(date == as.Date(max(db_long$date))) %>%
     dplyr::distinct() %>%
-    dplyr::filter(dplyr::across(dplyr::all_of(group), ~.%in% who))
+    dplyr::filter(dplyr::across(dplyr::all_of(group), ~ . %in% who))
 
   gg <- db_long  %>%
     ggplot(aes(
@@ -291,4 +291,3 @@ gg_live <- function(db, who, vars, group = c("province", "centre"),
 
   list(gg = gg, db_long = db_long, db_pred = db_pred)
 }
-

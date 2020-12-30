@@ -328,4 +328,3 @@ mod_icuve_sitrep_server <- function(id) {
 
 ## To be copied in the server
 # mod_icuve_sitrep_server("sitrep")
-

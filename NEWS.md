@@ -1,7 +1,12 @@
+* Ability to selecting the measures for national ts
+* Add `Theme analyses` tab
+* old `focus` items in `archive` tab
+* reshape sidebar
+
 # covid19ita 0.115.0
 
 * Updated Log in system to automatically login to the public user and
-  allowing for sign in with other users after the visualizaztion of
+  allowing for sign in with other users after the visualization of
   the dashboard.
 
 # covid19ita 0.114.1

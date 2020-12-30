@@ -8,7 +8,7 @@
 #'
 #' @importFrom shiny NS fluidRow fluidPage
 #' @importFrom shinydashboard box
-mod_tsicuve_ui <- function(id){
+mod_tsicuve_ui <- function(id) {
   ns <- NS(id)
 
   date_range <- range(dpc_covid19_ita_regioni$data, na.rm = TRUE) %>%
@@ -199,7 +199,7 @@ mod_tsicuve_server <- function(id) {
   d_seq <- as.integer(round(seq(
     from = 10L,
     to = length(veneto$data) -
-      lubridate::interval(tstart, tstop)/lubridate::ddays(1) -
+      lubridate::interval(tstart, tstop) / lubridate::ddays(1) -
       n_ahead,
     by = 3
   )))
@@ -251,7 +251,7 @@ mod_tsicuve_server <- function(id) {
       ggplotly(gg_holter, originalData = FALSE)
     })
 
-    output$tab1 <- DT::renderDT({fc_holter})
+    output$tab1 <- DT::renderDT(fc_holter)
 
     output$fig1b <- plotly::renderPlotly({
       plotly::ggplotly(error_holter)
@@ -270,7 +270,7 @@ mod_tsicuve_server <- function(id) {
       ggplotly(gg_damped, originalData = FALSE)
     })
 
-    output$tab2 <- DT::renderDT({fc_damped})
+    output$tab2 <- DT::renderDT(fc_damped)
 
     output$fig2b <- plotly::renderPlotly({
       plotly::ggplotly(error_damped)
@@ -289,7 +289,7 @@ mod_tsicuve_server <- function(id) {
       ggplotly(gg_arima, originalData = FALSE)
     })
 
-    output$tab3 <- DT::renderDT({fc_arima})
+    output$tab3 <- DT::renderDT(fc_arima)
 
     output$fig3b <- plotly::renderPlotly({
       plotly::ggplotly(error_arima)
@@ -297,5 +297,3 @@ mod_tsicuve_server <- function(id) {
 
   })
 }
-
-

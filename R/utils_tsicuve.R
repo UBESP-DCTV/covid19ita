@@ -411,6 +411,6 @@ gg_shock <- function(exogen_db) {
     labs(
       caption = paste0(
         "Variazione shock ipotizzata (domani rispetto a oggi) ",
-        "in area non critica del ", 100*exogen_db[["shock"]], "%")
+        "in area non critica del ", 100 * exogen_db[["shock"]], "%")
     )
 }
