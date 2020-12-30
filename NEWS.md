@@ -1,3 +1,9 @@
+# covid19ita 0.115.0
+
+* Updated Log in system to automatically login to the public user and
+  allowing for sign in with other users after the visualizaztion of
+  the dashboard.
+
 # covid19ita 0.114.1
 
 * update `Dockerfile`
