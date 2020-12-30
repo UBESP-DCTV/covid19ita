@@ -9,12 +9,10 @@ rm(list = ls(all.names = TRUE))
 
 devtools::check_man()
 devtools::build_readme()
-devtools::check()
 
 here::here("R") %>%
   list.files(pattern = ".R$", full.names = TRUE) %>%
   purrr::walk(tools::showNonASCIIfile)
-
 
 
 {
@@ -23,3 +21,6 @@ here::here("R") %>%
   golem::document_and_reload()
   run_app(language = "ita")
 }
+
+
+devtools::check()
