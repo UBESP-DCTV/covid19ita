@@ -131,7 +131,7 @@ pred_ets <- function(db_long, groups = "type", n_ahead = 15) {
       })
     ) %>%
     dplyr::select(dplyr::all_of(groups), .data[["res"]]) %>%
-    tidyr::unnest(cols = "res") %>%
+    tidyr::unnest(cols = c("res")) %>%
     dplyr::mutate(
       `N beds` = .data$`N beds`,
       date = as.Date(.data[["date"]], origin = "1970-01-01")

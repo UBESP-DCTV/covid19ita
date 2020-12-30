@@ -43,6 +43,7 @@ mod_maps_ui <- function(id) {
 
   palette_list <- (names(palette_list_t))
 
+  palette_list_img <- character()
   for (pal in palette_list_t) {
     png(tf1 <- tempfile(fileext = ".png"),
         width = 160,
