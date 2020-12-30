@@ -19,7 +19,6 @@ jobs:
       matrix:
         config:
           - {os: windows-latest, r: 'release'}
-          - {os: macOS-latest, r: 'release'}
           - {os: ubuntu-20.04, r: 'release', rspm: "https://demo.rstudiopm.com/all/__linux__/fossa/latest"}
 
     env:
@@ -79,7 +78,7 @@ jobs:
 
       - name: Install dependencies
         run: |
-          remotes::install_github("UBESP-DCTV/covid19.iveve", auth_token = ${{ secrets.GITHUB_TOKEN }})
+          remotes::install_github("UBESP-DCTV/covid19.icuve", auth_token = ${{ secrets.GITHUB_TOKEN }})
           remotes::install_github("sprouffske/growthcurver")
           remotes::install_deps(dependencies = TRUE)
           remotes::install_cran("rcmdcheck")
