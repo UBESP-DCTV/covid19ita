@@ -8,7 +8,7 @@
 #'
 #' @importFrom shiny NS fluidRow fluidPage
 #' @importFrom shinydashboard box
-mod_icuve_static_ui <- function(id){
+mod_icuve_static_ui <- function(id) {
   ns <- NS(id)
 
   fluidPage(
@@ -162,13 +162,13 @@ mod_icuve_static_server <- function(id) {
       n_deaths = sum(.data$final_is_dead, na.rm = TRUE),
       n_deaths_icu = sum(.data$death_icu, na.rm = TRUE),
       n_adm = dplyr::n(),
-      los = sum(.data$los, na.rm = TRUE)/100
+      los = sum(.data$los, na.rm = TRUE) / 100
     ) %>%
     dplyr::ungroup() %>%
     dplyr::rowwise() %>%
     # Proportion of deaths
     dplyr::mutate(
-      prop_death = .data$n_deaths/.data$n_adm,
+      prop_death = .data$n_deaths / .data$n_adm,
       prop_lower = stats::prop.test(
         x = .data$n_deaths, n = .data$n_adm
       )$conf.int[1],
@@ -177,7 +177,8 @@ mod_icuve_static_server <- function(id) {
       )$conf.int[2]
     )
 
-  overall_p_death <- sum(icuve_static$final_is_dead)/nrow(icuve_static)
+  overall_p_death <- sum(icuve_static$final_is_dead) /
+    nrow(icuve_static)
 
   # 2) Proportion of deaths in patients admitted to ICU ----------------
   ggprop_death <- ggplot(
@@ -274,4 +275,3 @@ mod_icuve_static_server <- function(id) {
 
 ## To be copied in the server
 # mod_icuve_ts_server("icuve_ts_cl")
-

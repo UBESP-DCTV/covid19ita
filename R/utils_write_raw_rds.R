@@ -48,4 +48,3 @@ read_data_raw <- function(data_name) {
     here::here("data-raw", paste0(data_name, ".rds"))
   )
 }
-

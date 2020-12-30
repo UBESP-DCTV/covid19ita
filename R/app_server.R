@@ -16,7 +16,6 @@ app_server <- function(input, output, session) {
   ############
   ## LOGIN #############################################################
   ############
-  # login <- FALSE
   USER <- reactiveValues(login = TRUE)
   usr_pos <- which(super_secret()$username == "")
   updateTabItems(session, "sidebar", "home")
@@ -177,18 +176,107 @@ app_server <- function(input, output, session) {
 
         mod_help_plot_ui("help"),
 
+
+
+
         dashboard_home_sidebar(),
 
 
-        menuItem("In evidenza",
+
+
+        menuItem("Andamento epidemia",
+                 icon = icon("chart-line"),
+                 menuSubItem("Nazionale", tabName = "national",
+                             icon = icon("flag")),
+                 menuSubItem("Regionale", tabName = "regional",
+                             icon = icon("map")),
+                 menuSubItem("Provinciale", tabName = "provincial",
+                             icon = icon("location-arrow"))
+        ),
+
+
+
+
+        if (super_secret()[["permission"]][usr_pos] %in%
+            c("ubep", "tip-v", "agenas")) {
+
+          menuItem("Terapie intensive",
+                   icon = icon("procedures"),
+                   menuSubItem("Serie TI (reg)",
+                               tabName = "regional-partial-ts-icuve",
+                               icon = icon("map")
+                   ),
+                   menuSubItem("Serie area non critica (reg)",
+                               tabName = "regional-partial-ts-nocritica",
+                               icon = icon("map")
+                   ),
+                   if (super_secret()[["permission"]][usr_pos] !=
+                       "agenas") {
+                     menuSubItem("Veneto ICUs situation report",
+                                 tabName = "regional-icuve-sitrep",
+                                 icon = icon("map")
+                     )},
+
+                   if (super_secret()[["permission"]][usr_pos] !=
+                       "agenas") {
+                     menuSubItem("Veneto ICUs timeseries",
+                                 tabName = "regional-icuve-ts",
+                                 icon = icon("map")
+                     )},
+
+                   if (super_secret()[["permission"]][usr_pos] !=
+                       "agenas") {
+                     menuSubItem("Veneto ICUs overview",
+                                 tabName = "regional-icuve-static",
+                                 icon = icon("map")
+                     )}
+          )
+        },
+
+
+
+
+        menuItem("Analisi tematiche",
+                 icon = icon("bullseye"),
+
+                 if (super_secret()[["permission"]][usr_pos] %in%
+                     c("ubep", "tip-v", "agenas")) {
+
+                   menuSubItem("Veneto partial timeseries",
+                               tabName = "partial-ts-icuve",
+                               icon = icon("map")
+                   )
+                 }
+        ),
+
+
+
+
+        menuItem("Indici principali", tabName = "impact",
+                 icon = icon("compass")),
+
+
+
+
+        menuItem("Mappe", tabName = "geo_spatialTot",
+                 icon = icon("map-marked-alt")),
+
+
+
+
+
+
+
+
+        menuItem("Archivio analisi",
                  icon = icon("bullseye"),
 
                  if (super_secret()[["permission"]][usr_pos] %in% c("ubep", "tip-v", "agenas")) {
 
-                    menuSubItem("Veneto partial timeseries",
-                                tabName = "partial-ts-icuve",
-                                icon = icon("map")
-                    )
+                   menuSubItem("Veneto partial timeseries",
+                               tabName = "partial-ts-icuve",
+                               icon = icon("map")
+                   )
                  },
 
 
@@ -252,56 +340,26 @@ app_server <- function(input, output, session) {
                  )
         ),
 
-        if (super_secret()[["permission"]][usr_pos] %in% c("ubep", "tip-v", "agenas")) {
-
-          menuItem("Terapie intensive",
-                   icon = icon("procedures"),
-                   menuSubItem("Serie TI (reg)",
-                               tabName = "regional-partial-ts-icuve",
-                               icon = icon("map")
-                   ),
-                   menuSubItem("Serie area non critica (reg)",
-                               tabName = "regional-partial-ts-nocritica",
-                               icon = icon("map")
-                   ),
-                   if (super_secret()[["permission"]][usr_pos] != "agenas") {
-                     menuSubItem("Veneto ICUs situation report",
-                               tabName = "regional-icuve-sitrep",
-                               icon = icon("map")
-                   )},
-
-                   if (super_secret()[["permission"]][usr_pos] != "agenas") {
-                     menuSubItem("Veneto ICUs timeseries",
-                               tabName = "regional-icuve-ts",
-                               icon = icon("map")
-                   )},
-
-                   if (super_secret()[["permission"]][usr_pos] != "agenas") {
-                     menuSubItem("Veneto ICUs overview",
-                               tabName = "regional-icuve-static",
-                               icon = icon("map")
-                   )}
-          )
-        },
 
 
-        menuItem("Andamento epidemia",
-                 icon = icon("chart-line"),
-                 menuSubItem("Nazionale", tabName = "national", icon = icon("flag")),
-                 menuSubItem("Regionale", tabName = "regional", icon = icon("map")),
-                 menuSubItem("Provinciale", tabName = "provincial", icon = icon("location-arrow"))
-        ),
 
-        menuItem("Indici principali", tabName = "impact", icon = icon("compass")),
 
-        menuItem("Mappe", tabName = "geo_spatialTot", icon = icon("map-marked-alt")),
+
+
 
         menuItem("Segnalazioni",
                  icon = icon("exclamation-triangle"),
                  href = "https://github.com/UBESP-DCTV/covid19ita/issues/"
         ),
 
-        menuItem("Fonti e informazioni", tabName = "data_tab", icon = icon("database")),
+
+
+
+        menuItem("Fonti e informazioni", tabName = "data_tab",
+                 icon = icon("database")),
+
+
+
 
         mod_info_sidebar_ui("summary_today")
       )

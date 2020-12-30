@@ -42,12 +42,6 @@ dashboard_header <- function() {
     title = "COVID-19 - Italia",
 
     dropdownMenu(
-      # type = "messages",
-      # messageItem(
-      #   from = "In evidenza",
-      #   message = "Impatto tamponi su ospedalizzazioni",
-      #   icon = icon("search")
-      # ),
       messageItem(
         from = "Dati",
         message = glue::glue("Dati aggiornati ({last_data_update})"),

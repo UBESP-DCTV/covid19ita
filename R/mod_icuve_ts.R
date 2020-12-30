@@ -8,7 +8,7 @@
 #'
 #' @importFrom shiny NS fluidRow fluidPage
 #' @importFrom shinydashboard box
-mod_icuve_ts_ui <- function(id){
+mod_icuve_ts_ui <- function(id) {
   ns <- NS(id)
 
   fluidPage(
@@ -87,7 +87,7 @@ mod_icuve_ts_server <- function(id) {
       lag_swab = dplyr::lag(.data$tamponi, n = 1L, default = NA),
       casi = .data$totale_casi - .data$lag_casi,
       swab = .data$tamponi - .data$lag_swab,
-      prop_pos = .data$casi/.data$swab
+      prop_pos = .data$casi / .data$swab
     ) %>%
     # Take the 1st of September as starting date for the models
     dplyr::filter(.data$date >= lubridate::ymd("2020-09-01")) %>%
@@ -97,7 +97,7 @@ mod_icuve_ts_server <- function(id) {
   df <- icuve_ts %>%
     dplyr::mutate(
       # Proportion of COVID beds
-      prop_covid_occupied = .data$covid_occupied /.data$overall_total,
+      prop_covid_occupied = .data$covid_occupied / .data$overall_total,
       # Covid variation as 3 days before
       covid_occ_lag = dplyr::lag(
         x = .data$covid_occupied, n = 3L, default = 0
@@ -363,4 +363,3 @@ mod_icuve_ts_server <- function(id) {
 
 ## To be copied in the server
 # mod_icuve_ts_server("icuve_ts_cl")
-

@@ -8,7 +8,7 @@
 #'
 #' @importFrom shiny NS fluidRow fluidPage
 #' @importFrom shinydashboard box
-mod_reg_nocritica_ui <- function(id){
+mod_reg_nocritica_ui <- function(id) {
   ns <- NS(id)
 
   date_range <- range(dpc_covid19_ita_regioni$data, na.rm = TRUE) %>%
@@ -161,7 +161,7 @@ mod_reg_nocritica_server <- function(id) {
       d_seq <- as.integer(round(seq(
         from = 10L,
         to = length(region()[["data"]]) -
-          lubridate::interval(tstart(), tstop())/lubridate::ddays(1) -
+          lubridate::interval(tstart(), tstop()) / lubridate::ddays(1) -
           n_ahead,
         by = 3
       )))
@@ -197,7 +197,7 @@ mod_reg_nocritica_server <- function(id) {
       ggplotly(gg_ets, originalData = FALSE)
     })
 
-    output$tab1 <- DT::renderDT({fc_ets()})
+    output$tab1 <- DT::renderDT(fc_ets())
 
     output$fig1b <- plotly::renderPlotly({
       plotly::ggplotly(error_ets())
@@ -205,5 +205,3 @@ mod_reg_nocritica_server <- function(id) {
 
   })
 }
-
-

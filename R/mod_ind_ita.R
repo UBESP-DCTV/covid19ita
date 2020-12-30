@@ -14,39 +14,22 @@ mod_ind_ita_ui <- function(id) {
     h2(HTML("<strong>Decessi</strong>")),
     fluidRow(
       box(plotlyOutput(ns("dsp")),
-        width = 6, title = "Deceduti su positivi"
-      ),
-      box(plotlyOutput(ns("dso")),
-        width = 6, title = "Deceduti su ospedalizzati"
-      )
+        width = 12, title = "Deceduti totali su casi totali"
+      )#,
+    #   box(plotlyOutput(ns("dso")),
+    #     width = 6, title = "Deceduti totali su ospedalizzati totali"
+    #   )
     ),
 
 
-    h2(HTML("<strong>Guariti</strong>")),
-    box(plotlyOutput(ns("dgso")),
-      width = 12, title = "Dimessi guariti su ospedalizzati"
-    ),
+    # h2(HTML("<strong>Guariti</strong>")),
+    # box(plotlyOutput(ns("dgso")),
+    #   width = 12, title = "Dimessi guariti su ospedalizzati totali"
+    # ),
 
     h2(HTML("<strong>Isolamento domiciliare</strong>")),
     box(plotlyOutput(ns("idso")),
-      width = 12, title = "Isolamento domiciliare su ospedalizzati"
-    ),
-
-
-    h2(HTML("
-      <strong>Percentuali (%) rispetto al giorno precedente</strong></br>
-      (100% = nessuna variazione, >100% incremento, <100% decremento)
-    ")),
-    fluidRow(
-      box(plotlyOutput(ns("cpt")),
-        width = 4, title = "Casi positivi"
-      ),
-      box(plotlyOutput(ns("ddt")),
-        width = 4, title = "Deceduti"
-      ),
-      box(plotlyOutput(ns("tit")),
-        width = 4, title = "Terapia intensiva"
-      )
+      width = 12, title = "Isolamento domiciliare attuale su ospedalizzati attuali"
     ),
 
     h2(HTML("Terapie intensive")),
@@ -94,38 +77,35 @@ mod_ind_ita_ui <- function(id) {
 #' @noRd
 mod_ind_ita_server <- function(id) {
   data_to_use <- dpc_covid19_ita_andamento_nazionale %>%
-    dplyr::mutate(zona = .data$stato) %>%
+    dplyr::mutate(
+      zona = .data$stato
+    ) %>%
     dplyr::group_by(.data$zona) %>%
+    # dplyr::arrange(.data$data) %>%
+    # dplyr::mutate(
+    #   totale_ospedalizzati_cum = cumsum(.data$totale_ospedalizzati)
+    # ) %>%
     dplyr::transmute(
       data = .data$data,
 
       ## Ex casi
       dsp = .data$deceduti / .data$totale_casi,
-      dso = .data$deceduti / .data$totale_ospedalizzati,
-      dgso = .data$dimessi_guariti / .data$totale_ospedalizzati,
+      # dso = .data$deceduti / .data$totale_ospedalizzati_cum,
+      # dgso = .data$dimessi_guariti / .data$totale_ospedalizzati_cum,
 
       ## Isolamento domiciliare
-      idso = .data$isolamento_domiciliare / .data$totale_ospedalizzati,
-
-      ## Incrementi proporzionali
-      inc_pos = .data$totale_positivi,
-      cpt = ((.data$inc_pos / dplyr::lag(.data$inc_pos)) * 100) %>% round(2),
-
-      dec_inc = .data$deceduti - dplyr::lag(.data$deceduti),
-      ddt = ((.data$dec_inc / dplyr::lag(.data$dec_inc)) * 100) %>% round(2),
-
-      int_inc = .data$terapia_intensiva - dplyr::lag(.data$terapia_intensiva),
-      tit = ((.data$int_inc / dplyr::lag(.data$int_inc)) * 100) %>% round(2),
-    ) %>%
-    dplyr::ungroup()
+      idso = .data$isolamento_domiciliare / .data$totale_ospedalizzati
+    )
 
   gg_ind_plot <- function(y) {
     data_to_use %>%
-      ggplot(aes(x = .data$data, y = .data[[{{ y }}]], colour = .data$zona)) +
+      ggplot(aes(
+        x = .data$data, y = .data[[{{ y }}]], colour = .data$zona
+      )) +
       geom_point() +
       geom_line() +
       labs(title = "", x = "Giorno", y = "Proporzione") +
-      scale_x_datetime(date_breaks = "2 days", date_labels = "%d %b") +
+      scale_x_datetime(date_breaks = "3 weeks", date_labels = "%d %b") +
       theme_bw() +
       theme(
         panel.border = element_blank(),
@@ -166,35 +146,18 @@ mod_ind_ita_server <- function(id) {
       ggplotly(gg_ind_plot("dsp"))
     })
 
-    output$dso <- renderPlotly({
-      ggplotly(gg_ind_plot("dso"))
-    })
-
-    output$dgso <- renderPlotly({
-      ggplotly(gg_ind_plot("dgso"))
-    })
+    # output$dso <- renderPlotly({
+    #   ggplotly(gg_ind_plot("dso"))
+    # })
+    #
+    # output$dgso <- renderPlotly({
+    #   ggplotly(gg_ind_plot("dgso"))
+    # })
 
 
     ## Isolamento domiciliare
     output$idso <- renderPlotly({
       ggplotly(gg_ind_plot("idso"))
-    })
-
-
-    ## Incrementi proporzionali
-    output$cpt <- renderPlotly({
-      ggplotly(gg_ind_plot("cpt") +
-        ylab("% (rispetto il giorno precedente)"))
-    })
-
-    output$ddt <- renderPlotly({
-      ggplotly(gg_ind_plot("ddt") +
-        ylab("% (rispetto il giorno precedente)"))
-    })
-
-    output$tit <- renderPlotly({
-      ggplotly(gg_ind_plot("tit") +
-        ylab("% (rispetto il giorno precedente)"))
     })
 
 
@@ -210,59 +173,6 @@ mod_ind_ita_server <- function(id) {
         )
     })
 
-
-    # #-------
-    # dd <- dati_tamponi %>%
-    #   dplyr::filter(
-    #     denominazione_regione %in% c("Lombardia", "Veneto"),
-    #     .data$data < as.Date("2020-09-23")
-    #   )
-    #
-    # ddt <- dd %>%
-    #   dplyr::mutate(
-    #     data_to_plot = purrr::map(.data$data,
-    #       ~ dplyr::filter(dd, dd$data <= .x) %>%
-    #         dplyr::mutate(n = dplyr::n())
-    #     )
-    #   ) %>%
-    #   dplyr::select(data, data_to_plot) %>%
-    #   dplyr::rename(last_date = data) %>%
-    #   tidyr::unnest(data_to_plot) %>%
-    #   dplyr::filter(n >= 7)
-    #
-    # base_plot <- ddt %>%
-    #   ggplot(aes(
-    #     x = tamp_asint_pesati,
-    #     y = intensiva_pesati,
-    #     colour = denominazione_regione,
-    #     label = denominazione_regione
-    #   )) +
-    #   geom_point() +
-    #   scale_color_discrete(name = "Regione") +
-    #   theme(legend.position = "bottom") +
-    #   # geom_smooth(method = stats::loess, span = 1.5, se = FALSE, show.legend = FALSE) +
-    #   ylab("% soggetti in t. intensiva") +
-    #   xlab("% sulla popolazione regionale di tamponi effettuati su soggetti non sintomatici") #+
-    #   # coord_cartesian(
-    #   #   xlim = c(0, max(dati_tamponi$tamp_asint_pesati, na.rm = TRUE) + 1L),
-    #   #   ylim = c(0, max(dati_tamponi$intensiva_pesati, na.rm = TRUE))
-    #   # ) +
-    #   # facet_grid(denominazione_regione~.)
-    #
-    # anim <- base_plot +
-    #   labs(title = "Ultima data: {frame_time}") +
-    #   gganimate::transition_time(last_date) +
-    #   gganimate::ease_aes('linear')
-    #
-    # res <- gganimate::animate(anim,
-    #                    nframes = length(unique(ddt$last_date)),
-    #                    start_pause = 10,
-    #                    end_pause = 30
-    # )
-    #
-    # res
-    # #
-    # # #-------
 
 
     output$titamponi <- renderPlotly({

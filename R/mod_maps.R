@@ -43,7 +43,7 @@ mod_maps_ui <- function(id) {
 
   palette_list <- (names(palette_list_t))
 
-  palette_list_img <- c()
+  palette_list_img <- character()
   for (pal in palette_list_t) {
     png(tf1 <- tempfile(fileext = ".png"),
         width = 160,
@@ -327,7 +327,7 @@ mod_maps_server <- function(id) {
 
   ## FIX che Napoli ha sigla "NA" sbaglio importazione
   dpc_covid19_ita_province.clean <-
-    dpc_covid19_ita_province[dpc_covid19_ita_province$lat != 0,]
+    dpc_covid19_ita_province[dpc_covid19_ita_province$lat != 0, ]
   naples <-
     which(dpc_covid19_ita_province.clean$denominazione_provincia == "Napoli")
   dpc_covid19_ita_province.clean[naples, "sigla_provincia"] <- "NA"
@@ -345,7 +345,7 @@ mod_maps_server <- function(id) {
         .before = 3,
         .after = 3,
         na.rm = TRUE,
-        .complete = F
+        .complete = FALSE
       ),
       delta_window7d_std =   scale(
         slider::slide_dbl(
@@ -354,7 +354,7 @@ mod_maps_server <- function(id) {
           .before = 3,
           .after = 3,
           na.rm = TRUE,
-          .complete = F
+          .complete = FALSE
         )
       ),
       delta = c(0, diff(.data$totale_casi))
@@ -637,7 +637,7 @@ mod_maps_server <- function(id) {
       for (i in seq_along(province_polygons2019)) {
         leaflet::leafletProxy("mymap") %>%
           leaflet::addPolygons(
-            data = province_polygons2019[i,],
+            data = province_polygons2019[i, ],
             weight = 1,
             color = "#FFFFFF",
             fillColor = fill_colors[[i]],
@@ -815,10 +815,10 @@ mod_maps_server <- function(id) {
       if (substr(input[["variableName"]], nchar(input[["variableName"]]) -
                  3, 4444) == "_std") {
         fin <-
-          max(abs(min(domain, na.rm = T)) , abs(max(domain, na.rm = T)))
+          max(abs(min(domain, na.rm = TRUE)), abs(max(domain, na.rm = TRUE)))
         domain <- c(-fin, 0, fin)
       } else {
-        domain <- c(min(domain, na.rm = T), max(domain, na.rm = T))
+        domain <- c(min(domain, na.rm = TRUE), max(domain, na.rm = TRUE))
       }
 
       domain[is.infinite(domain)] <- NA

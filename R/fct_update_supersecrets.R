@@ -64,6 +64,3 @@ update_supersecrets <- function(type = c("add", "rm")) {
   message("User removed.")
   return(invisible(usr))
 }
-
-
-

@@ -11,6 +11,17 @@
 mod_ts_ita_ui <- function(id, title, width = 12) {
   ns <- NS(id)
   fluidPage(
+    fluidRow(
+      shiny::selectInput(
+        ns("whichMeasure"),
+        "Selezionare le misure di interesse",
+        choices = measures("national"),
+        selectize = TRUE,
+        selected = c("totale_positivi", "terapia_intensiva"),
+        multiple = TRUE,
+        width = "100%"
+      )
+    ),
     fluidRow(shiny::checkboxInput(ns("y_log"), "Scala logaritmica")),
     fluidRow(
       box(
@@ -32,55 +43,63 @@ mod_ts_ita_server <- function(id, type = c("cum", "inc")) {
   dpc_data <- dpc_covid19_ita_andamento_nazionale %>%
     dplyr::mutate(data = as.Date(.data$data))
 
-  var_of_interest <- c("data", measures("national"))
-  exclude_from_pivoting <- "data"
-
-  ts_data_to_plot <- dpc_data[var_of_interest] %>%
-    tidyr::pivot_longer(-{{ exclude_from_pivoting }},
-      names_to = "Measure",
-      values_to = "N"
-    ) %>%
-    dplyr::mutate(
-      Measure = factor(.data$Measure,
-        levels = measures("national"),
-        labels = measures("national") %>%
-          measure_to_labels()
-      )
-    )
-
-  y_lab <- "N"
-
-  if (type == "inc") {
-    groups <- "Measure"
-
-    ts_data_to_plot <- ts_data_to_plot %>%
-      dplyr::group_by_at(groups) %>%
-      dplyr::arrange(.data$data) %>%
-      dplyr::mutate(N = .data$N - dplyr::lag(.data$N)) %>%
-      dplyr::ungroup()
-
-    y_lab <- paste(y_lab, "(differenze giorno-giorno)")
-  }
-
-
-  gg <- ts_data_to_plot %>%
-    ggplot(
-      aes(x = .data$data, y = .data$N, colour = .data$Measure)
-    ) +
-    geom_line() +
-    geom_point() +
-    xlab("Data") +
-    ylab(y_lab) +
-    scale_x_date(date_breaks = "2 weeks", date_labels = "%d %b") +
-    scale_colour_discrete(name = "Misura") +
-    theme(
-      axis.text.x = element_text(angle = 60, hjust = 1, vjust = 0.5)
-    )
 
   callModule(id = id, function(input, output, session) {
     ns <- session$ns
 
+
+    y_lab <- "N"
+
+    ts_data_to_plot <- reactive({
+       which_measure <- req(input$whichMeasure)
+       var_of_interest <- c("data", which_measure)
+       exclude_from_pivoting <- "data"
+
+       react_db <- dpc_data[var_of_interest] %>%
+         tidyr::pivot_longer(-{{ exclude_from_pivoting }},
+                             names_to = "Measure",
+                             values_to = "N"
+         ) %>%
+         dplyr::mutate(
+           Measure = factor(.data$Measure,
+                            levels = measures("national"),
+                            labels = measures("national") %>%
+                              measure_to_labels()
+           )
+         )
+
+       if (type == "inc") {
+         groups <- "Measure"
+
+         react_db <- react_db %>%
+           dplyr::group_by_at(groups) %>%
+           dplyr::arrange(.data$data) %>%
+           dplyr::mutate(N = .data$N - dplyr::lag(.data$N)) %>%
+           dplyr::ungroup()
+
+         y_lab <- paste(y_lab, "(differenze giorno-giorno)")
+       }
+
+       react_db
+    })
+
+
+
     output$ts_plot <- renderPlotly({
+      gg <- ts_data_to_plot() %>%
+        ggplot(
+          aes(x = .data$data, y = .data$N, colour = .data$Measure)
+        ) +
+        geom_line() +
+        geom_point() +
+        xlab("Data") +
+        ylab(y_lab) +
+        scale_x_date(date_breaks = "2 weeks", date_labels = "%d %b") +
+        scale_colour_discrete(name = "Misura") +
+        theme(
+          axis.text.x = element_text(angle = 60, hjust = 1, vjust = 0.5)
+        )
+
       if (input$y_log) {
         gg <- gg + scale_y_continuous(
           trans = "log2",
