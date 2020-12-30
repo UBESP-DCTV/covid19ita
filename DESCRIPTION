@@ -46,6 +46,7 @@ BugReports: https://github.com/UBESP-DCTV/covid19ita/issues
 Depends: 
     R (>= 3.5)
 Imports: 
+    assertive,
     attempt (>= 0.3.0),
     config (>= 0.3),
     dplyr (>= 0.8.5),
@@ -70,6 +71,7 @@ Imports:
     processx (>= 3.4.2),
     RColorBrewer,
     RCurl,
+    readr,
     RJSONIO,
     scales,
     shiny (>= 1.4.0),
@@ -87,9 +89,7 @@ Imports:
     utils,
     withr,
     xts,
-    zoo,
-    assertive,
-    readr
+    zoo
 Suggests: 
     cli,
     covr (>= 3.5.0),
