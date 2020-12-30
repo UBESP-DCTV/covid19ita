@@ -60,7 +60,11 @@ dashboard_header <- function() {
         href = "https://r-ubesp.dctv.unipd.it/shiny/covid19italy/"
       )
     ),
-    uiOutput("logoutbtn")
+    tags$li(class = "dropdown", actionButton("logout", "Change user",
+                 style = "color: white; background-color:#3c8dbc;
+                                padding: 10px 15px; width: 150px;
+                                cursor: pointer; font-size: 18px;
+                                font-weight: 600;"))
   )
 }
 

@@ -16,15 +16,16 @@ app_server <- function(input, output, session) {
   ############
   ## LOGIN #############################################################
   ############
-  login <- FALSE
-  USER <- reactiveValues(login = login)
-  usr_pos <- integer(0)
+  # login <- FALSE
+  USER <- reactiveValues(login = TRUE)
+  usr_pos <- which(super_secret()$username == "")
+  updateTabItems(session, "sidebar", "home")
 
-  observe({
+
+  observeEvent(input$login, {
     if (!USER$login && !is.null(input$login) && input$login > 0) {
-
-      Username <- isolate(input$userName)
-      Password <- isolate(input$passwd)
+      Username <- input$userName
+      Password <- input$passwd
 
 
       usr_pos <<- which(super_secret()$username == Username)
@@ -56,8 +57,25 @@ app_server <- function(input, output, session) {
       } else {
         nomatch()
       }
+    } else {
+      updateTabItems(session, "sidebar", "home")
     }
   })
+
+
+
+
+
+  #############
+  ## LOGOUT ############################################################
+  #############
+  observeEvent(input$logout, {
+    USER$login <- FALSE
+  })
+
+
+
+
 
 
 
@@ -140,19 +158,6 @@ app_server <- function(input, output, session) {
 
 
 
-
-  #############
-  ## LOGOUT ############################################################
-  #############
-  output$logoutbtn <- renderUI({
-    req(USER$login)
-    tags$li(a(icon("fa fa-sign-out"), "Logout",
-      href = "javascript:window.location.reload(true)"),
-      class = "dropdown",
-      style = "background-color: #eee !important; border: 0;
-               font-weight: bold; margin:10px 50px;
-               padding: 5px;")
-  })
 
 
 
