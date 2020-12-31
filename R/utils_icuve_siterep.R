@@ -81,7 +81,7 @@ fix_missing_dates <- function(db_long, groups) {
 
 
 
-pred_ets <- function(db_long, groups = "type", n_ahead = 15) {
+pred_ets <- function(db_long, groups = "type", n_ahead = 7) {
 
   time_range <- as.Date(range(db_long$date, na.rm = FALSE))
 

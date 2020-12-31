@@ -1,7 +1,10 @@
-* Ability to selecting the measures for national ts
-* Add `Theme analyses` tab
-* old `focus` items in `archive` tab
-* reshape sidebar
+
+* Fix forecasting lowerbounding it to zero, and limiting it to 7 days
+  ahead (#92).
+* Ability to selecting the measures for national ts (#91).
+* Add `Theme analyses` tab (#91).
+* old `focus` items in `archive` tab (#91).
+* reshape sidebar (#91).
 
 # covid19ita 0.115.0
 

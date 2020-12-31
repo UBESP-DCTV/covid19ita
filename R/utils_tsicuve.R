@@ -48,6 +48,7 @@ ts_plot <- function(fit, pred, aux_objs, n_ahead, tstart, tstop, method,
     ) %>%
     # If upper or lower are less than 0 put 0
     dplyr::mutate(
+      est = dplyr::if_else(.data$est < 0, 0, .data$est),
       lower = dplyr::if_else(.data$lower < 0, 0, .data$lower),
       upper = dplyr::if_else(.data$upper < 0, 0, .data$upper)
     )
@@ -279,7 +280,7 @@ lagged_ts <- function(ts, lag_ottimo = 5) {
 }
 
 
-icu_model <- function(db, n_ahead = 15, lag_ottimo = 5) {
+icu_model <- function(db, n_ahead = 7, lag_ottimo = 5) {
   ts_icu <- base_ts_icu(db)
 
   ts_base_lagged <- base_ts_nocritica(db) %>%
@@ -295,7 +296,7 @@ icu_model <- function(db, n_ahead = 15, lag_ottimo = 5) {
 
 exogen_icu_model <- function(db,
                              shock,
-                             n_ahead = 15,
+                             n_ahead = 7,
                              lag_ottimo = 5,
                              delay = 1
 ) {
