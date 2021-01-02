@@ -59,7 +59,7 @@ remotes::install_github("UBESP-DCTV/covid19ita")
 
 <img src='inst/app/www/covid19ita_screen.png' align="center"/>
 
-**Ultimo aggiornamento/Last app update**: 2020-12-30 04:17:23.
+**Ultimo aggiornamento/Last app update**: 2020-12-30 22:55:10.
 
 > È possibile visitare la Shiny App `covid19ita` ospitata e operante sui
 > server UBEP ([Unità di Biostatistica, Epidemiologia e Sanità
@@ -91,7 +91,7 @@ The `{covid19ita}` package provide R versions of the three [official
 Italian COVID-19 datasets](https://github.com/pcm-dpc/COVID-19/) at
 national, regional and provincial level of detail.
 
-**Ultimo aggiornamento dati/Last data update**: 2020-12-30 21:02:36.
+**Ultimo aggiornamento dati/Last data update**: 2021-01-03 00:08:45.
 
 È possibile accedere ai dati tramite:
 

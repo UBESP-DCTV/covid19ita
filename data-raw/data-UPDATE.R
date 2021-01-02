@@ -8,7 +8,6 @@ source(here::here("data-raw", "data-EXPORTED.R"), local = TRUE)
 rm(list = ls(all.names = TRUE))
 
 devtools::check_man()
-devtools::build_readme()
 
 here::here("R") %>%
   list.files(pattern = ".R$", full.names = TRUE) %>%
@@ -23,4 +22,4 @@ here::here("R") %>%
 }
 
 
-devtools::check()
+# devtools::check()
