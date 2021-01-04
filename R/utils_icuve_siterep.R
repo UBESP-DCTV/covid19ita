@@ -93,10 +93,14 @@ pred_ets <- function(db_long, groups = "type", n_ahead = 7) {
     dplyr::mutate(
       model = .data[["data"]] %>%
         purrr::map(~{
+          time_range <- range(.x[["date"]])
+          first_week_of_data <- as.numeric(format(time_range[[1]], "%U"))
+          first_weekday_of_data <- as.numeric(format(time_range[[1]], "%u"))
+
           ts <- stats::ts(
             .x$`N beds`,
-            start = c(2020, as.numeric(format(time_range[[1]], "%j"))),
-            end = c(2020, as.numeric(format(time_range[[2]], "%j")))
+            start = c(first_week_of_data, first_weekday_of_data),
+            frequency = 7
           )
           forecast::ets(ts, lambda = forecast::BoxCox.lambda(ts))
         }),
