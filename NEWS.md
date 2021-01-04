@@ -1,4 +1,9 @@
+# covid19ita 0.116.0
 
+
+* update utils_tsicuve to correctly manage periodic time series
+* Update timeseries to manage 2021 year, introducing a periodicity of
+  a week.
 * Fix forecasting lowerbounding it to zero, and limiting it to 7 days
   ahead (#92).
 * Ability to selecting the measures for national ts (#91).

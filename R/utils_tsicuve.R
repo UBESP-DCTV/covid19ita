@@ -19,10 +19,13 @@ eval_aux_objs <- function(
   )
 
   # Retrieve the time-series
+  time_range <- range(ts_fit$data)
+  first_week_of_data <- as.numeric(format(time_range[[1]], "%U"))
+  first_weekday_of_data <- as.numeric(format(time_range[[1]], "%u"))
   my_ts <- stats::ts(
     ts_fit[[var_of_interest]],
-    start = c(2020, as.numeric(format(min(ts_fit[["data"]]), "%j"))),
-    end = c(2020, as.numeric(format(max(ts_fit[["data"]]), "%j")))
+    start = c(first_week_of_data, first_weekday_of_data),
+    frequency = 7
   )
 
   icu_obs <- data %>%
@@ -216,7 +219,9 @@ partial_forecast <- function(
 
   tibble::tibble(
     Data = seq(
-      from = max(data$data) + 1, to = max(data$data) + n_ahead, by = 1
+      from = max(data$data) + lubridate::days(1),
+      to = max(data$data) + lubridate::days(n_ahead),
+      by = 1
     ),
     `Ricoveri attesi [95% CI]` = glue::glue(
       "{y_hat} [{lower} - {upper}]"
@@ -229,19 +234,23 @@ partial_forecast <- function(
 
 base_ts_icu <- function(db) {
   time_range <- range(db$data)
+  first_week_of_data <- as.numeric(format(time_range[[1]], "%U"))
+  first_weekday_of_data <- as.numeric(format(time_range[[1]], "%u"))
   stats::ts(
     data = db$terapia_intensiva,
-    start = c(2020, as.numeric(format(time_range[[1]], "%j"))),
-    end = c(2020, as.numeric(format(time_range[[2]], "%j")))
+    start = c(first_week_of_data, first_weekday_of_data),
+    frequency = 7
   )
 }
 
 base_ts_nocritica <- function(db) {
   time_range <- range(db$data)
+  first_week_of_data <- as.numeric(format(time_range[[1]], "%U"))
+  first_weekday_of_data <- as.numeric(format(time_range[[1]], "%u"))
   stats::ts(
     data = db$ricoverati_con_sintomi,
-    start = c(2020, as.numeric(format(time_range[[1]], "%j"))),
-    end = c(2020, as.numeric(format(time_range[[2]], "%j")))
+    start = c(first_week_of_data, first_weekday_of_data),
+    frequency = 7
   )
 }
 
@@ -253,8 +262,8 @@ predicted_ts <- function(ts, ahead) {
 c_ts_pred <- function(ts, pred) {
   stats::ts(
     data = c(ts, pred),
-    start = attributes(ts)[["tsp"]][[1]],
-    end = attributes(pred)[["tsp"]][[2]]
+    start = start(ts),
+    frequency = frequency(ts)
   )
 }
 
@@ -276,7 +285,8 @@ shocked_ts_nocritica <- function(db, shock, delay) {
 
 
 lagged_ts <- function(ts, lag_ottimo = 5) {
-  greybox::xregExpander(ts, lags = -lag_ottimo)[, 2]
+  greybox::xregExpander(ts, lags = -lag_ottimo)[, 2] %>%
+    as.integer()
 }
 
 
@@ -331,18 +341,25 @@ exogen_icu_model <- function(db,
 
 
 ts2data <- function(ts, start_date, offset) {
-  as.Date(start_date + lubridate::days(ts - offset))
+  ts_start <- start(ts)
+  ts_freq <- frequency(ts)
+
+  ts_first <- ts_start[[1]] * ts_freq + ts_start[[2]]
+  ts_days <- seq_along(ts) + ts_first - 1L
+
+  as.Date(start_date + lubridate::days(ts_days - offset))
 }
 
 exogen_db <- function(db, shock, exogen_icu_model) {
   time_range <- range(db$data)
   ts_icu <- base_ts_icu(db)
-  time_offset <- min(stats::time(ts_icu))
   start <- time_range[[1]]
+  offset <- start(ts_icu)[[1]] * frequency(ts_icu) +
+            start(ts_icu)[[2]]
 
   fitted_df <- dplyr::tibble(
     data = stats::time(exogen_icu_model[["icu_model"]]$fitted) %>%
-      ts2data(start, time_offset),
+      ts2data(start, offset),
     Stima = as.integer(exogen_icu_model[["icu_model"]]$fitted),
     Lower = .data$Stima,
     Upper = .data$Stima
@@ -350,7 +367,7 @@ exogen_db <- function(db, shock, exogen_icu_model) {
 
   forecast_df <- dplyr::tibble(
     data = stats::time(exogen_icu_model[["icu_forecast"]]$forecast) %>%
-      ts2data(start, time_offset),
+      ts2data(start, offset),
     Stima = as.integer(exogen_icu_model[["icu_forecast"]]$forecast),
     Lower = as.numeric(exogen_icu_model[["icu_forecast"]]$lower),
     Upper = as.numeric(exogen_icu_model[["icu_forecast"]]$upper)
@@ -364,7 +381,7 @@ exogen_db <- function(db, shock, exogen_icu_model) {
 
   observed_df <- dplyr::tibble(
     data = stats::time(ts_icu) %>%
-      ts2data(start, time_offset),
+      ts2data(start, offset),
     Stima = as.integer(ts_icu),
     Type = "Observerd"
   )

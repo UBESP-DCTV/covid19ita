@@ -185,7 +185,7 @@ mod_reg_tsicuve_server <- function(id) {
 
 
     # Define inputs for the functions ------------------------------------
-    n_ahead <- 15L
+    n_ahead <- 7L
     tstart <- reactive({
       min(region()[["data"]])
     })
