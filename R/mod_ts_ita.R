@@ -72,7 +72,7 @@ mod_ts_ita_server <- function(id, type = c("cum", "inc")) {
          groups <- "Measure"
 
          react_db <- react_db %>%
-           dplyr::group_by_at(groups) %>%
+           dplyr::group_by(dplyr::across(dplyr::all_of(groups))) %>%
            dplyr::arrange(.data$data) %>%
            dplyr::mutate(N = .data$N - dplyr::lag(.data$N)) %>%
            dplyr::ungroup()

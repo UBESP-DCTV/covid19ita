@@ -54,7 +54,7 @@ eng_mod_ts_ita_server <- function(id, type = c("cum", "inc")) {
     groups <- "Measure"
 
     ts_data_to_plot <- ts_data_to_plot %>%
-      dplyr::group_by_at(groups) %>%
+      dplyr::group_by(dplyr::across(dplyr::all_of(groups))) %>%
       dplyr::arrange(.data$data) %>%
       dplyr::mutate(N = .data$N - dplyr::lag(.data$N)) %>%
       dplyr::ungroup()

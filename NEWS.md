@@ -1,6 +1,6 @@
 # covid19ita 0.116.0
 
-
+* fix occurences of `group_by_*()` using `group_by(across())`
 * update utils_tsicuve to correctly manage periodic time series
 * Update timeseries to manage 2021 year, introducing a periodicity of
   a week.
