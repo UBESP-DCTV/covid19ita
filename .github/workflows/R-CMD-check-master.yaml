@@ -18,11 +18,11 @@ jobs:
       fail-fast: false
       matrix:
         config:
-          - {os: windows-latest, r: 'release'}
-          - {os: macOS-latest, r: 'release'}
-          - {os: ubuntu-20.04, r: '3.6', rspm: "https://demo.rstudiopm.com/all/__linux__/fossa/latest"}
+#          - {os: windows-latest, r: 'release'}
+#          - {os: macOS-latest, r: 'release'}
+#          - {os: ubuntu-20.04, r: '3.6', rspm: "https://demo.rstudiopm.com/all/__linux__/fossa/latest"}
           - {os: ubuntu-20.04, r: 'release', rspm: "https://demo.rstudiopm.com/all/__linux__/fossa/latest"}
-          - {os: ubuntu-20.04, r: 'devel', rspm: "https://demo.rstudiopm.com/all/__linux__/fossa/latest"}
+#          - {os: ubuntu-20.04, r: 'devel', rspm: "https://demo.rstudiopm.com/all/__linux__/fossa/latest"}
 
     env:
       R_REMOTES_NO_ERRORS_FROM_WARNINGS: true
