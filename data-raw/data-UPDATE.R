@@ -11,7 +11,9 @@ devtools::check_man()
 
 here::here("R") %>%
   list.files(pattern = ".R$", full.names = TRUE) %>%
-  purrr::walk(tools::showNonASCIIfile)
+  purrr::set_names(basename(.)) %>%
+  purrr::map(tools::showNonASCIIfile) %>%
+  `[`(purrr::map_lgl(., ~length(.x) > 0))
 
 
 {
