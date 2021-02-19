@@ -26,6 +26,8 @@
 <![endif]-->
 </head>
 <body data-spy="scroll" data-target="#toc">
+    
+
     <div class="container template-home">
       <header><div class="navbar navbar-default navbar-fixed-top" role="navigation">
   <div class="container">
@@ -75,24 +77,24 @@
 <a href="#covid19ita" class="anchor"></a>covid19ita</h1></div>
 <p><img src="reference/figures/logo-laims.jpg" align="right" height="120"><img src="reference/figures/logo-ubep.png" align="right" height="120"></p>
 <!-- badges: start -->
-<p><a href="https://github.com/UBESP-DCTV/covid19ita/actions"><img src="https://github.com/UBESP-DCTV/covid19ita/workflows/R-CMD-check/badge.svg" alt="R build status"></a> <a href="https://codecov.io/gh/UBESP-DCTV/covid19ita?branch=master"><img src="https://codecov.io/gh/UBESP-DCTV/covid19ita/branch/master/graph/badge.svg" alt="Codecov test coverage"></a></p>
-<p><a href="https://CRAN.R-project.org/package=covid19ita"><img src="https://www.r-pkg.org/badges/version/covid19ita" alt="CRAN status"></a> <a href="https://www.tidyverse.org/lifecycle/#maturing"><img src="https://img.shields.io/badge/lifecycle-maturing-blue.svg" alt="Lifecycle: maturing"></a></p>
-<p><a href="https://bestpractices.coreinfrastructure.org/projects/3892"><img src="https://bestpractices.coreinfrastructure.org/projects/3892/badge" alt="CII Best Practices"></a> <!-- badges: end --></p>
-<p>Lo scopo del pacchetto <a href="https://github.com/UBESP-DCTV/covid19ita">covid19ita</a> è quello di fornire una piattaforma per il monitoraggio della diffusione dell’infezione da CoViD-19 in Italia.</p>
-<p>The goal of <a href="https://github.com/UBESP-DCTV/covid19ita">covid19ita</a> is to provide a platform for the monitoring of COVID-19 infection diffusion in Italy.</p>
+<p><a href="https://github.com/UBESP-DCTV/covid19ita/actions" class="external-link"><img src="https://github.com/UBESP-DCTV/covid19ita/workflows/R-CMD-check/badge.svg" alt="R build status"></a> <a href="https://codecov.io/gh/UBESP-DCTV/covid19ita?branch=master" class="external-link"><img src="https://codecov.io/gh/UBESP-DCTV/covid19ita/branch/master/graph/badge.svg" alt="Codecov test coverage"></a></p>
+<p><a href="https://CRAN.R-project.org/package=covid19ita" class="external-link"><img src="https://www.r-pkg.org/badges/version/covid19ita" alt="CRAN status"></a> <a href="https://www.tidyverse.org/lifecycle/#maturing" class="external-link"><img src="https://img.shields.io/badge/lifecycle-maturing-blue.svg" alt="Lifecycle: maturing"></a></p>
+<p><a href="https://bestpractices.coreinfrastructure.org/projects/3892" class="external-link"><img src="https://bestpractices.coreinfrastructure.org/projects/3892/badge" alt="CII Best Practices"></a> <!-- badges: end --></p>
+<p>Lo scopo del pacchetto <a href="https://github.com/UBESP-DCTV/covid19ita" class="external-link">covid19ita</a> è quello di fornire una piattaforma per il monitoraggio della diffusione dell’infezione da CoViD-19 in Italia.</p>
+<p>The goal of <a href="https://github.com/UBESP-DCTV/covid19ita" class="external-link">covid19ita</a> is to provide a platform for the monitoring of COVID-19 infection diffusion in Italy.</p>
 <div id="installazioneinstallation" class="section level2">
 <h2 class="hasAnchor">
 <a href="#installazioneinstallation" class="anchor"></a>Installazione/Installation</h2>
-<p>È possibile installare la versione di sviluppo di <a href="https://github.com/UBESP-DCTV/covid19ita">covid19ita</a> dal sorgente su <a href="https://github.com/">GitHub</a> tramite l’istruzione:</p>
-<p>You can install the development version of <a href="https://github.com/UBESP-DCTV/covid19ita">covid19ita</a> from the source on <a href="https://github.com/">GitHub</a> with:</p>
+<p>È possibile installare la versione di sviluppo di <a href="https://github.com/UBESP-DCTV/covid19ita" class="external-link">covid19ita</a> dal sorgente su <a href="https://github.com/" class="external-link">GitHub</a> tramite l’istruzione:</p>
+<p>You can install the development version of <a href="https://github.com/UBESP-DCTV/covid19ita" class="external-link">covid19ita</a> from the source on <a href="https://github.com/" class="external-link">GitHub</a> with:</p>
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="co"># install.packages("remotes")</span>
-<span class="fu">remotes</span><span class="fu">::</span><span class="fu"><a href="https://remotes.r-lib.org/reference/install_github.html">install_github</a></span><span class="op">(</span><span class="st">"UBESP-DCTV/covid19ita"</span><span class="op">)</span></code></pre></div>
+<span class="fu">remotes</span><span class="fu">::</span><span class="fu"><a href="https://remotes.r-lib.org/reference/install_github.html" class="external-link">install_github</a></span><span class="op">(</span><span class="st">"UBESP-DCTV/covid19ita"</span><span class="op">)</span></code></pre></div>
 <blockquote>
 <p>Nota per poter utilizzare gli accessi riservati sulla propria installazione locale e richiesto il pacchetto <code>{covid19.icuve}</code> riservato all’uso esclusivo di chi ne ha diritto. Nel caso ci si trovasse in tale situazione e si volesse una installazione completa utilizzare l’istruzione seguente.</p>
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu">remotes</span><span class="fu">::</span><span class="fu"><a href="https://remotes.r-lib.org/reference/install_github.html">install_github</a></span><span class="op">(</span><span class="st">"UBESP-DCTV/covid19.icuve"</span><span class="op">)</span>
-<span class="fu">remotes</span><span class="fu">::</span><span class="fu"><a href="https://remotes.r-lib.org/reference/install_github.html">install_github</a></span><span class="op">(</span><span class="st">"UBESP-DCTV/covid19ita"</span><span class="op">)</span></code></pre></div>
+<code class="sourceCode R"><span class="fu">remotes</span><span class="fu">::</span><span class="fu"><a href="https://remotes.r-lib.org/reference/install_github.html" class="external-link">install_github</a></span><span class="op">(</span><span class="st">"UBESP-DCTV/covid19.icuve"</span><span class="op">)</span>
+<span class="fu">remotes</span><span class="fu">::</span><span class="fu"><a href="https://remotes.r-lib.org/reference/install_github.html" class="external-link">install_github</a></span><span class="op">(</span><span class="st">"UBESP-DCTV/covid19ita"</span><span class="op">)</span></code></pre></div>
 <p>Se autorizzati, il sistema completo verrà installato/aggiornato regolarmente.</p>
 </blockquote>
 </div>
@@ -102,30 +104,30 @@
 <p><img src="inst/app/www/covid19ita_screen.png" align="center"></p>
 <p><strong>Ultimo aggiornamento/Last app update</strong>: 2020-12-30 22:55:10.</p>
 <blockquote>
-<p>È possibile visitare la Shiny App <code>covid19ita</code> ospitata e operante sui server UBEP (<a href="https://ubesp.jimdofree.com/">Unità di Biostatistica, Epidemiologia e Sanità Pubblica</a>) <a href="https://r-ubesp.dctv.unipd.it/shiny/covid19ita/"><strong>QUI (versione italiana)</strong></a></p>
+<p>È possibile visitare la Shiny App <code>covid19ita</code> ospitata e operante sui server UBEP (<a href="https://ubesp.jimdofree.com/" class="external-link">Unità di Biostatistica, Epidemiologia e Sanità Pubblica</a>) <a href="https://r-ubesp.dctv.unipd.it/shiny/covid19ita/" class="external-link"><strong>QUI (versione italiana)</strong></a></p>
 </blockquote>
 <p>È inoltre possibile eseguire una versione dell’app locale sul proprio computer tramite:</p>
 <blockquote>
-<p>You can visit the <code>covid19ita</code> Shiny App hosted and running on the UBEP (<a href="https://ubesp.jimdofree.com/">Unit of Biostatistics, Epidemiology, and Public Health</a>) servers <a href="https://r-ubesp.dctv.unipd.it/shiny/covid19italy/"><strong>HERE (English version)</strong></a>.</p>
+<p>You can visit the <code>covid19ita</code> Shiny App hosted and running on the UBEP (<a href="https://ubesp.jimdofree.com/" class="external-link">Unit of Biostatistics, Epidemiology, and Public Health</a>) servers <a href="https://r-ubesp.dctv.unipd.it/shiny/covid19italy/" class="external-link"><strong>HERE (English version)</strong></a>.</p>
 </blockquote>
 <p>You can also run a local version of the app from your computer with:</p>
 <div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/UBESP-DCTV/covid19ita">covid19ita</a></span><span class="op">)</span>
+<code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/UBESP-DCTV/covid19ita" class="external-link">covid19ita</a></span><span class="op">)</span>
 <span class="fu"><a href="reference/run_app.html">run_app</a></span><span class="op">(</span><span class="op">)</span></code></pre></div>
 </div>
 <div id="data" class="section level2">
 <h2 class="hasAnchor">
 <a href="#data" class="anchor"></a>Data</h2>
-<p>Il pacchetto <a href="https://github.com/UBESP-DCTV/covid19ita">covid19ita</a> contiene le versioni R delle tre <a href="https://github.com/pcm-dpc/COVID-19/">basi di dati ufficiali</a> con dettaglio a livello nazionale, regionale e provinciale.</p>
-<p>The <a href="https://github.com/UBESP-DCTV/covid19ita">covid19ita</a> package provide R versions of the three <a href="https://github.com/pcm-dpc/COVID-19/">official Italian COVID-19 datasets</a> at national, regional and provincial level of detail.</p>
+<p>Il pacchetto <a href="https://github.com/UBESP-DCTV/covid19ita" class="external-link">covid19ita</a> contiene le versioni R delle tre <a href="https://github.com/pcm-dpc/COVID-19/" class="external-link">basi di dati ufficiali</a> con dettaglio a livello nazionale, regionale e provinciale.</p>
+<p>The <a href="https://github.com/UBESP-DCTV/covid19ita" class="external-link">covid19ita</a> package provide R versions of the three <a href="https://github.com/pcm-dpc/COVID-19/" class="external-link">official Italian COVID-19 datasets</a> at national, regional and provincial level of detail.</p>
 <p><strong>Ultimo aggiornamento dati/Last data update</strong>: 2021-01-03 00:08:45.</p>
 <p>È possibile accedere ai dati tramite:</p>
 <p>Access the data with:</p>
 <div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/UBESP-DCTV/covid19ita">covid19ita</a></span><span class="op">)</span>
-<span class="fu"><a href="https://rdrr.io/r/utils/data.html">data</a></span><span class="op">(</span><span class="va">dpc_covid19_ita_andamento_nazionale</span><span class="op">)</span> <span class="co"># national level data</span>
-<span class="fu"><a href="https://rdrr.io/r/utils/data.html">data</a></span><span class="op">(</span><span class="va">dpc_covid19_ita_regioni</span><span class="op">)</span>             <span class="co"># regional level data</span>
-<span class="fu"><a href="https://rdrr.io/r/utils/data.html">data</a></span><span class="op">(</span><span class="va">dpc_covid19_ita_andamento_province</span><span class="op">)</span>  <span class="co"># provincial level data</span></code></pre></div>
+<code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/UBESP-DCTV/covid19ita" class="external-link">covid19ita</a></span><span class="op">)</span>
+<span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="va">dpc_covid19_ita_andamento_nazionale</span><span class="op">)</span> <span class="co"># national level data</span>
+<span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="va">dpc_covid19_ita_regioni</span><span class="op">)</span>             <span class="co"># regional level data</span>
+<span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="va">dpc_covid19_ita_andamento_province</span><span class="op">)</span>  <span class="co"># provincial level data</span></code></pre></div>
 <p>È possibile accedere anche alla documentazione dei dati in uno dei seguenti modi:</p>
 <p>You can access to the data documentation with any of:</p>
 <div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
@@ -138,23 +140,23 @@
 <div id="attribuzione-dei-datidata-attribution" class="section level2">
 <h2 class="hasAnchor">
 <a href="#attribuzione-dei-datidata-attribution" class="anchor"></a>Attribuzione dei dati/Data attribution</h2>
-<p><strong>Licenza/License</strong>: <a href="https://creativecommons.org/licenses/by/4.0/deed.en">CC-BY-4.0</a> - <a href="https://github.com/pcm-dpc/COVID-19/blob/master/LICENSE">Visualizza licenza/View license</a></p>
-<p><strong>Autore dei dati/Dataset author/editor</strong>: <a href="http://www.protezionecivile.it/">Dipartimento della Protezione Civile</a></p>
-<p><strong>Fornitore dei dati/Data provided by</strong>: <a href="http://www.salute.gov.it/">Ministero della Salute</a></p>
-<p><strong>Dati originariamente gestiti e processati da/Original data processing and management by</strong>: <a href="http://www.protezionecivile.it/">Dipartimento della Protezione Civile</a></p>
+<p><strong>Licenza/License</strong>: <a href="https://creativecommons.org/licenses/by/4.0/deed.en" class="external-link">CC-BY-4.0</a> - <a href="https://github.com/pcm-dpc/COVID-19/blob/master/LICENSE" class="external-link">Visualizza licenza/View license</a></p>
+<p><strong>Autore dei dati/Dataset author/editor</strong>: <a href="http://www.protezionecivile.it/" class="external-link">Dipartimento della Protezione Civile</a></p>
+<p><strong>Fornitore dei dati/Data provided by</strong>: <a href="http://www.salute.gov.it/" class="external-link">Ministero della Salute</a></p>
+<p><strong>Dati originariamente gestiti e processati da/Original data processing and management by</strong>: <a href="http://www.protezionecivile.it/" class="external-link">Dipartimento della Protezione Civile</a></p>
 </div>
 <div id="richiesta-di-funzionalitàfeature-request" class="section level2">
 <h2 class="hasAnchor">
 <a href="#richiesta-di-funzionalit%C3%A0feature-request" class="anchor"></a>Richiesta di funzionalità/Feature request</h2>
-<p>Per richiedere funzionalità aggiuntive è possibile aprire un <a href="https://github.com/UBESP-DCTV/covid19ita/issues">issue</a>.</p>
-<p>If you need some more features, please open an <a href="https://github.com/UBESP-DCTV/covid19ita/issues">issue</a>.</p>
+<p>Per richiedere funzionalità aggiuntive è possibile aprire un <a href="https://github.com/UBESP-DCTV/covid19ita/issues" class="external-link">issue</a>.</p>
+<p>If you need some more features, please open an <a href="https://github.com/UBESP-DCTV/covid19ita/issues" class="external-link">issue</a>.</p>
 </div>
 <div id="bug-reports" class="section level2">
 <h2 class="hasAnchor">
 <a href="#bug-reports" class="anchor"></a>Bug reports</h2>
-<p>Nel caso in cui si incontrasse un bug nelle funzioni del pacchetto, per favore si riporti un <a href="https://github.com/tidyverse/reprex">reprex</a> all’interno di un <a href="https://github.com/UBESP-DCTV/covid19ita/issues">issue</a>.</p>
-<p>If you encounter a bug in the package’s functions, please file a <a href="https://github.com/tidyverse/reprex">reprex</a> (minimal reproducible example) in a <a href="https://github.com/UBESP-DCTV/covid19ita/issues">issue</a>.</p>
-<p>Se si incontra un bug nell’applicazione, aprire un <a href="https://github.com/UBESP-DCTV/covid19ita/issues">issue</a> descrivendo: - Passaggi per riprodurre/vedere il problema - Descrizione del problema dettagliata - Descrizione di cosa ci si sarebbe aspettato</p>
+<p>Nel caso in cui si incontrasse un bug nelle funzioni del pacchetto, per favore si riporti un <a href="https://github.com/tidyverse/reprex" class="external-link">reprex</a> all’interno di un <a href="https://github.com/UBESP-DCTV/covid19ita/issues" class="external-link">issue</a>.</p>
+<p>If you encounter a bug in the package’s functions, please file a <a href="https://github.com/tidyverse/reprex" class="external-link">reprex</a> (minimal reproducible example) in a <a href="https://github.com/UBESP-DCTV/covid19ita/issues" class="external-link">issue</a>.</p>
+<p>Se si incontra un bug nell’applicazione, aprire un <a href="https://github.com/UBESP-DCTV/covid19ita/issues" class="external-link">issue</a> descrivendo: - Passaggi per riprodurre/vedere il problema - Descrizione del problema dettagliata - Descrizione di cosa ci si sarebbe aspettato</p>
 <p>If you encounter a bug in the app, please describe: - The steps to reproduce/visualize the problem - The problem in detail - The behavior you expected</p>
 </div>
 <div id="codice-di-condottacode-of-conduct" class="section level2">
@@ -168,7 +170,7 @@
 
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <div class="links">
-<h2>Links</h2>
+<h2 data-toc-skip>Links</h2>
 <ul class="list-unstyled">
 <li>Browse source code at <br><a href="https://github.com/UBESP-DCTV/covid19ita/">https://​github.com/​UBESP-DCTV/​covid19ita/​</a>
 </li>
@@ -176,22 +178,25 @@
 </li>
 </ul>
 </div>
+
 <div class="license">
-<h2>License</h2>
+<h2 data-toc-skip>License</h2>
 <ul class="list-unstyled">
 <li><a href="LICENSE.html">Full license</a></li>
 <li><small><a href="https://creativecommons.org/licenses/by/4.0">CC BY 4.0</a></small></li>
 </ul>
 </div>
+
 <div class="community">
-<h2>Community</h2>
+<h2 data-toc-skip>Community</h2>
 <ul class="list-unstyled">
 <li><a href="CONTRIBUTING.html">Contributing guide</a></li>
 <li><a href="CODE_OF_CONDUCT.html">Code of conduct</a></li>
 </ul>
 </div>
+
 <div class="developers">
-<h2>Developers</h2>
+<h2 data-toc-skip>Developers</h2>
 <ul class="list-unstyled">
 <li>Corrado Lanera <br><small class="roles"> Maintainer, author </small> <a href="https://orcid.org/0000-0002-0520-7428" target="orcid.widget" aria-label="ORCID"><span class="fab fa-orcid orcid" aria-hidden="true"></span></a> </li>
 <li>Dario Gregori <br><small class="roles"> Author </small> <a href="https://orcid.org/0000-0001-7906-0580" target="orcid.widget" aria-label="ORCID"><span class="fab fa-orcid orcid" aria-hidden="true"></span></a> </li>
@@ -203,6 +208,8 @@
 <li><a href="authors.html">All authors...</a></li>
 </ul>
 </div>
+
+
 
   </div>
 </div>
@@ -221,6 +228,8 @@
 
   
 
+
+  
 
   </body>
 </html>
