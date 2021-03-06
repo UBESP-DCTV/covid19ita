@@ -147,34 +147,34 @@
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'><span class='fu'>mort_data_reg</span><span class='op'>(</span><span class='st'>"sex"</span><span class='op'>)</span>
-</div><div class='output co'>#&gt; <span style='color: #555555;'># A tibble: 63 x 5</span><span>
+</div><div class='output co'>#&gt; <span style='color: #949494;'># A tibble: 63 x 5</span><span>
 #&gt;    regione    strata `2019` `2020` variation
-#&gt;    </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>      </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>   </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>  </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>     </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>
-#&gt; </span><span style='color: #555555;'> 1</span><span> Abruzzo    m          36     55     52.8 
-#&gt; </span><span style='color: #555555;'> 2</span><span> Abruzzo    f          30     70    133.  
-#&gt; </span><span style='color: #555555;'> 3</span><span> Abruzzo    mf         66    125     89.4 
-#&gt; </span><span style='color: #555555;'> 4</span><span> Basilicata m          18     17     -</span><span style='color: #BB0000;'>5.56</span><span>
-#&gt; </span><span style='color: #555555;'> 5</span><span> Basilicata f          18     17     -</span><span style='color: #BB0000;'>5.56</span><span>
-#&gt; </span><span style='color: #555555;'> 6</span><span> Basilicata mf         36     34     -</span><span style='color: #BB0000;'>5.56</span><span>
-#&gt; </span><span style='color: #555555;'> 7</span><span> Calabria   m           8     19    138.  
-#&gt; </span><span style='color: #555555;'> 8</span><span> Calabria   f          12     21     75   
-#&gt; </span><span style='color: #555555;'> 9</span><span> Calabria   mf         20     40    100   
-#&gt; </span><span style='color: #555555;'>10</span><span> Campania   m          37     62     67.6 
-#&gt; </span><span style='color: #555555;'># … with 53 more rows</span><span></div><div class='input'><span class='fu'>mort_data_reg</span><span class='op'>(</span><span class='st'>"age"</span><span class='op'>)</span>
-</div><div class='output co'>#&gt; </span><span style='color: #555555;'># A tibble: 63 x 5</span><span>
+#&gt;    </span><span style='color: #949494;font-style: italic;'>&lt;chr&gt;</span><span>      </span><span style='color: #949494;font-style: italic;'>&lt;chr&gt;</span><span>   </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span>  </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span>     </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span>
+#&gt; </span><span style='color: #BCBCBC;'> 1</span><span> Abruzzo    m          36     55     52.8 
+#&gt; </span><span style='color: #BCBCBC;'> 2</span><span> Abruzzo    f          30     70    133.  
+#&gt; </span><span style='color: #BCBCBC;'> 3</span><span> Abruzzo    mf         66    125     89.4 
+#&gt; </span><span style='color: #BCBCBC;'> 4</span><span> Basilicata m          18     17     -</span><span style='color: #BB0000;'>5.56</span><span>
+#&gt; </span><span style='color: #BCBCBC;'> 5</span><span> Basilicata f          18     17     -</span><span style='color: #BB0000;'>5.56</span><span>
+#&gt; </span><span style='color: #BCBCBC;'> 6</span><span> Basilicata mf         36     34     -</span><span style='color: #BB0000;'>5.56</span><span>
+#&gt; </span><span style='color: #BCBCBC;'> 7</span><span> Calabria   m           8     19    138.  
+#&gt; </span><span style='color: #BCBCBC;'> 8</span><span> Calabria   f          12     21     75   
+#&gt; </span><span style='color: #BCBCBC;'> 9</span><span> Calabria   mf         20     40    100   
+#&gt; </span><span style='color: #BCBCBC;'>10</span><span> Campania   m          37     62     67.6 
+#&gt; </span><span style='color: #949494;'># … with 53 more rows</span><span></div><div class='input'><span class='fu'>mort_data_reg</span><span class='op'>(</span><span class='st'>"age"</span><span class='op'>)</span>
+</div><div class='output co'>#&gt; </span><span style='color: #949494;'># A tibble: 63 x 5</span><span>
 #&gt;    regione    strata `2019` `2020` variation
-#&gt;    </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>      </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>   </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>  </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>     </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>
-#&gt; </span><span style='color: #555555;'> 1</span><span> Abruzzo    65-74       7     10      42.9
-#&gt; </span><span style='color: #555555;'> 2</span><span> Abruzzo    75-84      17     31      82.4
-#&gt; </span><span style='color: #555555;'> 3</span><span> Abruzzo    85+        34     73     115. 
-#&gt; </span><span style='color: #555555;'> 4</span><span> Basilicata 65-74       3      3       0  
-#&gt; </span><span style='color: #555555;'> 5</span><span> Basilicata 75-84       9     10      11.1
-#&gt; </span><span style='color: #555555;'> 6</span><span> Basilicata 85+        19     21      10.5
-#&gt; </span><span style='color: #555555;'> 7</span><span> Calabria   65-74       1      3     200  
-#&gt; </span><span style='color: #555555;'> 8</span><span> Calabria   75-84       5     13     160  
-#&gt; </span><span style='color: #555555;'> 9</span><span> Calabria   85+        12     24     100  
-#&gt; </span><span style='color: #555555;'>10</span><span> Campania   65-74      11     17      54.6
-#&gt; </span><span style='color: #555555;'># … with 53 more rows</span><span></div></span></pre>
+#&gt;    </span><span style='color: #949494;font-style: italic;'>&lt;chr&gt;</span><span>      </span><span style='color: #949494;font-style: italic;'>&lt;chr&gt;</span><span>   </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span>  </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span>     </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span>
+#&gt; </span><span style='color: #BCBCBC;'> 1</span><span> Abruzzo    65-74       7     10      42.9
+#&gt; </span><span style='color: #BCBCBC;'> 2</span><span> Abruzzo    75-84      17     31      82.4
+#&gt; </span><span style='color: #BCBCBC;'> 3</span><span> Abruzzo    85+        34     73     115. 
+#&gt; </span><span style='color: #BCBCBC;'> 4</span><span> Basilicata 65-74       3      3       0  
+#&gt; </span><span style='color: #BCBCBC;'> 5</span><span> Basilicata 75-84       9     10      11.1
+#&gt; </span><span style='color: #BCBCBC;'> 6</span><span> Basilicata 85+        19     21      10.5
+#&gt; </span><span style='color: #BCBCBC;'> 7</span><span> Calabria   65-74       1      3     200  
+#&gt; </span><span style='color: #BCBCBC;'> 8</span><span> Calabria   75-84       5     13     160  
+#&gt; </span><span style='color: #BCBCBC;'> 9</span><span> Calabria   85+        12     24     100  
+#&gt; </span><span style='color: #BCBCBC;'>10</span><span> Campania   65-74      11     17      54.6
+#&gt; </span><span style='color: #949494;'># … with 53 more rows</span><span></div></span></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">
@@ -186,11 +186,11 @@
 
       <footer>
       <div class="copyright">
-  <p>Developed by Corrado Lanera, Dario Gregori, Paola Berchialla, Danila Azzolina, Ilaria Prosepe, Giulia Lorenzoni, Francesco Pirotti.</p>
+  <p><p>Developed by Corrado Lanera, Dario Gregori, Paola Berchialla, Danila Azzolina, Ilaria Prosepe, Giulia Lorenzoni, Francesco Pirotti.</p></p>
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.6.1.9000.</p>
+  <p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 1.6.1.9000.</p></p>
 </div>
 
       </footer>
