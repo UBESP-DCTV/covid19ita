@@ -80,7 +80,7 @@ La parametrizzazione ottimale viene scelta in modo automatico utilizzando come c
       sliderInput(
         width = "60%", ns("lastDate_d"),
         label = "Selezionare l'ultima data da considerare per la stima del modello",
-        value = last_date,
+        value = slider_max,
         min = slider_min,
         max = slider_max,
         step = day_step,

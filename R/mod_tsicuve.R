@@ -61,7 +61,7 @@ mod_tsicuve_ui <- function(id) {
       sliderInput(
         width = "45%", ns("lastDate_h"),
         label = "Selezionare l'ultima data da considerare per la stima del modello",
-        value = last_date,
+        value = slider_max,
         min = slider_min,
         max = slider_max,
         step = day_step,
@@ -94,7 +94,7 @@ mod_tsicuve_ui <- function(id) {
       sliderInput(
         width = "45%", ns("lastDate_d"),
         label = "Selezionare l'ultima data da considerare per la stima del modello",
-        value = last_date,
+        value = slider_max,
         min = slider_min,
         max = slider_max,
         step = day_step,
@@ -130,7 +130,7 @@ mod_tsicuve_ui <- function(id) {
       sliderInput(
         width = "45%", ns("lastDate_a"),
         label = "Selezionare l'ultima data da considerare per la stima del modello",
-        value = last_date,
+        value = slider_max,
         min = slider_min,
         max = slider_max,
         step = day_step,
@@ -197,32 +197,33 @@ mod_tsicuve_server <- function(id) {
 
   # 2) TS models -------------------------------------------------------
   d_seq <- as.integer(round(seq(
-    from = 10L,
+    from = 28L,
     to = length(veneto$data) -
       lubridate::interval(tstart, tstop) / lubridate::ddays(1) -
       n_ahead,
-    by = 3
+    by = 7
   )))
 
   # 2) Plots with errors -----------------------------------------------
+  future::plan(future::multicore)
   # 2A) Holter ---------------------------------------------------------
-  error_holter <- purrr::map_dfr(
+  error_holter <- furrr::future_map_dfr(
     .x = d_seq, ~ partial_ts_error(veneto, n_ahead, .x, tstart, "hw")
   ) %>%
     ts_plot_error()
 
   # 2B) Damped ---------------------------------------------------------
-  error_damped <- purrr::map_dfr(
+  error_damped <- furrr::future_map_dfr(
     .x = d_seq, ~ partial_ts_error(veneto, n_ahead, .x, tstart, "ets")
   ) %>%
     ts_plot_error()
 
   # 2C) ARIMA ----------------------------------------------------------
-  error_arima <- purrr::map_dfr(
+  error_arima <- furrr::future_map_dfr(
     .x = d_seq, ~ partial_ts_error(veneto, n_ahead, .x, tstart, "arima")
   ) %>%
     ts_plot_error()
-
+  future::plan(future::sequential)
   # 3) Table with forecast ---------------------------------------------
   # 3A) Holter ---------------------------------------------------------
   fc_holter <- partial_forecast(veneto, 15L, "hw")
