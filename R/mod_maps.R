@@ -334,65 +334,51 @@ mod_maps_server <- function(id) {
 
 
   data_to_use <- dpc_covid19_ita_province.clean %>%
-    dplyr::group_by(.data$sigla_provincia) %>%
-    dplyr::mutate(
-      delta_std = scale(c(0, diff(
-        .data$totale_casi
-      ))),
-      delta_window7d =   slider::slide_dbl(
-        c(0, diff(.data$totale_casi)),
-        ~ mean(.x),
-        .before = 3,
-        .after = 3,
-        na.rm = TRUE,
-        .complete = FALSE
-      ),
-      delta_window7d_std =   scale(
-        slider::slide_dbl(
-          c(0, diff(.data$totale_casi)),
-          ~ mean(.x),
-          .before = 3,
-          .after = 3,
-          na.rm = TRUE,
-          .complete = FALSE
-        )
-      ),
-      delta = c(0, diff(.data$totale_casi))
-    ) %>%
     dplyr::select(
       .data$sigla_provincia,
       .data$data,
       .data$totale_casi,
-      .data$delta,
-      .data$delta_std,
-      .data$delta_window7d,
-      .data$delta_window7d_std,
       .data$lat,
       .data$long
     ) %>%
-    dplyr::arrange(.data$sigla_provincia)
-
-  data_to_use <- merge(data_to_use, province_population2019)
-
-  data_to_use$totale_casi_norm_pop <-
-    data_to_use$totale_casi / data_to_use$Residenti * 10000
-  data_to_use$delta_norm_pop <-
-    data_to_use$delta / data_to_use$Residenti * 10000
-
+    dplyr::group_by(.data$sigla_provincia) %>%
+    dplyr::mutate(
+      delta = c(0, diff(.data$totale_casi)),
+      delta_std = scale(.data[["delta"]]),
+      delta_window7d =   slider::slide_dbl(
+        .data[["delta"]],
+        mean,
+        na.rm = TRUE,
+        .before = 3,
+        .after = 3,
+        .complete = FALSE
+      ),
+      delta_window7d_std =   scale(.data[["delta_window7d"]])
+    ) %>%
+    dplyr::ungroup() %>%
+    dplyr::arrange(.data$sigla_provincia) %>%
+    merge(province_population2019) %>%
+    dplyr::mutate(
+      totale_casi_norm_pop =
+        .data[["totale_casi"]] / .data[["Residenti"]] * 10000,
+      delta_norm_pop =
+        .data[["delta"]] / .data[["Residenti"]] * 10000
+    )
 
   dates_list <- sort(unique(as.Date(dpc_covid19_ita_province$data)))
   data_prima <- min(dates_list)
   data_ultima <- max(dates_list)
   ## initial values for polygon loading
   dt_filtered_init <- data_to_use %>%
-    dplyr::filter(as.Date(.data$data) == data_ultima) %>%
     dplyr::select(
+      .data$data,
       .data$sigla_provincia,
       .data$denominazione_provincia,
       .data$totale_casi_norm_pop,
       .data$lat,
       .data$long
     ) %>%
+    dplyr::filter(as.Date(.data$data) == data_ultima) %>%
     dplyr::arrange(.data$sigla_provincia)
 
   cm_init <- leaflet::colorNumeric(palette = palette_list_t$Person,
@@ -780,15 +766,17 @@ mod_maps_server <- function(id) {
     #### get data ----
     current_data <- reactive({
       req(input$date1, input$variableName)
+
       data_to_use %>%
-        dplyr::filter(as.Date(.data$data) == input$date1) %>%
         dplyr::select(
+          .data$data,
           .data$denominazione_provincia,
           .data$sigla_provincia,
           .data[[input[["variableName"]]]],
           .data$lat,
           .data$long
         ) %>%
+        dplyr::filter(as.Date(.data$data) == input$date1) %>%
         dplyr::arrange(.data$sigla_provincia)
     })
 
