@@ -1,3 +1,9 @@
+# covid19ita 0.117.0
+
+* improved loading time making activation on tab visualization only
+* improved map server module
+* Add Azero module
+
 # covid19ita 0.116.0
 
 * fix occurences of `group_by_*()` using `group_by(across())`
