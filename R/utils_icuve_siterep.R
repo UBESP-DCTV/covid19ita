@@ -285,7 +285,8 @@ gg_live <- function(db, who, vars, group = c("province", "centre"),
              alpha = 0.6
     ) +
     scale_x_datetime(date_breaks = "3 days", date_labels = "%d %b") +
-    facet_wrap(stats::as.formula(paste(group, "~", "."))) +
+    facet_wrap(stats::as.formula(paste(group, "~", ".")),
+               scales = "free_y") +
     theme(
       axis.text.x = element_text(angle = 60, hjust = 1, vjust = 0.5),
       panel.spacing.y = unit(2, "lines")
