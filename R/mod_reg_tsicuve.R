@@ -86,21 +86,24 @@ La parametrizzazione ottimale viene scelta in modo automatico utilizzando come c
         step = day_step,
         animate = animationOptions(interval = 400)
       ),
-      box(plotlyOutput(ns("fig1a")),
+      box(plotlyOutput(ns("fig1a")) %>%
+            shinycssloaders::withSpinner(hide.ui = FALSE),
           width = 12,
           title = "Figura 1A. Andamento stimato (linea rossa in grassetto,
         l'area rossa indica gli intervalli di confidenza al 95%) del
         numero di ricoveri in terapia intensiva.
         Andamento osservato (linea blu) fino all'ultimo dato disponibile."
       ),
-      box(DT::DTOutput(ns("tab1")),
+      box(DT::DTOutput(ns("tab1")) %>%
+            shinycssloaders::withSpinner(),
           width = 12,
           title = "Tabella 1. Numero di ricoveri attesi in base alle stime
           del modello nei 15 giorni successivi all'ultimo dato disponibile.
           Tra parentesi quadre sono riportati gli intervalli di confidenza
           al 95%."
       ),
-      box(plotlyOutput(ns("fig1b")),
+      box(plotlyOutput(ns("fig1b")) %>%
+            shinycssloaders::withSpinner(),
           width = 12,
           title = "Figura 1B. Andamento dell'errore quadratico del
         modello fino all'ultimo dato disponibile.",
@@ -126,7 +129,10 @@ La parametrizzazione ottimale viene scelta in modo automatico utilizzando come c
         max = 7,
         step = 1 #, animate = animationOptions(interval = 400)
       ),
-      box(plotlyOutput(ns("fig2")), width = 12, title = "Figura 2. \u00C8 stato stimato un Exponential Time Series smoothing model sui ricoveri COVID in terapia intensiva con variabile esogena (ETSX model).
+      box(plotlyOutput(ns("fig2")) %>%
+            shinycssloaders::withSpinner(),
+            width = 12,
+            title = "Figura 2. \u00C8 stato stimato un Exponential Time Series smoothing model sui ricoveri COVID in terapia intensiva con variabile esogena (ETSX model).
           La variabile esogena utilizzata \u00E8 la serie storica dei ricoveri ordinari.
           \u00C8 stato identificato e fissato (non modificabile interattivamente) un lag (ritardo) ottimale di 5 giorni dell'impatto causato dai ricoveri ordinari sull'occupazione in terapia intensiva, scegliendo il valore che minimizza il BIC
           sul modello ETSX.
@@ -142,7 +148,10 @@ La parametrizzazione ottimale viene scelta in modo automatico utilizzando come c
           La variabile esogena che include lo shock sui ricoveri ordinari \u00E8 stata inserita nel modello ETSX come componente ausiliaria.
           Si riportano le stime previsive a 15 giorni le quali considerano l'impatto di una variazione improvvisa
           dei ricoveri ordinari sui ricoveri in terapia intensiva."),
-      box(DT::DTOutput(ns("tab2")), width = 12, title = "Tabella 2")
+      box(DT::DTOutput(ns("tab2")) %>%
+            shinycssloaders::withSpinner(),
+          width = 12,
+          title = "Tabella 2")
     ),
     fluidRow(
       box(

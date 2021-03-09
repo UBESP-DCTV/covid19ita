@@ -67,21 +67,24 @@ mod_tsicuve_ui <- function(id) {
         step = day_step,
         animate = animationOptions(interval = 400)
       ),
-      box(plotlyOutput(ns("fig1a")),
+      box(plotlyOutput(ns("fig1a")) %>%
+            shinycssloaders::withSpinner(hide.ui = FALSE),
           width = 12,
           title = "Figura 1A. Andamento stimato (linea rossa in grassetto,
         l'area rossa indica gli intervalli di confidenza al 95%) del
         numero di ricoveri in terapia intensiva.
         Andamento osservato (linea blu) fino all'ultimo dato disponibile."
       ),
-      box(DT::DTOutput(ns("tab1")),
+      box(DT::DTOutput(ns("tab1")) %>%
+            shinycssloaders::withSpinner(),
           width = 12,
           title = "Tabella 1. Numero di ricoveri attesi in base alle stime
           del modello nei 15 giorni successivi all'ultimo dato disponibile. Tra
           parentesi quadre sono riportati gli intervalli di confidenza
           al 95%."
       ),
-      box(plotlyOutput(ns("fig1b")),
+      box(plotlyOutput(ns("fig1b")) %>%
+            shinycssloaders::withSpinner(),
           width = 12,
           title = "Figura 1B. Andamento dell'errore quadratico del
         modello fino all'ultimo dato disponibile.",
@@ -100,7 +103,8 @@ mod_tsicuve_ui <- function(id) {
         step = day_step,
         animate = animationOptions(interval = 400)
       ),
-      box(plotlyOutput(ns("fig2a")),
+      box(plotlyOutput(ns("fig2a")) %>%
+            shinycssloaders::withSpinner(hide.ui = FALSE),
           width = 12,
           title = "Figura 2A. Andamento stimato (linea rossa in grassetto,
         l'area rossa indica gli intervalli di confidenza al 95%) del
@@ -109,14 +113,16 @@ mod_tsicuve_ui <- function(id) {
           footer = "NOTE: il modello \u00E8 stato stimato ipotizzando un damped trend, con parametri di Errore, Trend e Stagionalit\u00E0 indicati, nell'ordine in figura, con la seguente convenzione:
           \"N\" = nessuna, \"A\"/\"Ad\" = additiva, \"M\" = moltiplicativa e \"Z\" = selezione automatica"
       ),
-      box(DT::DTOutput(ns("tab2")),
+      box(DT::DTOutput(ns("tab2")) %>%
+            shinycssloaders::withSpinner(),
           width = 12,
           title = "Tabella 2. Numero di ricoveri attesi in base alle stime
           del modello nei 15 giorni successivi all'ultimo dato disponibile.
           Tra parentesi quadre sono riportati gli intervalli di confidenza
           al 95%."
       ),
-      box(plotlyOutput(ns("fig2b")),
+      box(plotlyOutput(ns("fig2b")) %>%
+            shinycssloaders::withSpinner(),
           width = 12,
           title = "Figura 2B. Andamento dell'errore quadratico del
         modello fino all'ultimo dato disponibile.",
@@ -136,7 +142,8 @@ mod_tsicuve_ui <- function(id) {
         step = day_step,
         animate = animationOptions(interval = 400)
       ),
-      box(plotlyOutput(ns("fig3a")),
+      box(plotlyOutput(ns("fig3a")) %>%
+            shinycssloaders::withSpinner(hide.ui = FALSE),
           width = 12,
           title = "Figura 3A. Andamento stimato (linea rossa in grassetto,
         l'area rossa indica gli intervalli di confidenza al 95%) del
@@ -145,14 +152,16 @@ mod_tsicuve_ui <- function(id) {
           footer = "NOTE: il modello \u00E8 stato stimato con un metodo automatico
           basato sull'AIC corretto."
       ),
-      box(DT::DTOutput(ns("tab3")),
+      box(DT::DTOutput(ns("tab3")) %>%
+            shinycssloaders::withSpinner(),
           width = 12,
           title = "Tabella 3. Numero di ricoveri attesi in base alle stime
           del modello nei 15 giorni successivi alla data odierna. Tra
           parentesi quadre sono riportati gli intervalli di confidenza
           al 95%."
       ),
-      box(plotlyOutput(ns("fig3b")),
+      box(plotlyOutput(ns("fig3b")) %>%
+            shinycssloaders::withSpinner(),
           width = 12,
           title = "Figura 3B. Andamento dell'errore quadratico del
         modello fino all'ultimo dato disponibile.",

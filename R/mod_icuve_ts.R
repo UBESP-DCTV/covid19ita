@@ -15,7 +15,8 @@ mod_icuve_ts_ui <- function(id) {
     fluidRow(
       box(
         width = 12,
-        plotly::plotlyOutput(ns("fig1")),
+        plotly::plotlyOutput(ns("fig1")) %>%
+          shinycssloaders::withSpinner(),
         title = "Figure 1. Andamento stimato (linea rossa in grassetto,
         l'area rossa indica gli intervalli di confidenza al 95%) delle
         proporzioni di posti letto totali in terapia intensiva occupati
@@ -26,7 +27,8 @@ mod_icuve_ts_ui <- function(id) {
     fluidRow(
       box(
         width = 12,
-        plotly::plotlyOutput(ns("fig2")),
+        plotly::plotlyOutput(ns("fig2")) %>%
+          shinycssloaders::withSpinner(),
         title = "Figure 2. Andamento stimato (linea rossa in grassetto,
         l'area rossa indica gli intervalli di confidenza al 95%) del
         numero di posti letto totali in terapia intensiva occupati
@@ -37,9 +39,8 @@ mod_icuve_ts_ui <- function(id) {
     fluidRow(
       box(
         width = 12,
-        plotly::plotlyOutput(
-          ns("fig3")
-        ),
+        plotly::plotlyOutput(ns("fig3")) %>%
+          shinycssloaders::withSpinner(),
         title = "Figure 3. Relazione stimata (linea rossa in grassetto,
         l'area rossa indica gli intervalli di confidenza al 95%) tra
         numero di posti letto totali in terapia intensiva occupati
@@ -49,7 +50,8 @@ mod_icuve_ts_ui <- function(id) {
     fluidRow(
       box(
         width = 12,
-        plotly::plotlyOutput(ns("fig4")),
+        plotly::plotlyOutput(ns("fig4")) %>%
+          shinycssloaders::withSpinner(),
         title = "Figure 4. Andamento stimato (linea rossa in grassetto,
         l'area rossa indica gli intervalli di confidenza al 95%) della
         differenza tra il numero di posti letto in terapia intensiva

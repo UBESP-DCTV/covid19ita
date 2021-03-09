@@ -15,7 +15,8 @@ mod_icuve_static_ui <- function(id) {
     fluidRow(
       box(
         width = 12,
-        plotly::plotlyOutput(ns("fig1")),
+        plotly::plotlyOutput(ns("fig1")) %>%
+          shinycssloaders::withSpinner(),
         title = "Figure 1. Proporzione mensile di decessi in
         pazienti COVID ammessi in terapia intensiva. I punti indicano
         la stima, le linee i relativi intervalli di confidenza al 95%.
@@ -25,7 +26,8 @@ mod_icuve_static_ui <- function(id) {
     fluidRow(
       box(
         width = 12,
-        plotly::plotlyOutput(ns("fig2")),
+        plotly::plotlyOutput(ns("fig2")) %>%
+          shinycssloaders::withSpinner(),
         title = "Figure 2. Andamento stimato (linea blu,
         l'area grigia indica gli intervalli di confidenza al 95%) del
         tempo mediano (in giorni) di degenza in terapia intensiva
@@ -35,7 +37,8 @@ mod_icuve_static_ui <- function(id) {
     fluidRow(
       box(
         width = 12,
-        plotly::plotlyOutput(ns("fig3")),
+        plotly::plotlyOutput(ns("fig3")) %>%
+          shinycssloaders::withSpinner(),
         title = "Figure 3. Andamento stimato (linea blu,
         l'area grigia indica gli intervalli di confidenza al 95%) dell'et\u00E0
         mediana dei pazienti COVID ricoverati in terapia intensiva
@@ -45,7 +48,8 @@ mod_icuve_static_ui <- function(id) {
     fluidRow(
       box(
         width = 12,
-        plotly::plotlyOutput(ns("fig4")),
+        plotly::plotlyOutput(ns("fig4")) %>%
+          shinycssloaders::withSpinner(),
         title = "Figure 4. Andamento del numero di comorbidit\u00E0 mediano
         dei pazienti COVID ricoverati in terapia intensiva dall'inizio
         della pandemia."

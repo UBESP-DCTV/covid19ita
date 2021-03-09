@@ -79,27 +79,30 @@ La parametrizzazione ottimale viene scelta in modo automatico utilizzando come c
       sliderInput(
         width = "45%", ns("lastDate_d"),
         label = "Selezionare l'ultima data da considerare per la stima del modello",
-        value = last_date,
+        value = slider_max,
         min = slider_min,
         max = slider_max,
         step = day_step,
         animate = animationOptions(interval = 400)
       ),
-      box(plotlyOutput(ns("fig1a")),
+      box(plotlyOutput(ns("fig1a")) %>%
+            shinycssloaders::withSpinner(hide.ui = FALSE),
           width = 12,
           title = "Figura 1A. Andamento stimato (linea rossa in grassetto,
         l'area rossa indica gli intervalli di confidenza al 95%) del
         numero di ricoveri in area non critica.
         Andamento osservato (linea blu) fino all'ultimo dato disponibile."
       ),
-      box(DT::DTOutput(ns("tab1")),
+      box(DT::DTOutput(ns("tab1")) %>%
+            shinycssloaders::withSpinner(),
           width = 12,
           title = "Tabella 1. Numero di ricoveri attesi in base alle stime
           del modello nei 15 giorni successivi all'ultimo dato disponibile.
           Tra parentesi quadre sono riportati gli intervalli di confidenza
           al 95%."
       ),
-      box(plotlyOutput(ns("fig1b")),
+      box(plotlyOutput(ns("fig1b")) %>%
+            shinycssloaders::withSpinner(),
           width = 12,
           title = "Figura 1B. Andamento dell'errore quadratico del
         modello fino all'ultimo dato disponibile.",

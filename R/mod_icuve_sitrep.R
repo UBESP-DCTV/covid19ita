@@ -119,11 +119,13 @@ La parametrizzazione ottimale viene scelta in modo automatico utilizzando come c
       ),
       box(
         width = 12,
-        plotly::plotlyOutput(ns("gg_icuve_sitrep")),
+        plotly::plotlyOutput(ns("gg_icuve_sitrep")) %>%
+          shinycssloaders::withSpinner(),
         title = "Dettaglio regionale della situazione corrente (punti) e stima andamento a 15 giorni (linee) dei posti letto nelle terapie intensive venete con intervalli di confidenza al 95% (bande).",
         footer = "Linee orizzontali tratteggiate a 400 (rosso) e 500 (nero) posti letto."
       ),
-      box(DT::DTOutput(ns("tab_icuve_sitrep")),
+      box(DT::DTOutput(ns("tab_icuve_sitrep")) %>%
+            shinycssloaders::withSpinner(),
           width = 12,
           title = "Numero di ricoveri attesi in base alle stime
           del modello nei 15 giorni successivi all'ultimo dato disponibile. Tra
@@ -156,10 +158,12 @@ La parametrizzazione ottimale viene scelta in modo automatico utilizzando come c
       ),
       box(
         width = 12,
-        plotly::plotlyOutput(ns("gg_icuve_sitrep_prov"), height = "600px"),
+        plotly::plotlyOutput(ns("gg_icuve_sitrep_prov"), height = "600px") %>%
+          shinycssloaders::withSpinner(),
         title = "Dettaglio provinciale della situazione corrente (punti) e stima andamento a 15 giorni (linee) dei posti letto nelle terapie intensive venete con intervalli di confidenza al 95% (bande)."
       ),
-      box(DT::DTOutput(ns("tab_icuve_sitrep_prov")),
+      box(DT::DTOutput(ns("tab_icuve_sitrep_prov")) %>%
+            shinycssloaders::withSpinner(),
           width = 12,
           title = "Numero di ricoveri attesi in base alle stime
           del modello nei 15 giorni successivi all'ultimo dato disponibile. Tra
@@ -191,10 +195,12 @@ La parametrizzazione ottimale viene scelta in modo automatico utilizzando come c
       ),
       box(
         width = 12,
-        plotly::plotlyOutput(ns("gg_icuve_sitrep_centre")),
+        plotly::plotlyOutput(ns("gg_icuve_sitrep_centre")) %>%
+          shinycssloaders::withSpinner(),
         title = "Dettaglio per centro della situazione corrente (punti) e stima andamento a 15 giorni (linee) dei posti letto nelle terapie intensive venete con intervalli di confidenza al 95% (bande)."
       ),
-      box(DT::DTOutput(ns("tab_icuve_sitrep_centre")),
+      box(DT::DTOutput(ns("tab_icuve_sitrep_centre")) %>%
+            shinycssloaders::withSpinner(),
           width = 12,
           title = "Numero di ricoveri attesi in base alle stime
           del modello nei 15 giorni successivi all'ultimo dato disponibile. Tra
