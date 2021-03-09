@@ -101,6 +101,7 @@ app_server <- function(input, output, session) {
 
     if (super_secret()[["permission"]][usr_pos] %in% c("ubep", "tip-v")) {
       mod_icuve_sitrep_server("icuve_sitrep")
+      mod_azero_server("icuve_sitrep")
       mod_icuve_ts_server("icuve_ts")
       mod_icuve_static_server("icuve_static")
     }
@@ -210,6 +211,13 @@ app_server <- function(input, output, session) {
                                tabName = "regional-partial-ts-nocritica",
                                icon = icon("map")
                    ),
+                   if (super_secret()[["permission"]][usr_pos] !=
+                       "agenas") {
+                     menuSubItem("Veneto ICUs occupancy and stay",
+                                 tabName = "azero-sitrep",
+                                 icon = icon("user-clock")
+                     )},
+
                    if (super_secret()[["permission"]][usr_pos] !=
                        "agenas") {
                      menuSubItem("Veneto ICUs situation report",
@@ -376,7 +384,7 @@ app_server <- function(input, output, session) {
   ##############
   ## UI BODY ###########################################################
   ##############
-  output$body <- renderUI({            # called in app_server.R
+  output$body <- renderUI({ # called in app_server.R
       if (USER$login) {
         tabItems(
           dashboard_home_body(),
@@ -475,6 +483,13 @@ app_server <- function(input, output, session) {
             h2("Report situazione corrente nelle terapie intensive venete a livello regionale."),
             if (super_secret()[["permission"]][usr_pos] %in% c("ubep", "tip-v")) {
               mod_icuve_sitrep_ui("icuve_sitrep")
+            }
+          ),
+          tabItem(
+            tabName = "azero-sitrep",
+            h2("Report occupazione e permanenza in area critica."),
+            if (super_secret()[["permission"]][usr_pos] %in% c("ubep", "tip-v")) {
+              mod_azero_ui("icuve_sitrep")
             }
           ),
           tabItem(
