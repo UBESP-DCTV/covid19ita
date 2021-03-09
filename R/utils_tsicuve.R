@@ -327,7 +327,7 @@ exogen_icu_model <- function(db,
 
   cat(ts_shocked_lagged[[1]])
 
-  icu_forecast <- smooth::forecast.smooth(icu_model,
+  icu_forecast <- smooth:::forecast.smooth(icu_model,
     h = n_ahead,
     xreg = ts_shocked_lagged,
     lambda = forecast::BoxCox.lambda(ts_icu)
