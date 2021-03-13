@@ -18,8 +18,6 @@ data-update:
 	R -e "remotes::install_deps()" && \
 	Rscript data-raw/data-UPDATE.R && \
 	git commit -am "data auto-update" && \
-	## you need ssh authorization to push
 	git push && \
-	## you need ssh authorization to ssh
 	ssh root@147.162.76.187 "R -e \"remotes::install_github('UBESP-DCTV/covid19ita')\"" && \
 	echo "done"
