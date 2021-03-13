@@ -27,7 +27,7 @@ data_dpc <- function() {
 
   covid_ita <- file.path(dest_dir, paste0(data_levels, ".csv")) %>%
     purrr::set_names(data_levels) %>%
-    purrr::map(readr::read_csv, guess_max = 10000)
+    purrr::map(readr::read_csv, guess_max = 50000)
 
   dpc_covid19_ita_andamento_nazionale <- covid_ita[["italia"]]
   dpc_covid19_ita_regioni <- covid_ita[["regioni"]]
