@@ -183,7 +183,7 @@ mod_azero_server <- function(id) {
       showNotification(HTML("Se selezionato, i tempi di permanenza saranno considerati cumulati su tutti gli ingressi di ciascun paziente, e riportati in corrispondenza della data del primo accesso.<br><br>Se non selezionato, i tempi di permanenza saranno considerati per accesso indipendentemente che si riferiscano ad accessi successivi dello stesso paziente, e riportati alla data di ogni singolo accesso."), duration = 10, type = "message")
     })
     observeEvent(input[["i_ulss"]], {
-      showNotification("Le province selezionate sono quelle di residenza dei pazienti (e non quelle delle terapie intensive considerate.", duration = 10, type = "message")
+      showNotification("Le ULSS selezionate sono quelle relative alle terapie intensive di ciascun ingresso (e non quelle di afferenza dei pazienti).", duration = 10, type = "message")
     })
     observeEvent(input[["i_or"]], {
       showNotification(HTML("DE-selezionare una comorbidit\u00E0 esclude i pazienti che ce l'hanno</br>
