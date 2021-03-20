@@ -10,7 +10,7 @@
 mod_azero_ui <- function(id) {
   ns <- NS(id)
   critica <- read_azero("critica", from = "local")
-  provs <- critica[["provincia_domicilio"]] %>%
+  ulss_uo <- critica[["ulss_uo"]] %>%
     as.character() %>%
     unique() %>%
     sort(na.last = TRUE)
@@ -39,8 +39,8 @@ mod_azero_ui <- function(id) {
                                  "Stratificazione per sesso")
             ),
             column(width = 4,
-                   checkboxInput(ns("facet_prov"),
-                                 "Visualizzazione per provincia")
+                   checkboxInput(ns("facet_ulss"),
+                                 "Visualizzazione per ULSS")
             ),
             column(width = 4,
                    checkboxInput(
@@ -57,16 +57,16 @@ mod_azero_ui <- function(id) {
           fluidRow(
             column(width = 12,
                    selectInput(
-                     ns("which_prov"),
+                     ns("which_ulss"),
                      HTML(
-                       "Seleziona le provincie di interesse",
+                       "Seleziona l'ULSS di interesse",
                        as.character(
-                         actionLink(ns("i_prov"), "", icon("question"))
+                         actionLink(ns("i_ulss"), "", icon("question"))
                        )
                      ),
                      multiple = TRUE,
-                     choices = provs,
-                     selected = setdiff(provs, NA),
+                     choices = ulss_uo,
+                     selected = setdiff(ulss_uo, NA),
                      width = "100%"
                    )
             )
@@ -182,7 +182,7 @@ mod_azero_server <- function(id) {
     observeEvent(input[["i_perm"]], {
       showNotification(HTML("Se selezionato, i tempi di permanenza saranno considerati cumulati su tutti gli ingressi di ciascun paziente, e riportati in corrispondenza della data del primo accesso.<br><br>Se non selezionato, i tempi di permanenza saranno considerati per accesso indipendentemente che si riferiscano ad accessi successivi dello stesso paziente, e riportati alla data di ogni singolo accesso."), duration = 10, type = "message")
     })
-    observeEvent(input[["i_prov"]], {
+    observeEvent(input[["i_ulss"]], {
       showNotification("Le province selezionate sono quelle di residenza dei pazienti (e non quelle delle terapie intensive considerate.", duration = 10, type = "message")
     })
     observeEvent(input[["i_or"]], {
@@ -205,15 +205,15 @@ mod_azero_server <- function(id) {
     observeEvent(input[["button"]], ignoreNULL = FALSE, {
 
       by_sex <- input[["by_sex"]]
-      by_prov <- input[["facet_prov"]]
+      by_ulss <- input[["facet_ulss"]]
       used_strata <- {
-        c("sesso", "provincia_domicilio")[c(by_sex, by_prov)]
+        c("sesso", "ulss_uo")[c(by_sex, by_ulss)]
       }
 
       comob <- input[["comob"]]
       comob_or <- input[["comob_or"]]
       age_range <- input[["age"]]
-      which_prov <- input[["which_prov"]]
+      which_ulss <- input[["which_ulss"]]
       permanenza_cumulata <- input[["permanenza_cumulata"]]
 
 
@@ -237,7 +237,7 @@ mod_azero_server <- function(id) {
         filter_or_checked(comob_or) %>%
         filter_checked(comob) %>%
         dplyr::filter(
-          .data[["provincia_domicilio"]] %in% which_prov
+          .data[["ulss_uo"]] %in% which_ulss
         )
 
       output$critica_daily_plot <- plotly::renderPlotly({
@@ -278,10 +278,10 @@ mod_azero_server <- function(id) {
             legend.position = "bottom"
           )
 
-        if (by_prov) {
+        if (by_ulss) {
           p <- p +
             facet_wrap(
-              ~.data[["provincia_domicilio"]],
+              ~.data[["ulss_uo"]],
               scales = "free_y",
               ncol = 3
             )
@@ -350,10 +350,10 @@ mod_azero_server <- function(id) {
             legend.position = "bottom"
           )
 
-        if (by_prov) {
+        if (by_ulss) {
           p <- p +
             facet_wrap(
-              ~.data[["provincia_domicilio"]],
+              ~.data[["ulss_uo"]],
               scales = "free_y",
               ncol = 3
             )
