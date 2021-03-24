@@ -16,6 +16,7 @@ build:
 
 data-update:
 	R -e "remotes::install_deps()" && \
+        git pull -X theirs && \
 	Rscript data-raw/data-UPDATE.R && \
 	git commit -am "data auto-update" && \
 	git push && \
