@@ -9,7 +9,7 @@
 #' @importFrom shiny NS tagList h2 plotOutput fluidPage
 mod_azero_ui <- function(id) {
   ns <- NS(id)
-  critica <- read_azero("critica", from = "local")
+  critica <- read_azero("critica")
   ulss_uo <- critica[["ulss_uo"]] %>%
     as.character() %>%
     unique() %>%
@@ -173,7 +173,7 @@ mod_azero_ui <- function(id) {
 #' @importFrom shiny renderPlot callModule
 mod_azero_server <- function(id) {
 
-  critica <- read_azero("critica", from = "local")
+  critica <- read_azero("critica")
 
 
   callModule(id = id, function(input, output, session) {
