@@ -21,4 +21,6 @@ data-update:
 	git commit -am "data auto-update" && \
 	git push && \
 	ssh root@147.162.76.187 "R -e \"remotes::install_github('UBESP-DCTV/covid19ita')\"" && \
+        touch -m /srv/shiny-server/covid19italy/restart.txt && \
+        touch -m /srv/shiny-server/covid19ita/restart.txt && \
 	echo "done"
