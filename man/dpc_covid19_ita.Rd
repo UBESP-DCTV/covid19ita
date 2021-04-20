@@ -12,11 +12,11 @@
   levels of detail (regional adn provincial) and as many variables
   as provided by the original data (see the corresponding sections).
 
-An object of class \code{spec_tbl_df} (inherits from \code{tbl_df}, \code{tbl}, \code{data.frame}) with 421 rows and 24 columns.
+An object of class \code{spec_tbl_df} (inherits from \code{tbl_df}, \code{tbl}, \code{data.frame}) with 422 rows and 24 columns.
 
-An object of class \code{spec_tbl_df} (inherits from \code{tbl_df}, \code{tbl}, \code{data.frame}) with 8841 rows and 30 columns.
+An object of class \code{spec_tbl_df} (inherits from \code{tbl_df}, \code{tbl}, \code{data.frame}) with 8862 rows and 30 columns.
 
-An object of class \code{spec_tbl_df} (inherits from \code{tbl_df}, \code{tbl}, \code{data.frame}) with 60167 rows and 14 columns.
+An object of class \code{spec_tbl_df} (inherits from \code{tbl_df}, \code{tbl}, \code{data.frame}) with 60316 rows and 14 columns.
 }
 \source{
 \url{https://github.com/pcm-dpc/COVID-19}
