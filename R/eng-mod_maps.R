@@ -77,25 +77,27 @@ eng_mod_maps_ui <- function(id) {
   )
 
   help_tag <- tags$i(
-    class = "fa fa-info-circle", style = "cursor:pointer;font-size: 30px; margin-top: 3px;margin-left: 4px;",
-    onclick = sprintf(
-      'Shiny.onInputChange("%s", Math.random())  ',
+    # class = "fa fa-info-circle",
+    style = "cursor:pointer;font-size: 30px; margin-top: 3px;margin-left: 4px;",
+    onclick = #sprintf(
+      # 'Shiny.onInputChange("%s", Math.random())  ',
       ns("getHelp")
-    )
+    # )
   )
   icon_tag <- tags$i(
-    class = "fa fa-play-circle-o", title = "", style = "cursor:pointer;font-size: 30px; margin-left: 4px; margin-top: 3px;",
-    onclick = sprintf(
-      '$(this).toggleClass("fa-play-circle-o fa-pause-circle-o");
-                       Shiny.onInputChange("%s", {rand:Math.random(), state:$(this).attr("class")=="fa fa-pause-circle-o"});  ',
+    # class = "fa fa-play-circle-o",
+    title = "", style = "cursor:pointer;font-size: 30px; margin-left: 4px; margin-top: 3px;",
+    onclick = #sprintf(
+      # '$(this).toggleClass("fa-play-circle-o fa-pause-circle-o");
+      #                  Shiny.onInputChange("%s", {rand:Math.random(), state:$(this).attr("class")=="fa fa-pause-circle-o"});  ',
       ns("isPlaying")
-    )
+    # )
   )
-  htmltools::htmlDependencies(icon_tag) <- htmltools::htmlDependency("font-awesome",
-    "5.3.1", "www/shared/fontawesome",
-    package = "shiny",
-    stylesheet = c("css/all.min.css", "css/v4-shims.min.css")
-  )
+  # htmltools::htmlDependencies(icon_tag) <- htmltools::htmlDependency("font-awesome",
+  #   "5.3.1", "www/shared/fontawesome",
+  #   package = "shiny",
+  #   stylesheet = c("css/all.min.css", "css/v4-shims.min.css")
+  # )
   ## Da qui in poi inserire il contenuto lato UI del modulo, in
   ## particolare la definizione degli input (ricordarsi di inserire i
   ## relativi id all'interno di una chiamata a `ns(<input_id>)`)
