@@ -90,20 +90,20 @@ mod_maps_ui <- function(id) {
   )
 
   help_tag <- tags$i(
-    # class = "fa fa-info-circle",
+     class = "fa fa-info-circle",
     style = "cursor:pointer;font-size: 30px; margin-top: 3px;margin-left: 4px;",
-    onclick = #sprintf('Shiny.onInputChange("%s", Math.random())  ',
-                      ns("getHelp")#)
+    onclick = sprintf('Shiny.onInputChange("%s", Math.random())  ',
+                      ns("getHelp"))
   )
   icon_tag <- tags$i(
-    # class = "fa fa-play-circle-o",
+    class = "fa fa-play-circle-o",
     title = "",
     style = "cursor:pointer;font-size: 30px; margin-left: 4px; margin-top: 3px;",
-    onclick = #sprintf(
+    onclick = sprintf(
       '$(this).toggleClass("fa-play-circle-o fa-pause-circle-o");
                        Shiny.onInputChange("%s", {rand:Math.random(), state:$(this).attr("class")=="fa fa-pause-circle-o"});  ',
       ns("isPlaying")
-#    )
+    )
   )
   # htmltools::htmlDependencies(icon_tag) <-
   #   htmltools::htmlDependency(
