@@ -91,7 +91,7 @@ eng_mod_maps_ui <- function(id) {
       ns("isPlaying")
     )
   )
-  htmltools::htmlDependencies(icon_tag) <- htmltools::htmlDependency("fontawesome",
+  htmltools::htmlDependencies(icon_tag) <- htmltools::htmlDependency("font-awesome",
     "5.3.1", "www/shared/fontawesome",
     package = "shiny",
     stylesheet = c("css/all.min.css", "css/v4-shims.min.css")
