@@ -107,7 +107,7 @@ mod_maps_ui <- function(id) {
   )
   htmltools::htmlDependencies(icon_tag) <-
     htmltools::htmlDependency(
-      "font-awesome",
+      "fontawesome",
       "5.3.1",
       "www/shared/fontawesome",
       package = "shiny",
