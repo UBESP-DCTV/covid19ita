@@ -6,8 +6,7 @@
 \alias{covid19ita-package}
 \title{covid19ita: Covid-19 - Italy}
 \description{
-Monitoring platform for Covid-19 infection
-    diffusion in Italy.
+Monitoring platform for Covid-19 infection diffusion in Italy.
 }
 \seealso{
 Useful links:
