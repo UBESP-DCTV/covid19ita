@@ -51,7 +51,7 @@ data_dictionary <- function() {
   # Code to save the data -------------------------------------------
 
   ## Must be the names of the datasets!
-  write_raw_rds(c(
+  covid19ita:::write_raw_rds(c(
     "dictionary"
   ))
 }
