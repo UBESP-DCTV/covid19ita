@@ -35,11 +35,15 @@ data_dictionary <- function() {
     casi_da_screening = "positive_cases_from_planned_screening",
     tamponi = "tests_performed",
     casi_testati = "people_tested",
-    ingressi_terapia_intensiva = "admissions_in_intensive_care"
+    ingressi_terapia_intensiva = "admissions_in_intensive_care",
+    totale_positivi_test_molecolare = "overall_molecular_tested_positive",
+    totale_positivi_test_antigenico_rapido = "overall rapid antigen-tested positive",
+    tamponi_test_molecolare = "molecular_tests_performed",
+    tamponi_test_antigenico_rapido = "rapid_antigen_test_performed"
   )
 
 
-  ui_done("dictionary ready")
+ usethis::ui_done("dictionary ready")
 
 
 
