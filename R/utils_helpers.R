@@ -23,7 +23,9 @@ measures <- function(
       "totale_positivi", "variazione_totale_positivi", "nuovi_positivi",
       "dimessi_guariti", "deceduti", "casi_da_sospetto_diagnostico",
       "casi_da_screening", "totale_casi", "tamponi", "casi_testati",
-      "ingressi_terapia_intensiva"
+      "ingressi_terapia_intensiva", "totale_positivi_test_molecolare",
+      "totale_positivi_test_antigenico_rapido",
+      "tamponi_test_molecolare", "tamponi_test_antigenico_rapido"
     ),
     regional = c(
       "ricoverati_con_sintomi", "terapia_intensiva",
@@ -31,7 +33,9 @@ measures <- function(
       "totale_positivi", "variazione_totale_positivi", "nuovi_positivi",
       "dimessi_guariti", "deceduti", "casi_da_sospetto_diagnostico",
       "casi_da_screening", "totale_casi", "tamponi", "casi_testati",
-      "ingressi_terapia_intensiva"
+      "ingressi_terapia_intensiva", "totale_positivi_test_molecolare",
+      "totale_positivi_test_antigenico_rapido",
+      "tamponi_test_molecolare", "tamponi_test_antigenico_rapido"
     ),
     provincial = "totale_casi"
   ))

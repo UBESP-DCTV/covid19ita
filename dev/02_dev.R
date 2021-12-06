@@ -88,7 +88,7 @@ devtools::document(roclets = c('rd', 'collate', 'namespace'))
 ## Add one line by test you want to create
 usethis::use_test("download_dpc")
 usethis::use_test("helper_dashboard")
-
+usethis::use_test("plot_and_table_alignment")
 # Documentation
 
 ## Spellcheck

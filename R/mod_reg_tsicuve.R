@@ -234,7 +234,7 @@ mod_reg_tsicuve_server <- function(id) {
     # 3) Table with forecast -------------------------------------------
     # 3B) ets auto -----------------------------------------------------
     fc_ets <- reactive({
-      partial_forecast(region(), 15L, "ets_auto")
+      partial_forecast(region(), 15L, "ets_auto", tstop = input$lastDate_d)
     })
 
 

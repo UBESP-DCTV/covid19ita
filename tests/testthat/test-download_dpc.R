@@ -12,7 +12,10 @@ test_that("download_dpc works", {
       "totale_positivi,variazione_totale_positivi,nuovi_positivi,",
       "dimessi_guariti,deceduti,casi_da_sospetto_diagnostico,",
       "casi_da_screening,totale_casi,tamponi,casi_testati,note,",
-      "ingressi_terapia_intensiva,note_test,note_casi"
+      "ingressi_terapia_intensiva,note_test,note_casi,",
+      "totale_positivi_test_molecolare,",
+      "totale_positivi_test_antigenico_rapido,",
+      "tamponi_test_molecolare,tamponi_test_antigenico_rapido"
     )
   )
 })
