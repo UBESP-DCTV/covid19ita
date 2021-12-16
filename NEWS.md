@@ -1,3 +1,5 @@
+# covid19ita 0.118.0
+
 # covid19ita 0.117.0
 
 * improved loading time making activation on tab visualization only

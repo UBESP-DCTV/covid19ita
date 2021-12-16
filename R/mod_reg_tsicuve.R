@@ -20,7 +20,7 @@ mod_reg_tsicuve_ui <- function(id) {
 
   day_step <- lubridate::days(1)
   slider_min <- first_date + lubridate::days(10)
-  slider_max <- last_date - lubridate::days(2)
+  slider_max <- last_date
 
   fluidPage(
     fluidRow(
@@ -77,10 +77,11 @@ Il Trend pu\u00F2 essere anche Additivo Damped (Ad). Le previsioni generate dal 
 Ad esempio un modello ETS(A,Ad,N) indica un modello con Errore Additivo, Trend Damped e Nessuna stagionalit\u00E0 (N).
 
 La parametrizzazione ottimale viene scelta in modo automatico utilizzando come criterio di selezione dei parametri il BIC (Bayesian Information Criterion).")),
+      checkboxInput(ns("maxdate"), "Usa fino all'ultimo dato disponibile per la stima del modello."),
       sliderInput(
         width = "60%", ns("lastDate_d"),
         label = "Selezionare l'ultima data da considerare per la stima del modello",
-        value = slider_max,
+        value = slider_max - lubridate::days(2),
         min = slider_min,
         max = slider_max,
         step = day_step,
@@ -174,6 +175,28 @@ mod_reg_tsicuve_server <- function(id) {
 
   callModule(id = id, function(input, output, session) {
     ns <- session$ns
+
+    observeEvent(input$maxdate, {
+      if (input$maxdate) {
+        shiny::updateSliderInput(
+          session = session,
+          inputId = "lastDate_d",
+          value = max(region()[["data"]], na.rm = TRUE)
+        )
+      } else {
+        shiny::updateSliderInput(
+          session = session,
+          inputId = "lastDate_d",
+          value = max(region()[["data"]], na.rm = TRUE) - lubridate::days(2)
+        )
+      }
+    })
+
+    observeEvent(input$lastDate_d, {
+      if (input$lastDate_d != max(region()[["data"]], na.rm = TRUE)) {
+        shiny::updateCheckboxInput(session = session, "maxdate", value = FALSE)
+      }
+    })
 
     # 1) Data preparation ------------------------------------------------
     region <- reactive({
