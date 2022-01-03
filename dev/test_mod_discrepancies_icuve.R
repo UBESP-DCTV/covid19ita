@@ -1,12 +1,10 @@
-library(shiny)
-
 golem::detach_all_attached()
 golem::document_and_reload(export_all = TRUE)
 
-ui <- mod_icuve_sitrep_ui("sitrep")
+ui <- mod_discrepancies_icuve_ui("test")
 
 server <- function(input, output, session){
-  mod_icuve_sitrep_server("sitrep")
+  mod_discrepancies_icuve_server("test")
 }
 
-shinyApp(ui, server)
+shiny::shinyApp(ui, server)

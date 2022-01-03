@@ -7,7 +7,7 @@ golem::detach_all_attached()
 # rm(list=ls(all.names = TRUE))
 
 # Document and reload your package
-golem::document_and_reload()
+golem::document_and_reload(export_all = TRUE)
 
 # Run the application
 run_app(language = "ita")

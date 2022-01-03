@@ -103,6 +103,7 @@ app_server <- function(input, output, session) {
         "regional-icuve-sitrep" = mod_icuve_sitrep_server("icuve_sitrep"),
         "regional-icuve-ts" = mod_icuve_ts_server("icuve_ts"),
         "regional-icuve-static" = mod_icuve_static_server("icuve_static"),
+        "veneto-discrepancies-icu" = mod_discrepancies_icuve_server("icuve_delta"),
 
         # Analisi tematiche -------------------------------------------
         "partial-ts-icuve" =  mod_tsicuve_server("partial_ts_icuve"),
@@ -247,6 +248,13 @@ app_server <- function(input, output, session) {
                      menuSubItem("Veneto ICUs overview",
                                  tabName = "regional-icuve-static",
                                  icon = icon("map")
+                     )},
+
+                   if (super_secret()[["permission"]][usr_pos] !=
+                       "agenas") {
+                     menuSubItem("ICU-VE discrepancies",
+                                 tabName = "veneto-discrepancies-icu",
+                                 icon = icon("user-clock")
                      )}
           )
         },
@@ -505,6 +513,13 @@ app_server <- function(input, output, session) {
             h2("Andamenti delle terapie intensive venete dall'inizio della pandemia."),
             if (super_secret()[["permission"]][usr_pos] %in% c("ubep", "tip-v")) {
               mod_icuve_static_ui("icuve_static")
+            }
+          ),
+          tabItem(
+            tabName = "veneto-discrepancies-icu",
+            h2("Discrepanze per le terapie intensive venete tra i dati reali (G-sheet) e ufficiali (DPC)."),
+            if (super_secret()[["permission"]][usr_pos] %in% c("ubep", "tip-v")) {
+              mod_discrepancies_icuve_ui("icuve_delta")
             }
           ),
           tabItem(

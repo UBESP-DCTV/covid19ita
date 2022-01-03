@@ -1,3 +1,7 @@
+# covid19ita 0.119.1
+
+# covid19ita 0.119.0
+
 # covid19ita 0.118.0
 
 # covid19ita 0.117.0
