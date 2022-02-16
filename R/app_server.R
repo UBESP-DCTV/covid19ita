@@ -209,55 +209,51 @@ app_server <- function(input, output, session) {
 
 
 
-        if (super_secret()[["permission"]][usr_pos] %in%
-            c("ubep", "tip-v", "agenas")) {
+        menuItem("Terapie intensive",
+                 icon = icon("procedures"),
+                 menuSubItem("Serie TI (reg)",
+                             tabName = "regional-partial-ts-icuve",
+                             icon = icon("map")
+                 ),
+                 menuSubItem("Serie area non critica (reg)",
+                             tabName = "regional-partial-ts-nocritica",
+                             icon = icon("map")
+                 ),
+                 if (super_secret()[["permission"]][usr_pos] %in%
+                     c("ubep", "tip-v")) {
+                   menuSubItem("Veneto ICUs occupancy and stay",
+                               tabName = "azero-sitrep",
+                               icon = icon("user-clock")
+                   )},
 
-          menuItem("Terapie intensive",
-                   icon = icon("procedures"),
-                   menuSubItem("Serie TI (reg)",
-                               tabName = "regional-partial-ts-icuve",
+                 if (super_secret()[["permission"]][usr_pos] %in%
+                     c("ubep", "tip-v")) {
+                   menuSubItem("Veneto ICUs situation report",
+                               tabName = "regional-icuve-sitrep",
                                icon = icon("map")
-                   ),
-                   menuSubItem("Serie area non critica (reg)",
-                               tabName = "regional-partial-ts-nocritica",
+                   )},
+
+                 if (super_secret()[["permission"]][usr_pos] %in%
+                     c("ubep", "tip-v")) {
+                   menuSubItem("Veneto ICUs timeseries",
+                               tabName = "regional-icuve-ts",
                                icon = icon("map")
-                   ),
-                   if (super_secret()[["permission"]][usr_pos] !=
-                       "agenas") {
-                     menuSubItem("Veneto ICUs occupancy and stay",
-                                 tabName = "azero-sitrep",
-                                 icon = icon("user-clock")
-                     )},
+                   )},
 
-                   if (super_secret()[["permission"]][usr_pos] !=
-                       "agenas") {
-                     menuSubItem("Veneto ICUs situation report",
-                                 tabName = "regional-icuve-sitrep",
-                                 icon = icon("map")
-                     )},
+                 if (super_secret()[["permission"]][usr_pos] %in%
+                     c("ubep", "tip-v")) {
+                   menuSubItem("Veneto ICUs overview",
+                               tabName = "regional-icuve-static",
+                               icon = icon("map")
+                   )},
 
-                   if (super_secret()[["permission"]][usr_pos] !=
-                       "agenas") {
-                     menuSubItem("Veneto ICUs timeseries",
-                                 tabName = "regional-icuve-ts",
-                                 icon = icon("map")
-                     )},
-
-                   if (super_secret()[["permission"]][usr_pos] !=
-                       "agenas") {
-                     menuSubItem("Veneto ICUs overview",
-                                 tabName = "regional-icuve-static",
-                                 icon = icon("map")
-                     )},
-
-                   if (super_secret()[["permission"]][usr_pos] !=
-                       "agenas") {
-                     menuSubItem("ICU-VE discrepancies",
-                                 tabName = "veneto-discrepancies-icu",
-                                 icon = icon("user-clock")
-                     )}
-          )
-        },
+                 if (super_secret()[["permission"]][usr_pos] %in%
+                     c("ubep", "tip-v")) {
+                   menuSubItem("ICU-VE discrepancies",
+                               tabName = "veneto-discrepancies-icu",
+                               icon = icon("user-clock")
+                   )}
+        ),
 
 
 
