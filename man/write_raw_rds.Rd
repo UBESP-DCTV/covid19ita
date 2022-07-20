@@ -23,6 +23,6 @@ an independend `.rds` file with its own name as its filename.
 }
 \section{Functions}{
 \itemize{
-\item \code{read_data_raw}: read data-raw
-}}
+\item \code{read_data_raw()}: read data-raw
 
+}}
